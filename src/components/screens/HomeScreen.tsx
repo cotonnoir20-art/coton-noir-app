@@ -4,39 +4,30 @@ import { Button } from '@/components/ui/button';
 import { CotonCard } from '@/components/ui/coton-card';
 import { ProgressBar } from '@/components/ui/progress-bar';
 import { useApp } from '@/contexts/AppContext';
-
 interface HomeScreenProps {
   onNavigate: (screen: string) => void;
   onAddCare: () => void;
 }
+export function HomeScreen({
+  onNavigate,
+  onAddCare
+}: HomeScreenProps) {
+  const {
+    state
+  } = useApp();
 
-export function HomeScreen({ onNavigate, onAddCare }: HomeScreenProps) {
-  const { state } = useApp();
-  
   // Calculate stats
   const thisMonthCares = state.journalEntries.filter(entry => {
     const entryDate = new Date(entry.date);
     const now = new Date();
-    return entryDate.getMonth() === now.getMonth() && 
-           entryDate.getFullYear() === now.getFullYear();
+    return entryDate.getMonth() === now.getMonth() && entryDate.getFullYear() === now.getFullYear();
   }).length;
-  
-  const maskCount = state.journalEntries.filter(entry => 
-    entry.title.toLowerCase().includes('masque') || 
-    entry.note.toLowerCase().includes('masque')
-  ).length;
-  
-  const daysSinceLastCare = state.journalEntries.length > 0 
-    ? Math.floor((Date.now() - new Date(state.journalEntries[0].date).getTime()) / (1000 * 60 * 60 * 24))
-    : 0;
-  
-  const boxProgress = state.premium ? 100 : Math.min(100, (state.coins / 50) * 100);
-  
-  return (
-    <div className="pb-20 px-4 space-y-6">
+  const maskCount = state.journalEntries.filter(entry => entry.title.toLowerCase().includes('masque') || entry.note.toLowerCase().includes('masque')).length;
+  const daysSinceLastCare = state.journalEntries.length > 0 ? Math.floor((Date.now() - new Date(state.journalEntries[0].date).getTime()) / (1000 * 60 * 60 * 24)) : 0;
+  const boxProgress = state.premium ? 100 : Math.min(100, state.coins / 50 * 100);
+  return <div className="pb-20 px-4 space-y-6 bg-[#fdf1e3]">
       {/* Premium Upsell (if not premium) */}
-      {!state.premium && (
-        <CotonCard variant="premium" className="p-6">
+      {!state.premium && <CotonCard variant="premium" className="p-6">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="font-poppins font-bold text-lg text-white mb-2">
@@ -52,16 +43,11 @@ export function HomeScreen({ onNavigate, onAddCare }: HomeScreenProps) {
                 Dès 3,99€/mois
               </p>
             </div>
-            <Button 
-              variant="rose" 
-              onClick={() => onNavigate('premium')}
-              className="shrink-0"
-            >
+            <Button variant="rose" onClick={() => onNavigate('premium')} className="shrink-0">
               Découvrir
             </Button>
           </div>
-        </CotonCard>
-      )}
+        </CotonCard>}
       
       {/* Level & Goal Card */}
       <CotonCard className="p-6 space-y-4">
@@ -69,12 +55,7 @@ export function HomeScreen({ onNavigate, onAddCare }: HomeScreenProps) {
           <h3 className="font-poppins font-semibold text-lg">Niveau & Objectif</h3>
           <Target className="text-coton-rose" size={24} />
         </div>
-        <Button 
-          variant="hero" 
-          size="lg" 
-          onClick={onAddCare}
-          className="w-full"
-        >
+        <Button variant="hero" size="lg" onClick={onAddCare} className="w-full">
           <Plus size={20} />
           Ajouter un soin
         </Button>
@@ -117,40 +98,28 @@ export function HomeScreen({ onNavigate, onAddCare }: HomeScreenProps) {
       <div className="space-y-4">
         <h3 className="font-poppins font-semibold text-lg">Accès rapide</h3>
         <div className="grid grid-cols-2 gap-4">
-          <CotonCard 
-            className="p-6 cursor-pointer hover:shadow-soft transition-shadow"
-            onClick={() => onNavigate('box')}
-          >
+          <CotonCard className="p-6 cursor-pointer hover:shadow-soft transition-shadow" onClick={() => onNavigate('box')}>
             <div className="flex flex-col items-center text-center space-y-3">
               <Package className="text-coton-rose" size={32} />
               <span className="font-poppins font-medium">Box Digitale</span>
             </div>
           </CotonCard>
           
-          <CotonCard 
-            className="p-6 cursor-pointer hover:shadow-soft transition-shadow"
-            onClick={() => onNavigate('community')}
-          >
+          <CotonCard className="p-6 cursor-pointer hover:shadow-soft transition-shadow" onClick={() => onNavigate('community')}>
             <div className="flex flex-col items-center text-center space-y-3">
               <Users className="text-coton-rose" size={32} />
               <span className="font-poppins font-medium">Communauté</span>
             </div>
           </CotonCard>
           
-          <CotonCard 
-            className="p-6 cursor-pointer hover:shadow-soft transition-shadow"
-            onClick={() => onNavigate('partners')}
-          >
+          <CotonCard className="p-6 cursor-pointer hover:shadow-soft transition-shadow" onClick={() => onNavigate('partners')}>
             <div className="flex flex-col items-center text-center space-y-3">
               <Store className="text-coton-rose" size={32} />
               <span className="font-poppins font-medium">Partenaires</span>
             </div>
           </CotonCard>
           
-          <CotonCard 
-            className="p-6 cursor-pointer hover:shadow-soft transition-shadow"
-            onClick={() => onNavigate('tutorials')}
-          >
+          <CotonCard className="p-6 cursor-pointer hover:shadow-soft transition-shadow" onClick={() => onNavigate('tutorials')}>
             <div className="flex flex-col items-center text-center space-y-3">
               <Video className="text-coton-rose" size={32} />
               <span className="font-poppins font-medium">Tutos</span>
@@ -166,32 +135,16 @@ export function HomeScreen({ onNavigate, onAddCare }: HomeScreenProps) {
           <h3 className="font-poppins font-semibold text-lg">Prochaine récompense</h3>
         </div>
         
-        {state.premium ? (
-          <div className="text-center py-4">
+        {state.premium ? <div className="text-center py-4">
             <p className="font-roboto text-muted-foreground">
               ✨ Box incluse avec Premium
             </p>
-          </div>
-        ) : (
-          <div className="space-y-3">
-            <ProgressBar 
-              progress={boxProgress}
-              variant="coins"
-              showLabel
-              label={`Box Digitale - ${state.coins}/50 CC`}
-            />
-            <Button
-              variant="coin"
-              size="sm"
-              onClick={() => onNavigate('box')}
-              disabled={state.coins < 50}
-              className="w-full"
-            >
+          </div> : <div className="space-y-3">
+            <ProgressBar progress={boxProgress} variant="coins" showLabel label={`Box Digitale - ${state.coins}/50 CC`} />
+            <Button variant="coin" size="sm" onClick={() => onNavigate('box')} disabled={state.coins < 50} className="w-full">
               {state.coins >= 50 ? 'Débloquer maintenant' : `Plus que ${50 - state.coins} CC`}
             </Button>
-          </div>
-        )}
+          </div>}
       </CotonCard>
-    </div>
-  );
+    </div>;
 }
