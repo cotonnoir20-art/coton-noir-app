@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Gift, Notebook, Play } from 'lucide-react';
+import { Sparkles, Gift, Notebook, Play, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface MobileNavProps {
@@ -9,9 +9,10 @@ interface MobileNavProps {
 
 const tabs = [
   { id: 'home', icon: Sparkles, label: 'Accueil' },
-  { id: 'box', icon: Gift, label: 'Box' },
   { id: 'journal', icon: Notebook, label: 'Journal' },
+  { id: 'box', icon: Gift, label: 'Box' },
   { id: 'tutorials', icon: Play, label: 'Tutos' },
+  { id: 'profile', icon: User, label: 'Profil' },
 ];
 
 export function MobileNav({ activeTab, onTabChange }: MobileNavProps) {

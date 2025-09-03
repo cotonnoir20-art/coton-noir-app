@@ -99,14 +99,20 @@ export default function CotonNoirApp() {
       case 'home':
         setCurrentScreen('home');
         break;
-      case 'box':
-        setCurrentScreen('box');
-        break;
       case 'journal':
         setCurrentScreen('journal');
         break;
+      case 'box':
+        setCurrentScreen('box');
+        break;
       case 'tutorials':
         setCurrentScreen('tutorials');
+        break;
+      case 'profile':
+        setCurrentScreen('profile');
+        break;
+      default:
+        setCurrentScreen('home');
         break;
     }
   };
