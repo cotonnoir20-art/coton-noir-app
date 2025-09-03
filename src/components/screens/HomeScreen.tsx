@@ -247,27 +247,35 @@ export function HomeScreen({
         </div>
         
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 bg-purple-400 rounded-full"></div>
-          <span className="font-poppins font-medium text-coton-black">
-            {(() => {
-              const currentCoins = state.coins;
-              const levels = [
-                { name: 'Baby Hair', min: 0, max: 500, emoji: '✨' },
-                { name: 'Curlie Cutie', min: 501, max: 1000, emoji: '💖' },
-                { name: 'Afro Queenie', min: 1001, max: 2500, emoji: '👑' },
-                { name: 'Glow Fro', min: 2501, max: 5000, emoji: '🌟' },
-                { name: 'Crown Vibes', min: 5001, max: 7500, emoji: '👑💕' },
-                { name: 'Slay Braidy', min: 7501, max: 10000, emoji: '🧵🔥' },
-                { name: 'Kinky Diva', min: 10001, max: 15000, emoji: '💃🏾' },
-                { name: 'Twist & Shine', min: 15001, max: 20000, emoji: '💫' },
-                { name: 'Wash Day Goddess', min: 20001, max: 30000, emoji: '🛁👸🏾' },
-                { name: 'Afrolicious Icon', min: 30001, max: Infinity, emoji: '🔥💎' }
-              ];
-              
-              const currentLevel = levels.find(level => currentCoins >= level.min && currentCoins <= level.max);
-              return currentLevel ? `${currentLevel.name} ${currentLevel.emoji}` : 'Baby Hair ✨';
-            })()}
-          </span>
+          {(() => {
+            const currentCoins = state.coins;
+            const levels = [
+              { name: 'Baby Hair', min: 0, max: 500, emoji: '✨', color: '#F7B6D2' },
+              { name: 'Curlie Cutie', min: 501, max: 1000, emoji: '💖', color: '#C9A7EB' },
+              { name: 'Afro Queenie', min: 1001, max: 2500, emoji: '👑', color: '#FFD166' },
+              { name: 'Glow Fro', min: 2501, max: 5000, emoji: '🌟', color: '#FEE440' },
+              { name: 'Crown Vibes', min: 5001, max: 7500, emoji: '👑💕', color: '#FF6F91' },
+              { name: 'Slay Braidy', min: 7501, max: 10000, emoji: '🧵🔥', color: '#06D6A0' },
+              { name: 'Kinky Diva', min: 10001, max: 15000, emoji: '💃🏾', color: '#9B5DE5' },
+              { name: 'Twist & Shine', min: 15001, max: 20000, emoji: '💫', color: '#FF9770' },
+              { name: 'Wash Day Goddess', min: 20001, max: 30000, emoji: '🛁👸🏾', color: '#26547C' },
+              { name: 'Afrolicious Icon', min: 30001, max: Infinity, emoji: '🔥💎', color: '#FFD700' }
+            ];
+            
+            const currentLevel = levels.find(level => currentCoins >= level.min && currentCoins <= level.max) || levels[0];
+            
+            return (
+              <>
+                <div 
+                  className="w-3 h-3 rounded-full" 
+                  style={{ backgroundColor: currentLevel.color }}
+                ></div>
+                <span className="font-poppins font-medium text-coton-black">
+                  {currentLevel.name} {currentLevel.emoji}
+                </span>
+              </>
+            );
+          })()}
         </div>
         
         <p className="text-sm font-roboto text-muted-foreground">
