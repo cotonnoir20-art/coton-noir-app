@@ -80,7 +80,7 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
                 <span className="font-medium">🌿 Soin :</span> Traitement spécifique et complet (masque, huile, traitement profond...)
               </div>
               <div>
-                <span className="font-medium">✨ Routine :</span> Gestes quotidiens simples (shampoing, démêlage, coiffage...)
+                <span className="font-medium">✨ Routine :</span> Gestes quotidiens simples (LCO, LOC, démêlage, coiffage...)
               </div>
             </div>
           </div>
