@@ -248,14 +248,38 @@ export function HomeScreen({
         
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 bg-purple-400 rounded-full"></div>
-          <span className="font-poppins font-medium text-coton-black">Curlie Cutie</span>
+          <span className="font-poppins font-medium text-coton-black">
+            {(() => {
+              const currentCoins = state.coins;
+              const levels = [
+                { name: 'Baby Hair', min: 0, max: 500, emoji: '✨' },
+                { name: 'Curlie Cutie', min: 501, max: 1000, emoji: '💖' },
+                { name: 'Afro Queenie', min: 1001, max: 2500, emoji: '👑' },
+                { name: 'Glow Fro', min: 2501, max: 5000, emoji: '🌟' },
+                { name: 'Crown Vibes', min: 5001, max: 7500, emoji: '👑💕' },
+                { name: 'Slay Braidy', min: 7501, max: 10000, emoji: '🧵🔥' },
+                { name: 'Kinky Diva', min: 10001, max: 15000, emoji: '💃🏾' },
+                { name: 'Twist & Shine', min: 15001, max: 20000, emoji: '💫' },
+                { name: 'Wash Day Goddess', min: 20001, max: 30000, emoji: '🛁👸🏾' },
+                { name: 'Afrolicious Icon', min: 30001, max: Infinity, emoji: '🔥💎' }
+              ];
+              
+              const currentLevel = levels.find(level => currentCoins >= level.min && currentCoins <= level.max);
+              return currentLevel ? `${currentLevel.name} ${currentLevel.emoji}` : 'Baby Hair ✨';
+            })()}
+          </span>
         </div>
         
         <p className="text-sm font-roboto text-muted-foreground">
           Encore <span className="font-medium text-coton-black">{(() => {
             const currentCoins = state.coins;
-            const levelThresholds = [0, 100, 500, 1000, 2000, 3500, 5000, 7500, 10000];
-            const nextThreshold = levelThresholds.find(threshold => threshold > currentCoins) || 15000;
+            const levelThresholds = [501, 1001, 2501, 5001, 7501, 10001, 15001, 20001, 30001];
+            const nextThreshold = levelThresholds.find(threshold => threshold > currentCoins);
+            
+            if (!nextThreshold) {
+              return 0; // Niveau maximum atteint
+            }
+            
             const coinsNeeded = nextThreshold - currentCoins;
             return coinsNeeded;
           })()} CotonCoins 🪙</span> avant ton prochain palier ! 🔥
