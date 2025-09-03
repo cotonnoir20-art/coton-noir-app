@@ -27,12 +27,9 @@ export function HomeScreen({
   const maskCount = state.journalEntries.filter(entry => entry.title.toLowerCase().includes('masque') || entry.note.toLowerCase().includes('masque')).length;
   const daysSinceLastCare = state.journalEntries.length > 0 ? Math.floor((Date.now() - new Date(state.journalEntries[0].date).getTime()) / (1000 * 60 * 60 * 24)) : 0;
   const boxProgress = state.premium ? 100 : Math.min(100, state.coins / 50 * 100);
-  
-  return (
-    <div className="pb-20 px-4 space-y-6 bg-[#fdf1e3]">
+  return <div className="pb-20 px-4 space-y-6 bg-[#fdf1e3]">
       {/* Hair Profile Reminder */}
-      {!state.hairProfile.isCompleted && (
-        <CotonCard variant="premium" className="p-4">
+      {!state.hairProfile.isCompleted && <CotonCard variant="premium" className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="font-poppins font-bold text-white mb-1">
@@ -46,8 +43,7 @@ export function HomeScreen({
               Compléter
             </Button>
           </div>
-        </CotonCard>
-      )}
+        </CotonCard>}
       
       {/* Premium Upsell (if not premium) */}
       {!state.premium && <CotonCard variant="premium" className="p-6">
@@ -76,7 +72,7 @@ export function HomeScreen({
       <CotonCard className="p-6 space-y-4">
         <div className="flex items-center justify-between">
           <h3 className="font-poppins font-semibold text-lg">Niveau & Objectif</h3>
-          <div className="bg-coton-rose/20 text-coton-rose px-3 py-1 rounded-full text-sm font-roboto font-medium flex items-center gap-1">
+          <div className="bg-coton-rose/20 text-coton-rose px-3 py-1 rounded-full text-sm font-roboto font-medium flex items-center gap-1 bg-red-100">
             Hydratation 💧
           </div>
         </div>
@@ -181,6 +177,5 @@ export function HomeScreen({
             </Button>
           </div>}
       </CotonCard>
-    </div>
-  );
+    </div>;
 }
