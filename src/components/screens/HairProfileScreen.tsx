@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ArrowLeft, Check } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { ArrowLeft, Check, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CotonCard } from '@/components/ui/coton-card';
 import { useApp } from '@/contexts/AppContext';
@@ -39,6 +39,7 @@ export function HairProfileScreen({ onBack }: HairProfileScreenProps) {
   const [selectedHairType, setSelectedHairType] = useState(state.hairProfile.hairType);
   const [selectedNeeds, setSelectedNeeds] = useState<string[]>(state.hairProfile.needs);
   const [selectedObjectives, setSelectedObjectives] = useState<string[]>(state.hairProfile.objectives);
+  const [routineValidated, setRoutineValidated] = useState(false);
 
   const toggleNeed = (needId: string) => {
     setSelectedNeeds(prev => 
@@ -54,6 +55,55 @@ export function HairProfileScreen({ onBack }: HairProfileScreenProps) {
         ? prev.filter(obj => obj !== objective)
         : [...prev, objective]
     );
+  };
+
+  // Generate personalized routine based on profile
+  const personalizedRoutine = useMemo(() => {
+    const baseSteps = ['Pré-poo', 'Shampoing hydratant', 'Masque', 'Leave-in', 'Scellage'];
+    
+    if (!selectedHairType) return baseSteps;
+    
+    const routineSteps = [...baseSteps];
+    
+    // Adapt based on hair type
+    if (selectedHairType === 'crepu') {
+      routineSteps.splice(1, 0, 'Démêlage en douceur');
+    }
+    if (selectedHairType === 'locks') {
+      routineSteps[1] = 'Shampoing clarifiant doux';
+    }
+    
+    // Adapt based on needs
+    if (selectedNeeds.includes('hydratation')) {
+      routineSteps.splice(-1, 0, 'Brumisateur hydratant');
+    }
+    if (selectedNeeds.includes('definition')) {
+      routineSteps.splice(-1, 0, 'Crème coiffante');
+    }
+    if (selectedNeeds.includes('croissance')) {
+      routineSteps.unshift('Massage du cuir chevelu');
+    }
+    
+    return routineSteps;
+  }, [selectedHairType, selectedNeeds]);
+
+  const handleValidateRoutine = () => {
+    if (!selectedHairType) {
+      toast({
+        title: "Profil incomplet",
+        description: "Complète ton profil pour valider ta routine",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setRoutineValidated(true);
+    dispatch({ type: 'ADD_COINS', amount: 10 });
+    
+    toast({
+      title: "Routine validée ! +10 CotonCoins ✨",
+      description: "Tu as gagné 10 CotonCoins pour avoir validé ta routine personnalisée !",
+    });
   };
 
   const handleSave = () => {
@@ -209,6 +259,63 @@ export function HairProfileScreen({ onBack }: HairProfileScreenProps) {
           ))}
         </div>
       </div>
+
+      {/* Personalized Routine Section */}
+      {selectedHairType && (
+        <div className="space-y-4">
+          <div>
+            <h3 className="font-poppins font-semibold text-lg text-coton-black mb-2">
+              Ma routine personnalisée ✨
+            </h3>
+            <p className="text-sm font-roboto text-muted-foreground mb-4">
+              Routine adaptée à ton profil capillaire
+            </p>
+          </div>
+          
+          <CotonCard className="p-6 bg-gradient-to-r from-coton-rose/10 to-purple-50">
+            <div className="space-y-3">
+              {personalizedRoutine.map((step, index) => (
+                <div key={index} className="flex items-center gap-3 p-3 rounded-lg bg-white/60">
+                  <div className="w-8 h-8 rounded-full bg-coton-rose flex items-center justify-center text-white font-bold text-sm">
+                    {index + 1}
+                  </div>
+                  <span className="font-roboto text-sm text-coton-black">
+                    {step}
+                  </span>
+                </div>
+              ))}
+            </div>
+            
+            <div className="mt-6 pt-4 border-t border-coton-rose/20">
+              <Button 
+                variant={routineValidated ? "outline" : "hero"}
+                size="sm"
+                onClick={handleValidateRoutine}
+                disabled={routineValidated}
+                className="w-full"
+              >
+                {routineValidated ? (
+                  <>
+                    <Check size={16} className="mr-2" />
+                    Routine validée ✓
+                  </>
+                ) : (
+                  <>
+                    <Sparkles size={16} className="mr-2" />
+                    ✅ Routine validée (+10 CC)
+                  </>
+                )}
+              </Button>
+              
+              <div className="mt-3 p-3 rounded-lg bg-gradient-to-r from-yellow-50 to-orange-50">
+                <p className="text-xs font-roboto text-center text-muted-foreground">
+                  <strong>Gamification & progression :</strong> tes points débloquent des contenus exclusifs
+                </p>
+              </div>
+            </div>
+          </CotonCard>
+        </div>
+      )}
 
       {/* Save Button */}
       <div className="pt-4">
