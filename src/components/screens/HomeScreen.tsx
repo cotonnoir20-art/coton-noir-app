@@ -8,10 +8,6 @@ import { BadgeNotification, BadgeDisplay, useBadgeSystem } from '@/components/ui
 import { PremiumWaitlist, LockedFeature } from '@/components/ui/premium-preview';
 import { useApp, Badge as BadgeType, DailyChallenge } from '@/contexts/AppContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { CotonCard } from '@/components/ui/coton-card';
-import { ProgressBar } from '@/components/ui/progress-bar';
-import { useApp } from '@/contexts/AppContext';
 interface HomeScreenProps {
   onNavigate: (screen: string) => void;
   onAddCare: () => void;
@@ -226,7 +222,7 @@ export function HomeScreen({
     return steps.slice(0, 6); // Allow up to 6 steps for comprehensive care
   }, [state.detailedHairProfile]);
 
-  const [routineValidated, setRoutineValidated] = React.useState(false);
+  
 
   const handleValidateRoutine = () => {
     if (routineValidated) return;
@@ -238,6 +234,17 @@ export function HomeScreen({
   // Calculate stats
   const daysSinceLastCare = state.journalEntries.length > 0 ? Math.floor((Date.now() - new Date(state.journalEntries[0].date).getTime()) / (1000 * 60 * 60 * 24)) : 0;
   const boxProgress = state.premium ? 100 : Math.min(100, state.coins / 50 * 100);
+
+  // Calculate monthly stats
+  const currentMonth = new Date().toISOString().slice(0, 7); // YYYY-MM format
+  const thisMonthCares = state.journalEntries.filter(entry => 
+    entry.date.startsWith(currentMonth)
+  ).length;
+  
+  const maskCount = state.journalEntries.filter(entry => 
+    entry.title.toLowerCase().includes('masque') || 
+    entry.note.toLowerCase().includes('masque')
+  ).length;
 
   // Défis du jour
   const todaysChallenges = state.dailyChallenges.filter(

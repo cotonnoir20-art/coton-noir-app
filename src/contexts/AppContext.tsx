@@ -366,17 +366,23 @@ function appReducer(state: AppState, action: AppAction): AppState {
       return { ...state, lastCoinAnimation: Date.now() };
     case 'UPDATE_STREAK_NEW':
       const streakToday = new Date().toISOString().split('T')[0];
-      const streakLastActive = new Date(state.streakData.lastActiveDate);
+      // Provide fallback for streakData if undefined (for backward compatibility)
+      const currentStreakData = state.streakData || {
+        current: 0,
+        best: 0,
+        lastActiveDate: streakToday
+      };
+      const streakLastActive = new Date(currentStreakData.lastActiveDate);
       const streakTodayDate = new Date(streakToday);
       const streakDiffTime = streakTodayDate.getTime() - streakLastActive.getTime();
       const streakDiffDays = Math.ceil(streakDiffTime / (1000 * 60 * 60 * 24));
       
-      let updatedStreak = state.streakData.current;
-      let updatedBest = state.streakData.best;
+      let updatedStreak = currentStreakData.current;
+      let updatedBest = currentStreakData.best;
       
       if (action.increment) {
         if (streakDiffDays === 1) {
-          updatedStreak = state.streakData.current + 1;
+          updatedStreak = currentStreakData.current + 1;
         } else if (streakDiffDays > 1) {
           updatedStreak = 1;
         }
