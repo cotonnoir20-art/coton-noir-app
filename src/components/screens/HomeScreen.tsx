@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Plus, Package, Users, Store, Video, Gift, Target, Sparkles, Check, Heart, Crown, Star, Sun, Zap, Music, Droplets, Diamond } from 'lucide-react';
+import { Plus, Package, Users, Store, Video, Gift, Target, Sparkles, Check, Heart, Crown, Star, Sun, Zap, Music, Droplets, Diamond, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CotonCard } from '@/components/ui/coton-card';
 import { ProgressBar } from '@/components/ui/progress-bar';
@@ -447,6 +447,13 @@ export function HomeScreen({
             <div className="flex flex-col items-center text-center space-y-3">
               <Store className="text-coton-rose" size={32} />
               <span className="font-poppins font-medium">Partenaires</span>
+            </div>
+          </CotonCard>
+          
+          <CotonCard className="p-6 cursor-pointer hover:shadow-soft transition-shadow" onClick={() => onNavigate('growth-tracker')}>
+            <div className="flex flex-col items-center text-center space-y-3">
+              <TrendingUp className="text-coton-rose" size={32} />
+              <span className="font-poppins font-medium">Calculateur de Pousse</span>
             </div>
           </CotonCard>
           

@@ -19,6 +19,7 @@ import { CommunityScreen } from './screens/CommunityScreen';
 import { PremiumScreen } from './screens/PremiumScreen';
 import { PaymentScreen } from './screens/PaymentScreen';
 import { HairProfileScreen } from './screens/HairProfileScreen';
+import { GrowthTrackerScreen } from './screens/GrowthTrackerScreen';
 
 type Screen =
   | 'onboarding'
@@ -26,6 +27,7 @@ type Screen =
   | 'home'
   | 'add-care'
   | 'hair-profile'
+  | 'growth-tracker'
   | 'box'
   | 'box-content'
   | 'journal'
@@ -94,11 +96,11 @@ export default function CotonNoirApp() {
   };
   
   const shouldShowNavigation = () => {
-    return !['onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'premium', 'payment', 'box-content'].includes(currentScreen);
+    return !['onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'premium', 'payment', 'box-content'].includes(currentScreen);
   };
   
   const shouldShowHeader = () => {
-    return !['onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'premium', 'payment', 'box-content'].includes(currentScreen);
+    return !['onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'premium', 'payment', 'box-content'].includes(currentScreen);
   };
   
   const renderScreen = () => {
@@ -137,6 +139,13 @@ export default function CotonNoirApp() {
       case 'hair-profile':
         return (
           <HairProfileScreen
+            onBack={handleBackToHome}
+          />
+        );
+        
+      case 'growth-tracker':
+        return (
+          <GrowthTrackerScreen
             onBack={handleBackToHome}
           />
         );

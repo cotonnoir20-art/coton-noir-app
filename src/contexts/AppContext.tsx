@@ -43,6 +43,24 @@ export interface DetailedHairProfile {
   isCompleted: boolean;
 }
 
+export interface HairMeasurement {
+  id: string;
+  date: string;
+  front: number; // en cm
+  leftSide: number; // côté gauche
+  rightSide: number; // côté droit
+  back: number; // derrière
+  photo?: string; // optionnel pour MVP
+  notes?: string;
+  timestamp: number;
+}
+
+export interface GrowthGoal {
+  targetLength: number; // en cm
+  targetDate: string;
+  isActive: boolean;
+}
+
 interface AppState {
   coins: number;
   premium: boolean;
@@ -59,6 +77,8 @@ interface AppState {
   lastActiveDate: string;
   badges: string[];
   profileCompletionBonus: boolean;
+  hairMeasurements: HairMeasurement[];
+  growthGoal: GrowthGoal | null;
 }
 
 type AppAction = 
@@ -77,6 +97,8 @@ type AppAction =
   | { type: 'UPDATE_STREAK' }
   | { type: 'ADD_BADGE'; badge: string }
   | { type: 'AWARD_PROFILE_BONUS' }
+  | { type: 'ADD_MEASUREMENT'; measurement: HairMeasurement }
+  | { type: 'SET_GROWTH_GOAL'; goal: GrowthGoal }
   | { type: 'LOAD_STATE'; state: Partial<AppState> };
 
 const initialState: AppState = {
@@ -119,7 +141,9 @@ const initialState: AppState = {
   streak: 0,
   lastActiveDate: new Date().toISOString().split('T')[0],
   badges: [],
-  profileCompletionBonus: false
+  profileCompletionBonus: false,
+  hairMeasurements: [],
+  growthGoal: null
 };
 
 function appReducer(state: AppState, action: AppAction): AppState {
@@ -241,6 +265,10 @@ function appReducer(state: AppState, action: AppAction): AppState {
       return state;
     case 'AWARD_PROFILE_BONUS':
       return { ...state, coins: state.coins + 100, profileCompletionBonus: true };
+    case 'ADD_MEASUREMENT':
+      return { ...state, hairMeasurements: [action.measurement, ...state.hairMeasurements] };
+    case 'SET_GROWTH_GOAL':
+      return { ...state, growthGoal: action.goal };
     case 'LOAD_STATE':
       return { ...state, ...action.state };
     default:
