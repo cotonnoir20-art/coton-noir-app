@@ -58,7 +58,7 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
       </div>
       
       {/* Content */}
-      <div className="flex-1 px-6 py-8 flex flex-col justify-between">
+      <div className="flex-1 px-6 py-8 flex flex-col">
         <div className="text-center space-y-6">
           {/* Progress dots */}
           <div className="flex justify-center gap-2">
@@ -85,7 +85,7 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
         </div>
         
         {/* Actions */}
-        <div className="space-y-4">
+        <div className="mt-8 mb-safe-area-inset-bottom">
            <Button
              variant="hero"
              size="lg"
