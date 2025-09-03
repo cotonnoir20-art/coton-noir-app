@@ -124,13 +124,13 @@ function appReducer(state: AppState, action: AppAction): AppState {
   switch (action.type) {
     case 'ADD_COINS':
       const newCoins = state.coins + action.amount;
-      // Calculate new level based on coins
+      // Calculate new level based on coins using the fun levels
       let newLevel = state.level;
-      if (newCoins >= 10000) newLevel = 'Diamant';
-      else if (newCoins >= 5000) newLevel = 'Platine';
-      else if (newCoins >= 2500) newLevel = 'Or';
-      else if (newCoins >= 1000) newLevel = 'Argent';
-      else if (newCoins >= 500) newLevel = 'Bronze';
+      if (newCoins >= 30001) newLevel = 'Diamant'; // Afrolicious Icon equivalent
+      else if (newCoins >= 20001) newLevel = 'Platine'; // Wash Day Goddess equivalent  
+      else if (newCoins >= 15001) newLevel = 'Or'; // Twist & Shine equivalent
+      else if (newCoins >= 10001) newLevel = 'Argent'; // Kinky Diva equivalent
+      else if (newCoins >= 500) newLevel = 'Bronze'; // Starting from Baby Hair
       
       return { ...state, coins: newCoins, level: newLevel };
     case 'SPEND_COINS':
