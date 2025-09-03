@@ -406,7 +406,7 @@ export function HairProfileScreen({
               <p className="text-xs font-roboto text-white/90">Icône inspirante, afro star</p>
               <div className="text-xs font-roboto text-white/90">
                 <p>30 001+ CC</p>
-                <p>Box physique + badge</p>
+                <p>Box échantillons + -50% partenaire + badge</p>
               </div>
             </div>
           </div>
