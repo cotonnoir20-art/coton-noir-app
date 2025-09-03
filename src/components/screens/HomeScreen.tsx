@@ -556,7 +556,7 @@ export function HomeScreen({
             
             {/* Routine Steps */}
             <div className="space-y-3">
-              {personalizedRoutine.map((step, index) => (
+              {personalizedRoutine.slice(0, 4).map((step, index) => (
                 <div key={index} className="flex items-center gap-3 p-3 rounded-lg bg-white/60">
                   <div className="w-8 h-8 rounded-full bg-coton-rose flex items-center justify-center text-white font-bold text-sm">
                     {index + 1}
@@ -566,6 +566,17 @@ export function HomeScreen({
                   </span>
                 </div>
               ))}
+              
+              {personalizedRoutine.length > 4 && (
+                <button
+                  onClick={() => onNavigate('detailed-routine')}
+                  className="w-full p-3 rounded-lg bg-coton-rose/20 border-2 border-dashed border-coton-rose hover:bg-coton-rose/30 transition-colors"
+                >
+                  <span className="font-roboto text-sm text-coton-black font-semibold">
+                    Voir la routine complète (+{personalizedRoutine.length - 4} étapes)
+                  </span>
+                </button>
+              )}
             </div>
             
             <div className="mt-3 p-4 rounded-lg bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200">

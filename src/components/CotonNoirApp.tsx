@@ -23,6 +23,7 @@ import { GrowthTrackerScreen } from './screens/GrowthTrackerScreen';
 import { WashDayTrackerScreen } from './screens/WashDayTrackerScreen';
 import { FullJournalScreen } from './screens/FullJournalScreen';
 import { RewardsScreen } from './screens/RewardsScreen';
+import { DetailedRoutineScreen } from './screens/DetailedRoutineScreen';
 
 type Screen =
   | 'onboarding'
@@ -37,6 +38,7 @@ type Screen =
   | 'journal'
   | 'full-journal'
   | 'rewards'
+  | 'detailed-routine'
   | 'tutorials'
   | 'partners'
   | 'community'
@@ -113,11 +115,11 @@ export default function CotonNoirApp() {
   };
   
   const shouldShowNavigation = () => {
-    return !['onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'wash-day-tracker', 'full-journal', 'rewards', 'premium', 'payment', 'box-content'].includes(currentScreen);
+    return !['onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'wash-day-tracker', 'full-journal', 'rewards', 'detailed-routine', 'premium', 'payment', 'box-content'].includes(currentScreen);
   };
   
   const shouldShowHeader = () => {
-    return !['onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'wash-day-tracker', 'full-journal', 'rewards', 'premium', 'payment', 'box-content'].includes(currentScreen);
+    return !['onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'wash-day-tracker', 'full-journal', 'rewards', 'detailed-routine', 'premium', 'payment', 'box-content'].includes(currentScreen);
   };
   
   const renderScreen = () => {
@@ -201,6 +203,13 @@ export default function CotonNoirApp() {
       case 'rewards':
         return (
           <RewardsScreen
+            onBack={handleBackToHome}
+          />
+        );
+
+      case 'detailed-routine':
+        return (
+          <DetailedRoutineScreen
             onBack={handleBackToHome}
           />
         );
