@@ -34,25 +34,34 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
     const baseReward = type === 'soin' ? 50 : 20; // Soin: 50 CC, Routine: 20 CC
     const reward = state.premium ? baseReward * 2 : baseReward;
     
-    // Add journal entry
-    const newEntry = {
-      id: Date.now().toString(),
-      type,
-      title: title.trim(),
-      date,
-      note: note.trim()
-    };
-    
-    dispatch({ type: 'ADD_JOURNAL_ENTRY', entry: newEntry });
-    dispatch({ type: 'ADD_COINS', amount: reward });
-    
-    // Show success toast
-    toast({
-      title: `Bravo ✨ +${reward} CC gagnés !`,
-      description: `Votre ${type} a été ajouté${type === 'routine' ? 'e' : ''} au journal`,
-    });
-    
-    onBack();
+    // Add journal entry with anti-cheat validation
+    try {
+      const newEntry = {
+        id: Date.now().toString(),
+        type,
+        title: title.trim(),
+        date,
+        note: note.trim()
+      };
+      
+      dispatch({ type: 'VALIDATE_AND_ADD_ENTRY', entry: newEntry });
+      dispatch({ type: 'ADD_COINS', amount: reward });
+      
+      // Show success toast
+      toast({
+        title: `Bravo ✨ +${reward} CC gagnés !`,
+        description: `Votre ${type} a été ajouté${type === 'routine' ? 'e' : ''} au journal`,
+      });
+      
+      onBack();
+    } catch (error) {
+      toast({
+        title: "Action bloquée",
+        description: error instanceof Error ? error.message : "Erreur de validation",
+        variant: "destructive"
+      });
+      return;
+    }
   };
   
   return (

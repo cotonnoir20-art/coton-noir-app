@@ -6,6 +6,7 @@ export interface JournalEntry {
   title: string;
   date: string;
   note: string;
+  timestamp: number; // For anti-cheat validation
 }
 
 export interface Redeem {
@@ -71,6 +72,7 @@ type AppAction =
   | { type: 'UPDATE_HAIR_PROFILE'; profile: Partial<HairProfile> }
   | { type: 'UPDATE_DETAILED_HAIR_PROFILE'; profile: Partial<DetailedHairProfile> }
   | { type: 'ADD_JOURNAL_ENTRY'; entry: JournalEntry }
+  | { type: 'VALIDATE_AND_ADD_ENTRY'; entry: Omit<JournalEntry, 'timestamp'> }
   | { type: 'ADD_REDEEM'; redeem: Redeem }
   | { type: 'UPDATE_STREAK' }
   | { type: 'ADD_BADGE'; badge: string }
@@ -161,6 +163,46 @@ function appReducer(state: AppState, action: AppAction): AppState {
       };
     case 'UPDATE_DETAILED_HAIR_PROFILE':
       return { ...state, detailedHairProfile: { ...state.detailedHairProfile, ...action.profile } };
+    case 'VALIDATE_AND_ADD_ENTRY':
+      const now = Date.now();
+      const todayStr = new Date().toISOString().split('T')[0];
+      const entryDate = new Date(action.entry.date);
+      const currentDate = new Date(todayStr);
+      
+      // Anti-cheat validations
+      // 1. No future dates
+      if (entryDate > currentDate) {
+        throw new Error('Les dates futures ne sont pas autorisées');
+      }
+      
+      // 2. Daily limits: max 3 entries per type per day
+      const todayEntries = state.journalEntries.filter(entry => 
+        entry.date === action.entry.date && entry.type === action.entry.type
+      );
+      if (todayEntries.length >= 3) {
+        throw new Error(`Maximum 3 ${action.entry.type}s par jour atteint`);
+      }
+      
+      // 3. Cooldown: minimum 30 minutes between entries
+      const recentEntries = state.journalEntries.filter(entry => 
+        now - entry.timestamp < 30 * 60 * 1000 // 30 minutes
+      );
+      if (recentEntries.length > 0) {
+        throw new Error('Attendez 30 minutes entre chaque ajout');
+      }
+      
+      // 4. Basic validation: no empty titles or suspicious patterns
+      if (action.entry.title.trim().length < 3) {
+        throw new Error('Le titre doit contenir au moins 3 caractères');
+      }
+      
+      // If all validations pass, add the entry with timestamp
+      const validatedEntry: JournalEntry = {
+        ...action.entry,
+        timestamp: now
+      };
+      
+      return { ...state, journalEntries: [validatedEntry, ...state.journalEntries] };
     case 'ADD_JOURNAL_ENTRY':
       return { ...state, journalEntries: [action.entry, ...state.journalEntries] };
     case 'ADD_REDEEM':
