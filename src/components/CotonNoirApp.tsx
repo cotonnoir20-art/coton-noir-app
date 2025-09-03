@@ -4,21 +4,23 @@ import { Header } from '@/components/common/Header';
 import { MobileNav } from '@/components/ui/mobile-nav';
 
 // Screens
-import { OnboardingScreen } from '@/components/screens/OnboardingScreen';
-import { HomeScreen } from '@/components/screens/HomeScreen';
-import { AddCareScreen } from '@/components/screens/AddCareScreen';
-import { BoxScreen } from '@/components/screens/BoxScreen';
-import { JournalScreen } from '@/components/screens/JournalScreen';
-import { PartnersScreen } from '@/components/screens/PartnersScreen';
-import { TutorialsScreen } from '@/components/screens/TutorialsScreen';
-import { CommunityScreen } from '@/components/screens/CommunityScreen';
-import { PremiumScreen } from '@/components/screens/PremiumScreen';
-import { PaymentScreen } from '@/components/screens/PaymentScreen';
+import { OnboardingScreen } from './screens/OnboardingScreen';
+import { HomeScreen } from './screens/HomeScreen';
+import { AddCareScreen } from './screens/AddCareScreen';
+import { BoxScreen } from './screens/BoxScreen';
+import { JournalScreen } from './screens/JournalScreen';
+import { PartnersScreen } from './screens/PartnersScreen';
+import { TutorialsScreen } from './screens/TutorialsScreen';
+import { CommunityScreen } from './screens/CommunityScreen';
+import { PremiumScreen } from './screens/PremiumScreen';
+import { PaymentScreen } from './screens/PaymentScreen';
+import { HairProfileScreen } from './screens/HairProfileScreen';
 
 type Screen = 
   | 'onboarding'
   | 'home'
   | 'add-care'
+  | 'hair-profile'
   | 'box'
   | 'journal'
   | 'tutorials'
@@ -77,11 +79,11 @@ export default function CotonNoirApp() {
   };
   
   const shouldShowNavigation = () => {
-    return !['onboarding', 'add-care', 'premium', 'payment'].includes(currentScreen);
+    return !['onboarding', 'add-care', 'hair-profile', 'premium', 'payment'].includes(currentScreen);
   };
   
   const shouldShowHeader = () => {
-    return !['onboarding', 'add-care', 'premium', 'payment'].includes(currentScreen);
+    return !['onboarding', 'add-care', 'hair-profile', 'premium', 'payment'].includes(currentScreen);
   };
   
   const renderScreen = () => {
@@ -99,12 +101,20 @@ export default function CotonNoirApp() {
           <HomeScreen
             onNavigate={handleNavigate}
             onAddCare={() => handleNavigate('add-care')}
+            onShowProfile={() => handleNavigate('hair-profile')}
           />
         );
         
       case 'add-care':
         return (
           <AddCareScreen
+            onBack={handleBackToHome}
+          />
+        );
+        
+      case 'hair-profile':
+        return (
+          <HairProfileScreen
             onBack={handleBackToHome}
           />
         );
@@ -158,7 +168,13 @@ export default function CotonNoirApp() {
         );
         
       default:
-        return <HomeScreen onNavigate={handleNavigate} onAddCare={() => handleNavigate('add-care')} />;
+        return (
+          <HomeScreen 
+            onNavigate={handleNavigate} 
+            onAddCare={() => handleNavigate('add-care')} 
+            onShowProfile={() => handleNavigate('hair-profile')}
+          />
+        );
     }
   };
   
@@ -169,6 +185,7 @@ export default function CotonNoirApp() {
         {shouldShowHeader() && (
           <Header 
             onPremiumClick={() => handleNavigate('premium')}
+            onProfileClick={() => handleNavigate('hair-profile')}
           />
         )}
         

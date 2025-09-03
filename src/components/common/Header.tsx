@@ -1,13 +1,14 @@
 import React from 'react';
-import { Moon, Sun, Crown, Coins } from 'lucide-react';
+import { Moon, Sun, Crown, Coins, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useApp } from '@/contexts/AppContext';
 
 interface HeaderProps {
   onPremiumClick?: () => void;
+  onProfileClick?: () => void;
 }
 
-export function Header({ onPremiumClick }: HeaderProps) {
+export function Header({ onPremiumClick, onProfileClick }: HeaderProps) {
   const { state, dispatch } = useApp();
 
   return (
@@ -25,6 +26,18 @@ export function Header({ onPremiumClick }: HeaderProps) {
         
         {/* Right side actions */}
         <div className="flex items-center gap-3">
+          {/* Profile button */}
+          {onProfileClick && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onProfileClick}
+              className={`h-10 w-10 ${!state.hairProfile.isCompleted ? 'ring-2 ring-coton-rose animate-pulse' : ''}`}
+            >
+              <User size={18} className={!state.hairProfile.isCompleted ? 'text-coton-rose' : ''} />
+            </Button>
+          )}
+          
           {/* Dark mode toggle */}
           <Button
             variant="ghost"

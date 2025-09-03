@@ -26,12 +26,20 @@ export interface Challenge {
   days: number;
 }
 
+export interface HairProfile {
+  hairType: 'crepu' | 'boucle' | 'locks' | 'transition' | null;
+  needs: string[];
+  objectives: string[];
+  isCompleted: boolean;
+}
+
 interface AppState {
   coins: number;
   premium: boolean;
   boxUnlocked: boolean;
   darkMode: boolean;
   challenge: Challenge;
+  hairProfile: HairProfile;
   journalEntries: JournalEntry[];
   redeems: Redeem[];
   plans: Plan[];
@@ -45,6 +53,7 @@ type AppAction =
   | { type: 'TOGGLE_DARK_MODE' }
   | { type: 'JOIN_CHALLENGE' }
   | { type: 'UPDATE_CHALLENGE_PROGRESS' }
+  | { type: 'UPDATE_HAIR_PROFILE'; profile: Partial<HairProfile> }
   | { type: 'ADD_JOURNAL_ENTRY'; entry: JournalEntry }
   | { type: 'ADD_REDEEM'; redeem: Redeem }
   | { type: 'LOAD_STATE'; state: Partial<AppState> };
@@ -55,6 +64,12 @@ const initialState: AppState = {
   boxUnlocked: false,
   darkMode: false,
   challenge: { joined: false, days: 0 },
+  hairProfile: {
+    hairType: null,
+    needs: [],
+    objectives: [],
+    isCompleted: false
+  },
   journalEntries: [],
   redeems: [],
   plans: [
@@ -90,6 +105,8 @@ function appReducer(state: AppState, action: AppAction): AppState {
     case 'UPDATE_CHALLENGE_PROGRESS':
       const newDays = Math.min(30, state.challenge.days + 1);
       return { ...state, challenge: { ...state.challenge, days: newDays } };
+    case 'UPDATE_HAIR_PROFILE':
+      return { ...state, hairProfile: { ...state.hairProfile, ...action.profile } };
     case 'ADD_JOURNAL_ENTRY':
       return { ...state, journalEntries: [action.entry, ...state.journalEntries] };
     case 'ADD_REDEEM':

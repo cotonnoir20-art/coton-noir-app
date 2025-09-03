@@ -7,10 +7,12 @@ import { useApp } from '@/contexts/AppContext';
 interface HomeScreenProps {
   onNavigate: (screen: string) => void;
   onAddCare: () => void;
+  onShowProfile: () => void;
 }
 export function HomeScreen({
   onNavigate,
-  onAddCare
+  onAddCare,
+  onShowProfile
 }: HomeScreenProps) {
   const {
     state
@@ -25,7 +27,28 @@ export function HomeScreen({
   const maskCount = state.journalEntries.filter(entry => entry.title.toLowerCase().includes('masque') || entry.note.toLowerCase().includes('masque')).length;
   const daysSinceLastCare = state.journalEntries.length > 0 ? Math.floor((Date.now() - new Date(state.journalEntries[0].date).getTime()) / (1000 * 60 * 60 * 24)) : 0;
   const boxProgress = state.premium ? 100 : Math.min(100, state.coins / 50 * 100);
-  return <div className="pb-20 px-4 space-y-6 bg-[#fdf1e3]">
+  
+  return (
+    <div className="pb-20 px-4 space-y-6 bg-[#fdf1e3]">
+      {/* Hair Profile Reminder */}
+      {!state.hairProfile.isCompleted && (
+        <CotonCard variant="premium" className="p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="font-poppins font-bold text-white mb-1">
+                Personnalise ton expérience ✨
+              </h3>
+              <p className="text-white/90 text-sm font-roboto">
+                Définis ton profil capillaire pour des conseils adaptés
+              </p>
+            </div>
+            <Button variant="rose" size="sm" onClick={onShowProfile}>
+              Compléter
+            </Button>
+          </div>
+        </CotonCard>
+      )}
+      
       {/* Premium Upsell (if not premium) */}
       {!state.premium && <CotonCard variant="premium" className="p-6">
           <div className="flex items-center justify-between">
@@ -158,5 +181,6 @@ export function HomeScreen({
             </Button>
           </div>}
       </CotonCard>
-    </div>;
+    </div>
+  );
 }
