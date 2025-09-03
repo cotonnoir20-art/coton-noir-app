@@ -33,6 +33,15 @@ export interface HairProfile {
   isCompleted: boolean;
 }
 
+export interface DetailedHairProfile {
+  hairType: string;
+  porosity: string;
+  objective: string;
+  problems: string[];
+  needs: string[];
+  isCompleted: boolean;
+}
+
 interface AppState {
   coins: number;
   premium: boolean;
@@ -40,6 +49,7 @@ interface AppState {
   darkMode: boolean;
   challenge: Challenge;
   hairProfile: HairProfile;
+  detailedHairProfile: DetailedHairProfile;
   journalEntries: JournalEntry[];
   redeems: Redeem[];
   plans: Plan[];
@@ -54,6 +64,7 @@ type AppAction =
   | { type: 'JOIN_CHALLENGE' }
   | { type: 'UPDATE_CHALLENGE_PROGRESS' }
   | { type: 'UPDATE_HAIR_PROFILE'; profile: Partial<HairProfile> }
+  | { type: 'UPDATE_DETAILED_HAIR_PROFILE'; profile: Partial<DetailedHairProfile> }
   | { type: 'ADD_JOURNAL_ENTRY'; entry: JournalEntry }
   | { type: 'ADD_REDEEM'; redeem: Redeem }
   | { type: 'LOAD_STATE'; state: Partial<AppState> };
@@ -68,6 +79,14 @@ const initialState: AppState = {
     hairType: null,
     needs: [],
     objectives: [],
+    isCompleted: false
+  },
+  detailedHairProfile: {
+    hairType: '',
+    porosity: '',
+    objective: '',
+    problems: [],
+    needs: [],
     isCompleted: false
   },
   journalEntries: [],
@@ -107,6 +126,8 @@ function appReducer(state: AppState, action: AppAction): AppState {
       return { ...state, challenge: { ...state.challenge, days: newDays } };
     case 'UPDATE_HAIR_PROFILE':
       return { ...state, hairProfile: { ...state.hairProfile, ...action.profile } };
+    case 'UPDATE_DETAILED_HAIR_PROFILE':
+      return { ...state, detailedHairProfile: { ...state.detailedHairProfile, ...action.profile } };
     case 'ADD_JOURNAL_ENTRY':
       return { ...state, journalEntries: [action.entry, ...state.journalEntries] };
     case 'ADD_REDEEM':

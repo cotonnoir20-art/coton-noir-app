@@ -5,6 +5,7 @@ import { MobileNav } from '@/components/ui/mobile-nav';
 
 // Screens
 import { OnboardingScreen } from './screens/OnboardingScreen';
+import { ProfileOnboardingScreen } from './screens/ProfileOnboardingScreen';
 import { HomeScreen } from './screens/HomeScreen';
 import { AddCareScreen } from './screens/AddCareScreen';
 import { BoxScreen } from './screens/BoxScreen';
@@ -16,8 +17,9 @@ import { PremiumScreen } from './screens/PremiumScreen';
 import { PaymentScreen } from './screens/PaymentScreen';
 import { HairProfileScreen } from './screens/HairProfileScreen';
 
-type Screen = 
+type Screen =
   | 'onboarding'
+  | 'profile-onboarding'
   | 'home'
   | 'add-care'
   | 'hair-profile'
@@ -37,13 +39,22 @@ export default function CotonNoirApp() {
   // Check if user has completed onboarding
   useEffect(() => {
     const hasCompletedOnboarding = localStorage.getItem('coton-noir-onboarding');
-    if (hasCompletedOnboarding) {
+    const hasCompletedProfile = localStorage.getItem('coton-noir-profile-onboarding');
+    
+    if (hasCompletedOnboarding && hasCompletedProfile) {
       setCurrentScreen('home');
+    } else if (hasCompletedOnboarding && !hasCompletedProfile) {
+      setCurrentScreen('profile-onboarding');
     }
   }, []);
   
   const handleCompleteOnboarding = () => {
     localStorage.setItem('coton-noir-onboarding', 'true');
+    setCurrentScreen('profile-onboarding');
+  };
+
+  const handleCompleteProfileOnboarding = () => {
+    localStorage.setItem('coton-noir-profile-onboarding', 'true');
     setCurrentScreen('home');
   };
   
@@ -79,11 +90,11 @@ export default function CotonNoirApp() {
   };
   
   const shouldShowNavigation = () => {
-    return !['onboarding', 'add-care', 'hair-profile', 'premium', 'payment'].includes(currentScreen);
+    return !['onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'premium', 'payment'].includes(currentScreen);
   };
   
   const shouldShowHeader = () => {
-    return !['onboarding', 'add-care', 'hair-profile', 'premium', 'payment'].includes(currentScreen);
+    return !['onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'premium', 'payment'].includes(currentScreen);
   };
   
   const renderScreen = () => {
@@ -93,6 +104,13 @@ export default function CotonNoirApp() {
           <OnboardingScreen
             onComplete={handleCompleteOnboarding}
             onPremium={() => handleNavigate('premium')}
+          />
+        );
+
+      case 'profile-onboarding':
+        return (
+          <ProfileOnboardingScreen
+            onComplete={handleCompleteProfileOnboarding}
           />
         );
         

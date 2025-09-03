@@ -1,5 +1,5 @@
-import React from 'react';
-import { Plus, Package, Users, Store, Video, Gift, Target } from 'lucide-react';
+import React, { useMemo } from 'react';
+import { Plus, Package, Users, Store, Video, Gift, Target, Sparkles, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CotonCard } from '@/components/ui/coton-card';
 import { ProgressBar } from '@/components/ui/progress-bar';
@@ -15,8 +15,56 @@ export function HomeScreen({
   onShowProfile
 }: HomeScreenProps) {
   const {
-    state
+    state,
+    dispatch
   } = useApp();
+
+  // Generate personalized routine based on detailed profile
+  const personalizedRoutine = useMemo(() => {
+    if (!state.detailedHairProfile.isCompleted) return [];
+    
+    const { porosity, objective, problems, needs } = state.detailedHairProfile;
+    let steps = [];
+    
+    // Base routine according to porosity
+    if (porosity === 'faible') {
+      steps = ['Pré-poo léger', 'Shampoing clarifiant doux', 'Masque protéiné léger', 'Leave-in fluide', 'Scellage avec huile légère'];
+    } else if (porosity === 'moyenne') {
+      steps = ['Pré-poo', 'Shampoing hydratant', 'Masque équilibré', 'Leave-in crémeux', 'Scellage mixte'];
+    } else if (porosity === 'haute') {
+      steps = ['Pré-poo nourrissant', 'Co-wash ou shampoing doux', 'Masque hydratant intensif', 'Leave-in riche', 'Scellage avec beurre'];
+    }
+    
+    // Adapt based on problems
+    if (problems.includes('secheresse')) {
+      steps.splice(2, 1, 'Masque hydratant intensif');
+    }
+    if (problems.includes('casse')) {
+      steps.splice(1, 0, 'Traitement protéiné');
+    }
+    if (problems.includes('cuir_chevelu')) {
+      steps.unshift('Massage du cuir chevelu');
+    }
+    
+    // Adapt based on needs
+    if (needs.includes('definition')) {
+      steps.push('Crème coiffante définition');
+    }
+    if (needs.includes('brillance')) {
+      steps.push('Sérum brillance');
+    }
+    
+    return steps.slice(0, 5); // Limit to 5 steps max
+  }, [state.detailedHairProfile]);
+
+  const [routineValidated, setRoutineValidated] = React.useState(false);
+
+  const handleValidateRoutine = () => {
+    if (routineValidated) return;
+    
+    setRoutineValidated(true);
+    dispatch({ type: 'ADD_COINS', amount: 10 });
+  };
 
   // Calculate stats
   const thisMonthCares = state.journalEntries.filter(entry => {
@@ -132,6 +180,71 @@ export function HomeScreen({
           Ajouter un soin
         </Button>
       </CotonCard>
+      
+      {/* Personalized Routine Section */}
+      {state.detailedHairProfile.isCompleted && personalizedRoutine.length > 0 && (
+        <div className="space-y-4">
+          <h3 className="font-poppins font-semibold text-lg">Ma routine recommandée ✨</h3>
+          
+          <CotonCard className="p-6 bg-gradient-to-r from-coton-rose/10 to-purple-50 space-y-4">
+            {/* Profile Summary */}
+            <div className="flex flex-wrap gap-2 pb-4 border-b border-coton-rose/20">
+              <span className="px-3 py-1 bg-white/70 rounded-full text-sm font-roboto">
+                {state.detailedHairProfile.hairType}
+              </span>
+              <span className="px-3 py-1 bg-white/70 rounded-full text-sm font-roboto">
+                Porosité {state.detailedHairProfile.porosity}
+              </span>
+              <span className="px-3 py-1 bg-white/70 rounded-full text-sm font-roboto">
+                Objectif: {state.detailedHairProfile.objective}
+              </span>
+            </div>
+            
+            {/* Routine Steps */}
+            <div className="space-y-3">
+              {personalizedRoutine.map((step, index) => (
+                <div key={index} className="flex items-center gap-3 p-3 rounded-lg bg-white/60">
+                  <div className="w-8 h-8 rounded-full bg-coton-rose flex items-center justify-center text-white font-bold text-sm">
+                    {index + 1}
+                  </div>
+                  <span className="font-roboto text-sm text-coton-black">
+                    {step}
+                  </span>
+                </div>
+              ))}
+            </div>
+            
+            {/* Validation Button */}
+            <div className="pt-4 border-t border-coton-rose/20">
+              <Button 
+                variant={routineValidated ? "outline" : "hero"} 
+                size="sm" 
+                onClick={handleValidateRoutine}
+                disabled={routineValidated}
+                className="w-full"
+              >
+                {routineValidated ? (
+                  <>
+                    <Check size={16} className="mr-2" />
+                    Routine validée ✓
+                  </>
+                ) : (
+                  <>
+                    <Sparkles size={16} className="mr-2" />
+                    ✅ Routine validée (+10 CC)
+                  </>
+                )}
+              </Button>
+              
+              <div className="mt-3 p-3 rounded-lg bg-gradient-to-r from-yellow-50 to-orange-50">
+                <p className="text-xs font-roboto text-center text-muted-foreground">
+                  <strong>Gamification & progression :</strong> tes points débloquent des contenus exclusifs
+                </p>
+              </div>
+            </div>
+          </CotonCard>
+        </div>
+      )}
       
       {/* Stats Section */}
       <div className="space-y-4">
