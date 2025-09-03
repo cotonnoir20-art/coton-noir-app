@@ -535,7 +535,7 @@ export function HomeScreen({
         </div>
       </div>
       {state.detailedHairProfile.isCompleted && personalizedRoutine.length > 0 && (
-        <div className="space-y-4">
+        <div key={`routine-${state.detailedHairProfile.hairType}-${state.detailedHairProfile.porosity}-${state.detailedHairProfile.objective}-${state.detailedHairProfile.problems?.join(',')}-${state.detailedHairProfile.needs?.join(',')}`} className="space-y-4">
           <h3 className="font-poppins font-semibold text-lg">Ma routine recommandée ✨</h3>
           
           <CotonCard className="p-6 bg-gradient-to-r from-coton-rose/10 to-purple-50 space-y-4">
