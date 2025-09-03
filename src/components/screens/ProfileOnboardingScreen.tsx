@@ -1,10 +1,11 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { CotonCard } from '@/components/ui/coton-card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useApp } from '@/contexts/AppContext';
-import { Lightbulb } from 'lucide-react';
+import { Lightbulb, Loader2, Sparkles } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 interface ProfileOnboardingScreenProps {
   onComplete: () => void;
@@ -55,6 +56,12 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
   const [selectedObjective, setSelectedObjective] = useState('');
   const [selectedProblems, setSelectedProblems] = useState<string[]>([]);
   const [selectedNeeds, setSelectedNeeds] = useState<string[]>([]);
+  
+  // IA States
+  const [aiRoutinePreview, setAiRoutinePreview] = useState<string[]>([]);
+  const [aiCotonTips, setAiCotonTips] = useState('');
+  const [isGeneratingAI, setIsGeneratingAI] = useState(false);
+  const [aiError, setAiError] = useState<string | null>(null);
 
   const toggleProblem = (problemId: string) => {
     setSelectedProblems(prev => 
@@ -72,75 +79,67 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
     );
   };
 
-  // Generate personalized routine preview based on current selections
-  const routinePreview = useMemo(() => {
-    if (!selectedPorosity) return [];
-    
-    let steps = [];
-    
-    // Base routine according to porosity
-    if (selectedPorosity === 'faible') {
-      steps = ['Pré-poo léger', 'Shampoing clarifiant doux', 'Masque protéiné léger', 'Leave-in fluide', 'Scellage avec huile légère'];
-    } else if (selectedPorosity === 'moyenne') {
-      steps = ['Pré-poo', 'Shampoing hydratant', 'Masque équilibré', 'Leave-in crémeux', 'Scellage mixte'];
-    } else if (selectedPorosity === 'haute') {
-      steps = ['Pré-poo nourrissant', 'Co-wash ou shampoing doux', 'Masque hydratant intensif', 'Leave-in riche', 'Scellage avec beurre'];
+  // Generate AI tips based on current profile
+  const generateAITips = async () => {
+    // Don't generate if we don't have minimum info
+    if (!selectedHairType && !selectedPorosity && !selectedObjective && selectedProblems.length === 0 && selectedNeeds.length === 0) {
+      setAiRoutinePreview([]);
+      setAiCotonTips('');
+      return;
     }
-    
-    // Adapt based on problems
-    if (selectedProblems.includes('secheresse')) {
-      steps.splice(2, 1, 'Masque hydratant intensif');
-    }
-    if (selectedProblems.includes('casse')) {
-      steps.splice(1, 0, 'Traitement protéiné');
-    }
-    if (selectedProblems.includes('cuir_chevelu')) {
-      steps.unshift('Massage du cuir chevelu');
-    }
-    
-    // Adapt based on needs
-    if (selectedNeeds.includes('definition')) {
-      steps.push('Crème coiffante définition');
-    }
-    if (selectedNeeds.includes('brillance')) {
-      steps.push('Sérum brillance');
-    }
-    
-    return steps.slice(0, 5); // Limit to 5 steps max
-  }, [selectedPorosity, selectedProblems, selectedNeeds]);
 
-  // Generate CotonTips based on selected needs
-  const cotonTips = useMemo(() => {
-    const tips: string[] = [];
-    
-    if (selectedNeeds.includes('hydratation')) {
-      tips.push('Bois beaucoup d\'eau et utilise des masques hydratants 1-2 fois par semaine 💧');
+    setIsGeneratingAI(true);
+    setAiError(null);
+
+    try {
+      console.log('Generating AI tips with profile:', {
+        hairType: selectedHairType,
+        porosity: selectedPorosity,
+        objective: selectedObjective,
+        problems: selectedProblems,
+        needs: selectedNeeds
+      });
+
+      const { data, error } = await supabase.functions.invoke('generate-realtime-tips', {
+        body: {
+          hairType: selectedHairType,
+          porosity: selectedPorosity,
+          objective: selectedObjective,
+          problems: selectedProblems,
+          needs: selectedNeeds
+        }
+      });
+
+      if (error) {
+        console.error('Supabase function error:', error);
+        throw error;
+      }
+
+      console.log('AI response received:', data);
+
+      if (data) {
+        setAiRoutinePreview(data.routinePreview || []);
+        setAiCotonTips(data.cotonTips || '');
+      }
+    } catch (error) {
+      console.error('Error generating AI tips:', error);
+      setAiError('Erreur lors de la génération des conseils IA');
+      // Set fallback content
+      setAiRoutinePreview(['Analyse de ton profil...', 'Génération en cours...']);
+      setAiCotonTips('💡 Complète ton profil pour des conseils personnalisés !');
+    } finally {
+      setIsGeneratingAI(false);
     }
-    if (selectedNeeds.includes('definition')) {
-      tips.push('Applique tes produits sur cheveux humides et utilise la technique du "plopping" ✨');
-    }
-    if (selectedNeeds.includes('brillance')) {
-      tips.push('Termine toujours par un rinçage à l\'eau froide pour refermer les écailles 🌟');
-    }
-    if (selectedNeeds.includes('pousse')) {
-      tips.push('Masse ton cuir chevelu quotidiennement et protège tes pointes la nuit 🌱');
-    }
-    if (selectedNeeds.includes('reparation')) {
-      tips.push('Alterne entre soins hydratants et protéinés selon tes besoins 💪');
-    }
-    if (selectedNeeds.includes('protection')) {
-      tips.push('Utilise toujours une protection thermique et évite la chaleur excessive 🛡️');
-    }
-    
-    if (selectedProblems.includes('secheresse')) {
-      tips.push('Évite les sulfates et privilégie les co-wash pour préserver l\'hydratation 🚫');
-    }
-    if (selectedProblems.includes('casse')) {
-      tips.push('Démêle toujours sur cheveux mouillés avec un conditioner et un peigne à dents larges ⚠️');
-    }
-    
-    return tips;
-  }, [selectedNeeds, selectedProblems]);
+  };
+
+  // Trigger AI generation when profile changes
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      generateAITips();
+    }, 1000); // Debounce for 1 second
+
+    return () => clearTimeout(timeout);
+  }, [selectedHairType, selectedPorosity, selectedObjective, selectedProblems, selectedNeeds]);
 
   const isFormValid = () => {
     return selectedHairType && 
@@ -319,22 +318,34 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
         </p>
       </CotonCard>
 
-      {/* Routine Preview - shows when porosity is selected */}
-      {routinePreview.length > 0 && (
+      {/* AI Routine Preview - shows when AI has generated content */}
+      {(aiRoutinePreview.length > 0 || isGeneratingAI) && (
         <CotonCard className="p-6 space-y-4 bg-gradient-to-r from-coton-rose/10 to-purple-50">
           <div className="flex items-center gap-2">
+            {isGeneratingAI && <Loader2 className="animate-spin text-coton-rose" size={16} />}
+            <Sparkles className="text-coton-rose" size={16} />
             <h3 className="font-poppins font-semibold text-lg text-coton-black">
-              Aperçu de ta routine ✨
+              {isGeneratingAI ? 'Génération de ta routine IA...' : 'Ta routine personnalisée par IA ✨'}
             </h3>
           </div>
           
+          {aiError && (
+            <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-sm text-red-700 font-roboto">
+                {aiError}
+              </p>
+            </div>
+          )}
+          
           <div className="space-y-3">
-            {routinePreview.map((step, index) => (
+            {aiRoutinePreview.map((step, index) => (
               <div key={index} className="flex items-center gap-3 p-3 rounded-lg bg-white/60">
-                <div className="w-8 h-8 rounded-full bg-coton-rose flex items-center justify-center text-white font-bold text-sm">
-                  {index + 1}
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm ${
+                  isGeneratingAI ? 'bg-gray-400' : 'bg-coton-rose'
+                }`}>
+                  {isGeneratingAI ? <Loader2 className="animate-spin" size={12} /> : index + 1}
                 </div>
-                <span className="font-roboto text-sm text-coton-black">
+                <span className={`font-roboto text-sm ${isGeneratingAI ? 'text-gray-500' : 'text-coton-black'}`}>
                   {step}
                 </span>
               </div>
@@ -343,36 +354,37 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
           
           <div className="p-3 rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50">
             <p className="text-xs font-roboto text-center text-muted-foreground">
-              Cette routine s'adapte automatiquement à tes choix
+              {isGeneratingAI ? 'L\'IA analyse ton profil...' : 'Cette routine s\'adapte en temps réel à tes choix grâce à l\'IA'}
             </p>
           </div>
         </CotonCard>
       )}
 
-      {/* CotonTips - shows when needs or problems are selected */}
-      {cotonTips.length > 0 && (
+      {/* AI CotonTips - shows when AI has generated tips */}
+      {(aiCotonTips || isGeneratingAI) && (
         <CotonCard className="p-6 space-y-4 bg-gradient-to-r from-amber-50 to-yellow-50 border-amber-200">
           <div className="flex items-center gap-2">
+            {isGeneratingAI && <Loader2 className="animate-spin text-amber-500" size={16} />}
             <Lightbulb className="text-amber-500" size={20} />
             <h3 className="font-poppins font-semibold text-lg text-amber-800">
-              CotonTips
+              {isGeneratingAI ? 'Génération CotonTips IA...' : 'CotonTips IA'}
             </h3>
           </div>
           
           <div className="space-y-3">
-            {cotonTips.slice(0, 2).map((tip, index) => (
-              <div key={index} className="p-3 rounded-lg bg-white/70 border-l-4 border-amber-300">
-                <p className="font-roboto text-sm text-amber-900">
-                  {tip}
-                </p>
-              </div>
-            ))}
+            <div className="p-3 rounded-lg bg-white/70 border-l-4 border-amber-300">
+              <p className={`font-roboto text-sm ${isGeneratingAI ? 'text-amber-600' : 'text-amber-900'}`}>
+                {aiCotonTips || 'Génération du conseil personnalisé en cours...'}
+              </p>
+            </div>
           </div>
           
-          {cotonTips.length > 2 && (
-            <p className="text-xs font-roboto text-center text-amber-700">
-              +{cotonTips.length - 2} autres conseils t'attendent sur ton profil
-            </p>
+          {!isGeneratingAI && aiCotonTips && (
+            <div className="p-2 rounded-lg bg-gradient-to-r from-green-50 to-emerald-50">
+              <p className="text-xs font-roboto text-center text-green-700">
+                ✨ Conseil généré par intelligence artificielle
+              </p>
+            </div>
           )}
         </CotonCard>
       )}
