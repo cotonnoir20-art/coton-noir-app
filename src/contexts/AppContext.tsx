@@ -328,7 +328,22 @@ function appReducer(state: AppState, action: AppAction): AppState {
     case 'SET_GROWTH_GOAL':
       return { ...state, growthGoal: action.goal };
     case 'ADD_WASH_DAY_ENTRY':
-      return { ...state, washDayEntries: [action.entry, ...state.washDayEntries] };
+      // Ajouter aussi l'entrée au journal principal
+      const washJournalEntry: JournalEntry = {
+        id: `wash-${action.entry.id}`,
+        type: 'soin',
+        title: `Wash Day - ${action.entry.type === 'wash' ? 'Shampoing' : 
+                 action.entry.type === 'co-wash' ? 'Co-wash' : 
+                 action.entry.type === 'clarifying' ? 'Clarifiant' : 'Nettoyage profond'}`,
+        date: action.entry.date,
+        note: `${action.entry.products.join(', ')}${action.entry.notes ? ` - ${action.entry.notes}` : ''}`,
+        timestamp: action.entry.timestamp
+      };
+      return { 
+        ...state, 
+        washDayEntries: [action.entry, ...state.washDayEntries],
+        journalEntries: [washJournalEntry, ...state.journalEntries]
+      };
     case 'UPDATE_WASH_DAY_SETTINGS':
       return { ...state, washDaySettings: { ...state.washDaySettings, ...action.settings } };
     case 'ADD_BADGE':
