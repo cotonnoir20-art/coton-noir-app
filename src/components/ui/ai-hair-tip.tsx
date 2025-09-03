@@ -45,7 +45,7 @@ export function AIHairTip({
             opacity: 0
           }} className="flex items-center gap-2 text-sm text-muted-foreground">
                 <RefreshCw size={14} className="animate-spin" />
-                Amara réfléchit...
+                Génération en cours...
               </motion.div> : <motion.p key="tip" initial={{
             opacity: 0,
             y: 10
@@ -75,7 +75,7 @@ export function AIHairTip({
             </div>
             <div>
               <h3 className="font-poppins font-bold text-lg text-coton-black">
-                Conseil d'Amara
+                CotonTips
               </h3>
               <p className="text-sm text-muted-foreground">
                 Experte en cheveux afro
@@ -106,7 +106,7 @@ export function AIHairTip({
               animationDelay: '0.2s'
             }}></div>
               </div>
-              <span className="text-purple-600 font-roboto">Amara analyse ton profil...</span>
+              <span className="text-purple-600 font-roboto">Analyse de ton profil...</span>
             </motion.div> : <motion.div key="tip" initial={{
           opacity: 0,
           y: 20
@@ -119,7 +119,7 @@ export function AIHairTip({
         }} className="space-y-3">
               <div className="bg-white/70 rounded-lg p-4 border border-white/50">
                 <p className="font-roboto text-coton-black leading-relaxed">
-                  {currentTip?.tip || "💡 Complete ton profil capillaire pour recevoir des conseils personnalisés d'Amara !"}
+                  {currentTip?.tip || "💡 Complete ton profil capillaire pour recevoir des CotonTips personnalisés !"}
                 </p>
               </div>
               
