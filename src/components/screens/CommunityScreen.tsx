@@ -26,7 +26,7 @@ export function CommunityScreen({ onNavigate }: CommunityScreenProps) {
   
   const handleProgressUpdate = () => {
     if (state.challenge.days < 30) {
-      const reward = state.premium ? 8 : 5;
+      const reward = 5;
       dispatch({ type: 'UPDATE_CHALLENGE_PROGRESS' });
       dispatch({ type: 'ADD_COINS', amount: reward });
       
@@ -77,7 +77,7 @@ export function CommunityScreen({ onNavigate }: CommunityScreenProps) {
             </div>
             <div>
               <div className="text-lg font-poppins font-bold text-coton-black">
-                {state.premium ? '8' : '5'} CC
+                5 CC
               </div>
               <div className="text-xs font-roboto text-muted-foreground">
                 Par jour validé

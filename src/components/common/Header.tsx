@@ -1,18 +1,17 @@
 import React from 'react';
-import { Moon, Sun, Crown, Coins, User, LogOut } from 'lucide-react';
+import { Moon, Sun, Coins, User, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useApp } from '@/contexts/AppContext';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 
 interface HeaderProps {
-  onPremiumClick?: () => void;
   onProfileClick?: () => void;
   onHomeClick?: () => void;
   onRewardsClick?: () => void;
 }
 
-export function Header({ onPremiumClick, onProfileClick, onHomeClick, onRewardsClick }: HeaderProps) {
+export function Header({ onProfileClick, onHomeClick, onRewardsClick }: HeaderProps) {
   const { state, dispatch } = useApp();
   const { signOut } = useAuth();
   const { toast } = useToast();
@@ -87,23 +86,6 @@ export function Header({ onPremiumClick, onProfileClick, onHomeClick, onRewardsC
               <Moon size={18} className="text-white" />
             )}
           </Button>
-          
-          {/* Premium status */}
-          {state.premium ? (
-            <div className="flex items-center gap-1 bg-gradient-to-r from-yellow-500 to-yellow-600 text-black px-3 py-1.5 rounded-pill shadow-lg">
-              <Crown size={16} />
-              <span className="text-sm font-poppins font-medium">Premium</span>
-            </div>
-          ) : (
-            <Button 
-              variant="outline"
-              size="sm"
-              onClick={onPremiumClick}
-              className="border-white/20 text-white hover:bg-white/10 hover:text-white"
-            >
-              Premium
-            </Button>
-          )}
           
           {/* Coins */}
           <button 

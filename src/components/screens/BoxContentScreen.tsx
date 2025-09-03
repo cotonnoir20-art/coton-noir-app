@@ -90,7 +90,7 @@ export function BoxContentScreen({ onBack }: BoxContentScreenProps) {
           <div className="text-center space-y-3">
             <div className="text-4xl">📦</div>
             <h2 className="font-poppins font-bold text-lg text-coton-black">
-              Box Digitale Premium
+              Box Digitale
             </h2>
             <p className="font-roboto text-sm text-muted-foreground">
               Contenu exclusif pour optimiser ta routine capillaire

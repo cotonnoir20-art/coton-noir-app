@@ -29,7 +29,8 @@ export function BoxScreen({ onNavigate }: BoxScreenProps) {
     }
   };
   
-  if (state.premium) {
+  // Toujours donner accès à la box quand on a 50 coins
+  if (state.coins >= 50) {
     return (
       <div className="p-4 pb-20">
         <CotonCard variant="elevated" className="p-8 text-center space-y-6">

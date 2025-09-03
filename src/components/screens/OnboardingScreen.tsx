@@ -24,20 +24,14 @@ const slides: OnboardingSlide[] = [
     emoji: '🎁',
     title: 'Profite des offres partenaires',
     description: 'Utilise tes CotonCoins pour obtenir des réductions chez nos partenaires'
-  },
-  {
-    emoji: '👑',
-    title: 'Boost avec Premium',
-    description: 'Double tes gains, accède aux box illimitées et aux offres exclusives'
   }
 ];
 
 interface OnboardingScreenProps {
   onComplete: () => void;
-  onPremium: () => void;
 }
 
-export function OnboardingScreen({ onComplete, onPremium }: OnboardingScreenProps) {
+export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
   
   const handleNext = () => {
@@ -92,17 +86,6 @@ export function OnboardingScreen({ onComplete, onPremium }: OnboardingScreenProp
         
         {/* Actions */}
         <div className="space-y-4">
-          {isLastSlide && (
-            <Button
-              variant="outline"
-              size="lg"
-              onClick={onPremium}
-              className="w-full"
-            >
-              Découvrir Premium
-            </Button>
-          )}
-          
            <Button
              variant="hero"
              size="lg"

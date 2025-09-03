@@ -1,5 +1,5 @@
 import React from 'react';
-import { Store, Crown, Check } from 'lucide-react';
+import { Store, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CotonCard } from '@/components/ui/coton-card';
 import { useApp } from '@/contexts/AppContext';
@@ -10,9 +10,7 @@ interface Partner {
   name: string;
   description: string;
   cost: number;
-  premiumCost: number;
   discount: string;
-  premiumDiscount: string;
   type: string;
 }
 
@@ -22,29 +20,23 @@ const partners: Partner[] = [
     name: 'Astuces LCO',
     description: 'Guide exclusif des soins pour cheveux crépus',
     cost: 30,
-    premiumCost: 30,
     discount: 'Ebook gratuit',
-    premiumDiscount: 'Ebook gratuit',
     type: 'Ebook'
   },
   {
     id: 'naturelle',
     name: 'NaturelELLE',
     description: 'Produits naturels pour cheveux afro',
-    cost: 50,
-    premiumCost: 40,
-    discount: '-10%',
-    premiumDiscount: '-15%',
+    cost: 40,
+    discount: '-15%',
     type: 'Boutique'
   },
   {
     id: 'cantu',
     name: 'Cantu',
     description: 'Marque spécialisée cheveux bouclés et crépus',
-    cost: 60,
-    premiumCost: 50,
-    discount: '-15%',
-    premiumDiscount: '-20%',
+    cost: 50,
+    discount: '-20%',
     type: 'Marque'
   }
 ];
@@ -62,7 +54,7 @@ export function PartnersScreen({ onNavigate }: PartnersScreenProps) {
   };
   
   const handleUseOffer = (partner: Partner) => {
-    const cost = state.premium ? partner.premiumCost : partner.cost;
+    const cost = partner.cost;
     
     if (state.coins >= cost) {
       const code = generateCode();
@@ -98,35 +90,12 @@ export function PartnersScreen({ onNavigate }: PartnersScreenProps) {
         </p>
       </div>
       
-      {/* Premium Upsell */}
-      {!state.premium && (
-        <CotonCard variant="premium" className="p-4">
-          <div className="flex items-center gap-3">
-            <Crown className="text-white" size={24} />
-            <div className="flex-1">
-              <h3 className="font-poppins font-semibold text-white">
-                👑 Débloquer plus d'avantages
-              </h3>
-              <p className="text-white/90 text-sm font-roboto">
-                Réductions Premium et coûts réduits
-              </p>
-            </div>
-            <Button 
-              variant="rose" 
-              size="sm"
-              onClick={() => onNavigate('premium')}
-            >
-              Premium
-            </Button>
-          </div>
-        </CotonCard>
-      )}
       
       {/* Partners List */}
       <div className="space-y-4">
         {partners.map((partner) => {
-          const cost = state.premium ? partner.premiumCost : partner.cost;
-          const discount = state.premium ? partner.premiumDiscount : partner.discount;
+          const cost = partner.cost;
+          const discount = partner.discount;
           const canAfford = state.coins >= cost;
           const used = isOfferUsed(partner.name);
           const usedRedeem = state.redeems.find(r => r.partnerId.includes(partner.name));
@@ -149,11 +118,6 @@ export function PartnersScreen({ onNavigate }: PartnersScreenProps) {
                       <span className="bg-coton-rose/30 text-coton-black px-2 py-1 rounded-pill text-xs font-roboto">
                         {partner.type}
                       </span>
-                      {state.premium && (
-                        <span className="bg-gradient-hero text-white px-2 py-1 rounded-pill text-xs font-roboto">
-                          Premium
-                        </span>
-                      )}
                     </div>
                   </div>
                 </div>
@@ -190,15 +154,6 @@ export function PartnersScreen({ onNavigate }: PartnersScreenProps) {
                   </Button>
                 )}
               </div>
-              
-              {state.premium && !used && (
-                <div className="bg-gradient-rose/20 border border-coton-rose/30 rounded-lg p-3">
-                  <p className="text-sm font-roboto text-coton-black">
-                    🎉 Avantage Premium : {partner.premiumDiscount} au lieu de {partner.discount}
-                    {partner.cost !== partner.premiumCost && ` • Économisez ${partner.cost - partner.premiumCost} CC`}
-                  </p>
-                </div>
-              )}
             </CotonCard>
           );
         })}

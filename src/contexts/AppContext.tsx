@@ -116,7 +116,6 @@ export interface PremiumWaitlist {
 
 interface AppState {
   coins: number;
-  premium: boolean;
   boxUnlocked: boolean;
   darkMode: boolean;
   challenge: Challenge;
@@ -129,7 +128,6 @@ interface AppState {
   };
   journalEntries: JournalEntry[];
   redeems: Redeem[];
-  plans: Plan[];
   level: 'Bronze' | 'Argent' | 'Or' | 'Platine' | 'Diamant';
   streak: number;
   lastActiveDate: string;
@@ -141,7 +139,6 @@ interface AppState {
   badges: Badge[];
   dailyChallenges: DailyChallenge[];
   routineFeedback: RoutineFeedback[];
-  premiumWaitlist: PremiumWaitlist;
   lastCoinAnimation: number;
   streakData: {
     current: number;
@@ -153,7 +150,6 @@ interface AppState {
 type AppAction = 
   | { type: 'ADD_COINS'; amount: number }
   | { type: 'SPEND_COINS'; amount: number }
-  | { type: 'SET_PREMIUM'; premium: boolean }
   | { type: 'SET_BOX_UNLOCKED'; unlocked: boolean }
   | { type: 'TOGGLE_DARK_MODE' }
   | { type: 'JOIN_CHALLENGE' }
@@ -172,15 +168,13 @@ type AppAction =
   | { type: 'ADD_BADGE'; badge: Badge }
   | { type: 'COMPLETE_DAILY_CHALLENGE'; challengeId: string }
   | { type: 'ADD_ROUTINE_FEEDBACK'; feedback: RoutineFeedback }
-  | { type: 'JOIN_PREMIUM_WAITLIST' }
   | { type: 'TRIGGER_COIN_ANIMATION' }
   | { type: 'UPDATE_STREAK_NEW'; increment?: boolean }
   | { type: 'GENERATE_DAILY_CHALLENGES' }
   | { type: 'LOAD_STATE'; state: Partial<AppState> };
 
 const initialState: AppState = {
-  coins: 0, // Start at 0, bonus awarded when profile completed
-  premium: false,
+  coins: 0,
   boxUnlocked: false,
   darkMode: false,
   challenge: { joined: false, days: 0 },
@@ -205,20 +199,6 @@ const initialState: AppState = {
   },
   journalEntries: [],
   redeems: [],
-  plans: [
-    {
-      id: 'basic',
-      name: 'Premium Basic',
-      price: '3,99€/mois',
-      perks: ['CC ×2', 'Box illimitée', '-15% partenaires']
-    },
-    {
-      id: 'plus',
-      name: 'Premium Plus',
-      price: '7,99€/mois',
-      perks: ['CC ×2', 'Box illimitée', '-20% partenaires', 'Tutos exclusifs']
-    }
-  ],
   level: 'Bronze',
   streak: 0,
   lastActiveDate: new Date().toISOString().split('T')[0],
@@ -227,7 +207,7 @@ const initialState: AppState = {
   growthGoal: null,
   washDayEntries: [],
   washDaySettings: {
-    frequency: 7, // Par défaut 1x/semaine
+    frequency: 7,
     preferredDay: 'sunday',
     reminderEnabled: true,
     autoSchedule: true
@@ -235,10 +215,6 @@ const initialState: AppState = {
   badges: [],
   dailyChallenges: [],
   routineFeedback: [],
-  premiumWaitlist: {
-    isOnWaitlist: false,
-    totalWaitlist: 1247 // Nombre fictif pour créer du FOMO
-  },
   lastCoinAnimation: 0,
   streakData: {
     current: 0,
@@ -262,8 +238,6 @@ function appReducer(state: AppState, action: AppAction): AppState {
       return { ...state, coins: newCoins, level: newLevel };
     case 'SPEND_COINS':
       return { ...state, coins: Math.max(0, state.coins - action.amount) };
-    case 'SET_PREMIUM':
-      return { ...state, premium: action.premium };
     case 'SET_BOX_UNLOCKED':
       return { ...state, boxUnlocked: action.unlocked };
     case 'TOGGLE_DARK_MODE':
@@ -380,18 +354,6 @@ function appReducer(state: AppState, action: AppAction): AppState {
       };
     case 'ADD_ROUTINE_FEEDBACK':
       return { ...state, routineFeedback: [action.feedback, ...state.routineFeedback] };
-    case 'JOIN_PREMIUM_WAITLIST':
-      if (state.premiumWaitlist.isOnWaitlist) return state;
-      return {
-        ...state,
-        premiumWaitlist: {
-          ...state.premiumWaitlist,
-          isOnWaitlist: true,
-          joinedAt: new Date().toISOString(),
-          position: state.premiumWaitlist.totalWaitlist + 1,
-          totalWaitlist: state.premiumWaitlist.totalWaitlist + 1
-        }
-      };
     case 'TRIGGER_COIN_ANIMATION':
       return { ...state, lastCoinAnimation: Date.now() };
     case 'UPDATE_STREAK_NEW':

@@ -5,7 +5,6 @@ import { CotonCard } from '@/components/ui/coton-card';
 import { ProgressBar } from '@/components/ui/progress-bar';
 import { CoinAnimation, useCoinAnimation } from '@/components/ui/coin-animation';
 import { BadgeNotification, BadgeDisplay, useBadgeSystem } from '@/components/ui/badge-system';
-import { PremiumWaitlist, LockedFeature } from '@/components/ui/premium-preview';
 import { useApp, Badge as BadgeType, DailyChallenge } from '@/contexts/AppContext';
 import { motion, AnimatePresence } from 'framer-motion';
 interface HomeScreenProps {
@@ -233,7 +232,7 @@ export function HomeScreen({
 
   // Calculate stats
   const daysSinceLastCare = state.journalEntries.length > 0 ? Math.floor((Date.now() - new Date(state.journalEntries[0].date).getTime()) / (1000 * 60 * 60 * 24)) : 0;
-  const boxProgress = state.premium ? 100 : Math.min(100, state.coins / 50 * 100);
+  const boxProgress = Math.min(100, state.coins / 50 * 100);
 
   // Calculate monthly stats
   const currentMonth = new Date().toISOString().slice(0, 7); // YYYY-MM format
@@ -380,26 +379,6 @@ export function HomeScreen({
       )}
 
       
-      {/* Premium Upsell (if not premium) */}
-      {!state.premium && !state.premiumWaitlist.isOnWaitlist && (
-        <PremiumWaitlist onJoin={() => {}} />
-      )}
-
-      {state.premiumWaitlist.isOnWaitlist && !state.premium && (
-        <CotonCard className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 border-green-200">
-          <div className="text-center space-y-2">
-            <div className="flex items-center justify-center gap-2">
-              <Star className="text-green-500" size={20} />
-              <span className="font-poppins font-semibold text-green-700">
-                Sur la liste Premium !
-              </span>
-            </div>
-            <p className="text-sm text-green-600">
-              Position #{state.premiumWaitlist.position} • Nous vous notifierons bientôt !
-            </p>
-          </div>
-        </CotonCard>
-      )}
       
       {/* Level & Goal Card */}
       <CotonCard className="p-6 space-y-4 mt-5">
@@ -698,9 +677,9 @@ export function HomeScreen({
           <h3 className="font-poppins font-semibold text-lg">Prochaine récompense</h3>
         </div>
         
-        {state.premium ? <div className="text-center py-4">
+        {state.coins >= 50 ? <div className="text-center py-4">
             <p className="font-roboto text-muted-foreground">
-              ✨ Box incluse avec Premium
+              ✨ Box incluse - débloquez la maintenant !
             </p>
           </div> : <div className="space-y-3">
             <ProgressBar progress={boxProgress} variant="coins" showLabel label={`Box Digitale - ${state.coins}/50 CC`} />
