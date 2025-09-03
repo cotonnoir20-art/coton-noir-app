@@ -26,9 +26,11 @@ import { FullJournalScreen } from './screens/FullJournalScreen';
 import { RewardsScreen } from './screens/RewardsScreen';
 import { DetailedRoutineScreen } from './screens/DetailedRoutineScreen';
 import { ProfileScreen } from './screens/ProfileScreen';
+import { WelcomeScreen } from './screens/WelcomeScreen';
 
 type Screen =
   | 'splash-init'
+  | 'welcome'
   | 'onboarding'
   | 'profile-onboarding'
   | 'home'
@@ -73,8 +75,8 @@ export default function CotonNoirApp() {
     const hasCompletedProfile = localStorage.getItem('coton-noir-profile-onboarding');
     
     if (flow === 'onboarding') {
-      // New user coming from signup
-      setCurrentScreen('splash-init');
+      // New user coming from signup - show welcome screen first
+      setCurrentScreen('welcome');
       // Clear the flow parameter
       window.history.replaceState({}, '', window.location.pathname);
     } else if (hasCompletedOnboarding && hasCompletedProfile) {
@@ -143,11 +145,11 @@ export default function CotonNoirApp() {
   };
   
   const shouldShowNavigation = () => {
-    return !['splash-init', 'onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'wash-day-tracker', 'full-journal', 'rewards', 'detailed-routine', 'box-content', 'profile'].includes(currentScreen);
+    return !['splash-init', 'welcome', 'onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'wash-day-tracker', 'full-journal', 'rewards', 'detailed-routine', 'box-content', 'profile'].includes(currentScreen);
   };
   
   const shouldShowHeader = () => {
-    return !['splash-init', 'onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'wash-day-tracker', 'full-journal', 'rewards', 'detailed-routine', 'box-content', 'profile'].includes(currentScreen);
+    return !['splash-init', 'welcome', 'onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'wash-day-tracker', 'full-journal', 'rewards', 'detailed-routine', 'box-content', 'profile'].includes(currentScreen);
   };
   
   const renderScreen = () => {
@@ -156,6 +158,13 @@ export default function CotonNoirApp() {
         return (
           <SplashInitScreen
             onContinue={() => handleNavigate('onboarding')}
+          />
+        );
+
+      case 'welcome':
+        return (
+          <WelcomeScreen
+            onContinue={() => handleNavigate('splash-init')}
           />
         );
 
