@@ -53,6 +53,11 @@ interface AppState {
   journalEntries: JournalEntry[];
   redeems: Redeem[];
   plans: Plan[];
+  level: 'Bronze' | 'Argent' | 'Or' | 'Platine' | 'Diamant';
+  streak: number;
+  lastActiveDate: string;
+  badges: string[];
+  profileCompletionBonus: boolean;
 }
 
 type AppAction = 
@@ -67,10 +72,13 @@ type AppAction =
   | { type: 'UPDATE_DETAILED_HAIR_PROFILE'; profile: Partial<DetailedHairProfile> }
   | { type: 'ADD_JOURNAL_ENTRY'; entry: JournalEntry }
   | { type: 'ADD_REDEEM'; redeem: Redeem }
+  | { type: 'UPDATE_STREAK' }
+  | { type: 'ADD_BADGE'; badge: string }
+  | { type: 'AWARD_PROFILE_BONUS' }
   | { type: 'LOAD_STATE'; state: Partial<AppState> };
 
 const initialState: AppState = {
-  coins: 100,
+  coins: 0, // Start at 0, bonus awarded when profile completed
   premium: false,
   boxUnlocked: false,
   darkMode: false,
@@ -104,13 +112,27 @@ const initialState: AppState = {
       price: '7,99€/mois',
       perks: ['CC ×2', 'Box illimitée', '-20% partenaires', 'Tutos exclusifs']
     }
-  ]
+  ],
+  level: 'Bronze',
+  streak: 0,
+  lastActiveDate: new Date().toISOString().split('T')[0],
+  badges: [],
+  profileCompletionBonus: false
 };
 
 function appReducer(state: AppState, action: AppAction): AppState {
   switch (action.type) {
     case 'ADD_COINS':
-      return { ...state, coins: state.coins + action.amount };
+      const newCoins = state.coins + action.amount;
+      // Calculate new level based on coins
+      let newLevel = state.level;
+      if (newCoins >= 10000) newLevel = 'Diamant';
+      else if (newCoins >= 5000) newLevel = 'Platine';
+      else if (newCoins >= 2500) newLevel = 'Or';
+      else if (newCoins >= 1000) newLevel = 'Argent';
+      else if (newCoins >= 500) newLevel = 'Bronze';
+      
+      return { ...state, coins: newCoins, level: newLevel };
     case 'SPEND_COINS':
       return { ...state, coins: Math.max(0, state.coins - action.amount) };
     case 'SET_PREMIUM':
@@ -125,13 +147,58 @@ function appReducer(state: AppState, action: AppAction): AppState {
       const newDays = Math.min(30, state.challenge.days + 1);
       return { ...state, challenge: { ...state.challenge, days: newDays } };
     case 'UPDATE_HAIR_PROFILE':
-      return { ...state, hairProfile: { ...state.hairProfile, ...action.profile } };
+      const updatedProfile = { ...state.hairProfile, ...action.profile };
+      // Award profile completion bonus if profile is completed for the first time
+      let bonusCoins = 0;
+      if (updatedProfile.isCompleted && !state.profileCompletionBonus) {
+        bonusCoins = 100; // Welcome bonus
+      }
+      return { 
+        ...state, 
+        hairProfile: updatedProfile,
+        coins: state.coins + bonusCoins,
+        profileCompletionBonus: updatedProfile.isCompleted ? true : state.profileCompletionBonus
+      };
     case 'UPDATE_DETAILED_HAIR_PROFILE':
       return { ...state, detailedHairProfile: { ...state.detailedHairProfile, ...action.profile } };
     case 'ADD_JOURNAL_ENTRY':
       return { ...state, journalEntries: [action.entry, ...state.journalEntries] };
     case 'ADD_REDEEM':
       return { ...state, redeems: [action.redeem, ...state.redeems] };
+    case 'UPDATE_STREAK':
+      const today = new Date().toISOString().split('T')[0];
+      const lastActive = new Date(state.lastActiveDate);
+      const todayDate = new Date(today);
+      const diffTime = todayDate.getTime() - lastActive.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      
+      let newStreak = state.streak;
+      let streakBonus = 0;
+      
+      if (diffDays === 1) {
+        // Consecutive day
+        newStreak = state.streak + 1;
+        if (newStreak === 7) {
+          streakBonus = 100; // 7 day streak bonus
+        }
+      } else if (diffDays > 1) {
+        // Streak broken
+        newStreak = 1;
+      }
+      
+      return { 
+        ...state, 
+        streak: newStreak, 
+        lastActiveDate: today,
+        coins: state.coins + streakBonus
+      };
+    case 'ADD_BADGE':
+      if (!state.badges.includes(action.badge)) {
+        return { ...state, badges: [...state.badges, action.badge] };
+      }
+      return state;
+    case 'AWARD_PROFILE_BONUS':
+      return { ...state, coins: state.coins + 100, profileCompletionBonus: true };
     case 'LOAD_STATE':
       return { ...state, ...action.state };
     default:
@@ -158,6 +225,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         console.error('Failed to load saved state:', error);
       }
     }
+    
+    // Update streak on app open
+    dispatch({ type: 'UPDATE_STREAK' });
   }, []);
 
   // Save state to localStorage on changes

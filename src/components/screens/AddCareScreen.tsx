@@ -30,8 +30,8 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
       return;
     }
     
-    // Calculate reward
-    const baseReward = type === 'soin' ? 10 : 15;
+    // Calculate reward based on new barème
+    const baseReward = type === 'soin' ? 20 : 50; // Soin: 20 CC, Routine: 50 CC
     const reward = state.premium ? baseReward * 2 : baseReward;
     
     // Add journal entry
@@ -81,7 +81,7 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
               onClick={() => setType('soin')}
               className="flex-1"
             >
-              Soin (+{state.premium ? '20' : '10'} CC)
+              Soin (+{state.premium ? '40' : '20'} CC)
             </Button>
             <Button
               variant={type === 'routine' ? 'hero' : 'outline'}
@@ -89,7 +89,7 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
               onClick={() => setType('routine')}
               className="flex-1"
             >
-              Routine (+{state.premium ? '30' : '15'} CC)
+              Routine (+{state.premium ? '100' : '50'} CC)
             </Button>
           </div>
         </CotonCard>

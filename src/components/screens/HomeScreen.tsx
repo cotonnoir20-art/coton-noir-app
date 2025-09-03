@@ -248,30 +248,30 @@ export function HomeScreen({
         
         <div className="flex items-center gap-2">
           {(() => {
-            const currentCoins = state.coins;
-            const levels = [
-              { name: 'Baby Hair', min: 0, max: 500, emoji: '✨', color: '#F7B6D2' },
-              { name: 'Curlie Cutie', min: 501, max: 1000, emoji: '💖', color: '#C9A7EB' },
-              { name: 'Afro Queenie', min: 1001, max: 2500, emoji: '👑', color: '#FFD166' },
-              { name: 'Glow Fro', min: 2501, max: 5000, emoji: '🌟', color: '#FEE440' },
-              { name: 'Crown Vibes', min: 5001, max: 7500, emoji: '👑💕', color: '#FF6F91' },
-              { name: 'Slay Braidy', min: 7501, max: 10000, emoji: '🧵🔥', color: '#06D6A0' },
-              { name: 'Kinky Diva', min: 10001, max: 15000, emoji: '💃🏾', color: '#9B5DE5' },
-              { name: 'Twist & Shine', min: 15001, max: 20000, emoji: '💫', color: '#FF9770' },
-              { name: 'Wash Day Goddess', min: 20001, max: 30000, emoji: '🛁👸🏾', color: '#26547C' },
-              { name: 'Afrolicious Icon', min: 30001, max: Infinity, emoji: '🔥💎', color: '#FFD700' }
-            ];
-            
-            const currentLevel = levels.find(level => currentCoins >= level.min && currentCoins <= level.max) || levels[0];
+            const currentLevel = state.level;
+            const levelColors = {
+              'Bronze': '#CD7F32',
+              'Argent': '#C0C0C0', 
+              'Or': '#FFD700',
+              'Platine': '#E5E4E2',
+              'Diamant': '#B9F2FF'
+            };
+            const levelEmojis = {
+              'Bronze': '🥉',
+              'Argent': '🥈',
+              'Or': '🥇',
+              'Platine': '⭐',
+              'Diamant': '💎'
+            };
             
             return (
               <>
                 <div 
                   className="w-3 h-3 rounded-full" 
-                  style={{ backgroundColor: currentLevel.color }}
+                  style={{ backgroundColor: levelColors[currentLevel] }}
                 ></div>
                 <span className="font-poppins font-medium text-coton-black">
-                  {currentLevel.name} {currentLevel.emoji}
+                  {levelEmojis[currentLevel]} {currentLevel}
                 </span>
               </>
             );
@@ -281,15 +281,18 @@ export function HomeScreen({
         <p className="text-sm font-roboto text-muted-foreground">
           Encore <span className="font-medium text-coton-black">{(() => {
             const currentCoins = state.coins;
-            const levelThresholds = [501, 1001, 2501, 5001, 7501, 10001, 15001, 20001, 30001];
-            const nextThreshold = levelThresholds.find(threshold => threshold > currentCoins);
+            const levelThresholds = [1000, 2500, 5000, 10000];
+            const currentLevel = state.level;
             
-            if (!nextThreshold) {
-              return 0; // Niveau maximum atteint
-            }
+            if (currentLevel === 'Diamant') return 0;
             
-            const coinsNeeded = nextThreshold - currentCoins;
-            return coinsNeeded;
+            let nextThreshold;
+            if (currentLevel === 'Bronze') nextThreshold = 1000;
+            else if (currentLevel === 'Argent') nextThreshold = 2500;
+            else if (currentLevel === 'Or') nextThreshold = 5000;
+            else if (currentLevel === 'Platine') nextThreshold = 10000;
+            
+            return nextThreshold ? (nextThreshold - currentCoins) : 0;
           })()} CotonCoins 🪙</span> avant ton prochain palier ! 🔥
         </p>
         
