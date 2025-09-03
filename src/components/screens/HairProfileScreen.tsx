@@ -71,32 +71,123 @@ export function HairProfileScreen({
     setSelectedObjectives(prev => prev.includes(objective) ? prev.filter(obj => obj !== objective) : [...prev, objective]);
   };
 
-  // Generate personalized routine based on profile
+  // Generate personalized routine based on detailed profile
   const personalizedRoutine = useMemo(() => {
-    const baseSteps = ['Pré-poo', 'Shampoing hydratant', 'Masque', 'Leave-in', 'Scellage'];
-    if (!selectedHairType) return baseSteps;
-    const routineSteps = [...baseSteps];
-
-    // Adapt based on hair type
-    if (selectedHairType === 'crepu') {
-      routineSteps.splice(1, 0, 'Démêlage en douceur');
+    if (!state.detailedHairProfile.isCompleted) return [];
+    
+    const { hairType, porosity, objective, problems, needs } = state.detailedHairProfile;
+    let steps = [];
+    
+    // Base routine according to hair type AND porosity
+    if (hairType === '3C') {
+      if (porosity === 'faible') {
+        steps = ['Pré-poo aux huiles légères', 'Shampoing sans sulfates', 'Masque hydratant léger', 'Leave-in crémeux', 'Gel définition pour boucles'];
+      } else if (porosity === 'moyenne') {
+        steps = ['Pré-poo nourrissant', 'Co-wash hydratant', 'Masque protéines/hydratation', 'Crème leave-in', 'Gel ou mousse définition'];
+      } else {
+        steps = ['Pré-poo riche en huiles', 'Co-wash crémeux', 'Masque hydratant intensif', 'Crème riche', 'Gel épais ou crème coiffante'];
+      }
+    } else if (hairType === '4A') {
+      if (porosity === 'faible') {
+        steps = ['Pré-poo léger', 'Shampoing clarifiant doux', 'Masque équilibré', 'Leave-in fluide', 'Crème définition légère'];
+      } else if (porosity === 'moyenne') {
+        steps = ['Pré-poo aux beurres', 'Shampoing hydratant', 'Masque nourrissant', 'Leave-in crémeux', 'Beurre de karité + huile'];
+      } else {
+        steps = ['Pré-poo riche', 'Co-wash ou shampoing doux', 'Masque réparateur intensif', 'Crème épaisse', 'Scellage beurre + huile'];
+      }
+    } else if (hairType === '4B') {
+      if (porosity === 'faible') {
+        steps = ['Massage cuir chevelu', 'Shampoing hydratant', 'Masque protéiné léger', 'Leave-in riche', 'Huile scellante'];
+      } else if (porosity === 'moyenne') {
+        steps = ['Pré-poo nourrissant', 'Co-wash crémeux', 'Masque hydratant profond', 'Crème leave-in épaisse', 'Beurre de karité'];
+      } else {
+        steps = ['Bain d\'huiles', 'Co-wash uniquement', 'Masque ultra-nourrissant', 'Crème très riche', 'Scellage beurre épais'];
+      }
+    } else if (hairType === '4C') {
+      if (porosity === 'faible') {
+        steps = ['Pré-poo prolongé', 'Shampoing très doux', 'Masque protéiné doux', 'Crème leave-in riche', 'Huile + beurre léger'];
+      } else if (porosity === 'moyenne') {
+        steps = ['Bain d\'huiles chaud', 'Co-wash exclusivement', 'Masque réparateur', 'Crème épaisse', 'Méthode LOC (leave-in + huile + crème)'];
+      } else {
+        steps = ['Pré-poo overnight', 'Co-wash doux', 'Masque ultra-hydratant', 'Crème très épaisse', 'Méthode LCO (leave-in + crème + huile)'];
+      }
     }
-    if (selectedHairType === 'locks') {
-      routineSteps[1] = 'Shampoing clarifiant doux';
+    
+    // Adapt based on objective
+    if (objective === 'hydratation') {
+      steps.splice(2, 1, 'Double masque hydratant');
+      if (!steps.some(s => s.includes('hydrat'))) {
+        steps.push('Spray hydratant quotidien');
+      }
+    } else if (objective === 'definition') {
+      steps.push('Technique plopping après application');
+      steps = steps.map(s => s.includes('Gel') ? 'Gel définition forte tenue' : s);
+    } else if (objective === 'pousse') {
+      steps.unshift('Massage stimulant cuir chevelu');
+      if (!steps.some(s => s.includes('protéin'))) {
+        steps.splice(-1, 0, 'Traitement fortifiant');
+      }
+    } else if (objective === 'reparation') {
+      steps.splice(1, 0, 'Traitement protéiné réparateur');
+      steps = steps.map(s => s.includes('Masque') ? 'Masque réparateur intensif' : s);
     }
-
-    // Adapt based on needs
-    if (selectedNeeds.includes('hydratation')) {
-      routineSteps.splice(-1, 0, 'Brumisateur hydratant');
+    
+    // Adapt based on problems
+    if (problems.includes('secheresse')) {
+      steps = steps.map(s => s.includes('Masque') ? 'Masque hydratant ultra-nourrissant' : s);
+      steps.push('Brumisateur hydratant quotidien');
     }
-    if (selectedNeeds.includes('definition')) {
-      routineSteps.splice(-1, 0, 'Crème coiffante');
+    if (problems.includes('casse')) {
+      steps.splice(1, 0, 'Traitement protéiné fortifiant');
+      steps.push('Soin anti-casse sur pointes');
     }
-    if (selectedNeeds.includes('croissance')) {
-      routineSteps.unshift('Massage du cuir chevelu');
+    if (problems.includes('frisottis')) {
+      steps.push('Sérum anti-frisottis sans rinçage');
+      steps = steps.map(s => s.includes('Leave-in') ? 'Leave-in lissant anti-frisottis' : s);
     }
-    return routineSteps;
-  }, [selectedHairType, selectedNeeds]);
+    if (problems.includes('demelage')) {
+      steps.splice(1, 0, 'Conditioner démêlant');
+      steps.push('Huile démêlante avant coiffage');
+    }
+    if (problems.includes('cuir_chevelu')) {
+      steps.unshift('Massage apaisant cuir chevelu');
+      steps.splice(1, 0, 'Shampoing apaisant sans sulfates');
+    }
+    if (problems.includes('chute')) {
+      steps.unshift('Massage anti-chute stimulant');
+      steps.push('Sérum fortifiant cuir chevelu');
+    }
+    
+    // Adapt based on specific needs
+    if (needs.includes('hydratation')) {
+      if (!steps.some(s => s.includes('hydrat'))) {
+        steps.splice(-1, 0, 'Masque hydratant hebdomadaire');
+      }
+    }
+    if (needs.includes('definition')) {
+      steps.push('Crème définition + gel fixation');
+      steps.push('Technique scrunching');
+    }
+    if (needs.includes('brillance')) {
+      steps.push('Sérum brillance finition');
+      steps.push('Rinçage eau froide final');
+    }
+    if (needs.includes('pousse')) {
+      if (!steps.some(s => s.includes('Massage'))) {
+        steps.unshift('Massage stimulant 5min');
+      }
+      steps.push('Soin fortifiant pointes');
+    }
+    if (needs.includes('reparation')) {
+      steps.splice(2, 0, 'Masque protéines/hydratation alterné');
+    }
+    if (needs.includes('protection')) {
+      steps.push('Protection thermique si chaleur');
+      steps.push('Satin/soie pour dormir');
+    }
+    
+    return steps.slice(0, 6); // Allow up to 6 steps for comprehensive care
+  }, [state.detailedHairProfile]);
   const handleValidateRoutine = () => {
     if (!selectedHairType) {
       toast({
@@ -232,37 +323,58 @@ export function HairProfileScreen({
       </div>
 
       {/* Personalized Routine Section */}
-      {selectedHairType && <div className="space-y-4">
-          <div>
-            <h3 className="font-poppins font-semibold text-lg text-coton-black mb-2">
-              Ma routine personnalisée ✨
-            </h3>
-            <p className="text-sm font-roboto text-muted-foreground mb-4">
-              Routine adaptée à ton profil capillaire
-            </p>
-          </div>
+      {state.detailedHairProfile.isCompleted && personalizedRoutine.length > 0 && (
+        <div className="space-y-4">
+          <h3 className="font-poppins font-semibold text-lg">Ma routine recommandée ✨</h3>
           
-          <CotonCard className="p-6 bg-gradient-to-r from-coton-rose/10 to-purple-50">
+          <CotonCard className="p-6 bg-gradient-to-r from-coton-rose/10 to-purple-50 space-y-4">
+            {/* Profile Summary */}
+            <div className="flex flex-wrap gap-2 pb-4 border-b border-coton-rose/20">
+              <span className="px-3 py-1 bg-white/70 rounded-full text-sm font-roboto">
+                {state.detailedHairProfile.hairType}
+              </span>
+              <span className="px-3 py-1 bg-white/70 rounded-full text-sm font-roboto">
+                Porosité {state.detailedHairProfile.porosity}
+              </span>
+              <span className="px-3 py-1 bg-white/70 rounded-full text-sm font-roboto">
+                Objectif: {state.detailedHairProfile.objective}
+              </span>
+            </div>
+            
+            {/* Routine Steps */}
             <div className="space-y-3">
-              {personalizedRoutine.map((step, index) => <div key={index} className="flex items-center gap-3 p-3 rounded-lg bg-white/60">
+              {personalizedRoutine.map((step, index) => (
+                <div key={index} className="flex items-center gap-3 p-3 rounded-lg bg-white/60">
                   <div className="w-8 h-8 rounded-full bg-coton-rose flex items-center justify-center text-white font-bold text-sm">
                     {index + 1}
                   </div>
                   <span className="font-roboto text-sm text-coton-black">
                     {step}
                   </span>
-                </div>)}
+                </div>
+              ))}
             </div>
             
-            <div className="mt-6 pt-4 border-t border-coton-rose/20">
-              <Button variant={routineValidated ? "outline" : "hero"} size="sm" onClick={handleValidateRoutine} disabled={routineValidated} className="w-full">
-                {routineValidated ? <>
+            {/* Validation Button */}
+            <div className="pt-4 border-t border-coton-rose/20">
+              <Button 
+                variant={routineValidated ? "outline" : "hero"} 
+                size="sm" 
+                onClick={handleValidateRoutine}
+                disabled={routineValidated}
+                className="w-full"
+              >
+                {routineValidated ? (
+                  <>
                     <Check size={16} className="mr-2" />
                     Routine validée ✓
-                  </> : <>
+                  </>
+                ) : (
+                  <>
                     <Sparkles size={16} className="mr-2" />
                     ✅ Routine validée (+10 CC)
-                  </>}
+                  </>
+                )}
               </Button>
               
               <div className="mt-3 p-3 rounded-lg bg-gradient-to-r from-yellow-50 to-orange-50">
@@ -272,7 +384,8 @@ export function HairProfileScreen({
               </div>
             </div>
           </CotonCard>
-        </div>}
+        </div>
+      )}
 
       {/* Save Button */}
       <div className="pt-4">
