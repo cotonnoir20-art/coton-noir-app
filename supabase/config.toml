@@ -1,1 +1,4 @@
 project_id = "nqbmwjhsznbsnsluypvl"
+
+[functions.generate-hair-tips]
+verify_jwt = false

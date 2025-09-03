@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { ArrowLeft, Check, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CotonCard } from '@/components/ui/coton-card';
+import { AIHairTip } from '@/components/ui/ai-hair-tip';
 import { useApp } from '@/contexts/AppContext';
 import { useToast } from '@/hooks/use-toast';
 interface HairProfileScreenProps {
@@ -437,14 +438,26 @@ export function HairProfileScreen({
                   <p className="font-poppins font-semibold text-sm text-coton-black">
                     {type.label}
                   </p>
-                  <p className="font-roboto text-xs text-muted-foreground leading-tight">
-                    {type.description}
-                  </p>
-                </div>
-              </div>
-            </CotonCard>)}
-        </div>
-      </div>
+                   <p className="font-roboto text-xs text-muted-foreground leading-tight">
+                     {type.description}
+                   </p>
+                 </div>
+               </div>
+             </CotonCard>)}
+         </div>
+         
+         {/* AI Tip based on selected hair type */}
+         {selectedHairType && (
+           <div className="mt-4">
+             <AIHairTip 
+               tipType="styling" 
+               context={`conseils spécifiques pour cheveux ${selectedHairType}`}
+               variant="compact"
+               showRefresh={true}
+             />
+           </div>
+         )}
+       </div>
 
       {/* Needs Selection */}
       <div className="space-y-4">

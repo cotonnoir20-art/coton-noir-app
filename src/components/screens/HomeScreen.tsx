@@ -5,6 +5,7 @@ import { CotonCard } from '@/components/ui/coton-card';
 import { ProgressBar } from '@/components/ui/progress-bar';
 import { CoinAnimation, useCoinAnimation } from '@/components/ui/coin-animation';
 import { BadgeNotification, BadgeDisplay, useBadgeSystem } from '@/components/ui/badge-system';
+import { AIHairTip } from '@/components/ui/ai-hair-tip';
 import { useApp, Badge as BadgeType, DailyChallenge } from '@/contexts/AppContext';
 import { motion, AnimatePresence } from 'framer-motion';
 interface HomeScreenProps {
@@ -280,6 +281,16 @@ export function HomeScreen({
             </Button>
           </div>
         </CotonCard>}
+
+      {/* AI Hair Tip for users without profile */}
+      {!state.detailedHairProfile.isCompleted && (
+        <AIHairTip 
+          tipType="general" 
+          context="conseil général pour débuter dans les soins capillaires"
+          variant="featured"
+          showRefresh={true}
+        />
+      )}
 
       {/* Défis quotidiens */}
       {todaysChallenges.length > 0 && (
@@ -566,54 +577,14 @@ export function HomeScreen({
               )}
             </div>
             
-            <div className="mt-3 p-4 rounded-lg bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-5 h-5 bg-amber-400 rounded-full flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">💡</span>
-                </div>
-                <h4 className="font-poppins font-semibold text-amber-800 text-sm">CotonTips</h4>
-              </div>
-              <p className="text-xs font-roboto text-amber-900 leading-relaxed">
-                {(() => {
-                  const { hairType, porosity, objective, problems, needs } = state.detailedHairProfile;
-                  
-                  // Priority tips based on problems
-                  if (problems.includes('secheresse')) {
-                    return "Astuce hydratation : Scelle toujours tes cheveux avec une huile ou un beurre après ton leave-in pour maintenir l'hydratation plus longtemps 💧";
-                  }
-                  if (problems.includes('casse')) {
-                    return "Astuce anti-casse : Dors avec une taie d'oreiller en satin ou soie pour réduire les frictions et protéger tes cheveux 🛡️";
-                  }
-                  if (problems.includes('demelage')) {
-                    return "Astuce démêlage : Démêle toujours sur cheveux humides avec un conditioner et commence par les pointes vers les racines ✨";
-                  }
-                  if (problems.includes('frisottis')) {
-                    return "Astuce anti-frisottis : Évite de toucher tes cheveux une fois qu'ils sèchent et utilise un diffuseur à basse température 🌀";
-                  }
-                  
-                  // Tips based on hair type + porosity combination
-                  if (hairType === '4C' && porosity === 'haute') {
-                    return "Spécial 4C porosité haute : Privilégie la méthode LCO (Leave-in + Crème + Huile) pour une hydratation optimale 🔥";
-                  }
-                  if (hairType === '3C' && porosity === 'faible') {
-                    return "Spécial 3C porosité faible : Utilise des produits légers et évite les protéines trop souvent pour ne pas alourdir tes boucles 🌸";
-                  }
-                  
-                  // Tips based on objective
-                  if (objective === 'pousse') {
-                    return "Astuce pousse : Masse ton cuir chevelu 5 min par jour avec une huile stimulante comme l'huile de ricin 🌱";
-                  }
-                  if (objective === 'definition') {
-                    return "Astuce définition : Applique tes produits coiffants sur cheveux trempés et utilise la technique du 'praying hands' 🙏";
-                  }
-                  if (objective === 'hydratation') {
-                    return "Astuce hydratation : Bois au moins 1,5L d'eau par jour - l'hydratation vient aussi de l'intérieur ! 💦";
-                  }
-                  
-                  // Default tip
-                  return "Astuce générale : La régularité est clé ! Mieux vaut une routine simple faite constamment qu'une routine complexe abandonnée 🎯";
-                })()}
-              </p>
+            {/* AI-Generated Hair Tip */}
+            <div className="mt-3">
+              <AIHairTip 
+                tipType="routine" 
+                context="routine personnalisée basée sur le profil capillaire"
+                variant="default"
+                showRefresh={true}
+              />
             </div>
           </CotonCard>
         </div>
