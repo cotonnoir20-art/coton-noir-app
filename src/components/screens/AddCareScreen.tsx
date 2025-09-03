@@ -77,7 +77,7 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
             <h3 className="font-poppins font-semibold text-sm text-coton-black">💡 Quelle différence ?</h3>
             <div className="space-y-2 text-sm text-coton-black/80">
               <div>
-                <span className="font-medium">🌿 Soin :</span> Traitement spécifique et complet (masque, huile, traitement profond...)
+                <span className="font-medium">🌿 Soin :</span> Traitement spécifique et complet (shampoing, masque, huile, traitement profond...)
               </div>
               <div>
                 <span className="font-medium">✨ Routine :</span> Gestes quotidiens simples (LCO, LOC, démêlage, coiffage...)
