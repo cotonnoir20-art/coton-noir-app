@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, Package, BookOpen, Video } from 'lucide-react';
+import { Sparkles, Gift, Notebook, Play } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface MobileNavProps {
@@ -8,10 +8,10 @@ interface MobileNavProps {
 }
 
 const tabs = [
-  { id: 'home', icon: Home, label: 'Accueil' },
-  { id: 'box', icon: Package, label: 'Box' },
-  { id: 'journal', icon: BookOpen, label: 'Journal' },
-  { id: 'tutorials', icon: Video, label: 'Tutos' },
+  { id: 'home', icon: Sparkles, label: 'Accueil' },
+  { id: 'box', icon: Gift, label: 'Box' },
+  { id: 'journal', icon: Notebook, label: 'Journal' },
+  { id: 'tutorials', icon: Play, label: 'Tutos' },
 ];
 
 export function MobileNav({ activeTab, onTabChange }: MobileNavProps) {
@@ -27,19 +27,36 @@ export function MobileNav({ activeTab, onTabChange }: MobileNavProps) {
               key={tab.id}
               onClick={() => onTabChange(tab.id)}
               className={cn(
-                "flex flex-col items-center gap-1 p-3 rounded-lg transition-all duration-300",
+                "flex flex-col items-center gap-1 p-3 rounded-lg transition-all duration-300 relative",
                 isActive 
-                  ? "text-coton-black bg-coton-rose/20" 
-                  : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
+                  ? "text-coton-rose bg-gradient-to-t from-coton-rose/20 to-coton-rose/10 shadow-soft" 
+                  : "text-muted-foreground hover:text-coton-rose hover:bg-coton-rose/5"
               )}
             >
-              <Icon size={20} className={cn(isActive && "text-coton-black")} />
+              <div className={cn(
+                "p-1 rounded-full transition-all duration-300",
+                isActive && "bg-coton-rose/20 ring-2 ring-coton-rose/30"
+              )}>
+                <Icon 
+                  size={20} 
+                  className={cn(
+                    "transition-all duration-300",
+                    isActive ? "text-coton-rose drop-shadow-sm" : ""
+                  )} 
+                />
+              </div>
               <span className={cn(
-                "text-xs font-roboto",
-                isActive ? "text-coton-black font-medium" : "text-muted-foreground"
+                "text-xs font-roboto transition-all duration-300",
+                isActive 
+                  ? "text-coton-rose font-semibold" 
+                  : "text-muted-foreground"
               )}>
                 {tab.label}
               </span>
+              {/* Active indicator dot */}
+              {isActive && (
+                <div className="absolute -top-1 w-1 h-1 bg-coton-rose rounded-full shadow-sm animate-pulse" />
+              )}
             </button>
           );
         })}
