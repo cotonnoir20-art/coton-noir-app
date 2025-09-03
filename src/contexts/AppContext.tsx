@@ -61,6 +61,24 @@ export interface GrowthGoal {
   isActive: boolean;
 }
 
+export interface WashDayEntry {
+  id: string;
+  date: string;
+  type: 'wash' | 'co-wash' | 'clarifying' | 'deep-clean';
+  products: string[];
+  hairCondition: 'excellent' | 'good' | 'normal' | 'dry' | 'damaged';
+  notes: string;
+  nextWashDate?: string;
+  timestamp: number;
+}
+
+export interface WashDaySettings {
+  frequency: number; // en jours
+  preferredDay: string; // 'monday', 'tuesday', etc.
+  reminderEnabled: boolean;
+  autoSchedule: boolean;
+}
+
 interface AppState {
   coins: number;
   premium: boolean;
@@ -79,6 +97,8 @@ interface AppState {
   profileCompletionBonus: boolean;
   hairMeasurements: HairMeasurement[];
   growthGoal: GrowthGoal | null;
+  washDayEntries: WashDayEntry[];
+  washDaySettings: WashDaySettings;
 }
 
 type AppAction = 
@@ -99,6 +119,8 @@ type AppAction =
   | { type: 'AWARD_PROFILE_BONUS' }
   | { type: 'ADD_MEASUREMENT'; measurement: HairMeasurement }
   | { type: 'SET_GROWTH_GOAL'; goal: GrowthGoal }
+  | { type: 'ADD_WASH_DAY_ENTRY'; entry: WashDayEntry }
+  | { type: 'UPDATE_WASH_DAY_SETTINGS'; settings: Partial<WashDaySettings> }
   | { type: 'LOAD_STATE'; state: Partial<AppState> };
 
 const initialState: AppState = {
@@ -143,7 +165,14 @@ const initialState: AppState = {
   badges: [],
   profileCompletionBonus: false,
   hairMeasurements: [],
-  growthGoal: null
+  growthGoal: null,
+  washDayEntries: [],
+  washDaySettings: {
+    frequency: 7, // Par défaut 1x/semaine
+    preferredDay: 'sunday',
+    reminderEnabled: true,
+    autoSchedule: true
+  }
 };
 
 function appReducer(state: AppState, action: AppAction): AppState {
@@ -269,6 +298,10 @@ function appReducer(state: AppState, action: AppAction): AppState {
       return { ...state, hairMeasurements: [action.measurement, ...state.hairMeasurements] };
     case 'SET_GROWTH_GOAL':
       return { ...state, growthGoal: action.goal };
+    case 'ADD_WASH_DAY_ENTRY':
+      return { ...state, washDayEntries: [action.entry, ...state.washDayEntries] };
+    case 'UPDATE_WASH_DAY_SETTINGS':
+      return { ...state, washDaySettings: { ...state.washDaySettings, ...action.settings } };
     case 'LOAD_STATE':
       return { ...state, ...action.state };
     default:
