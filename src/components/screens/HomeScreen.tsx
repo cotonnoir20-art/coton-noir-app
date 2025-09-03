@@ -287,7 +287,7 @@ export function HomeScreen({
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="space-y-3"
+          className="space-y-3 mt-[20px]"
         >
           <h3 className="font-poppins font-semibold text-lg flex items-center gap-2">
             <Trophy className="text-yellow-500" size={20} />
