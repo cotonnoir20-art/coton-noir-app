@@ -12,7 +12,6 @@
     --coton-black: 0 0% 11.4%; /* #1d1d1b */
     --coton-rose: 351 45% 85%; /* #e8c1c3 */
     --coton-beige: 35 70% 94%; /* #fdf1e3 */
-    --coton-light-rose: 348 42% 86%; /* #dda2a5 */
     
     /* Background system */
     --background: var(--coton-beige);

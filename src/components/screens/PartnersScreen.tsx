@@ -18,34 +18,34 @@ interface Partner {
 
 const partners: Partner[] = [
   {
-    id: 'box-digitale',
-    name: 'Box Digitale Coton Noir',
-    description: 'Box mensuelle produits cheveux crépus',
+    id: 'astuces-lco',
+    name: 'Astuces LCO',
+    description: 'Guide exclusif des soins pour cheveux crépus',
+    cost: 30,
+    premiumCost: 30,
+    discount: 'Ebook gratuit',
+    premiumDiscount: 'Ebook gratuit',
+    type: 'Ebook'
+  },
+  {
+    id: 'naturelle',
+    name: 'NaturelELLE',
+    description: 'Produits naturels pour cheveux afro',
     cost: 50,
     premiumCost: 40,
-    discount: '-15%',
-    premiumDiscount: '-15%',
-    type: 'COTON15'
-  },
-  {
-    id: 'salon-afro-sisters',
-    name: 'Salon Afro Sisters',
-    description: 'Salon spécialisé cheveux afro et crépus',
-    cost: 40,
-    premiumCost: 30,
     discount: '-10%',
-    premiumDiscount: '-10%',
-    type: 'SISTA10'
+    premiumDiscount: '-15%',
+    type: 'Boutique'
   },
   {
-    id: 'marque-baobab',
-    name: 'Marque Baobab+',
-    description: 'Cosmétiques naturels à base de baobab',
+    id: 'cantu',
+    name: 'Cantu',
+    description: 'Marque spécialisée cheveux bouclés et crépus',
     cost: 60,
-    premiumCost: 45,
-    discount: '-12%',
-    premiumDiscount: '-12%',
-    type: 'BAO12'
+    premiumCost: 50,
+    discount: '-15%',
+    premiumDiscount: '-20%',
+    type: 'Marque'
   }
 ];
 
@@ -92,9 +92,9 @@ export function PartnersScreen({ onNavigate }: PartnersScreenProps) {
     <div className="p-4 pb-20 space-y-6">
       {/* Header */}
       <div className="text-center space-y-2">
-        <h2 className="font-poppins font-bold text-2xl text-foreground">Avantages & Partenaires</h2>
+        <h2 className="font-poppins font-bold text-2xl">Nos Partenaires</h2>
         <p className="font-roboto text-muted-foreground">
-          Donner une valeur directe et tangible → économies + découvertes
+          Utilisez vos CotonCoins pour obtenir des avantages exclusifs
         </p>
       </div>
       
@@ -132,22 +132,22 @@ export function PartnersScreen({ onNavigate }: PartnersScreenProps) {
           const usedRedeem = state.redeems.find(r => r.partnerId.includes(partner.name));
           
           return (
-            <CotonCard key={partner.id} className="p-6 space-y-4 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl">
+            <CotonCard key={partner.id} className="p-6 space-y-4">
               <div className="flex items-start justify-between">
                 <div className="flex items-start gap-3">
                   <div className="p-2 bg-coton-rose rounded-lg">
                     <Store className="text-coton-black" size={20} />
                   </div>
                   <div>
-                    <h3 className="font-poppins font-semibold text-lg text-foreground">
+                    <h3 className="font-poppins font-semibold text-lg">
                       {partner.name}
                     </h3>
                     <p className="font-roboto text-muted-foreground text-sm">
                       {partner.description}
                     </p>
                     <div className="flex items-center gap-2 mt-1">
-                      <span className="bg-primary/20 text-primary px-2 py-1 rounded-pill text-xs font-roboto">
-                        Code: {partner.type}
+                      <span className="bg-coton-rose/30 text-coton-black px-2 py-1 rounded-pill text-xs font-roboto">
+                        {partner.type}
                       </span>
                       {state.premium && (
                         <span className="bg-gradient-hero text-white px-2 py-1 rounded-pill text-xs font-roboto">
