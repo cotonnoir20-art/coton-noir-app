@@ -21,6 +21,7 @@ import { PaymentScreen } from './screens/PaymentScreen';
 import { HairProfileScreen } from './screens/HairProfileScreen';
 import { GrowthTrackerScreen } from './screens/GrowthTrackerScreen';
 import { WashDayTrackerScreen } from './screens/WashDayTrackerScreen';
+import { FullJournalScreen } from './screens/FullJournalScreen';
 
 type Screen =
   | 'onboarding'
@@ -33,6 +34,7 @@ type Screen =
   | 'box'
   | 'box-content'
   | 'journal'
+  | 'full-journal'
   | 'tutorials'
   | 'partners'
   | 'community'
@@ -54,6 +56,17 @@ export default function CotonNoirApp() {
     } else if (hasCompletedOnboarding && !hasCompletedProfile) {
       setCurrentScreen('profile-onboarding');
     }
+
+    // Listen for navigation events
+    const handleNavigateEvent = (event: CustomEvent) => {
+      handleNavigate(event.detail);
+    };
+
+    window.addEventListener('navigate', handleNavigateEvent as EventListener);
+    
+    return () => {
+      window.removeEventListener('navigate', handleNavigateEvent as EventListener);
+    };
   }, []);
   
   const handleCompleteOnboarding = () => {
@@ -98,11 +111,11 @@ export default function CotonNoirApp() {
   };
   
   const shouldShowNavigation = () => {
-    return !['onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'wash-day-tracker', 'premium', 'payment', 'box-content'].includes(currentScreen);
+    return !['onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'wash-day-tracker', 'full-journal', 'premium', 'payment', 'box-content'].includes(currentScreen);
   };
   
   const shouldShowHeader = () => {
-    return !['onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'wash-day-tracker', 'premium', 'payment', 'box-content'].includes(currentScreen);
+    return !['onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'wash-day-tracker', 'full-journal', 'premium', 'payment', 'box-content'].includes(currentScreen);
   };
   
   const renderScreen = () => {
@@ -175,6 +188,13 @@ export default function CotonNoirApp() {
         
       case 'journal':
         return <JournalScreen />;
+
+      case 'full-journal':
+        return (
+          <FullJournalScreen
+            onBack={() => handleNavigate('journal')}
+          />
+        );
         
       case 'tutorials':
         return (

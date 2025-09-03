@@ -1,9 +1,13 @@
 import React from 'react';
-import { Calendar, FileText, Package } from 'lucide-react';
+import { Calendar, FileText, Package, ArrowLeft } from 'lucide-react';
 import { CotonCard } from '@/components/ui/coton-card';
 import { useApp } from '@/contexts/AppContext';
 
-export function JournalScreen() {
+interface FullJournalScreenProps {
+  onBack: () => void;
+}
+
+export function FullJournalScreen({ onBack }: FullJournalScreenProps) {
   const { state } = useApp();
   
   const formatDate = (dateString: string) => {
@@ -17,6 +21,18 @@ export function JournalScreen() {
   if (state.journalEntries.length === 0) {
     return (
       <div className="p-4 pb-20">
+        <div className="flex items-center gap-3 mb-6">
+          <button 
+            onClick={onBack}
+            className="p-2 hover:bg-muted rounded-lg transition-colors"
+          >
+            <ArrowLeft size={20} />
+          </button>
+          <h1 className="font-poppins font-bold text-xl">
+            Historique complet
+          </h1>
+        </div>
+        
         <CotonCard className="p-8 text-center space-y-4">
           <div className="text-6xl">📖</div>
           <h3 className="font-poppins font-semibold text-lg">
@@ -32,6 +48,19 @@ export function JournalScreen() {
   
   return (
     <div className="p-4 pb-20 space-y-4">
+      {/* Header */}
+      <div className="flex items-center gap-3 mb-6">
+        <button 
+          onClick={onBack}
+          className="p-2 hover:bg-muted rounded-lg transition-colors"
+        >
+          <ArrowLeft size={20} />
+        </button>
+        <h1 className="font-poppins font-bold text-xl">
+          Historique complet
+        </h1>
+      </div>
+
       {/* Header Stats */}
       <CotonCard className="p-4">
         <div className="grid grid-cols-2 gap-4 text-center">
@@ -54,23 +83,13 @@ export function JournalScreen() {
         </div>
       </CotonCard>
       
-      {/* Journal Entries */}
+      {/* All Journal Entries */}
       <div className="space-y-3">
-        <div className="flex items-center justify-between px-1">
-          <h3 className="font-poppins font-semibold text-lg">
-            Historique des soins
-          </h3>
-          {state.journalEntries.length > 3 && (
-            <button 
-              onClick={() => window.dispatchEvent(new CustomEvent('navigate', { detail: 'full-journal' }))}
-              className="text-sm font-roboto text-coton-black hover:text-coton-rose transition-colors"
-            >
-              Tout voir
-            </button>
-          )}
-        </div>
+        <h3 className="font-poppins font-semibold text-lg px-1">
+          Tous vos soins
+        </h3>
         
-        {state.journalEntries.slice(0, 3).map((entry) => (
+        {state.journalEntries.map((entry) => (
           <CotonCard key={entry.id} className="p-4">
             <div className="flex items-start gap-3">
               <div className={`p-2 rounded-lg ${
