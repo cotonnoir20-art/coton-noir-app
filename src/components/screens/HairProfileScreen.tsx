@@ -248,173 +248,153 @@ export function HairProfileScreen({
           Les 10 Niveaux Coton Noir
         </h2>
         
-        <div className="grid grid-cols-1 gap-3">
+        <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-hide">
           {/* Level 1 - Baby Hair */}
-          <div className="p-4 rounded-lg transition-all duration-300" style={{ backgroundColor: '#F7B6D2' }}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">✨</span>
-                <div>
-                  <h3 className="font-poppins font-semibold text-white">Baby Hair</h3>
-                  <p className="text-xs font-roboto text-white/90">Le tout début, la base mignonne</p>
-                </div>
+          <div className="min-w-[200px] p-3 rounded-lg transition-all duration-300" style={{ backgroundColor: '#F7B6D2' }}>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="text-lg">✨</span>
+                <h3 className="font-poppins font-semibold text-white text-sm">Baby Hair</h3>
               </div>
-              <div className="text-right">
-                <p className="text-xs font-roboto text-white/90">0 - 500 CC</p>
-                <p className="text-xs font-roboto text-white/90">Badge de bienvenue</p>
+              <p className="text-xs font-roboto text-white/90">Le tout début, la base mignonne</p>
+              <div className="text-xs font-roboto text-white/90">
+                <p>0 - 500 CC</p>
+                <p>Badge de bienvenue</p>
               </div>
             </div>
           </div>
 
           {/* Level 2 - Curlie Cutie */}
-          <div className="p-4 rounded-lg transition-all duration-300" style={{ backgroundColor: '#C9A7EB' }}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">💖</span>
-                <div>
-                  <h3 className="font-poppins font-semibold text-white">Curlie Cutie</h3>
-                  <p className="text-xs font-roboto text-white/90">Les premières boucles assumées, trop cute</p>
-                </div>
+          <div className="min-w-[200px] p-3 rounded-lg transition-all duration-300" style={{ backgroundColor: '#C9A7EB' }}>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="text-lg">💖</span>
+                <h3 className="font-poppins font-semibold text-white text-sm">Curlie Cutie</h3>
               </div>
-              <div className="text-right">
-                <p className="text-xs font-roboto text-white/90">501 - 1 000 CC</p>
-                <p className="text-xs font-roboto text-white/90">50 CC bonus + -5% partenaire</p>
+              <p className="text-xs font-roboto text-white/90">Les premières boucles assumées</p>
+              <div className="text-xs font-roboto text-white/90">
+                <p>501 - 1 000 CC</p>
+                <p>50 CC + -5% partenaire</p>
               </div>
             </div>
           </div>
 
           {/* Level 3 - Afro Queenie */}
-          <div className="p-4 rounded-lg transition-all duration-300" style={{ backgroundColor: '#FFD166' }}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">👑</span>
-                <div>
-                  <h3 className="font-poppins font-semibold text-white">Afro Queenie</h3>
-                  <p className="text-xs font-roboto text-white/90">Déjà une petite reine de son afro</p>
-                </div>
+          <div className="min-w-[200px] p-3 rounded-lg transition-all duration-300" style={{ backgroundColor: '#FFD166' }}>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="text-lg">👑</span>
+                <h3 className="font-poppins font-semibold text-white text-sm">Afro Queenie</h3>
               </div>
-              <div className="text-right">
-                <p className="text-xs font-roboto text-white/90">1 001 - 2 500 CC</p>
-                <p className="text-xs font-roboto text-white/90">1 Ebook premium offert</p>
+              <p className="text-xs font-roboto text-white/90">Petite reine de son afro</p>
+              <div className="text-xs font-roboto text-white/90">
+                <p>1 001 - 2 500 CC</p>
+                <p>1 Ebook premium</p>
               </div>
             </div>
           </div>
 
           {/* Level 4 - Glow Fro */}
-          <div className="p-4 rounded-lg transition-all duration-300" style={{ backgroundColor: '#FEE440' }}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">🌟</span>
-                <div>
-                  <h3 className="font-poppins font-semibold text-gray-800">Glow Fro</h3>
-                  <p className="text-xs font-roboto text-gray-700">Afro qui brille, confiance qui monte</p>
-                </div>
+          <div className="min-w-[200px] p-3 rounded-lg transition-all duration-300" style={{ backgroundColor: '#FEE440' }}>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="text-lg">🌟</span>
+                <h3 className="font-poppins font-semibold text-gray-800 text-sm">Glow Fro</h3>
               </div>
-              <div className="text-right">
-                <p className="text-xs font-roboto text-gray-700">2 501 - 5 000 CC</p>
-                <p className="text-xs font-roboto text-gray-700">100 CC bonus + -10% partenaire</p>
+              <p className="text-xs font-roboto text-gray-700">Afro qui brille</p>
+              <div className="text-xs font-roboto text-gray-700">
+                <p>2 501 - 5 000 CC</p>
+                <p>100 CC + -10% partenaire</p>
               </div>
             </div>
           </div>
 
           {/* Level 5 - Crown Vibes */}
-          <div className="p-4 rounded-lg transition-all duration-300" style={{ backgroundColor: '#FF6F91' }}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">👑💕</span>
-                <div>
-                  <h3 className="font-poppins font-semibold text-white">Crown Vibes</h3>
-                  <p className="text-xs font-roboto text-white/90">Ta chevelure est une vraie couronne</p>
-                </div>
+          <div className="min-w-[200px] p-3 rounded-lg transition-all duration-300" style={{ backgroundColor: '#FF6F91' }}>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="text-lg">👑💕</span>
+                <h3 className="font-poppins font-semibold text-white text-sm">Crown Vibes</h3>
               </div>
-              <div className="text-right">
-                <p className="text-xs font-roboto text-white/90">5 001 - 7 500 CC</p>
-                <p className="text-xs font-roboto text-white/90">Accès 1 box digitale exclusive</p>
+              <p className="text-xs font-roboto text-white/90">Chevelure couronne</p>
+              <div className="text-xs font-roboto text-white/90">
+                <p>5 001 - 7 500 CC</p>
+                <p>Box digitale exclusive</p>
               </div>
             </div>
           </div>
 
           {/* Level 6 - Slay Braidy */}
-          <div className="p-4 rounded-lg transition-all duration-300" style={{ backgroundColor: '#06D6A0' }}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">🧵🔥</span>
-                <div>
-                  <h3 className="font-poppins font-semibold text-white">Slay Braidy</h3>
-                  <p className="text-xs font-roboto text-white/90">Niveau maîtrise des coiffures protectrices</p>
-                </div>
+          <div className="min-w-[200px] p-3 rounded-lg transition-all duration-300" style={{ backgroundColor: '#06D6A0' }}>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="text-lg">🧵🔥</span>
+                <h3 className="font-poppins font-semibold text-white text-sm">Slay Braidy</h3>
               </div>
-              <div className="text-right">
-                <p className="text-xs font-roboto text-white/90">7 501 - 10 000 CC</p>
-                <p className="text-xs font-roboto text-white/90">150 CC bonus + -15% partenaire</p>
+              <p className="text-xs font-roboto text-white/90">Maîtrise coiffures protectrices</p>
+              <div className="text-xs font-roboto text-white/90">
+                <p>7 501 - 10 000 CC</p>
+                <p>150 CC + -15% partenaire</p>
               </div>
             </div>
           </div>
 
           {/* Level 7 - Kinky Diva */}
-          <div className="p-4 rounded-lg transition-all duration-300" style={{ backgroundColor: '#9B5DE5' }}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">💃🏾</span>
-                <div>
-                  <h3 className="font-poppins font-semibold text-white">Kinky Diva</h3>
-                  <p className="text-xs font-roboto text-white/90">Audace, peps et personnalité capillaire affirmée</p>
-                </div>
+          <div className="min-w-[200px] p-3 rounded-lg transition-all duration-300" style={{ backgroundColor: '#9B5DE5' }}>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="text-lg">💃🏾</span>
+                <h3 className="font-poppins font-semibold text-white text-sm">Kinky Diva</h3>
               </div>
-              <div className="text-right">
-                <p className="text-xs font-roboto text-white/90">10 001 - 15 000 CC</p>
-                <p className="text-xs font-roboto text-white/90">Produit partenaire offert</p>
+              <p className="text-xs font-roboto text-white/90">Personnalité capillaire affirmée</p>
+              <div className="text-xs font-roboto text-white/90">
+                <p>10 001 - 15 000 CC</p>
+                <p>Produit partenaire offert</p>
               </div>
             </div>
           </div>
 
           {/* Level 8 - Twist & Shine */}
-          <div className="p-4 rounded-lg transition-all duration-300" style={{ backgroundColor: '#FF9770' }}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">💫</span>
-                <div>
-                  <h3 className="font-poppins font-semibold text-white">Twist & Shine</h3>
-                  <p className="text-xs font-roboto text-white/90">L'art du twist-out qui claque</p>
-                </div>
+          <div className="min-w-[200px] p-3 rounded-lg transition-all duration-300" style={{ backgroundColor: '#FF9770' }}>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="text-lg">💫</span>
+                <h3 className="font-poppins font-semibold text-white text-sm">Twist & Shine</h3>
               </div>
-              <div className="text-right">
-                <p className="text-xs font-roboto text-white/90">15 001 - 20 000 CC</p>
-                <p className="text-xs font-roboto text-white/90">200 CC bonus + accès premium</p>
+              <p className="text-xs font-roboto text-white/90">L'art du twist-out</p>
+              <div className="text-xs font-roboto text-white/90">
+                <p>15 001 - 20 000 CC</p>
+                <p>200 CC + accès premium</p>
               </div>
             </div>
           </div>
 
           {/* Level 9 - Wash Day Goddess */}
-          <div className="p-4 rounded-lg transition-all duration-300" style={{ backgroundColor: '#26547C' }}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">🛁👸🏾</span>
-                <div>
-                  <h3 className="font-poppins font-semibold text-white">Wash Day Goddess</h3>
-                  <p className="text-xs font-roboto text-white/90">Maîtrise totale du rituel capillaire</p>
-                </div>
+          <div className="min-w-[200px] p-3 rounded-lg transition-all duration-300" style={{ backgroundColor: '#26547C' }}>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="text-lg">🛁👸🏾</span>
+                <h3 className="font-poppins font-semibold text-white text-sm">Wash Day Goddess</h3>
               </div>
-              <div className="text-right">
-                <p className="text-xs font-roboto text-white/90">20 001 - 30 000 CC</p>
-                <p className="text-xs font-roboto text-white/90">1 box digitale + -20% partenaire</p>
+              <p className="text-xs font-roboto text-white/90">Maîtrise totale rituel</p>
+              <div className="text-xs font-roboto text-white/90">
+                <p>20 001 - 30 000 CC</p>
+                <p>Box + -20% partenaire</p>
               </div>
             </div>
           </div>
 
           {/* Level 10 - Afrolicious Icon */}
-          <div className="p-4 rounded-lg transition-all duration-300" style={{ background: 'linear-gradient(135deg, #000000, #FFD700)' }}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">🔥💎</span>
-                <div>
-                  <h3 className="font-poppins font-semibold text-white">Afrolicious Icon</h3>
-                  <p className="text-xs font-roboto text-white/90">Niveau ultime, l'icône inspirante, l'afro star</p>
-                </div>
+          <div className="min-w-[200px] p-3 rounded-lg transition-all duration-300" style={{ background: 'linear-gradient(135deg, #000000, #FFD700)' }}>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="text-lg">🔥💎</span>
+                <h3 className="font-poppins font-semibold text-white text-sm">Afrolicious Icon</h3>
               </div>
-              <div className="text-right">
-                <p className="text-xs font-roboto text-white/90">30 001+ CC</p>
-                <p className="text-xs font-roboto text-white/90">Box physique + badge spécial</p>
+              <p className="text-xs font-roboto text-white/90">Icône inspirante, afro star</p>
+              <div className="text-xs font-roboto text-white/90">
+                <p>30 001+ CC</p>
+                <p>Box physique + badge</p>
               </div>
             </div>
           </div>
