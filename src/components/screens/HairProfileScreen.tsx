@@ -8,21 +8,25 @@ interface HairProfileScreenProps {
   onBack: () => void;
 }
 const hairTypes = [{
-  id: 'crepu',
-  label: 'Cheveux crépus serrés',
-  emoji: '🌀'
+  id: '3C',
+  label: 'Type 3C - Bouclés serrés',
+  emoji: '🌀',
+  description: 'Boucles en spirale serrées, texture épaisse'
 }, {
-  id: 'boucle',
-  label: 'Cheveux bouclés',
-  emoji: '🌸'
+  id: '4A',
+  label: 'Type 4A - Crépus souples',
+  emoji: '🌸',
+  description: 'Boucles crépues souples, pattern visible'
 }, {
-  id: 'locks',
-  label: 'Locks',
-  emoji: '🔗'
+  id: '4B',
+  label: 'Type 4B - Crépus moyens',
+  emoji: '⚡',
+  description: 'Pattern en Z, texture dense et cotonneuse'
 }, {
-  id: 'transition',
-  label: 'Transition capillaire',
-  emoji: '✨'
+  id: '4C',
+  label: 'Type 4C - Crépus serrés',
+  emoji: '✨',
+  description: 'Pattern très serré, maximum de rétrécissement'
 }];
 const needs = [{
   id: 'hydratation',
@@ -421,17 +425,22 @@ export function HairProfileScreen({
             Mon type de cheveux
           </h3>
           <p className="text-sm font-roboto text-muted-foreground mb-4">
-            Choisis la texture qui se rapproche le plus de tes cheveux
+            Choisis ton type selon la classification André Walker (3C à 4C)
           </p>
         </div>
         
-        <div className="grid grid-cols-2 gap-3">
-          {hairTypes.map(type => <CotonCard key={type.id} className={`p-4 cursor-pointer transition-all hover:scale-[1.02] ${selectedHairType === type.id ? 'ring-2 ring-coton-rose bg-coton-rose/10' : 'hover:shadow-soft'}`} onClick={() => setSelectedHairType(type.id as any)}>
-              <div className="text-center space-y-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {hairTypes.map(type => <CotonCard key={type.id} className={`p-5 cursor-pointer transition-all hover:scale-[1.02] border-2 ${selectedHairType === type.id ? 'ring-2 ring-coton-rose bg-coton-rose/10 border-coton-rose' : 'hover:shadow-soft border-transparent'}`} onClick={() => setSelectedHairType(type.id as any)}>
+              <div className="text-center space-y-3">
                 <div className="text-3xl">{type.emoji}</div>
-                <p className="font-roboto text-sm text-coton-black">
-                  {type.label}
-                </p>
+                <div className="space-y-1">
+                  <p className="font-poppins font-semibold text-sm text-coton-black">
+                    {type.label}
+                  </p>
+                  <p className="font-roboto text-xs text-muted-foreground leading-tight">
+                    {type.description}
+                  </p>
+                </div>
               </div>
             </CotonCard>)}
         </div>
