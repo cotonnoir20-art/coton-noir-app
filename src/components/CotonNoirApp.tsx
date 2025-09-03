@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { AppProvider } from '@/contexts/AppContext';
 import { Header } from '@/components/common/Header';
 import { MobileNav } from '@/components/ui/mobile-nav';
-import { Plus, Edit, BookOpen } from 'lucide-react';
+import { Plus, Edit } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 // Screens
@@ -229,17 +229,7 @@ export default function CotonNoirApp() {
         
         {/* Floating Action Button */}
         {shouldShowFAB() && (
-          <div className="fixed bottom-20 right-4 z-40 flex flex-col gap-2">
-            {/* Add Journal Entry Button */}
-            <Button
-              size="icon"
-              variant="outline"
-              className="w-12 h-12 rounded-full shadow-lg bg-white hover:bg-coton-rose/10 border-coton-rose/20"
-              onClick={() => handleNavigate('journal')}
-            >
-              <BookOpen size={20} className="text-coton-rose" />
-            </Button>
-            
+          <div className="fixed bottom-20 right-4 z-40">
             {/* Add Care Button */}
             <Button
               size="icon"
