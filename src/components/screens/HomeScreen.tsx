@@ -72,8 +72,19 @@ export function HomeScreen({
       <CotonCard className="p-6 space-y-4">
         <div className="flex items-center justify-between">
           <h3 className="font-poppins font-semibold text-lg">Niveau & Objectif</h3>
-          <div className="bg-coton-rose/20 text-coton-rose px-3 py-1 rounded-full text-sm font-roboto font-medium flex items-center gap-1 bg-red-100">
-            Hydratation 💧
+          <div className="bg-coton-rose/20 text-coton-rose px-3 py-1 rounded-full text-sm font-roboto font-medium flex items-center gap-1">
+            {(() => {
+              const needsMap = {
+                'hydratation': 'Hydratation 💧',
+                'volume': 'Volume 🌸',
+                'definition': 'Définition ✨',
+                'croissance': 'Croissance 🌱',
+                'casse': 'Anti-casse 💪',
+                'brillance': 'Brillance 🌟'
+              };
+              const primaryNeed = state.hairProfile.needs[0];
+              return primaryNeed ? needsMap[primaryNeed as keyof typeof needsMap] || 'Soin capillaire ✨' : 'Hydratation 💧';
+            })()}
           </div>
         </div>
         
