@@ -9,25 +9,25 @@
 @layer base {
   :root {
     /* Core brand colors */
-    --coton-black: 29 8% 11%; /* #1d1d1b */
-    --coton-rose: 348 30% 84%; /* #e8c1c3 */
+    --coton-black: 0 0% 11.4%; /* #1d1d1b */
+    --coton-rose: 351 45% 85%; /* #e8c1c3 */
     --coton-beige: 35 70% 94%; /* #fdf1e3 */
     --coton-light-rose: 348 42% 86%; /* #dda2a5 */
     
     /* Background system */
-    --background: var(--coton-black);
-    --foreground: 0 0% 98%;
+    --background: var(--coton-beige);
+    --foreground: var(--coton-black);
     
     /* Card system */
-    --card: 29 12% 15%; /* Slightly lighter than background */
-    --card-foreground: 0 0% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: var(--coton-black);
     
     /* Primary brand */
-    --primary: var(--coton-rose);
-    --primary-foreground: var(--coton-black);
+    --primary: var(--coton-black);
+    --primary-foreground: 0 0% 100%;
     
     /* Secondary accents */
-    --secondary: var(--coton-light-rose);
+    --secondary: var(--coton-rose);
     --secondary-foreground: var(--coton-black);
     
     /* Muted elements */
