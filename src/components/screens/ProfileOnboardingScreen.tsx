@@ -325,7 +325,7 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
             {isGeneratingAI && <Loader2 className="animate-spin text-coton-rose" size={16} />}
             <Sparkles className="text-coton-rose" size={16} />
             <h3 className="font-poppins font-semibold text-lg text-coton-black">
-              {isGeneratingAI ? 'Génération de ta routine IA...' : 'Ta routine personnalisée par IA ✨'}
+              {isGeneratingAI ? "Génération de ta routine Black Cotton, notre Bot capillaire..." : "Ta routine personnalisée par Black Cotton, notre Bot capillaire ✨"}
             </h3>
           </div>
           
