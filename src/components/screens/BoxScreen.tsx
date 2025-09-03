@@ -29,7 +29,7 @@ export function BoxScreen({ onNavigate }: BoxScreenProps) {
     }
   };
   
-  if (state.premium || state.boxUnlocked) {
+  if (state.premium) {
     return (
       <div className="p-4 pb-20">
         <CotonCard variant="elevated" className="p-8 text-center space-y-6">
