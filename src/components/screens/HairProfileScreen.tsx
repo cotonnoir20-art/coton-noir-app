@@ -391,7 +391,7 @@ export function HairProfileScreen({
               <p className="text-xs font-roboto text-white/90">Maîtrise totale rituel</p>
               <div className="text-xs font-roboto text-white/90">
                 <p>20 001 - 30 000 CC</p>
-                <p>Box + -20% partenaire</p>
+                <p>Box échantillons</p>
               </div>
             </div>
           </div>
