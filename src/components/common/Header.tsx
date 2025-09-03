@@ -7,9 +7,10 @@ interface HeaderProps {
   onPremiumClick?: () => void;
   onProfileClick?: () => void;
   onHomeClick?: () => void;
+  onRewardsClick?: () => void;
 }
 
-export function Header({ onPremiumClick, onProfileClick, onHomeClick }: HeaderProps) {
+export function Header({ onPremiumClick, onProfileClick, onHomeClick, onRewardsClick }: HeaderProps) {
   const { state, dispatch } = useApp();
 
   return (
@@ -74,12 +75,15 @@ export function Header({ onPremiumClick, onProfileClick, onHomeClick }: HeaderPr
           )}
           
           {/* Coins */}
-          <div className="flex items-center gap-1 bg-gradient-to-r from-coton-rose to-pink-300 text-coton-black px-3 py-1.5 rounded-pill shadow-lg">
+          <button 
+            onClick={onRewardsClick}
+            className="flex items-center gap-1 bg-gradient-to-r from-coton-rose to-pink-300 text-coton-black px-3 py-1.5 rounded-pill shadow-lg hover:scale-105 transition-transform cursor-pointer"
+          >
             <Coins size={16} />
             <span className="font-poppins font-medium text-sm">
               {state.coins}
             </span>
-          </div>
+          </button>
         </div>
       </div>
     </header>

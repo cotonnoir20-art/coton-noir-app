@@ -22,6 +22,7 @@ import { HairProfileScreen } from './screens/HairProfileScreen';
 import { GrowthTrackerScreen } from './screens/GrowthTrackerScreen';
 import { WashDayTrackerScreen } from './screens/WashDayTrackerScreen';
 import { FullJournalScreen } from './screens/FullJournalScreen';
+import { RewardsScreen } from './screens/RewardsScreen';
 
 type Screen =
   | 'onboarding'
@@ -35,6 +36,7 @@ type Screen =
   | 'box-content'
   | 'journal'
   | 'full-journal'
+  | 'rewards'
   | 'tutorials'
   | 'partners'
   | 'community'
@@ -111,11 +113,11 @@ export default function CotonNoirApp() {
   };
   
   const shouldShowNavigation = () => {
-    return !['onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'wash-day-tracker', 'full-journal', 'premium', 'payment', 'box-content'].includes(currentScreen);
+    return !['onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'wash-day-tracker', 'full-journal', 'rewards', 'premium', 'payment', 'box-content'].includes(currentScreen);
   };
   
   const shouldShowHeader = () => {
-    return !['onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'wash-day-tracker', 'full-journal', 'premium', 'payment', 'box-content'].includes(currentScreen);
+    return !['onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'wash-day-tracker', 'full-journal', 'rewards', 'premium', 'payment', 'box-content'].includes(currentScreen);
   };
   
   const renderScreen = () => {
@@ -195,6 +197,13 @@ export default function CotonNoirApp() {
             onBack={() => handleNavigate('journal')}
           />
         );
+
+      case 'rewards':
+        return (
+          <RewardsScreen
+            onBack={handleBackToHome}
+          />
+        );
         
       case 'tutorials':
         return (
@@ -258,6 +267,7 @@ export default function CotonNoirApp() {
             onPremiumClick={() => handleNavigate('premium')}
             onProfileClick={() => handleNavigate('hair-profile')}
             onHomeClick={handleBackToHome}
+            onRewardsClick={() => handleNavigate('rewards')}
           />
         )}
         
