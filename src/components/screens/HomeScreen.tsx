@@ -382,35 +382,6 @@ export function HomeScreen({
         </motion.div>
       )}
 
-      {/* Streak & Badges */}
-      {(state.streakData.current > 0 || state.badges.length > 0) && (
-        <CotonCard className="p-4 bg-gradient-to-r from-yellow-50 to-orange-50">
-          <div className="space-y-3">
-            {state.streakData.current > 0 && (
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-orange-400 to-red-500 flex items-center justify-center">
-                  <Flame className="text-white" size={24} />
-                </div>
-                <div>
-                  <h3 className="font-poppins font-semibold">
-                    Streak de {state.streakData.current} jour{state.streakData.current > 1 ? 's' : ''} ! 🔥
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    Meilleur: {state.streakData.best} jours
-                  </p>
-                </div>
-              </div>
-            )}
-            
-            {state.badges.length > 0 && (
-              <div>
-                <h4 className="font-poppins font-medium mb-2 text-sm">Tes badges:</h4>
-                <BadgeDisplay badges={state.badges} />
-              </div>
-            )}
-          </div>
-        </CotonCard>
-      )}
       
       {/* Premium Upsell (if not premium) */}
       {!state.premium && !state.premiumWaitlist.isOnWaitlist && (
@@ -754,5 +725,35 @@ export function HomeScreen({
             </Button>
           </div>}
       </CotonCard>
+
+      {/* Streak & Badges */}
+      {(state.streakData.current > 0 || state.badges.length > 0) && (
+        <CotonCard className="p-4 bg-gradient-to-r from-yellow-50 to-orange-50">
+          <div className="space-y-3">
+            {state.streakData.current > 0 && (
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-orange-400 to-red-500 flex items-center justify-center">
+                  <Flame className="text-white" size={24} />
+                </div>
+                <div>
+                  <h3 className="font-poppins font-semibold">
+                    Streak de {state.streakData.current} jour{state.streakData.current > 1 ? 's' : ''} ! 🔥
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    Meilleur: {state.streakData.best} jours
+                  </p>
+                </div>
+              </div>
+            )}
+            
+            {state.badges.length > 0 && (
+              <div>
+                <h4 className="font-poppins font-medium mb-2 text-sm">Tes badges:</h4>
+                <BadgeDisplay badges={state.badges} />
+              </div>
+            )}
+          </div>
+        </CotonCard>
+      )}
     </div>;
 }
