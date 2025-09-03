@@ -25,7 +25,9 @@ import {
   Edit,
   Award,
   Star,
-  Coins
+  Coins,
+  ArrowLeft,
+  Home
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
@@ -91,8 +93,27 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
   const progressToNext = (state.coins % 100);
 
   return (
-    <div className="min-h-screen bg-background p-4 pb-24">
-      <div className="max-w-md mx-auto space-y-6">
+    <div className="min-h-screen bg-background pb-24">
+      {/* Header with Back to Home */}
+      <div className="bg-coton-black px-4 py-3 shadow-soft">
+        <div className="max-w-md mx-auto flex items-center justify-between">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => onNavigate('home')}
+            className="text-white hover:bg-white/10 flex items-center gap-2"
+          >
+            <Home size={18} />
+            <span>Accueil</span>
+          </Button>
+          <h1 className="font-poppins font-semibold text-lg text-white">
+            Mon Profil
+          </h1>
+          <div className="w-20" /> {/* Spacer for centered title */}
+        </div>
+      </div>
+      
+      <div className="max-w-md mx-auto space-y-6 p-4">
         {/* Profile Header */}
         <Card className="bg-gradient-rose border-0 shadow-card">
           <CardContent className="p-6">
