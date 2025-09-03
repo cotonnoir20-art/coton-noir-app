@@ -18,14 +18,11 @@ export function Header({ onProfileClick, onHomeClick, onRewardsClick }: HeaderPr
         {/* Logo / Home Button */}
         <button 
           onClick={onHomeClick}
-          className="flex items-center gap-2 hover:opacity-80 hover:bg-white/10 px-3 py-2 rounded-lg transition-all cursor-pointer group"
+          className="flex items-center hover:opacity-80 hover:bg-white/10 px-3 py-2 rounded-lg transition-all cursor-pointer group"
         >
-          <h1 className="font-poppins font-bold text-xl text-white">
-            Coton Noir
+          <h1 className="font-poppins font-bold text-xl text-white inline">
+            Coton Noir <span className="text-sm text-white/70 font-roboto group-hover:text-white/90 transition-colors">Hair Journal</span>
           </h1>
-          <span className="text-sm text-white/70 font-roboto group-hover:text-white/90 transition-colors">
-            Hair Journal
-          </span>
         </button>
         
         {/* Right side actions */}
