@@ -219,7 +219,7 @@ export function HairProfileScreen({
           </p>
         </div>
         
-        <div className="space-y-3 py-0 mx-[8px] my-0 px-0">
+        <div className="space-y-6 py-0 mx-[8px] my-0 px-0">
           {objectives.map((objective, index) => <CotonCard key={index} className={`p-4 cursor-pointer transition-all hover:scale-[1.02] ${selectedObjectives.includes(objective) ? 'ring-2 ring-coton-rose bg-coton-rose/10' : 'hover:shadow-soft'}`} onClick={() => toggleObjective(objective)}>
               <div className="flex items-center justify-between">
                 <span className="font-roboto text-sm text-coton-black">
