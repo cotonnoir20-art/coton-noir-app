@@ -1,12 +1,14 @@
 import React from 'react';
 import { Heart, Sparkles, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface WelcomeScreenProps {
   onContinue: () => void;
 }
 
 export function WelcomeScreen({ onContinue }: WelcomeScreenProps) {
+  const { t } = useLanguage();
   return (
     <div className="min-h-screen bg-gradient-to-br from-coton-beige via-coton-beige/90 to-coton-rose/20 flex items-center justify-center p-4">
       <div className="w-full max-w-md text-center space-y-8">
@@ -23,7 +25,7 @@ export function WelcomeScreen({ onContinue }: WelcomeScreenProps) {
           
           <div className="space-y-2">
             <h1 className="text-4xl font-poppins font-bold text-coton-black">
-              Bienvenue !
+              {t('common.welcome')} !
             </h1>
             <h2 className="text-2xl font-poppins font-semibold text-coton-black/80">
               Tu fais maintenant partie de la famille Coton Noir
@@ -71,7 +73,7 @@ export function WelcomeScreen({ onContinue }: WelcomeScreenProps) {
             onClick={onContinue}
             className="w-full h-14 bg-gradient-to-r from-coton-rose to-pink-400 text-white font-poppins font-semibold text-lg hover:from-coton-rose/90 hover:to-pink-400/90 transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
           >
-            Commencer mon journey capillaire ✨
+            {t('welcome.getStarted')} ✨
           </Button>
           
           <p className="text-xs text-coton-black/50 font-roboto">

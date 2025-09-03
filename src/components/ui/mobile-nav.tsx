@@ -1,21 +1,23 @@
 import React from 'react';
 import { Sparkles, Gift, Notebook, Play, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface MobileNavProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
 }
 
-const tabs = [
-  { id: 'home', icon: Sparkles, label: 'Accueil' },
-  { id: 'journal', icon: Notebook, label: 'Journal' },
-  { id: 'box', icon: Gift, label: 'Box' },
-  { id: 'tutorials', icon: Play, label: 'Tutos' },
-  { id: 'profile', icon: User, label: 'Profil' },
-];
-
 export function MobileNav({ activeTab, onTabChange }: MobileNavProps) {
+  const { t } = useLanguage();
+  
+  const tabs = [
+    { id: 'home', icon: Sparkles, label: t('nav.home') },
+    { id: 'journal', icon: Notebook, label: t('nav.journal') },
+    { id: 'box', icon: Gift, label: t('nav.box') },
+    { id: 'tutorials', icon: Play, label: t('nav.tutorials') },
+    { id: 'profile', icon: User, label: t('nav.profile') },
+  ];
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-card border-t border-border shadow-soft z-50">
       <div className="flex items-center justify-around py-2">

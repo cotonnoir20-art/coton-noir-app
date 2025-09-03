@@ -27,6 +27,7 @@ import { RewardsScreen } from './screens/RewardsScreen';
 import { DetailedRoutineScreen } from './screens/DetailedRoutineScreen';
 import { ProfileScreen } from './screens/ProfileScreen';
 import { WelcomeScreen } from './screens/WelcomeScreen';
+import { LanguageSelectionScreen } from './screens/LanguageSelectionScreen';
 
 type Screen =
   | 'splash-init'
@@ -47,7 +48,8 @@ type Screen =
   | 'tutorials'
   | 'partners'
   | 'community'
-  | 'profile';
+  | 'profile'
+  | 'language-selection';
 
 export default function CotonNoirApp() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('splash-init');
@@ -145,11 +147,11 @@ export default function CotonNoirApp() {
   };
   
   const shouldShowNavigation = () => {
-    return !['splash-init', 'welcome', 'onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'wash-day-tracker', 'full-journal', 'rewards', 'detailed-routine', 'box-content', 'profile'].includes(currentScreen);
+    return !['splash-init', 'welcome', 'onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'wash-day-tracker', 'full-journal', 'rewards', 'detailed-routine', 'box-content', 'profile', 'language-selection'].includes(currentScreen);
   };
   
   const shouldShowHeader = () => {
-    return !['splash-init', 'welcome', 'onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'wash-day-tracker', 'full-journal', 'rewards', 'detailed-routine', 'box-content', 'profile'].includes(currentScreen);
+    return !['splash-init', 'welcome', 'onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'wash-day-tracker', 'full-journal', 'rewards', 'detailed-routine', 'box-content', 'profile', 'language-selection'].includes(currentScreen);
   };
   
   const renderScreen = () => {
@@ -283,6 +285,13 @@ export default function CotonNoirApp() {
         return (
           <ProfileScreen
             onNavigate={handleNavigate}
+          />
+        );
+
+      case 'language-selection':
+        return (
+          <LanguageSelectionScreen
+            onBack={() => handleNavigate('profile')}
           />
         );
         

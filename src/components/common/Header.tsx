@@ -2,6 +2,7 @@ import React from 'react';
 import { Moon, Sun, Coins, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useApp } from '@/contexts/AppContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface HeaderProps {
   onProfileClick?: () => void;
@@ -11,6 +12,7 @@ interface HeaderProps {
 
 export function Header({ onProfileClick, onHomeClick, onRewardsClick }: HeaderProps) {
   const { state, dispatch } = useApp();
+  const { t } = useLanguage();
 
   return (
     <header className="bg-coton-black border-b border-white/10 px-4 py-3 sticky top-0 z-40 shadow-soft">

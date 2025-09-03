@@ -31,6 +31,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ProfileScreenProps {
   onNavigate: (screen: string) => void;
@@ -39,6 +40,7 @@ interface ProfileScreenProps {
 export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
   const { state, dispatch } = useApp();
   const { toast } = useToast();
+  const { t, language } = useLanguage();
   
   const [isEditing, setIsEditing] = useState(false);
   const [editedProfile, setEditedProfile] = useState({
@@ -56,16 +58,16 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
     });
     setIsEditing(false);
     toast({
-      title: "Profil mis à jour",
-      description: "Vos informations ont été sauvegardées.",
+      title: t('toast.profileUpdated'),
+      description: t('toast.profileUpdatedDesc'),
     });
   };
 
   const handleInviteFriends = () => {
     dispatch({ type: 'ADD_COINS', amount: 50 });
     toast({
-      title: "50 CotonCoins gagnés !",
-      description: "Merci d'inviter vos amies sur Coton Noir !",
+      title: t('toast.coinsEarned'),
+      description: t('toast.coinsEarnedDesc'),
     });
   };
 
@@ -74,8 +76,8 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
     localStorage.removeItem('hasCompletedOnboarding');
     localStorage.removeItem('cotonNoirAppState');
     toast({
-      title: "Déconnexion réussie",
-      description: "À bientôt sur Coton Noir !",
+      title: t('toast.logoutSuccess'),
+      description: t('toast.logoutSuccessDesc'),
     });
     onNavigate('onboarding');
   };
@@ -104,10 +106,10 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
             className="text-white hover:bg-white/10 flex items-center gap-2"
           >
             <Home size={18} />
-            <span>Accueil</span>
+            <span>{t('nav.home')}</span>
           </Button>
           <h1 className="font-poppins font-semibold text-lg text-white">
-            Mon Profil
+            {t('profile.title')}
           </h1>
           <div className="w-20" /> {/* Spacer for centered title */}
         </div>
@@ -150,7 +152,7 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
                 <div className="flex items-center justify-center space-x-2">
                   <Badge variant="secondary" className="bg-white/30 text-coton-black font-medium">
                     <Award size={12} className="mr-1" />
-                    Niveau {userLevel}
+                    {t('profile.level')} {userLevel}
                   </Badge>
                   <Badge variant="outline" className="border-white/30 bg-white/20 text-coton-black">
                     <Coins size={12} className="mr-1" />
@@ -161,8 +163,8 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
                 {/* Progress bar to next level */}
                 <div className="w-full max-w-xs">
                   <div className="flex justify-between text-xs text-coton-black/70 mb-1">
-                    <span>Niveau {userLevel}</span>
-                    <span>Niveau {userLevel + 1}</span>
+                    <span>{t('profile.level')} {userLevel}</span>
+                    <span>{t('profile.level')} {userLevel + 1}</span>
                   </div>
                   <div className="w-full bg-white/30 rounded-full h-2">
                     <div 
@@ -179,19 +181,19 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
         {/* Profile Info */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="font-poppins">Informations personnelles</CardTitle>
+            <CardTitle className="font-poppins">{t('profile.personalInfo')}</CardTitle>
             <Button
               variant="ghost"
               size="sm"
               onClick={() => isEditing ? handleSaveProfile() : setIsEditing(true)}
             >
               <Edit size={16} />
-              {isEditing ? 'Sauvegarder' : 'Modifier'}
+              {isEditing ? t('common.save') : t('common.edit')}
             </Button>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t('profile.email')}</Label>
               {isEditing ? (
                 <Input
                   id="email"
@@ -204,18 +206,18 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="bio">Bio</Label>
+              <Label htmlFor="bio">{t('profile.bio')}</Label>
               {isEditing ? (
                 <Textarea
                   id="bio"
-                  placeholder="Parlez-nous de votre parcours capillaire..."
+                  placeholder={t('profile.bioPlaceholder')}
                   value={editedProfile.bio}
                   onChange={(e) => setEditedProfile({ ...editedProfile, bio: e.target.value })}
                   rows={3}
                 />
               ) : (
                 <p className="text-muted-foreground">
-                  {editedProfile.bio || "Aucune bio pour le moment"}
+                  {editedProfile.bio || t('profile.noBio')}
                 </p>
               )}
             </div>
@@ -225,7 +227,7 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
         {/* Settings */}
         <Card>
           <CardHeader>
-            <CardTitle className="font-poppins">Paramètres</CardTitle>
+            <CardTitle className="font-poppins">{t('profile.settings')}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             {/* Notifications */}
@@ -233,8 +235,8 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
               <div className="flex items-center space-x-3">
                 <Bell size={20} className="text-muted-foreground" />
                 <div>
-                  <p className="font-medium">Notifications</p>
-                  <p className="text-sm text-muted-foreground">Rappels et actualités</p>
+                  <p className="font-medium">{t('profile.notifications')}</p>
+                  <p className="text-sm text-muted-foreground">{t('profile.notificationsDesc')}</p>
                 </div>
               </div>
               <Switch
@@ -250,8 +252,8 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
               <div className="flex items-center space-x-3">
                 {darkMode ? <Moon size={20} className="text-muted-foreground" /> : <Sun size={20} className="text-muted-foreground" />}
                 <div>
-                  <p className="font-medium">Mode sombre</p>
-                  <p className="text-sm text-muted-foreground">Interface en mode nuit</p>
+                  <p className="font-medium">{t('profile.darkMode')}</p>
+                  <p className="text-sm text-muted-foreground">{t('profile.darkModeDesc')}</p>
                 </div>
               </div>
               <Switch
@@ -263,16 +265,22 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
             <Separator />
 
             {/* Language */}
-            <div className="flex items-center justify-between">
+            <Button
+              variant="ghost"
+              className="w-full justify-between h-auto p-4"
+              onClick={() => onNavigate('language-selection')}
+            >
               <div className="flex items-center space-x-3">
                 <Globe size={20} className="text-muted-foreground" />
-                <div>
-                  <p className="font-medium">Langue</p>
-                  <p className="text-sm text-muted-foreground">Français</p>
+                <div className="text-left">
+                  <p className="font-medium">{t('profile.language')}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {language === 'fr' ? t('language.french') : t('language.english')}
+                  </p>
                 </div>
               </div>
               <ChevronRight size={16} className="text-muted-foreground" />
-            </div>
+            </Button>
           </CardContent>
         </Card>
 
@@ -289,8 +297,8 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
                 <div className="flex items-center space-x-3">
                   <Users size={20} className="text-coton-rose" />
                   <div className="text-left">
-                    <p className="font-medium">Inviter des amies</p>
-                    <p className="text-sm text-muted-foreground">Gagnez 50 CotonCoins</p>
+                    <p className="font-medium">{t('profile.inviteFriends')}</p>
+                    <p className="text-sm text-muted-foreground">{t('profile.inviteFriendsDesc')}</p>
                   </div>
                 </div>
                 <ChevronRight size={16} className="text-muted-foreground" />
@@ -305,7 +313,7 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
               >
                 <div className="flex items-center space-x-3">
                   <HelpCircle size={20} className="text-muted-foreground" />
-                  <span className="font-medium">Support & Aide</span>
+                  <span className="font-medium">{t('profile.support')}</span>
                 </div>
                 <ChevronRight size={16} className="text-muted-foreground" />
               </Button>
@@ -319,7 +327,7 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
               >
                 <div className="flex items-center space-x-3">
                   <Settings size={20} className="text-muted-foreground" />
-                  <span className="font-medium">Paramètres du compte</span>
+                  <span className="font-medium">{t('profile.accountSettings')}</span>
                 </div>
                 <ChevronRight size={16} className="text-muted-foreground" />
               </Button>
@@ -333,7 +341,7 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
               >
                 <div className="flex items-center space-x-3">
                   <FileText size={20} className="text-muted-foreground" />
-                  <span className="font-medium">Conditions générales</span>
+                  <span className="font-medium">{t('profile.terms')}</span>
                 </div>
                 <ChevronRight size={16} className="text-muted-foreground" />
               </Button>
@@ -350,7 +358,7 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
               onClick={handleLogout}
             >
               <LogOut size={20} className="mr-3" />
-              <span className="font-medium">Se déconnecter</span>
+              <span className="font-medium">{t('profile.logout')}</span>
             </Button>
           </CardContent>
         </Card>
