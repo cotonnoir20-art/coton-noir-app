@@ -4,67 +4,79 @@ import { Button } from '@/components/ui/button';
 import { CotonCard } from '@/components/ui/coton-card';
 import { useApp } from '@/contexts/AppContext';
 import { useToast } from '@/hooks/use-toast';
-
 interface HairProfileScreenProps {
   onBack: () => void;
 }
-
-const hairTypes = [
-  { id: 'crepu', label: 'Cheveux crépus serrés', emoji: '🌀' },
-  { id: 'boucle', label: 'Cheveux bouclés', emoji: '🌸' },
-  { id: 'locks', label: 'Locks', emoji: '🔗' },
-  { id: 'transition', label: 'Transition capillaire', emoji: '✨' }
-];
-
-const needs = [
-  { id: 'hydratation', label: 'Hydratation', emoji: '💧' },
-  { id: 'volume', label: 'Volume', emoji: '🌸' },
-  { id: 'definition', label: 'Définition des boucles', emoji: '✨' },
-  { id: 'croissance', label: 'Croissance', emoji: '🌱' },
-  { id: 'casse', label: 'Réduction de casse', emoji: '💪' },
-  { id: 'brillance', label: 'Brillance', emoji: '🌟' }
-];
-
-const objectives = [
-  'Retrouver mes boucles naturelles',
-  'Protéger mes cheveux sous coiffure',
-  'Réparer après décoloration',
-  'Construire une routine simple et efficace'
-];
-
-export function HairProfileScreen({ onBack }: HairProfileScreenProps) {
-  const { state, dispatch } = useApp();
-  const { toast } = useToast();
-  
+const hairTypes = [{
+  id: 'crepu',
+  label: 'Cheveux crépus serrés',
+  emoji: '🌀'
+}, {
+  id: 'boucle',
+  label: 'Cheveux bouclés',
+  emoji: '🌸'
+}, {
+  id: 'locks',
+  label: 'Locks',
+  emoji: '🔗'
+}, {
+  id: 'transition',
+  label: 'Transition capillaire',
+  emoji: '✨'
+}];
+const needs = [{
+  id: 'hydratation',
+  label: 'Hydratation',
+  emoji: '💧'
+}, {
+  id: 'volume',
+  label: 'Volume',
+  emoji: '🌸'
+}, {
+  id: 'definition',
+  label: 'Définition des boucles',
+  emoji: '✨'
+}, {
+  id: 'croissance',
+  label: 'Croissance',
+  emoji: '🌱'
+}, {
+  id: 'casse',
+  label: 'Réduction de casse',
+  emoji: '💪'
+}, {
+  id: 'brillance',
+  label: 'Brillance',
+  emoji: '🌟'
+}];
+const objectives = ['Retrouver mes boucles naturelles', 'Protéger mes cheveux sous coiffure', 'Réparer après décoloration', 'Construire une routine simple et efficace'];
+export function HairProfileScreen({
+  onBack
+}: HairProfileScreenProps) {
+  const {
+    state,
+    dispatch
+  } = useApp();
+  const {
+    toast
+  } = useToast();
   const [selectedHairType, setSelectedHairType] = useState(state.hairProfile.hairType);
   const [selectedNeeds, setSelectedNeeds] = useState<string[]>(state.hairProfile.needs);
   const [selectedObjectives, setSelectedObjectives] = useState<string[]>(state.hairProfile.objectives);
   const [routineValidated, setRoutineValidated] = useState(false);
-
   const toggleNeed = (needId: string) => {
-    setSelectedNeeds(prev => 
-      prev.includes(needId) 
-        ? prev.filter(id => id !== needId)
-        : [...prev, needId]
-    );
+    setSelectedNeeds(prev => prev.includes(needId) ? prev.filter(id => id !== needId) : [...prev, needId]);
   };
-
   const toggleObjective = (objective: string) => {
-    setSelectedObjectives(prev => 
-      prev.includes(objective) 
-        ? prev.filter(obj => obj !== objective)
-        : [...prev, objective]
-    );
+    setSelectedObjectives(prev => prev.includes(objective) ? prev.filter(obj => obj !== objective) : [...prev, objective]);
   };
 
   // Generate personalized routine based on profile
   const personalizedRoutine = useMemo(() => {
     const baseSteps = ['Pré-poo', 'Shampoing hydratant', 'Masque', 'Leave-in', 'Scellage'];
-    
     if (!selectedHairType) return baseSteps;
-    
     const routineSteps = [...baseSteps];
-    
+
     // Adapt based on hair type
     if (selectedHairType === 'crepu') {
       routineSteps.splice(1, 0, 'Démêlage en douceur');
@@ -72,7 +84,7 @@ export function HairProfileScreen({ onBack }: HairProfileScreenProps) {
     if (selectedHairType === 'locks') {
       routineSteps[1] = 'Shampoing clarifiant doux';
     }
-    
+
     // Adapt based on needs
     if (selectedNeeds.includes('hydratation')) {
       routineSteps.splice(-1, 0, 'Brumisateur hydratant');
@@ -83,10 +95,8 @@ export function HairProfileScreen({ onBack }: HairProfileScreenProps) {
     if (selectedNeeds.includes('croissance')) {
       routineSteps.unshift('Massage du cuir chevelu');
     }
-    
     return routineSteps;
   }, [selectedHairType, selectedNeeds]);
-
   const handleValidateRoutine = () => {
     if (!selectedHairType) {
       toast({
@@ -96,16 +106,16 @@ export function HairProfileScreen({ onBack }: HairProfileScreenProps) {
       });
       return;
     }
-
     setRoutineValidated(true);
-    dispatch({ type: 'ADD_COINS', amount: 10 });
-    
+    dispatch({
+      type: 'ADD_COINS',
+      amount: 10
+    });
     toast({
       title: "Routine validée ! +10 CotonCoins ✨",
-      description: "Tu as gagné 10 CotonCoins pour avoir validé ta routine personnalisée !",
+      description: "Tu as gagné 10 CotonCoins pour avoir validé ta routine personnalisée !"
     });
   };
-
   const handleSave = () => {
     if (!selectedHairType) {
       toast({
@@ -115,7 +125,6 @@ export function HairProfileScreen({ onBack }: HairProfileScreenProps) {
       });
       return;
     }
-
     dispatch({
       type: 'UPDATE_HAIR_PROFILE',
       profile: {
@@ -125,17 +134,13 @@ export function HairProfileScreen({ onBack }: HairProfileScreenProps) {
         isCompleted: true
       }
     });
-
     toast({
       title: "Profil enregistré ✨",
       description: "Ton profil capillaire a été mis à jour avec succès !"
     });
-
     onBack();
   };
-
-  return (
-    <div className="pb-20 px-4 space-y-6 bg-coton-beige min-h-screen">
+  return <div className="pb-20 px-4 space-y-6 bg-coton-beige min-h-screen">
       {/* Header */}
       <div className="flex items-center gap-4 pt-4 pb-2">
         <Button variant="ghost" size="icon" onClick={onBack}>
@@ -166,24 +171,14 @@ export function HairProfileScreen({ onBack }: HairProfileScreenProps) {
         </div>
         
         <div className="grid grid-cols-2 gap-3">
-          {hairTypes.map((type) => (
-            <CotonCard
-              key={type.id}
-              className={`p-4 cursor-pointer transition-all hover:scale-[1.02] ${
-                selectedHairType === type.id 
-                  ? 'ring-2 ring-coton-rose bg-coton-rose/10' 
-                  : 'hover:shadow-soft'
-              }`}
-              onClick={() => setSelectedHairType(type.id as any)}
-            >
+          {hairTypes.map(type => <CotonCard key={type.id} className={`p-4 cursor-pointer transition-all hover:scale-[1.02] ${selectedHairType === type.id ? 'ring-2 ring-coton-rose bg-coton-rose/10' : 'hover:shadow-soft'}`} onClick={() => setSelectedHairType(type.id as any)}>
               <div className="text-center space-y-2">
                 <div className="text-3xl">{type.emoji}</div>
                 <p className="font-roboto text-sm text-coton-black">
                   {type.label}
                 </p>
               </div>
-            </CotonCard>
-          ))}
+            </CotonCard>)}
         </div>
       </div>
 
@@ -199,16 +194,7 @@ export function HairProfileScreen({ onBack }: HairProfileScreenProps) {
         </div>
         
         <div className="grid grid-cols-2 gap-3">
-          {needs.map((need) => (
-            <CotonCard
-              key={need.id}
-              className={`p-4 cursor-pointer transition-all hover:scale-[1.02] ${
-                selectedNeeds.includes(need.id) 
-                  ? 'ring-2 ring-coton-rose bg-coton-rose/10' 
-                  : 'hover:shadow-soft'
-              }`}
-              onClick={() => toggleNeed(need.id)}
-            >
+          {needs.map(need => <CotonCard key={need.id} className={`p-4 cursor-pointer transition-all hover:scale-[1.02] ${selectedNeeds.includes(need.id) ? 'ring-2 ring-coton-rose bg-coton-rose/10' : 'hover:shadow-soft'}`} onClick={() => toggleNeed(need.id)}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">{need.emoji}</span>
@@ -216,12 +202,9 @@ export function HairProfileScreen({ onBack }: HairProfileScreenProps) {
                     {need.label}
                   </span>
                 </div>
-                {selectedNeeds.includes(need.id) && (
-                  <Check size={16} className="text-coton-rose animate-scale-in" />
-                )}
+                {selectedNeeds.includes(need.id) && <Check size={16} className="text-coton-rose animate-scale-in" />}
               </div>
-            </CotonCard>
-          ))}
+            </CotonCard>)}
         </div>
       </div>
 
@@ -236,33 +219,20 @@ export function HairProfileScreen({ onBack }: HairProfileScreenProps) {
           </p>
         </div>
         
-        <div className="space-y-3">
-          {objectives.map((objective, index) => (
-            <CotonCard
-              key={index}
-              className={`p-4 cursor-pointer transition-all hover:scale-[1.02] ${
-                selectedObjectives.includes(objective) 
-                  ? 'ring-2 ring-coton-rose bg-coton-rose/10' 
-                  : 'hover:shadow-soft'
-              }`}
-              onClick={() => toggleObjective(objective)}
-            >
+        <div className="space-y-3 py-0 mx-[8px] my-0 px-0">
+          {objectives.map((objective, index) => <CotonCard key={index} className={`p-4 cursor-pointer transition-all hover:scale-[1.02] ${selectedObjectives.includes(objective) ? 'ring-2 ring-coton-rose bg-coton-rose/10' : 'hover:shadow-soft'}`} onClick={() => toggleObjective(objective)}>
               <div className="flex items-center justify-between">
                 <span className="font-roboto text-sm text-coton-black">
                   {objective}
                 </span>
-                {selectedObjectives.includes(objective) && (
-                  <Check size={16} className="text-coton-rose animate-scale-in" />
-                )}
+                {selectedObjectives.includes(objective) && <Check size={16} className="text-coton-rose animate-scale-in" />}
               </div>
-            </CotonCard>
-          ))}
+            </CotonCard>)}
         </div>
       </div>
 
       {/* Personalized Routine Section */}
-      {selectedHairType && (
-        <div className="space-y-4">
+      {selectedHairType && <div className="space-y-4">
           <div>
             <h3 className="font-poppins font-semibold text-lg text-coton-black mb-2">
               Ma routine personnalisée ✨
@@ -274,37 +244,25 @@ export function HairProfileScreen({ onBack }: HairProfileScreenProps) {
           
           <CotonCard className="p-6 bg-gradient-to-r from-coton-rose/10 to-purple-50">
             <div className="space-y-3">
-              {personalizedRoutine.map((step, index) => (
-                <div key={index} className="flex items-center gap-3 p-3 rounded-lg bg-white/60">
+              {personalizedRoutine.map((step, index) => <div key={index} className="flex items-center gap-3 p-3 rounded-lg bg-white/60">
                   <div className="w-8 h-8 rounded-full bg-coton-rose flex items-center justify-center text-white font-bold text-sm">
                     {index + 1}
                   </div>
                   <span className="font-roboto text-sm text-coton-black">
                     {step}
                   </span>
-                </div>
-              ))}
+                </div>)}
             </div>
             
             <div className="mt-6 pt-4 border-t border-coton-rose/20">
-              <Button 
-                variant={routineValidated ? "outline" : "hero"}
-                size="sm"
-                onClick={handleValidateRoutine}
-                disabled={routineValidated}
-                className="w-full"
-              >
-                {routineValidated ? (
-                  <>
+              <Button variant={routineValidated ? "outline" : "hero"} size="sm" onClick={handleValidateRoutine} disabled={routineValidated} className="w-full">
+                {routineValidated ? <>
                     <Check size={16} className="mr-2" />
                     Routine validée ✓
-                  </>
-                ) : (
-                  <>
+                  </> : <>
                     <Sparkles size={16} className="mr-2" />
                     ✅ Routine validée (+10 CC)
-                  </>
-                )}
+                  </>}
               </Button>
               
               <div className="mt-3 p-3 rounded-lg bg-gradient-to-r from-yellow-50 to-orange-50">
@@ -314,17 +272,11 @@ export function HairProfileScreen({ onBack }: HairProfileScreenProps) {
               </div>
             </div>
           </CotonCard>
-        </div>
-      )}
+        </div>}
 
       {/* Save Button */}
       <div className="pt-4">
-        <Button 
-          variant="hero" 
-          size="lg" 
-          onClick={handleSave}
-          className="w-full"
-        >
+        <Button variant="hero" size="lg" onClick={handleSave} className="w-full">
           Enregistrer mon profil ✨
         </Button>
       </div>
@@ -340,6 +292,5 @@ export function HairProfileScreen({ onBack }: HairProfileScreenProps) {
           Prête pour une routine capillaire alignée à tes vrais besoins 💕
         </p>
       </CotonCard>
-    </div>
-  );
+    </div>;
 }
