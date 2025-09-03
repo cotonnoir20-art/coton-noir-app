@@ -71,7 +71,7 @@ export function BoxScreen({ onNavigate }: BoxScreenProps) {
   
   return (
     <div className="p-4 pb-20 space-y-6">
-      {/* Progress Card */}
+      {/* Premium Required Card */}
       <CotonCard className="p-6 space-y-4">
         <div className="flex items-center gap-3">
           <Package className="text-coton-rose" size={32} />
@@ -83,25 +83,24 @@ export function BoxScreen({ onNavigate }: BoxScreenProps) {
           </div>
         </div>
         
-        <div className="space-y-3">
-          <ProgressBar 
-            progress={progress}
-            variant="coins"
-            showLabel
-            label={`Progression vers la Box - ${state.coins}/50 CC`}
-          />
-          
-          <div className="flex gap-3">
-            <Button
-              variant="hero"
-              onClick={handleUnlockBox}
-              disabled={!canUnlock}
-              className="flex-1"
-            >
-              <Unlock size={18} />
-              {canUnlock ? 'Débloquer (50 CC)' : `Plus que ${50 - state.coins} CC`}
-            </Button>
+        <div className="text-center space-y-4 py-6">
+          <div className="text-4xl">🔒</div>
+          <div className="space-y-2">
+            <h3 className="font-poppins font-semibold text-lg text-coton-black">
+              Accès Premium Requis
+            </h3>
+            <p className="font-roboto text-muted-foreground text-sm">
+              La Box Digitale est exclusivement réservée aux membres Premium
+            </p>
           </div>
+          
+          <Button
+            variant="outline"
+            disabled={true}
+            className="w-full opacity-60 cursor-not-allowed"
+          >
+            🔒 Premium requis pour voir les fichiers
+          </Button>
         </div>
       </CotonCard>
       
