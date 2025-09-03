@@ -429,27 +429,6 @@ export function HomeScreen({
       <div className="space-y-4">
         <h3 className="font-poppins font-semibold text-lg">Accès rapide</h3>
         <div className="grid grid-cols-2 gap-4">
-          <CotonCard className="p-6 cursor-pointer hover:shadow-soft transition-shadow" onClick={() => onNavigate('box')}>
-            <div className="flex flex-col items-center text-center space-y-3">
-              <Package className="text-coton-rose" size={32} />
-              <span className="font-poppins font-medium">Box Digitale</span>
-            </div>
-          </CotonCard>
-          
-          <CotonCard className="p-6 cursor-pointer hover:shadow-soft transition-shadow" onClick={() => onNavigate('community')}>
-            <div className="flex flex-col items-center text-center space-y-3">
-              <Users className="text-coton-rose" size={32} />
-              <span className="font-poppins font-medium">Communauté</span>
-            </div>
-          </CotonCard>
-          
-          <CotonCard className="p-6 cursor-pointer hover:shadow-soft transition-shadow" onClick={() => onNavigate('partners')}>
-            <div className="flex flex-col items-center text-center space-y-3">
-              <Store className="text-coton-rose" size={32} />
-              <span className="font-poppins font-medium">Partenaires</span>
-            </div>
-          </CotonCard>
-          
           <CotonCard className="p-6 cursor-pointer hover:shadow-soft transition-shadow" onClick={() => onNavigate('wash-day-tracker')}>
             <div className="flex flex-col items-center text-center space-y-3">
               <Calendar className="text-coton-rose" size={32} />
@@ -461,6 +440,29 @@ export function HomeScreen({
             <div className="flex flex-col items-center text-center space-y-3">
               <TrendingUp className="text-coton-rose" size={32} />
               <span className="font-poppins font-medium">Calculateur de Pousse</span>
+            </div>
+          </CotonCard>
+          
+          <CotonCard className="p-6 cursor-pointer hover:shadow-soft transition-shadow" onClick={() => onNavigate('box')}>
+            <div className="flex flex-col items-center text-center space-y-3">
+              <Package className="text-coton-rose" size={32} />
+              <span className="font-poppins font-medium">Box Digitale</span>
+            </div>
+          </CotonCard>
+          
+          <CotonCard className="p-6 cursor-pointer hover:shadow-soft transition-shadow" onClick={() => onNavigate('partners')}>
+            <div className="flex flex-col items-center text-center space-y-3">
+              <Store className="text-coton-rose" size={32} />
+              <span className="font-poppins font-medium">Partenaires</span>
+            </div>
+          </CotonCard>
+        </div>
+        
+        <div className="grid grid-cols-2 gap-4 mt-4">
+          <CotonCard className="p-6 cursor-pointer hover:shadow-soft transition-shadow" onClick={() => onNavigate('community')}>
+            <div className="flex flex-col items-center text-center space-y-3">
+              <Users className="text-coton-rose" size={32} />
+              <span className="font-poppins font-medium">Communauté</span>
             </div>
           </CotonCard>
           
