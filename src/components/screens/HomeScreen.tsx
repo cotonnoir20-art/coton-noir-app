@@ -298,20 +298,40 @@ export function HomeScreen({
             <motion.div
               key={challenge.id}
               initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.1 }}
+              animate={{ 
+                opacity: challenge.completed ? 0.6 : 1, 
+                x: 0,
+                scale: challenge.completed ? 0.95 : 1,
+                height: challenge.completed ? 'auto' : 'auto'
+              }}
+              exit={{ 
+                opacity: 0, 
+                scale: 0.8, 
+                height: 0,
+                transition: { duration: 0.3 }
+              }}
+              transition={{ 
+                delay: index * 0.1,
+                duration: 0.3,
+                ease: "easeOut"
+              }}
+              className={challenge.completed ? 'animate-fade-out' : ''}
             >
-              <CotonCard className="p-4">
+              <CotonCard className={`p-4 transition-all duration-300 ${
+                challenge.completed 
+                  ? 'bg-green-50 border-green-200 opacity-75 transform scale-95' 
+                  : ''
+              }`}>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
                       challenge.completed 
-                        ? 'bg-green-100 text-green-600' 
+                        ? 'bg-green-100 text-green-600 animate-scale-in' 
                         : 'bg-orange-100 text-orange-600'
                     }`}>
                       {challenge.completed ? <Check size={20} /> : <Target size={20} />}
                     </div>
-                    <div>
+                    <div className={challenge.completed ? 'opacity-75' : ''}>
                       <h4 className="font-poppins font-semibold text-sm">
                         {challenge.title}
                       </h4>
@@ -323,9 +343,22 @@ export function HomeScreen({
                   
                   <div className="text-right">
                     {challenge.completed ? (
-                      <div className="text-green-600 text-sm font-medium">
-                        Complété ! ✅
-                      </div>
+                      <motion.div 
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        className="text-green-600 text-sm font-medium animate-scale-in"
+                      >
+                        <div className="flex items-center gap-1">
+                          <span>Complété !</span>
+                          <motion.span
+                            initial={{ rotate: 0 }}
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 0.5 }}
+                          >
+                            ✅
+                          </motion.span>
+                        </div>
+                      </motion.div>
                     ) : (
                       <div className="space-y-1">
                         <div className="text-orange-600 font-bold text-sm">
@@ -335,7 +368,7 @@ export function HomeScreen({
                           size="sm" 
                           variant="outline"
                           onClick={() => handleCompleteChallenge(challenge)}
-                          className="text-xs"
+                          className="text-xs hover-scale"
                         >
                           Valider
                         </Button>
