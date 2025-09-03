@@ -30,8 +30,8 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
       return;
     }
     
-    // Calculate reward based on new barème
-    const baseReward = type === 'soin' ? 20 : 50; // Soin: 20 CC, Routine: 50 CC
+    // Calculate reward based on new barème - Soins complets rapportent plus
+    const baseReward = type === 'soin' ? 50 : 20; // Soin: 50 CC, Routine: 20 CC
     const reward = state.premium ? baseReward * 2 : baseReward;
     
     // Add journal entry
@@ -71,6 +71,21 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
       
       {/* Content */}
       <div className="p-4 pb-20 space-y-6">
+        {/* Info Card */}
+        <CotonCard className="p-4 bg-coton-beige/50 border-coton-rose/20">
+          <div className="space-y-3">
+            <h3 className="font-poppins font-semibold text-sm text-coton-black">💡 Quelle différence ?</h3>
+            <div className="space-y-2 text-sm text-coton-black/80">
+              <div>
+                <span className="font-medium">🌿 Soin :</span> Traitement spécifique et complet (masque, huile, traitement profond...)
+              </div>
+              <div>
+                <span className="font-medium">✨ Routine :</span> Gestes quotidiens simples (shampoing, démêlage, coiffage...)
+              </div>
+            </div>
+          </div>
+        </CotonCard>
+
         {/* Type Selection */}
         <CotonCard className="p-6 space-y-4">
           <h3 className="font-poppins font-semibold text-base">Type</h3>
@@ -81,7 +96,7 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
               onClick={() => setType('soin')}
               className="flex-1"
             >
-              Soin (+{state.premium ? '40' : '20'} CC)
+              Soin (+{state.premium ? '100' : '50'} CC)
             </Button>
             <Button
               variant={type === 'routine' ? 'hero' : 'outline'}
@@ -89,7 +104,7 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
               onClick={() => setType('routine')}
               className="flex-1"
             >
-              Routine (+{state.premium ? '100' : '50'} CC)
+              Routine (+{state.premium ? '40' : '20'} CC)
             </Button>
           </div>
         </CotonCard>
