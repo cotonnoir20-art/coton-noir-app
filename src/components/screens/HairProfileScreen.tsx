@@ -61,11 +61,11 @@ export function HairProfileScreen({
     toast
   } = useToast();
   const [selectedHairType, setSelectedHairType] = useState(state.hairProfile.hairType);
-  const [selectedNeeds, setSelectedNeeds] = useState<string[]>(state.hairProfile.needs);
+  const [selectedNeeds, setSelectedNeeds] = useState<string>(state.hairProfile.needs[0] || '');
   const [selectedObjectives, setSelectedObjectives] = useState<string[]>(state.hairProfile.objectives);
   const [routineValidated, setRoutineValidated] = useState(false);
   const toggleNeed = (needId: string) => {
-    setSelectedNeeds(prev => prev.includes(needId) ? prev.filter(id => id !== needId) : [...prev, needId]);
+    setSelectedNeeds(prev => prev === needId ? '' : needId);
   };
   const toggleObjective = (objective: string) => {
     setSelectedObjectives(prev => prev.includes(objective) ? prev.filter(obj => obj !== objective) : [...prev, objective]);
@@ -220,7 +220,7 @@ export function HairProfileScreen({
       type: 'UPDATE_HAIR_PROFILE',
       profile: {
         hairType: selectedHairType,
-        needs: selectedNeeds,
+        needs: selectedNeeds ? [selectedNeeds] : [],
         objectives: selectedObjectives,
         isCompleted: true
       }
@@ -280,12 +280,12 @@ export function HairProfileScreen({
             Mes besoins
           </h3>
           <p className="text-sm font-roboto text-muted-foreground mb-4">
-            Sélectionne tes priorités (plusieurs choix possibles)
+            Sélectionne ton besoin prioritaire (un seul choix possible)
           </p>
         </div>
         
         <div className="grid grid-cols-2 gap-3">
-          {needs.map(need => <CotonCard key={need.id} className={`p-4 cursor-pointer transition-all hover:scale-[1.02] ${selectedNeeds.includes(need.id) ? 'ring-2 ring-coton-rose bg-coton-rose/10' : 'hover:shadow-soft'}`} onClick={() => toggleNeed(need.id)}>
+          {needs.map(need => <CotonCard key={need.id} className={`p-4 cursor-pointer transition-all hover:scale-[1.02] ${selectedNeeds === need.id ? 'ring-2 ring-coton-rose bg-coton-rose/10' : 'hover:shadow-soft'}`} onClick={() => toggleNeed(need.id)}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">{need.emoji}</span>
@@ -293,7 +293,7 @@ export function HairProfileScreen({
                     {need.label}
                   </span>
                 </div>
-                {selectedNeeds.includes(need.id) && <Check size={16} className="text-coton-rose animate-scale-in" />}
+                {selectedNeeds === need.id && <Check size={16} className="text-coton-rose animate-scale-in" />}
               </div>
             </CotonCard>)}
         </div>
