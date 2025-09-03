@@ -12,14 +12,14 @@ export function Header({ onPremiumClick, onProfileClick }: HeaderProps) {
   const { state, dispatch } = useApp();
 
   return (
-    <header className="bg-card border-b border-border px-4 py-3 sticky top-0 z-40 shadow-soft">
+    <header className="bg-coton-black border-b border-white/10 px-4 py-3 sticky top-0 z-40 shadow-soft">
       <div className="flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center gap-2">
-          <h1 className="font-poppins font-bold text-xl text-foreground">
+          <h1 className="font-poppins font-bold text-xl text-white">
             Coton Noir
           </h1>
-          <span className="text-sm text-muted-foreground font-roboto">
+          <span className="text-sm text-white/70 font-roboto">
             Hair Journal
           </span>
         </div>
@@ -32,9 +32,9 @@ export function Header({ onPremiumClick, onProfileClick }: HeaderProps) {
               variant="ghost"
               size="icon"
               onClick={onProfileClick}
-              className={`h-10 w-10 ${!state.hairProfile.isCompleted ? 'ring-2 ring-coton-rose animate-pulse' : ''}`}
+              className={`h-10 w-10 text-white hover:bg-white/10 ${!state.hairProfile.isCompleted ? 'ring-2 ring-coton-rose animate-pulse' : ''}`}
             >
-              <User size={18} className={!state.hairProfile.isCompleted ? 'text-coton-rose' : ''} />
+              <User size={18} className={!state.hairProfile.isCompleted ? 'text-coton-rose' : 'text-white'} />
             </Button>
           )}
           
@@ -43,33 +43,34 @@ export function Header({ onPremiumClick, onProfileClick }: HeaderProps) {
             variant="ghost"
             size="icon"
             onClick={() => dispatch({ type: 'TOGGLE_DARK_MODE' })}
-            className="h-10 w-10"
+            className="h-10 w-10 text-white hover:bg-white/10"
           >
             {state.darkMode ? (
-              <Sun size={18} />
+              <Sun size={18} className="text-white" />
             ) : (
-              <Moon size={18} />
+              <Moon size={18} className="text-white" />
             )}
           </Button>
           
           {/* Premium status */}
           {state.premium ? (
-            <div className="flex items-center gap-1 bg-gradient-hero text-white px-3 py-1.5 rounded-pill">
+            <div className="flex items-center gap-1 bg-gradient-to-r from-yellow-500 to-yellow-600 text-black px-3 py-1.5 rounded-pill shadow-lg">
               <Crown size={16} />
               <span className="text-sm font-poppins font-medium">Premium</span>
             </div>
           ) : (
             <Button 
-              variant="pill" 
-              size="pill"
+              variant="outline"
+              size="sm"
               onClick={onPremiumClick}
+              className="border-white/20 text-white hover:bg-white/10 hover:text-white"
             >
               Premium
             </Button>
           )}
           
           {/* Coins */}
-          <div className="flex items-center gap-1 bg-coton-rose text-coton-black px-3 py-1.5 rounded-pill">
+          <div className="flex items-center gap-1 bg-gradient-to-r from-coton-rose to-pink-300 text-coton-black px-3 py-1.5 rounded-pill shadow-lg">
             <Coins size={16} />
             <span className="font-poppins font-medium text-sm">
               {state.coins}
