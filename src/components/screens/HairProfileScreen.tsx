@@ -62,13 +62,13 @@ export function HairProfileScreen({
   } = useToast();
   const [selectedHairType, setSelectedHairType] = useState(state.hairProfile.hairType);
   const [selectedNeeds, setSelectedNeeds] = useState<string>(state.hairProfile.needs[0] || '');
-  const [selectedObjectives, setSelectedObjectives] = useState<string[]>(state.hairProfile.objectives);
+  const [selectedObjectives, setSelectedObjectives] = useState<string>(state.hairProfile.objectives[0] || '');
   const [routineValidated, setRoutineValidated] = useState(false);
   const toggleNeed = (needId: string) => {
     setSelectedNeeds(prev => prev === needId ? '' : needId);
   };
   const toggleObjective = (objective: string) => {
-    setSelectedObjectives(prev => prev.includes(objective) ? prev.filter(obj => obj !== objective) : [...prev, objective]);
+    setSelectedObjectives(prev => prev === objective ? '' : objective);
   };
 
   // Generate personalized routine based on detailed profile
@@ -221,7 +221,7 @@ export function HairProfileScreen({
       profile: {
         hairType: selectedHairType,
         needs: selectedNeeds ? [selectedNeeds] : [],
-        objectives: selectedObjectives,
+        objectives: selectedObjectives ? [selectedObjectives] : [],
         isCompleted: true
       }
     });
@@ -306,17 +306,17 @@ export function HairProfileScreen({
             Mes objectifs capillaires
           </h3>
           <p className="text-sm font-roboto text-muted-foreground mb-4">
-            Quels sont tes objectifs principaux ?
+            Quel est ton objectif principal ? (un seul choix possible)
           </p>
         </div>
         
         <div className="space-y-6 py-0 mx-[8px] my-0 px-0">
-          {objectives.map((objective, index) => <CotonCard key={index} className={`p-4 cursor-pointer transition-all hover:scale-[1.02] ${selectedObjectives.includes(objective) ? 'ring-2 ring-coton-rose bg-coton-rose/10' : 'hover:shadow-soft'}`} onClick={() => toggleObjective(objective)}>
+          {objectives.map((objective, index) => <CotonCard key={index} className={`p-4 cursor-pointer transition-all hover:scale-[1.02] ${selectedObjectives === objective ? 'ring-2 ring-coton-rose bg-coton-rose/10' : 'hover:shadow-soft'}`} onClick={() => toggleObjective(objective)}>
               <div className="flex items-center justify-between">
                 <span className="font-roboto text-sm text-coton-black">
                   {objective}
                 </span>
-                {selectedObjectives.includes(objective) && <Check size={16} className="text-coton-rose animate-scale-in" />}
+                {selectedObjectives === objective && <Check size={16} className="text-coton-rose animate-scale-in" />}
               </div>
             </CotonCard>)}
         </div>
