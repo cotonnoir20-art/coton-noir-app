@@ -289,7 +289,7 @@ export default function CotonNoirApp() {
         {shouldShowHeader() && (
           <Header 
             onPremiumClick={() => handleNavigate('premium')}
-            onProfileClick={() => handleNavigate('profile')}
+            onProfileClick={() => handleNavigate('hair-profile')}
             onHomeClick={handleBackToHome}
             onRewardsClick={() => handleNavigate('rewards')}
           />
