@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Users, Trophy, Calendar, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CotonCard } from '@/components/ui/coton-card';
@@ -10,9 +10,39 @@ interface CommunityScreenProps {
   onNavigate: (screen: string) => void;
 }
 
+const testimonials = [
+  {
+    id: 1,
+    name: 'Aïssata',
+    message: 'Depuis que j\'ai trouvé ma routine, mes cheveux sont plus doux et plus définis !',
+    likes: 124,
+    tags: ['#routine', '#hydratation', '#4C']
+  },
+  {
+    id: 2,
+    name: 'Fatoumata',
+    message: 'Le challenge #NoHeat30days a révolutionné mes cheveux, merci !',
+    likes: 89,
+    tags: ['#noheat', '#natural', '#croissance']
+  }
+];
+
+const beforeAfter = [
+  {
+    id: 1,
+    title: 'Définition 4C en 3 semaines',
+    description: 'Routine LCO + masques hydratants',
+    likes: 256,
+    tags: ['#routine', '#hydratation', '#4C']
+  }
+];
+
 export function CommunityScreen({ onNavigate }: CommunityScreenProps) {
   const { state, dispatch } = useApp();
   const { toast } = useToast();
+  
+  const [likedTestimonials, setLikedTestimonials] = useState<number[]>([]);
+  const [savedTestimonials, setSavedTestimonials] = useState<number[]>([]);
   
   const challengeProgress = (state.challenge.days / 30) * 100;
   
@@ -37,13 +67,25 @@ export function CommunityScreen({ onNavigate }: CommunityScreenProps) {
     }
   };
   
+  const toggleLike = (id: number) => {
+    setLikedTestimonials(prev => 
+      prev.includes(id) ? prev.filter(itemId => itemId !== id) : [...prev, id]
+    );
+  };
+  
+  const toggleSave = (id: number) => {
+    setSavedTestimonials(prev => 
+      prev.includes(id) ? prev.filter(itemId => itemId !== id) : [...prev, id]
+    );
+  };
+  
   return (
     <div className="p-4 pb-20 space-y-6">
       {/* Header */}
       <div className="text-center space-y-2">
-        <h2 className="font-poppins font-bold text-2xl">Communauté</h2>
+        <h2 className="font-poppins font-bold text-2xl text-foreground">Communauté & Inspiration</h2>
         <p className="font-roboto text-muted-foreground">
-          Participez aux challenges et partagez votre parcours
+          Créer un effet sista circle et casser l'isolement
         </p>
       </div>
       
@@ -214,26 +256,97 @@ export function CommunityScreen({ onNavigate }: CommunityScreenProps) {
         </div>
       </CotonCard>
       
-      {/* Premium Benefits */}
-      {!state.premium && (
-        <CotonCard variant="premium" className="p-6 text-center space-y-4">
-          <Trophy className="text-white mx-auto" size={32} />
-          <div className="space-y-2">
-            <h4 className="font-poppins font-bold text-white">
-              Boostez vos récompenses
-            </h4>
-            <p className="text-white/90 font-roboto text-sm">
-              Avec Premium, gagnez +3 CC supplémentaires par jour de challenge
-            </p>
-          </div>
-          <Button 
-            variant="rose"
-            onClick={() => onNavigate('premium')}
-          >
-            Découvrir Premium
-          </Button>
-        </CotonCard>
-      )}
+      {/* Testimonials */}
+      <div className="space-y-4">
+        <h3 className="font-poppins font-semibold text-lg text-foreground">
+          Témoignages
+        </h3>
+        {testimonials.map((testimonial) => (
+          <CotonCard key={testimonial.id} className="p-4 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl">
+            <div className="space-y-3">
+              <p className="font-roboto text-foreground">
+                "{testimonial.message}"
+              </p>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-poppins font-medium text-foreground text-sm">
+                    – {testimonial.name}
+                  </p>
+                  <div className="flex gap-2 mt-1">
+                    {testimonial.tags.map((tag, index) => (
+                      <span key={index} className="text-xs bg-primary/20 text-primary px-2 py-1 rounded-full">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => toggleLike(testimonial.id)}
+                    className="flex items-center gap-1"
+                  >
+                    ❤️ {testimonial.likes + (likedTestimonials.includes(testimonial.id) ? 1 : 0)}
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => toggleSave(testimonial.id)}
+                  >
+                    {savedTestimonials.includes(testimonial.id) ? '🔖' : '🔖'}
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </CotonCard>
+        ))}
+      </div>
+
+      {/* Before/After */}
+      <div className="space-y-4">
+        <h3 className="font-poppins font-semibold text-lg text-foreground">
+          Avant/Après
+        </h3>
+        {beforeAfter.map((item) => (
+          <CotonCard key={item.id} className="p-4 bg-gradient-to-r from-secondary/10 to-primary/10 rounded-2xl">
+            <div className="space-y-3">
+              <h4 className="font-poppins font-semibold text-foreground">
+                {item.title}
+              </h4>
+              <p className="font-roboto text-muted-foreground text-sm">
+                {item.description}
+              </p>
+              <div className="flex items-center justify-between">
+                <div className="flex gap-2">
+                  {item.tags.map((tag, index) => (
+                    <span key={index} className="text-xs bg-primary/20 text-primary px-2 py-1 rounded-full">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <div className="flex items-center gap-3">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => toggleLike(item.id + 100)}
+                    className="flex items-center gap-1"
+                  >
+                    ❤️ {item.likes + (likedTestimonials.includes(item.id + 100) ? 1 : 0)}
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => toggleSave(item.id + 100)}
+                  >
+                    {savedTestimonials.includes(item.id + 100) ? '🔖' : '🔖'}
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </CotonCard>
+        ))}
+      </div>
     </div>
   );
 }

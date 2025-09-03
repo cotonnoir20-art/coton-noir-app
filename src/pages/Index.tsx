@@ -1,8 +1,8 @@
 import React from 'react';
-import CotonNoirApp from '@/components/CotonNoirApp';
+import CotonNoirMainApp from '@/components/CotonNoirMainApp';
 
 const Index = () => {
-  return <CotonNoirApp />;
+  return <CotonNoirMainApp />;
 };
 
 export default Index;

@@ -27,7 +27,8 @@ export interface Challenge {
 }
 
 export interface HairProfile {
-  hairType: 'crepu' | 'boucle' | 'locks' | 'transition' | null;
+  hairType: '3C' | '4A' | '4B' | '4C' | null;
+  porosity?: 'faible' | 'moyenne' | 'haute';
   needs: string[];
   objectives: string[];
   isCompleted: boolean;
@@ -66,6 +67,7 @@ const initialState: AppState = {
   challenge: { joined: false, days: 0 },
   hairProfile: {
     hairType: null,
+    porosity: undefined,
     needs: [],
     objectives: [],
     isCompleted: false
