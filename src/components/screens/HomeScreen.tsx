@@ -544,12 +544,30 @@ export function HomeScreen({
               <span className="px-3 py-1 bg-white/70 rounded-full text-sm font-roboto">
                 {state.detailedHairProfile.hairType}
               </span>
-              <span className="px-3 py-1 bg-white/70 rounded-full text-sm font-roboto">
-                Porosité {state.detailedHairProfile.porosity}
-              </span>
-              <span className="px-3 py-1 bg-white/70 rounded-full text-sm font-roboto">
-                Objectif: {state.detailedHairProfile.objective}
-              </span>
+              {state.detailedHairProfile.porosity && (
+                <span className="px-3 py-1 bg-white/70 rounded-full text-sm font-roboto">
+                  Porosité {state.detailedHairProfile.porosity}
+                </span>
+              )}
+              {state.detailedHairProfile.objective && (
+                <span className="px-3 py-1 bg-white/70 rounded-full text-sm font-roboto">
+                  Objectif: {state.detailedHairProfile.objective}
+                </span>
+              )}
+              {state.detailedHairProfile.problems && state.detailedHairProfile.problems.length > 0 && (
+                state.detailedHairProfile.problems.map((problem, index) => (
+                  <span key={`problem-${index}`} className="px-3 py-1 bg-red-100/70 rounded-full text-sm font-roboto text-red-700">
+                    {problem}
+                  </span>
+                ))
+              )}
+              {state.detailedHairProfile.needs && state.detailedHairProfile.needs.length > 0 && (
+                state.detailedHairProfile.needs.map((need, index) => (
+                  <span key={`need-${index}`} className="px-3 py-1 bg-green-100/70 rounded-full text-sm font-roboto text-green-700">
+                    {need}
+                  </span>
+                ))
+              )}
             </div>
             
             {/* Routine Steps */}
