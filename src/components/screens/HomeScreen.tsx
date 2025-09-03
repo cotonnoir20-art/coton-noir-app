@@ -252,7 +252,13 @@ export function HomeScreen({
         </div>
         
         <p className="text-sm font-roboto text-muted-foreground">
-          Encore <span className="font-medium text-coton-black">2400 CotonCoins 🪙</span> avant ton prochain palier ! 🔥
+          Encore <span className="font-medium text-coton-black">{(() => {
+            const currentCoins = state.coins;
+            const levelThresholds = [0, 100, 500, 1000, 2000, 3500, 5000, 7500, 10000];
+            const nextThreshold = levelThresholds.find(threshold => threshold > currentCoins) || 15000;
+            const coinsNeeded = nextThreshold - currentCoins;
+            return coinsNeeded;
+          })()} CotonCoins 🪙</span> avant ton prochain palier ! 🔥
         </p>
         
         <Button variant="hero" size="lg" onClick={onAddCare} className="w-full">
