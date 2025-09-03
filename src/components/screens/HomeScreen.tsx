@@ -197,7 +197,7 @@ export function HomeScreen({
         </CotonCard>}
       
       {/* Level & Goal Card */}
-      <CotonCard className="p-6 space-y-4">
+      <CotonCard className="p-6 space-y-4 mt-5">
         <div className="flex items-center justify-between">
           <h3 className="font-poppins font-semibold text-lg">Niveau & Objectif</h3>
           <div className={(() => {
