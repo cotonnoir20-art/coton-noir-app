@@ -14,11 +14,17 @@ export function LanguageSelectionScreen({ onBack }: LanguageSelectionScreenProps
   const { toast } = useToast();
 
   const handleLanguageChange = (lang: Language) => {
+    const oldLanguage = language;
     setLanguage(lang);
-    toast({
-      title: t('toast.languageChanged'),
-      description: t('toast.languageChangedDesc'),
-    });
+    
+    // Show toast in the new language after a small delay to ensure language is updated
+    setTimeout(() => {
+      toast({
+        title: t('toast.languageChanged'),
+        description: t('toast.languageChangedDesc'),
+      });
+    }, 100);
+    
     onBack();
   };
 

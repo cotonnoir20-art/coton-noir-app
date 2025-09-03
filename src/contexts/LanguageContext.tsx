@@ -144,7 +144,7 @@ const translations = {
     'toast.languageChanged': 'Language Changed',
     'toast.languageChangedDesc': 'Interface has been updated.',
   }
-};
+} as const;
 
 interface LanguageProviderProps {
   children: ReactNode;
