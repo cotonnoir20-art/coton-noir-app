@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { AppProvider } from '@/contexts/AppContext';
 import { Header } from '@/components/common/Header';
 import { MobileNav } from '@/components/ui/mobile-nav';
+import { Plus, Edit, BookOpen } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 // Screens
 import { OnboardingScreen } from './screens/OnboardingScreen';
@@ -205,6 +207,10 @@ export default function CotonNoirApp() {
     }
   };
   
+  const shouldShowFAB = () => {
+    return ['home', 'journal', 'box', 'tutorials', 'partners', 'community'].includes(currentScreen);
+  };
+  
   return (
     <AppProvider>
       <div className="min-h-screen bg-background">
@@ -220,6 +226,31 @@ export default function CotonNoirApp() {
         <main className={shouldShowHeader() ? 'pt-0' : ''}>
           {renderScreen()}
         </main>
+        
+        {/* Floating Action Button */}
+        {shouldShowFAB() && (
+          <div className="fixed bottom-20 right-4 z-40 flex flex-col gap-2">
+            {/* Add Journal Entry Button */}
+            <Button
+              size="icon"
+              variant="outline"
+              className="w-12 h-12 rounded-full shadow-lg bg-white hover:bg-coton-rose/10 border-coton-rose/20"
+              onClick={() => handleNavigate('journal')}
+            >
+              <BookOpen size={20} className="text-coton-rose" />
+            </Button>
+            
+            {/* Add Care Button */}
+            <Button
+              size="icon"
+              variant="hero"
+              className="w-14 h-14 rounded-full shadow-lg"
+              onClick={() => handleNavigate('add-care')}
+            >
+              <Plus size={24} />
+            </Button>
+          </div>
+        )}
         
         {/* Mobile Navigation */}
         {shouldShowNavigation() && (
