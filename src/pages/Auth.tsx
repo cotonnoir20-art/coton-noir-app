@@ -1,0 +1,65 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { LoginScreen } from '@/components/screens/LoginScreen';
+import { SignupScreen } from '@/components/screens/SignupScreen';
+import { ForgotPasswordScreen } from '@/components/screens/ForgotPasswordScreen';
+import { useAuth } from '@/hooks/useAuth';
+
+type AuthScreen = 'login' | 'signup' | 'forgot-password';
+
+const Auth = () => {
+  const [currentScreen, setCurrentScreen] = useState<AuthScreen>('login');
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  // Redirect to home if user is already authenticated
+  useEffect(() => {
+    if (user) {
+      navigate('/');
+    }
+  }, [user, navigate]);
+
+  const handleNavigate = (screen: string) => {
+    setCurrentScreen(screen as AuthScreen);
+  };
+
+  const handleAuthSuccess = () => {
+    navigate('/');
+  };
+
+  const renderScreen = () => {
+    switch (currentScreen) {
+      case 'login':
+        return (
+          <LoginScreen
+            onNavigate={handleNavigate}
+            onLoginSuccess={handleAuthSuccess}
+          />
+        );
+      case 'signup':
+        return (
+          <SignupScreen
+            onNavigate={handleNavigate}
+            onSignupSuccess={handleAuthSuccess}
+          />
+        );
+      case 'forgot-password':
+        return (
+          <ForgotPasswordScreen
+            onNavigate={handleNavigate}
+          />
+        );
+      default:
+        return (
+          <LoginScreen
+            onNavigate={handleNavigate}
+            onLoginSuccess={handleAuthSuccess}
+          />
+        );
+    }
+  };
+
+  return renderScreen();
+};
+
+export default Auth;

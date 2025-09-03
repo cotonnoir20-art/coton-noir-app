@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AppProvider } from '@/contexts/AppContext';
 import { Header } from '@/components/common/Header';
 import { MobileNav } from '@/components/ui/mobile-nav';
 import { Plus, Edit } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/hooks/useAuth';
 
 // Screens
 import { OnboardingScreen } from './screens/OnboardingScreen';
@@ -51,9 +53,21 @@ export default function CotonNoirApp() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('onboarding');
   const [activeTab, setActiveTab] = useState('home');
   const [paymentPlanId, setPaymentPlanId] = useState<string>('');
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
   
+  // Redirect to auth if user is not authenticated
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate('/auth');
+      return;
+    }
+  }, [user, loading, navigate]);
+
   // Check if user has completed onboarding
   useEffect(() => {
+    if (!user) return;
+
     const hasCompletedOnboarding = localStorage.getItem('coton-noir-onboarding');
     const hasCompletedProfile = localStorage.getItem('coton-noir-profile-onboarding');
     
@@ -282,6 +296,27 @@ export default function CotonNoirApp() {
     return ['home', 'journal', 'box', 'tutorials', 'partners', 'community'].includes(currentScreen);
   };
   
+  // Show loading screen while checking auth
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-3xl font-poppins font-bold text-coton-black mb-4">
+            COTON NOIR
+          </h1>
+          <div className="animate-pulse text-muted-foreground">
+            Chargement...
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render anything if user is not authenticated (will redirect)
+  if (!user) {
+    return null;
+  }
+
   return (
     <AppProvider>
       <div className="min-h-screen bg-background">
