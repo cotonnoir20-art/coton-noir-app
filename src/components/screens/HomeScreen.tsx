@@ -511,30 +511,38 @@ export function HomeScreen({
         </Button>
       </CotonCard>
       
-      {/* Stats rapides */}
-      <div className="grid grid-cols-3 gap-3">
-        <CotonCard className="p-4 text-center">
-          <div className="text-lg font-poppins font-bold text-coton-rose">
-            {state.journalEntries.length}
-          </div>
-          <div className="text-xs text-muted-foreground">Soins total</div>
-        </CotonCard>
-        
-        <CotonCard className="p-4 text-center">
-          <div className="text-lg font-poppins font-bold text-blue-600">
-            {state.streakData.current}
-          </div>
-          <div className="text-xs text-muted-foreground">Jours streak</div>
-        </CotonCard>
-        
-        <CotonCard className="p-4 text-center">
-          <div className="text-lg font-poppins font-bold text-green-600">
-            {daysSinceLastCare === 0 ? "Aujourd'hui" : `${daysSinceLastCare}j`}
-          </div>
-          <div className="text-xs text-muted-foreground">
-            Dernier soin
-          </div>
-        </CotonCard>
+      {/* Mon suivi - Section fusionnée */}
+      <div className="space-y-4">
+        <h3 className="font-poppins font-semibold text-lg">Mon suivi</h3>
+        <div className="grid grid-cols-2 gap-3">
+          <CotonCard className="p-4 text-center">
+            <div className="text-xl font-poppins font-bold text-coton-rose">
+              {state.journalEntries.length}
+            </div>
+            <div className="text-xs text-muted-foreground">Soins total</div>
+          </CotonCard>
+          
+          <CotonCard className="p-4 text-center">
+            <div className="text-xl font-poppins font-bold text-blue-600">
+              {thisMonthCares}
+            </div>
+            <div className="text-xs text-muted-foreground">Ce mois-ci</div>
+          </CotonCard>
+          
+          <CotonCard className="p-4 text-center">
+            <div className="text-xl font-poppins font-bold text-purple-600">
+              {state.streakData.current}
+            </div>
+            <div className="text-xs text-muted-foreground">Jours streak</div>
+          </CotonCard>
+          
+          <CotonCard className="p-4 text-center">
+            <div className="text-xl font-poppins font-bold text-green-600">
+              {daysSinceLastCare === 0 ? "Aujourd'hui" : `${daysSinceLastCare}j`}
+            </div>
+            <div className="text-xs text-muted-foreground">Dernier soin</div>
+          </CotonCard>
+        </div>
       </div>
       {state.detailedHairProfile.isCompleted && personalizedRoutine.length > 0 && (
         <div className="space-y-4">
@@ -632,38 +640,6 @@ export function HomeScreen({
         </div>
       )}
       
-      {/* Stats Section */}
-      <div className="space-y-4">
-        <h3 className="font-poppins font-semibold text-lg">Mon suivi</h3>
-        <div className="grid grid-cols-3 gap-4">
-          <CotonCard className="p-4 text-center">
-            <div className="text-2xl font-poppins font-bold text-coton-black">
-              {thisMonthCares}
-            </div>
-            <div className="text-sm font-roboto text-muted-foreground">
-              Soins ce mois-ci
-            </div>
-          </CotonCard>
-          
-          <CotonCard className="p-4 text-center">
-            <div className="text-2xl font-poppins font-bold text-coton-black">
-              {maskCount}
-            </div>
-            <div className="text-sm font-roboto text-muted-foreground">
-              Masques
-            </div>
-          </CotonCard>
-          
-          <CotonCard className="p-4 text-center">
-            <div className="text-2xl font-poppins font-bold text-coton-black">
-              {daysSinceLastCare}j
-            </div>
-            <div className="text-sm font-roboto text-muted-foreground">
-              Depuis le dernier soin
-            </div>
-          </CotonCard>
-        </div>
-      </div>
       
       {/* Quick Access Grid */}
       <div className="space-y-4">
