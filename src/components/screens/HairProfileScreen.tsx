@@ -511,34 +511,107 @@ export function HairProfileScreen({
       {/* Personalized Routine Section */}
       {state.detailedHairProfile.isCompleted && personalizedRoutine.length > 0 && (
         <div className="space-y-4">
-          <h3 className="font-poppins font-semibold text-lg">Ma routine recommandée ✨</h3>
+          <h3 className="font-poppins font-semibold text-lg">Ma routine personnalisée ✨</h3>
           
+          {/* Priority Problems Alert */}
+          {state.detailedHairProfile.problems.length > 0 && (
+            <CotonCard className="p-4 bg-gradient-to-r from-red-50 to-orange-50 border-l-4 border-red-400">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center">
+                  <span className="text-white text-xs font-bold">!</span>
+                </div>
+                <h4 className="font-poppins font-semibold text-red-800 text-sm">Problématiques prioritaires</h4>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {state.detailedHairProfile.problems.map((problem, index) => (
+                  <span key={index} className="px-3 py-1 bg-red-100 border border-red-300 rounded-full text-xs font-roboto text-red-800">
+                    {problem === 'secheresse' ? '💧 Sécheresse' :
+                     problem === 'casse' ? '💔 Casse' :
+                     problem === 'frisottis' ? '🌀 Frisottis' :
+                     problem === 'demelage' ? '🪢 Démêlage difficile' :
+                     problem === 'cuir_chevelu' ? '🔴 Cuir chevelu irrité' :
+                     problem === 'chute' ? '🍂 Chute' : problem}
+                  </span>
+                ))}
+              </div>
+            </CotonCard>
+          )}
+
           <CotonCard className="p-6 bg-gradient-to-r from-coton-rose/10 to-purple-50 space-y-4">
             {/* Profile Summary */}
-            <div className="flex flex-wrap gap-2 pb-4 border-b border-coton-rose/20">
-              <span className="px-3 py-1 bg-white/70 rounded-full text-sm font-roboto">
-                {state.detailedHairProfile.hairType}
-              </span>
-              <span className="px-3 py-1 bg-white/70 rounded-full text-sm font-roboto">
-                Porosité {state.detailedHairProfile.porosity}
-              </span>
-              <span className="px-3 py-1 bg-white/70 rounded-full text-sm font-roboto">
-                Objectif: {state.detailedHairProfile.objective}
-              </span>
+            <div className="space-y-3">
+              <div className="flex flex-wrap gap-2 pb-4 border-b border-coton-rose/20">
+                <span className="px-3 py-1 bg-coton-rose/20 border border-coton-rose/30 rounded-full text-sm font-roboto font-semibold text-coton-black">
+                  {state.detailedHairProfile.hairType}
+                </span>
+                <span className="px-3 py-1 bg-blue-100 border border-blue-300 rounded-full text-sm font-roboto text-blue-800">
+                  Porosité {state.detailedHairProfile.porosity}
+                </span>
+                <span className="px-3 py-1 bg-green-100 border border-green-300 rounded-full text-sm font-roboto text-green-800">
+                  🎯 {state.detailedHairProfile.objective}
+                </span>
+              </div>
+              
+              {/* Needs Section */}
+              {state.detailedHairProfile.needs.length > 0 && (
+                <div>
+                  <p className="text-xs font-roboto text-gray-600 mb-2">Besoins spécifiques :</p>
+                  <div className="flex flex-wrap gap-2">
+                    {state.detailedHairProfile.needs.map((need, index) => (
+                      <span key={index} className="px-2 py-1 bg-purple-100 border border-purple-300 rounded-full text-xs font-roboto text-purple-800">
+                        {need === 'hydratation' ? '💧 Hydratation' :
+                         need === 'definition' ? '💫 Définition' :
+                         need === 'brillance' ? '✨ Brillance' :
+                         need === 'pousse' ? '🌱 Pousse' :
+                         need === 'reparation' ? '🔧 Réparation' :
+                         need === 'protection' ? '🛡️ Protection' : need}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
             
-            {/* Routine Steps */}
+            {/* Routine Steps with Priority Indicators */}
             <div className="space-y-3">
-              {personalizedRoutine.map((step, index) => (
-                <div key={index} className="flex items-center gap-3 p-3 rounded-lg bg-white/60">
-                  <div className="w-8 h-8 rounded-full bg-coton-rose flex items-center justify-center text-white font-bold text-sm">
-                    {index + 1}
+              <h4 className="font-poppins font-semibold text-coton-black text-sm flex items-center gap-2">
+                <span>📋</span> Ta routine adaptée
+              </h4>
+              {personalizedRoutine.map((step, index) => {
+                // Determine priority based on step content and user problems
+                const isHighPriority = state.detailedHairProfile.problems.some(problem =>
+                  (problem === 'secheresse' && step.toLowerCase().includes('hydrat')) ||
+                  (problem === 'casse' && step.toLowerCase().includes('protéin')) ||
+                  (problem === 'frisottis' && step.toLowerCase().includes('anti-frisottis')) ||
+                  (problem === 'demelage' && step.toLowerCase().includes('démêl')) ||
+                  (problem === 'cuir_chevelu' && step.toLowerCase().includes('cuir chevelu')) ||
+                  (problem === 'chute' && step.toLowerCase().includes('anti-chute'))
+                );
+
+                return (
+                  <div key={index} className={`flex items-center gap-3 p-3 rounded-lg transition-all ${
+                    isHighPriority 
+                      ? 'bg-gradient-to-r from-coton-rose/20 to-red-50 border border-red-200' 
+                      : 'bg-white/60 border border-gray-200'
+                  }`}>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm ${
+                      isHighPriority ? 'bg-red-500' : 'bg-coton-rose'
+                    }`}>
+                      {isHighPriority ? '!' : index + 1}
+                    </div>
+                    <div className="flex-1">
+                      <span className={`font-roboto text-sm ${isHighPriority ? 'font-semibold text-red-900' : 'text-coton-black'}`}>
+                        {step}
+                      </span>
+                      {isHighPriority && (
+                        <div className="text-xs text-red-700 mt-1 font-medium">
+                          ⚡ Action prioritaire pour tes problématiques
+                        </div>
+                      )}
+                    </div>
                   </div>
-                  <span className="font-roboto text-sm text-coton-black">
-                    {step}
-                  </span>
-                </div>
-              ))}
+                );
+              })}
             </div>
             
             {/* Validation Button */}
