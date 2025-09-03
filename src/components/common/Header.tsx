@@ -1,9 +1,7 @@
 import React from 'react';
-import { Moon, Sun, Coins, User, LogOut } from 'lucide-react';
+import { Moon, Sun, Coins, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useApp } from '@/contexts/AppContext';
-import { useAuth } from '@/hooks/useAuth';
-import { useToast } from '@/hooks/use-toast';
 
 interface HeaderProps {
   onProfileClick?: () => void;
@@ -13,24 +11,6 @@ interface HeaderProps {
 
 export function Header({ onProfileClick, onHomeClick, onRewardsClick }: HeaderProps) {
   const { state, dispatch } = useApp();
-  const { signOut } = useAuth();
-  const { toast } = useToast();
-
-  const handleLogout = async () => {
-    try {
-      await signOut();
-      toast({
-        title: "Déconnexion réussie",
-        description: "À bientôt sur Coton Noir !",
-      });
-    } catch (error) {
-      toast({
-        title: "Erreur",
-        description: "Erreur lors de la déconnexion.",
-        variant: "destructive",
-      });
-    }
-  };
 
   return (
     <header className="bg-coton-black border-b border-white/10 px-4 py-3 sticky top-0 z-40 shadow-soft">
@@ -50,17 +30,6 @@ export function Header({ onProfileClick, onHomeClick, onRewardsClick }: HeaderPr
         
         {/* Right side actions */}
         <div className="flex items-center gap-3">
-          {/* Logout button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={handleLogout}
-            className="h-10 w-10 text-white hover:bg-white/10"
-            title="Se déconnecter"
-          >
-            <LogOut size={18} className="text-white" />
-          </Button>
-
           {/* Profile button */}
           {onProfileClick && (
             <Button
