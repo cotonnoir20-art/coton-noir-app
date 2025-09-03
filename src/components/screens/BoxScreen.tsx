@@ -59,7 +59,7 @@ export function BoxScreen({ onNavigate }: BoxScreenProps) {
           
           <Button
             variant="hero"
-            onClick={() => onNavigate('journal')}
+            onClick={() => onNavigate('box-content')}
             className="w-full"
           >
             Voir mes fichiers

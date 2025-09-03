@@ -9,6 +9,7 @@ import { ProfileOnboardingScreen } from './screens/ProfileOnboardingScreen';
 import { HomeScreen } from './screens/HomeScreen';
 import { AddCareScreen } from './screens/AddCareScreen';
 import { BoxScreen } from './screens/BoxScreen';
+import { BoxContentScreen } from './screens/BoxContentScreen';
 import { JournalScreen } from './screens/JournalScreen';
 import { PartnersScreen } from './screens/PartnersScreen';
 import { TutorialsScreen } from './screens/TutorialsScreen';
@@ -24,6 +25,7 @@ type Screen =
   | 'add-care'
   | 'hair-profile'
   | 'box'
+  | 'box-content'
   | 'journal'
   | 'tutorials'
   | 'partners'
@@ -90,11 +92,11 @@ export default function CotonNoirApp() {
   };
   
   const shouldShowNavigation = () => {
-    return !['onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'premium', 'payment'].includes(currentScreen);
+    return !['onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'premium', 'payment', 'box-content'].includes(currentScreen);
   };
   
   const shouldShowHeader = () => {
-    return !['onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'premium', 'payment'].includes(currentScreen);
+    return !['onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'premium', 'payment', 'box-content'].includes(currentScreen);
   };
   
   const renderScreen = () => {
@@ -141,6 +143,13 @@ export default function CotonNoirApp() {
         return (
           <BoxScreen
             onNavigate={handleNavigate}
+          />
+        );
+        
+      case 'box-content':
+        return (
+          <BoxContentScreen
+            onBack={() => handleNavigate('box')}
           />
         );
         
