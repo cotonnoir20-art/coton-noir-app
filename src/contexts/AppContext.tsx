@@ -122,6 +122,11 @@ interface AppState {
   challenge: Challenge;
   hairProfile: HairProfile;
   detailedHairProfile: DetailedHairProfile;
+  userProfile: {
+    name: string;
+    email: string;
+    bio: string;
+  };
   journalEntries: JournalEntry[];
   redeems: Redeem[];
   plans: Plan[];
@@ -155,6 +160,7 @@ type AppAction =
   | { type: 'UPDATE_CHALLENGE_PROGRESS' }
   | { type: 'UPDATE_HAIR_PROFILE'; profile: Partial<HairProfile> }
   | { type: 'UPDATE_DETAILED_HAIR_PROFILE'; profile: Partial<DetailedHairProfile> }
+  | { type: 'UPDATE_USER_PROFILE'; profile: Partial<AppState['userProfile']> }
   | { type: 'ADD_JOURNAL_ENTRY'; entry: JournalEntry }
   | { type: 'VALIDATE_AND_ADD_ENTRY'; entry: Omit<JournalEntry, 'timestamp'> }
   | { type: 'ADD_REDEEM'; redeem: Redeem }
@@ -191,6 +197,11 @@ const initialState: AppState = {
     problems: [],
     needs: [],
     isCompleted: false
+  },
+  userProfile: {
+    name: 'Utilisatrice',
+    email: 'user@cotonnoir.fr',
+    bio: ''
   },
   journalEntries: [],
   redeems: [],
@@ -277,6 +288,8 @@ function appReducer(state: AppState, action: AppAction): AppState {
       };
     case 'UPDATE_DETAILED_HAIR_PROFILE':
       return { ...state, detailedHairProfile: { ...state.detailedHairProfile, ...action.profile } };
+    case 'UPDATE_USER_PROFILE':
+      return { ...state, userProfile: { ...state.userProfile, ...action.profile } };
     case 'VALIDATE_AND_ADD_ENTRY':
       const now = Date.now();
       const entryTodayStr = new Date().toISOString().split('T')[0];

@@ -24,6 +24,7 @@ import { WashDayTrackerScreen } from './screens/WashDayTrackerScreen';
 import { FullJournalScreen } from './screens/FullJournalScreen';
 import { RewardsScreen } from './screens/RewardsScreen';
 import { DetailedRoutineScreen } from './screens/DetailedRoutineScreen';
+import { ProfileScreen } from './screens/ProfileScreen';
 
 type Screen =
   | 'onboarding'
@@ -43,7 +44,8 @@ type Screen =
   | 'partners'
   | 'community'
   | 'premium'
-  | 'payment';
+  | 'payment'
+  | 'profile';
 
 export default function CotonNoirApp() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('onboarding');
@@ -115,11 +117,11 @@ export default function CotonNoirApp() {
   };
   
   const shouldShowNavigation = () => {
-    return !['onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'wash-day-tracker', 'full-journal', 'rewards', 'detailed-routine', 'premium', 'payment', 'box-content'].includes(currentScreen);
+    return !['onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'wash-day-tracker', 'full-journal', 'rewards', 'detailed-routine', 'premium', 'payment', 'box-content', 'profile'].includes(currentScreen);
   };
   
   const shouldShowHeader = () => {
-    return !['onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'wash-day-tracker', 'full-journal', 'rewards', 'detailed-routine', 'premium', 'payment', 'box-content'].includes(currentScreen);
+    return !['onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'wash-day-tracker', 'full-journal', 'rewards', 'detailed-routine', 'premium', 'payment', 'box-content', 'profile'].includes(currentScreen);
   };
   
   const renderScreen = () => {
@@ -251,6 +253,13 @@ export default function CotonNoirApp() {
             onSuccess={handleBackToHome}
           />
         );
+      
+      case 'profile':
+        return (
+          <ProfileScreen
+            onNavigate={handleNavigate}
+          />
+        );
         
       default:
         return (
@@ -274,7 +283,7 @@ export default function CotonNoirApp() {
         {shouldShowHeader() && (
           <Header 
             onPremiumClick={() => handleNavigate('premium')}
-            onProfileClick={() => handleNavigate('hair-profile')}
+            onProfileClick={() => handleNavigate('profile')}
             onHomeClick={handleBackToHome}
             onRewardsClick={() => handleNavigate('rewards')}
           />
