@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { CotonCard } from '@/components/ui/coton-card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useApp } from '@/contexts/AppContext';
+import { Lightbulb } from 'lucide-react';
 
 interface ProfileOnboardingScreenProps {
   onComplete: () => void;
@@ -70,6 +71,76 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
         : [...prev, needId]
     );
   };
+
+  // Generate personalized routine preview based on current selections
+  const routinePreview = useMemo(() => {
+    if (!selectedPorosity) return [];
+    
+    let steps = [];
+    
+    // Base routine according to porosity
+    if (selectedPorosity === 'faible') {
+      steps = ['Pré-poo léger', 'Shampoing clarifiant doux', 'Masque protéiné léger', 'Leave-in fluide', 'Scellage avec huile légère'];
+    } else if (selectedPorosity === 'moyenne') {
+      steps = ['Pré-poo', 'Shampoing hydratant', 'Masque équilibré', 'Leave-in crémeux', 'Scellage mixte'];
+    } else if (selectedPorosity === 'haute') {
+      steps = ['Pré-poo nourrissant', 'Co-wash ou shampoing doux', 'Masque hydratant intensif', 'Leave-in riche', 'Scellage avec beurre'];
+    }
+    
+    // Adapt based on problems
+    if (selectedProblems.includes('secheresse')) {
+      steps.splice(2, 1, 'Masque hydratant intensif');
+    }
+    if (selectedProblems.includes('casse')) {
+      steps.splice(1, 0, 'Traitement protéiné');
+    }
+    if (selectedProblems.includes('cuir_chevelu')) {
+      steps.unshift('Massage du cuir chevelu');
+    }
+    
+    // Adapt based on needs
+    if (selectedNeeds.includes('definition')) {
+      steps.push('Crème coiffante définition');
+    }
+    if (selectedNeeds.includes('brillance')) {
+      steps.push('Sérum brillance');
+    }
+    
+    return steps.slice(0, 5); // Limit to 5 steps max
+  }, [selectedPorosity, selectedProblems, selectedNeeds]);
+
+  // Generate CotonTips based on selected needs
+  const cotonTips = useMemo(() => {
+    const tips: string[] = [];
+    
+    if (selectedNeeds.includes('hydratation')) {
+      tips.push('Bois beaucoup d\'eau et utilise des masques hydratants 1-2 fois par semaine 💧');
+    }
+    if (selectedNeeds.includes('definition')) {
+      tips.push('Applique tes produits sur cheveux humides et utilise la technique du "plopping" ✨');
+    }
+    if (selectedNeeds.includes('brillance')) {
+      tips.push('Termine toujours par un rinçage à l\'eau froide pour refermer les écailles 🌟');
+    }
+    if (selectedNeeds.includes('pousse')) {
+      tips.push('Masse ton cuir chevelu quotidiennement et protège tes pointes la nuit 🌱');
+    }
+    if (selectedNeeds.includes('reparation')) {
+      tips.push('Alterne entre soins hydratants et protéinés selon tes besoins 💪');
+    }
+    if (selectedNeeds.includes('protection')) {
+      tips.push('Utilise toujours une protection thermique et évite la chaleur excessive 🛡️');
+    }
+    
+    if (selectedProblems.includes('secheresse')) {
+      tips.push('Évite les sulfates et privilégie les co-wash pour préserver l\'hydratation 🚫');
+    }
+    if (selectedProblems.includes('casse')) {
+      tips.push('Démêle toujours sur cheveux mouillés avec un conditioner et un peigne à dents larges ⚠️');
+    }
+    
+    return tips;
+  }, [selectedNeeds, selectedProblems]);
 
   const isFormValid = () => {
     return selectedHairType && 
@@ -247,6 +318,64 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
           <strong>💡 Astuce :</strong> cette étape nous permet de te générer une routine sur mesure.
         </p>
       </CotonCard>
+
+      {/* Routine Preview - shows when porosity is selected */}
+      {routinePreview.length > 0 && (
+        <CotonCard className="p-6 space-y-4 bg-gradient-to-r from-coton-rose/10 to-purple-50">
+          <div className="flex items-center gap-2">
+            <h3 className="font-poppins font-semibold text-lg text-coton-black">
+              Aperçu de ta routine ✨
+            </h3>
+          </div>
+          
+          <div className="space-y-3">
+            {routinePreview.map((step, index) => (
+              <div key={index} className="flex items-center gap-3 p-3 rounded-lg bg-white/60">
+                <div className="w-8 h-8 rounded-full bg-coton-rose flex items-center justify-center text-white font-bold text-sm">
+                  {index + 1}
+                </div>
+                <span className="font-roboto text-sm text-coton-black">
+                  {step}
+                </span>
+              </div>
+            ))}
+          </div>
+          
+          <div className="p-3 rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50">
+            <p className="text-xs font-roboto text-center text-muted-foreground">
+              Cette routine s'adapte automatiquement à tes choix
+            </p>
+          </div>
+        </CotonCard>
+      )}
+
+      {/* CotonTips - shows when needs or problems are selected */}
+      {cotonTips.length > 0 && (
+        <CotonCard className="p-6 space-y-4 bg-gradient-to-r from-amber-50 to-yellow-50 border-amber-200">
+          <div className="flex items-center gap-2">
+            <Lightbulb className="text-amber-500" size={20} />
+            <h3 className="font-poppins font-semibold text-lg text-amber-800">
+              CotonTips
+            </h3>
+          </div>
+          
+          <div className="space-y-3">
+            {cotonTips.slice(0, 2).map((tip, index) => (
+              <div key={index} className="p-3 rounded-lg bg-white/70 border-l-4 border-amber-300">
+                <p className="font-roboto text-sm text-amber-900">
+                  {tip}
+                </p>
+              </div>
+            ))}
+          </div>
+          
+          {cotonTips.length > 2 && (
+            <p className="text-xs font-roboto text-center text-amber-700">
+              +{cotonTips.length - 2} autres conseils t'attendent sur ton profil
+            </p>
+          )}
+        </CotonCard>
+      )}
 
       {/* Bouton CTA */}
       <div className="pb-6">
