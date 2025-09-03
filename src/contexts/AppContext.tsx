@@ -297,12 +297,14 @@ function appReducer(state: AppState, action: AppAction): AppState {
         throw new Error(`Maximum 3 ${action.entry.type}s par jour atteint`);
       }
       
-      // 3. Cooldown: minimum 30 minutes between entries
-      const recentEntries = state.journalEntries.filter(entry => 
-        now - entry.timestamp < 30 * 60 * 1000 // 30 minutes
+      // 3. Cooldown: minimum 5 minutes between identical entries (spam protection)
+      const recentIdenticalEntries = state.journalEntries.filter(entry => 
+        now - entry.timestamp < 5 * 60 * 1000 && // 5 minutes
+        entry.title.toLowerCase() === action.entry.title.toLowerCase() &&
+        entry.type === action.entry.type
       );
-      if (recentEntries.length > 0) {
-        throw new Error('Attendez 30 minutes entre chaque ajout');
+      if (recentIdenticalEntries.length > 0) {
+        throw new Error('Attendez 5 minutes avant d\'ajouter le même soin');
       }
       
       // 4. Basic validation: no empty titles or suspicious patterns
