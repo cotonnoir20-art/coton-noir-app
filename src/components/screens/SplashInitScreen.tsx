@@ -17,7 +17,7 @@ export default function SplashInitScreen({ onContinue }: SplashInitScreenProps) 
   }, [onContinue]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-background/80 flex flex-col items-center justify-center px-6">
+    <div className="min-h-screen bg-black flex flex-col items-center justify-center px-6">
       {/* Logo Animation */}
       <motion.div
         initial={{ scale: 0, opacity: 0 }}
@@ -29,7 +29,7 @@ export default function SplashInitScreen({ onContinue }: SplashInitScreenProps) 
         }}
         className="mb-12"
       >
-        <div className="w-48 h-48 rounded-full bg-primary/10 flex items-center justify-center mb-6">
+        <div className="w-48 h-48 rounded-full bg-white/10 flex items-center justify-center mb-6">
           <img 
             src="/lovable-uploads/794ef04a-9b7c-4111-99f5-6de9df3547bf.png"
             alt="Coton Noir Logo"
@@ -45,10 +45,10 @@ export default function SplashInitScreen({ onContinue }: SplashInitScreenProps) 
         transition={{ duration: 0.6, delay: 0.8 }}
         className="text-center mb-8"
       >
-        <h1 className="text-3xl font-bold text-foreground mb-4">
+        <h1 className="text-3xl font-bold text-white mb-4">
           Bienvenue sur Coton Noir
         </h1>
-        <p className="text-lg text-muted-foreground max-w-md mx-auto leading-relaxed">
+        <p className="text-lg text-white/80 max-w-md mx-auto leading-relaxed">
           L'application dédiée aux soins capillaires des femmes noires en France
         </p>
       </motion.div>
@@ -74,7 +74,7 @@ export default function SplashInitScreen({ onContinue }: SplashInitScreenProps) 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.4, delay: 1.8 }}
-        className="text-sm text-muted-foreground mt-6 text-center"
+        className="text-sm text-white/60 mt-6 text-center"
       >
         Ou attendez 3 secondes pour continuer automatiquement
       </motion.p>
