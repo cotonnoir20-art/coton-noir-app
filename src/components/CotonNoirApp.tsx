@@ -64,17 +64,27 @@ export default function CotonNoirApp() {
     }
   }, [user, loading, navigate]);
 
-  // Check if user has completed onboarding
+  // Check if user has completed onboarding and handle flow parameter
   useEffect(() => {
     if (!user) return;
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const flow = urlParams.get('flow');
+    
     const hasCompletedOnboarding = localStorage.getItem('coton-noir-onboarding');
     const hasCompletedProfile = localStorage.getItem('coton-noir-profile-onboarding');
     
-    if (hasCompletedOnboarding && hasCompletedProfile) {
+    if (flow === 'onboarding') {
+      // New user coming from signup
+      setCurrentScreen('onboarding');
+      // Clear the flow parameter
+      window.history.replaceState({}, '', window.location.pathname);
+    } else if (hasCompletedOnboarding && hasCompletedProfile) {
       setCurrentScreen('home');
     } else if (hasCompletedOnboarding && !hasCompletedProfile) {
       setCurrentScreen('profile-onboarding');
+    } else {
+      setCurrentScreen('home');
     }
 
     // Listen for navigation events

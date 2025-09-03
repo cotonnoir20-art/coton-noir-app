@@ -24,6 +24,12 @@ const Auth = () => {
   };
 
   const handleAuthSuccess = () => {
+    // For signup, redirect to onboarding first
+    navigate('/?flow=onboarding');
+  };
+
+  const handleLoginSuccess = () => {
+    // For login, go directly to home
     navigate('/');
   };
 
@@ -33,7 +39,7 @@ const Auth = () => {
         return (
           <LoginScreen
             onNavigate={handleNavigate}
-            onLoginSuccess={handleAuthSuccess}
+            onLoginSuccess={handleLoginSuccess}
           />
         );
       case 'signup':

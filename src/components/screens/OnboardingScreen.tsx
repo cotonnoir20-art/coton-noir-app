@@ -103,14 +103,14 @@ export function OnboardingScreen({ onComplete, onPremium }: OnboardingScreenProp
             </Button>
           )}
           
-          <Button
-            variant="hero"
-            size="lg"
-            onClick={handleNext}
-            className="w-full"
-          >
-            {isLastSlide ? 'Créer mon compte' : 'Continuer'}
-          </Button>
+           <Button
+             variant="hero"
+             size="lg"
+             onClick={handleNext}
+             className="w-full"
+           >
+             {isLastSlide ? 'Commencer' : 'Continuer'}
+           </Button>
         </div>
       </div>
     </div>
