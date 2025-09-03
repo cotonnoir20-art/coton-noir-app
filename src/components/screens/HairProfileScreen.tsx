@@ -243,7 +243,8 @@ export function HairProfileScreen({
     
     onBack();
   };
-  return <div className="pb-20 px-4 space-y-6 bg-coton-beige min-h-screen">
+  return (
+    <div className="pb-20 px-4 space-y-6 bg-background min-h-screen">
       {/* Header */}
       <div className="flex items-center gap-4 pt-4 pb-2">
         <Button variant="ghost" size="icon" onClick={onBack}>
@@ -612,5 +613,6 @@ export function HairProfileScreen({
           Prête pour une routine capillaire alignée à tes vrais besoins 💕
         </p>
       </CotonCard>
-    </div>;
+    </div>
+  );
 }
