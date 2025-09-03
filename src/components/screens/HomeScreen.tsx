@@ -53,8 +53,20 @@ export function HomeScreen({
       <CotonCard className="p-6 space-y-4">
         <div className="flex items-center justify-between">
           <h3 className="font-poppins font-semibold text-lg">Niveau & Objectif</h3>
-          <Target className="text-coton-rose" size={24} />
+          <div className="bg-coton-rose/20 text-coton-rose px-3 py-1 rounded-full text-sm font-roboto font-medium flex items-center gap-1">
+            Hydratation 💧
+          </div>
         </div>
+        
+        <div className="flex items-center gap-2">
+          <div className="w-3 h-3 bg-purple-400 rounded-full"></div>
+          <span className="font-poppins font-medium text-coton-black">Curlie Cutie</span>
+        </div>
+        
+        <p className="text-sm font-roboto text-muted-foreground">
+          Encore <span className="font-medium text-coton-black">2400 CotonCoins 🪙</span> avant ton prochain palier ! 🔥
+        </p>
+        
         <Button variant="hero" size="lg" onClick={onAddCare} className="w-full">
           <Plus size={20} />
           Ajouter un soin
