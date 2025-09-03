@@ -257,6 +257,7 @@ export default function CotonNoirApp() {
           <Header 
             onPremiumClick={() => handleNavigate('premium')}
             onProfileClick={() => handleNavigate('hair-profile')}
+            onHomeClick={handleBackToHome}
           />
         )}
         

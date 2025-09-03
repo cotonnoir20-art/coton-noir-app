@@ -6,23 +6,27 @@ import { useApp } from '@/contexts/AppContext';
 interface HeaderProps {
   onPremiumClick?: () => void;
   onProfileClick?: () => void;
+  onHomeClick?: () => void;
 }
 
-export function Header({ onPremiumClick, onProfileClick }: HeaderProps) {
+export function Header({ onPremiumClick, onProfileClick, onHomeClick }: HeaderProps) {
   const { state, dispatch } = useApp();
 
   return (
     <header className="bg-coton-black border-b border-white/10 px-4 py-3 sticky top-0 z-40 shadow-soft">
       <div className="flex items-center justify-between">
         {/* Logo */}
-        <div className="flex items-center gap-2">
+        <button 
+          onClick={onHomeClick}
+          className="flex items-center gap-2 hover:opacity-80 transition-opacity cursor-pointer"
+        >
           <h1 className="font-poppins font-bold text-xl text-white">
             Coton Noir
           </h1>
           <span className="text-sm text-white/70 font-roboto">
             Hair Journal
           </span>
-        </div>
+        </button>
         
         {/* Right side actions */}
         <div className="flex items-center gap-3">
