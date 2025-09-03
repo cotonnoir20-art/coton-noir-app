@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Plus, Package, Users, Store, Video, Gift, Target, Sparkles, Check } from 'lucide-react';
+import { Plus, Package, Users, Store, Video, Gift, Target, Sparkles, Check, Heart, Crown, Star, Sun, Zap, Music, Droplets, Diamond } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CotonCard } from '@/components/ui/coton-card';
 import { ProgressBar } from '@/components/ui/progress-bar';
@@ -250,26 +250,33 @@ export function HomeScreen({
           {(() => {
             const currentCoins = state.coins;
             const levels = [
-              { name: 'Baby Hair', min: 0, max: 500, emoji: '✨', color: '#F7B6D2' },
-              { name: 'Curlie Cutie', min: 501, max: 1000, emoji: '💖', color: '#C9A7EB' },
-              { name: 'Afro Queenie', min: 1001, max: 2500, emoji: '👑', color: '#FFD166' },
-              { name: 'Glow Fro', min: 2501, max: 5000, emoji: '🌟', color: '#FEE440' },
-              { name: 'Crown Vibes', min: 5001, max: 7500, emoji: '👑💕', color: '#FF6F91' },
-              { name: 'Slay Braidy', min: 7501, max: 10000, emoji: '🧵🔥', color: '#06D6A0' },
-              { name: 'Kinky Diva', min: 10001, max: 15000, emoji: '💃🏾', color: '#9B5DE5' },
-              { name: 'Twist & Shine', min: 15001, max: 20000, emoji: '💫', color: '#FF9770' },
-              { name: 'Wash Day Goddess', min: 20001, max: 30000, emoji: '🛁👸🏾', color: '#26547C' },
-              { name: 'Afrolicious Icon', min: 30001, max: Infinity, emoji: '🔥💎', color: '#FFD700' }
+              { name: 'Baby Hair', min: 0, max: 500, emoji: '✨', color: '#F7B6D2', icon: Sparkles },
+              { name: 'Curlie Cutie', min: 501, max: 1000, emoji: '💖', color: '#C9A7EB', icon: Heart },
+              { name: 'Afro Queenie', min: 1001, max: 2500, emoji: '👑', color: '#FFD166', icon: Crown },
+              { name: 'Glow Fro', min: 2501, max: 5000, emoji: '🌟', color: '#FEE440', icon: Sun },
+              { name: 'Crown Vibes', min: 5001, max: 7500, emoji: '👑💕', color: '#FF6F91', icon: Crown },
+              { name: 'Slay Braidy', min: 7501, max: 10000, emoji: '🧵🔥', color: '#06D6A0', icon: Zap },
+              { name: 'Kinky Diva', min: 10001, max: 15000, emoji: '💃🏾', color: '#9B5DE5', icon: Music },
+              { name: 'Twist & Shine', min: 15001, max: 20000, emoji: '💫', color: '#FF9770', icon: Star },
+              { name: 'Wash Day Goddess', min: 20001, max: 30000, emoji: '🛁👸🏾', color: '#26547C', icon: Droplets },
+              { name: 'Afrolicious Icon', min: 30001, max: Infinity, emoji: '🔥💎', color: '#FFD700', icon: Diamond }
             ];
             
             const currentLevel = levels.find(level => currentCoins >= level.min && currentCoins <= level.max) || levels[0];
+            const IconComponent = currentLevel.icon;
             
             return (
               <>
-                <div 
-                  className="w-3 h-3 rounded-full" 
-                  style={{ backgroundColor: currentLevel.color }}
-                ></div>
+                <div className="flex items-center gap-1">
+                  <div 
+                    className="w-3 h-3 rounded-full" 
+                    style={{ backgroundColor: currentLevel.color }}
+                  ></div>
+                  <IconComponent 
+                    size={16} 
+                    style={{ color: currentLevel.color }}
+                  />
+                </div>
                 <span className="font-poppins font-medium text-coton-black">
                   {currentLevel.name} {currentLevel.emoji}
                 </span>
