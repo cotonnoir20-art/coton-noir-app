@@ -214,26 +214,6 @@ export function CommunityScreen({ onNavigate }: CommunityScreenProps) {
         </div>
       </CotonCard>
       
-      {/* Premium Benefits */}
-      {!state.premium && (
-        <CotonCard variant="premium" className="p-6 text-center space-y-4">
-          <Trophy className="text-white mx-auto" size={32} />
-          <div className="space-y-2">
-            <h4 className="font-poppins font-bold text-white">
-              Boostez vos récompenses
-            </h4>
-            <p className="text-white/90 font-roboto text-sm">
-              Avec Premium, gagnez +3 CC supplémentaires par jour de challenge
-            </p>
-          </div>
-          <Button 
-            variant="rose"
-            onClick={() => onNavigate('premium')}
-          >
-            Découvrir Premium
-          </Button>
-        </CotonCard>
-      )}
     </div>
   );
 }

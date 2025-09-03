@@ -82,31 +82,11 @@ export function TutorialsScreen({ onNavigate }: TutorialsScreenProps) {
         </p>
       </div>
       
-      {/* Premium Promo */}
-      {!state.premium && (
-        <CotonCard variant="premium" className="p-6">
-          <div className="text-center space-y-3">
-            <Lock className="text-white mx-auto" size={32} />
-            <h3 className="font-poppins font-bold text-white text-lg">
-              Débloquez les tutos exclusifs
-            </h3>
-            <p className="text-white/90 font-roboto text-sm">
-              Accédez aux techniques avancées et recettes secrètes avec Premium
-            </p>
-            <Button 
-              variant="rose"
-              onClick={() => onNavigate('premium')}
-            >
-              Découvrir Premium
-            </Button>
-          </div>
-        </CotonCard>
-      )}
       
       {/* Tutorials List */}
       <div className="space-y-4">
         {tutorials.map((tutorial) => {
-          const isLocked = tutorial.premium && !state.premium;
+          const isLocked = tutorial.premium;
           
           return (
             <CotonCard 
