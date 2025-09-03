@@ -23,38 +23,118 @@ export function HomeScreen({
   const personalizedRoutine = useMemo(() => {
     if (!state.detailedHairProfile.isCompleted) return [];
     
-    const { porosity, objective, problems, needs } = state.detailedHairProfile;
+    const { hairType, porosity, objective, problems, needs } = state.detailedHairProfile;
     let steps = [];
     
-    // Base routine according to porosity
-    if (porosity === 'faible') {
-      steps = ['Pré-poo léger', 'Shampoing clarifiant doux', 'Masque protéiné léger', 'Leave-in fluide', 'Scellage avec huile légère'];
-    } else if (porosity === 'moyenne') {
-      steps = ['Pré-poo', 'Shampoing hydratant', 'Masque équilibré', 'Leave-in crémeux', 'Scellage mixte'];
-    } else if (porosity === 'haute') {
-      steps = ['Pré-poo nourrissant', 'Co-wash ou shampoing doux', 'Masque hydratant intensif', 'Leave-in riche', 'Scellage avec beurre'];
+    // Base routine according to hair type AND porosity
+    if (hairType === '3C') {
+      if (porosity === 'faible') {
+        steps = ['Pré-poo aux huiles légères', 'Shampoing sans sulfates', 'Masque hydratant léger', 'Leave-in crémeux', 'Gel définition pour boucles'];
+      } else if (porosity === 'moyenne') {
+        steps = ['Pré-poo nourrissant', 'Co-wash hydratant', 'Masque protéines/hydratation', 'Crème leave-in', 'Gel ou mousse définition'];
+      } else {
+        steps = ['Pré-poo riche en huiles', 'Co-wash crémeux', 'Masque hydratant intensif', 'Crème riche', 'Gel épais ou crème coiffante'];
+      }
+    } else if (hairType === '4A') {
+      if (porosity === 'faible') {
+        steps = ['Pré-poo léger', 'Shampoing clarifiant doux', 'Masque équilibré', 'Leave-in fluide', 'Crème définition légère'];
+      } else if (porosity === 'moyenne') {
+        steps = ['Pré-poo aux beurres', 'Shampoing hydratant', 'Masque nourrissant', 'Leave-in crémeux', 'Beurre de karité + huile'];
+      } else {
+        steps = ['Pré-poo riche', 'Co-wash ou shampoing doux', 'Masque réparateur intensif', 'Crème épaisse', 'Scellage beurre + huile'];
+      }
+    } else if (hairType === '4B') {
+      if (porosity === 'faible') {
+        steps = ['Massage cuir chevelu', 'Shampoing hydratant', 'Masque protéiné léger', 'Leave-in riche', 'Huile scellante'];
+      } else if (porosity === 'moyenne') {
+        steps = ['Pré-poo nourrissant', 'Co-wash crémeux', 'Masque hydratant profond', 'Crème leave-in épaisse', 'Beurre de karité'];
+      } else {
+        steps = ['Bain d\'huiles', 'Co-wash uniquement', 'Masque ultra-nourrissant', 'Crème très riche', 'Scellage beurre épais'];
+      }
+    } else if (hairType === '4C') {
+      if (porosity === 'faible') {
+        steps = ['Pré-poo prolongé', 'Shampoing très doux', 'Masque protéiné doux', 'Crème leave-in riche', 'Huile + beurre léger'];
+      } else if (porosity === 'moyenne') {
+        steps = ['Bain d\'huiles chaud', 'Co-wash exclusivement', 'Masque réparateur', 'Crème épaisse', 'Méthode LOC (leave-in + huile + crème)'];
+      } else {
+        steps = ['Pré-poo overnight', 'Co-wash doux', 'Masque ultra-hydratant', 'Crème très épaisse', 'Méthode LCO (leave-in + crème + huile)'];
+      }
+    }
+    
+    // Adapt based on objective
+    if (objective === 'hydratation') {
+      steps.splice(2, 1, 'Double masque hydratant');
+      if (!steps.some(s => s.includes('hydrat'))) {
+        steps.push('Spray hydratant quotidien');
+      }
+    } else if (objective === 'definition') {
+      steps.push('Technique plopping après application');
+      steps = steps.map(s => s.includes('Gel') ? 'Gel définition forte tenue' : s);
+    } else if (objective === 'pousse') {
+      steps.unshift('Massage stimulant cuir chevelu');
+      if (!steps.some(s => s.includes('protéin'))) {
+        steps.splice(-1, 0, 'Traitement fortifiant');
+      }
+    } else if (objective === 'reparation') {
+      steps.splice(1, 0, 'Traitement protéiné réparateur');
+      steps = steps.map(s => s.includes('Masque') ? 'Masque réparateur intensif' : s);
     }
     
     // Adapt based on problems
     if (problems.includes('secheresse')) {
-      steps.splice(2, 1, 'Masque hydratant intensif');
+      steps = steps.map(s => s.includes('Masque') ? 'Masque hydratant ultra-nourrissant' : s);
+      steps.push('Brumisateur hydratant quotidien');
     }
     if (problems.includes('casse')) {
-      steps.splice(1, 0, 'Traitement protéiné');
+      steps.splice(1, 0, 'Traitement protéiné fortifiant');
+      steps.push('Soin anti-casse sur pointes');
+    }
+    if (problems.includes('frisottis')) {
+      steps.push('Sérum anti-frisottis sans rinçage');
+      steps = steps.map(s => s.includes('Leave-in') ? 'Leave-in lissant anti-frisottis' : s);
+    }
+    if (problems.includes('demelage')) {
+      steps.splice(1, 0, 'Conditioner démêlant');
+      steps.push('Huile démêlante avant coiffage');
     }
     if (problems.includes('cuir_chevelu')) {
-      steps.unshift('Massage du cuir chevelu');
+      steps.unshift('Massage apaisant cuir chevelu');
+      steps.splice(1, 0, 'Shampoing apaisant sans sulfates');
+    }
+    if (problems.includes('chute')) {
+      steps.unshift('Massage anti-chute stimulant');
+      steps.push('Sérum fortifiant cuir chevelu');
     }
     
-    // Adapt based on needs
+    // Adapt based on specific needs
+    if (needs.includes('hydratation')) {
+      if (!steps.some(s => s.includes('hydrat'))) {
+        steps.splice(-1, 0, 'Masque hydratant hebdomadaire');
+      }
+    }
     if (needs.includes('definition')) {
-      steps.push('Crème coiffante définition');
+      steps.push('Crème définition + gel fixation');
+      steps.push('Technique scrunching');
     }
     if (needs.includes('brillance')) {
-      steps.push('Sérum brillance');
+      steps.push('Sérum brillance finition');
+      steps.push('Rinçage eau froide final');
+    }
+    if (needs.includes('pousse')) {
+      if (!steps.some(s => s.includes('Massage'))) {
+        steps.unshift('Massage stimulant 5min');
+      }
+      steps.push('Soin fortifiant pointes');
+    }
+    if (needs.includes('reparation')) {
+      steps.splice(2, 0, 'Masque protéines/hydratation alterné');
+    }
+    if (needs.includes('protection')) {
+      steps.push('Protection thermique si chaleur');
+      steps.push('Satin/soie pour dormir');
     }
     
-    return steps.slice(0, 5); // Limit to 5 steps max
+    return steps.slice(0, 6); // Allow up to 6 steps for comprehensive care
   }, [state.detailedHairProfile]);
 
   const [routineValidated, setRoutineValidated] = React.useState(false);
