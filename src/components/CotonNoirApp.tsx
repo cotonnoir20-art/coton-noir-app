@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 
 // Screens
+import SplashInitScreen from './screens/SplashInitScreen';
 import { OnboardingScreen } from './screens/OnboardingScreen';
 import { ProfileOnboardingScreen } from './screens/ProfileOnboardingScreen';
 import { HomeScreen } from './screens/HomeScreen';
@@ -27,6 +28,7 @@ import { DetailedRoutineScreen } from './screens/DetailedRoutineScreen';
 import { ProfileScreen } from './screens/ProfileScreen';
 
 type Screen =
+  | 'splash-init'
   | 'onboarding'
   | 'profile-onboarding'
   | 'home'
@@ -46,7 +48,7 @@ type Screen =
   | 'profile';
 
 export default function CotonNoirApp() {
-  const [currentScreen, setCurrentScreen] = useState<Screen>('onboarding');
+  const [currentScreen, setCurrentScreen] = useState<Screen>('splash-init');
   const [activeTab, setActiveTab] = useState('home');
   
   const { user, loading } = useAuth();
@@ -72,7 +74,7 @@ export default function CotonNoirApp() {
     
     if (flow === 'onboarding') {
       // New user coming from signup
-      setCurrentScreen('onboarding');
+      setCurrentScreen('splash-init');
       // Clear the flow parameter
       window.history.replaceState({}, '', window.location.pathname);
     } else if (hasCompletedOnboarding && hasCompletedProfile) {
@@ -80,7 +82,8 @@ export default function CotonNoirApp() {
     } else if (hasCompletedOnboarding && !hasCompletedProfile) {
       setCurrentScreen('profile-onboarding');
     } else {
-      setCurrentScreen('home');
+      // First time user - show splash screen
+      setCurrentScreen('splash-init');
     }
 
     // Listen for navigation events
@@ -140,15 +143,22 @@ export default function CotonNoirApp() {
   };
   
   const shouldShowNavigation = () => {
-    return !['onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'wash-day-tracker', 'full-journal', 'rewards', 'detailed-routine', 'box-content', 'profile'].includes(currentScreen);
+    return !['splash-init', 'onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'wash-day-tracker', 'full-journal', 'rewards', 'detailed-routine', 'box-content', 'profile'].includes(currentScreen);
   };
   
   const shouldShowHeader = () => {
-    return !['onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'wash-day-tracker', 'full-journal', 'rewards', 'detailed-routine', 'box-content', 'profile'].includes(currentScreen);
+    return !['splash-init', 'onboarding', 'profile-onboarding', 'add-care', 'hair-profile', 'growth-tracker', 'wash-day-tracker', 'full-journal', 'rewards', 'detailed-routine', 'box-content', 'profile'].includes(currentScreen);
   };
   
   const renderScreen = () => {
     switch (currentScreen) {
+      case 'splash-init':
+        return (
+          <SplashInitScreen
+            onContinue={() => handleNavigate('onboarding')}
+          />
+        );
+
       case 'onboarding':
         return (
           <OnboardingScreen
