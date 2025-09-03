@@ -1,5 +1,13 @@
-import React, { useMemo } from 'react';
-import { Plus, Package, Users, Store, Video, Gift, Target, Sparkles, Check, Heart, Crown, Star, Sun, Zap, Music, Droplets, Diamond, TrendingUp, Calendar } from 'lucide-react';
+import React, { useMemo, useState, useEffect } from 'react';
+import { Plus, Package, Users, Store, Video, Gift, Target, Sparkles, Check, Heart, Crown, Star, Sun, Zap, Music, Droplets, Diamond, TrendingUp, Calendar, Clock, Trophy, Flame } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { CotonCard } from '@/components/ui/coton-card';
+import { ProgressBar } from '@/components/ui/progress-bar';
+import { CoinAnimation, useCoinAnimation } from '@/components/ui/coin-animation';
+import { BadgeNotification, BadgeDisplay, useBadgeSystem } from '@/components/ui/badge-system';
+import { PremiumWaitlist, LockedFeature } from '@/components/ui/premium-preview';
+import { useApp, Badge as BadgeType, DailyChallenge } from '@/contexts/AppContext';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { CotonCard } from '@/components/ui/coton-card';
 import { ProgressBar } from '@/components/ui/progress-bar';
@@ -14,10 +22,91 @@ export function HomeScreen({
   onAddCare,
   onShowProfile
 }: HomeScreenProps) {
-  const {
-    state,
-    dispatch
-  } = useApp();
+  const { state, dispatch } = useApp();
+  const [routineValidated, setRoutineValidated] = useState(false);
+
+  // Système d'animations et badges
+  const { shouldAnimate, amount, triggerCoinAnimation, resetAnimation } = useCoinAnimation();
+  const { newBadge, isVisible: isBadgeVisible, showBadge, hideBadge } = useBadgeSystem();
+
+  // Gestionnaire d'ajout de CotonCoins avec animation
+  const handleAddCoins = (coinAmount: number) => {
+    dispatch({ type: 'ADD_COINS', amount: coinAmount });
+    dispatch({ type: 'TRIGGER_COIN_ANIMATION' });
+    triggerCoinAnimation(coinAmount);
+  };
+
+  // Créer des badges automatiquement
+  useEffect(() => {
+    const checkAndAwardBadges = () => {
+      const badges: BadgeType[] = [];
+
+      // Badge premier soin
+      if (state.journalEntries.length === 1 && !state.badges.find(b => b.id === 'first-care')) {
+        badges.push({
+          id: 'first-care',
+          name: 'Première fois',
+          description: 'Premier soin ajouté au journal',
+          emoji: '✨',
+          unlockedAt: new Date().toISOString(),
+          category: 'routine'
+        });
+      }
+
+      // Badge wash day
+      if (state.washDayEntries.length === 1 && !state.badges.find(b => b.id === 'first-wash')) {
+        badges.push({
+          id: 'first-wash',
+          name: 'Wash Day Master',
+          description: 'Premier wash day enregistré',
+          emoji: '💧',
+          unlockedAt: new Date().toISOString(),
+          category: 'wash'
+        });
+      }
+
+      // Badge streak 7 jours
+      if (state.streakData.current >= 7 && !state.badges.find(b => b.id === 'streak-7')) {
+        badges.push({
+          id: 'streak-7',
+          name: 'Régularité',
+          description: '7 jours consécutifs',
+          emoji: '🔥',
+          unlockedAt: new Date().toISOString(),
+          category: 'streak'
+        });
+      }
+
+      badges.forEach(badge => {
+        dispatch({ type: 'ADD_BADGE', badge });
+        setTimeout(() => showBadge(badge), 1000);
+      });
+    };
+
+    checkAndAwardBadges();
+  }, [state.journalEntries.length, state.washDayEntries.length, state.streakData.current, state.badges, dispatch, showBadge]);
+
+  // Compléter un défi quotidien
+  const handleCompleteChallenge = (challenge: DailyChallenge) => {
+    if (challenge.completed) return;
+    
+    dispatch({ type: 'COMPLETE_DAILY_CHALLENGE', challengeId: challenge.id });
+    handleAddCoins(challenge.reward);
+    
+    // Badge si premier défi
+    if (state.dailyChallenges.filter(c => c.completed).length === 0) {
+      const challengerBadge: BadgeType = {
+        id: 'first-challenge',
+        name: 'Défis Challenger',
+        description: 'Premier défi quotidien complété',
+        emoji: '🎯',
+        unlockedAt: new Date().toISOString(),
+        category: 'routine'
+      };
+      dispatch({ type: 'ADD_BADGE', badge: challengerBadge });
+      setTimeout(() => showBadge(challengerBadge), 2000);
+    }
+  };
 
   // Generate personalized routine based on detailed profile
   const personalizedRoutine = useMemo(() => {
@@ -143,19 +232,32 @@ export function HomeScreen({
     if (routineValidated) return;
     
     setRoutineValidated(true);
-    dispatch({ type: 'ADD_COINS', amount: 10 });
+    handleAddCoins(10);
   };
 
   // Calculate stats
-  const thisMonthCares = state.journalEntries.filter(entry => {
-    const entryDate = new Date(entry.date);
-    const now = new Date();
-    return entryDate.getMonth() === now.getMonth() && entryDate.getFullYear() === now.getFullYear();
-  }).length;
-  const maskCount = state.journalEntries.filter(entry => entry.title.toLowerCase().includes('masque') || entry.note.toLowerCase().includes('masque')).length;
   const daysSinceLastCare = state.journalEntries.length > 0 ? Math.floor((Date.now() - new Date(state.journalEntries[0].date).getTime()) / (1000 * 60 * 60 * 24)) : 0;
   const boxProgress = state.premium ? 100 : Math.min(100, state.coins / 50 * 100);
-  return <div className="pb-20 px-4 space-y-6 bg-[#fdf1e3]">
+
+  // Défis du jour
+  const todaysChallenges = state.dailyChallenges.filter(
+    c => c.date === new Date().toISOString().split('T')[0]
+  );
+
+  return <div className="pb-20 px-4 space-y-6 bg-[#fdf1e3] relative">
+      {/* Animations */}
+      <CoinAnimation 
+        amount={amount} 
+        trigger={shouldAnimate} 
+        onComplete={resetAnimation}
+      />
+      
+      <BadgeNotification 
+        badge={newBadge} 
+        isVisible={isBadgeVisible} 
+        onClose={hideBadge}
+      />
+
       {/* Hair Profile Reminder */}
       {!state.hairProfile.isCompleted && <CotonCard variant="premium" className="p-4">
           <div className="flex items-center justify-between">
@@ -172,29 +274,124 @@ export function HomeScreen({
             </Button>
           </div>
         </CotonCard>}
+
+      {/* Défis quotidiens */}
+      {todaysChallenges.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="space-y-3"
+        >
+          <h3 className="font-poppins font-semibold text-lg flex items-center gap-2">
+            <Trophy className="text-yellow-500" size={20} />
+            Défis du jour
+          </h3>
+          
+          {todaysChallenges.map((challenge, index) => (
+            <motion.div
+              key={challenge.id}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <CotonCard className="p-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                      challenge.completed 
+                        ? 'bg-green-100 text-green-600' 
+                        : 'bg-orange-100 text-orange-600'
+                    }`}>
+                      {challenge.completed ? <Check size={20} /> : <Target size={20} />}
+                    </div>
+                    <div>
+                      <h4 className="font-poppins font-semibold text-sm">
+                        {challenge.title}
+                      </h4>
+                      <p className="text-xs text-muted-foreground">
+                        {challenge.description}
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="text-right">
+                    {challenge.completed ? (
+                      <div className="text-green-600 text-sm font-medium">
+                        Complété ! ✅
+                      </div>
+                    ) : (
+                      <div className="space-y-1">
+                        <div className="text-orange-600 font-bold text-sm">
+                          +{challenge.reward} CC
+                        </div>
+                        <Button 
+                          size="sm" 
+                          variant="outline"
+                          onClick={() => handleCompleteChallenge(challenge)}
+                          className="text-xs"
+                        >
+                          Valider
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </CotonCard>
+            </motion.div>
+          ))}
+        </motion.div>
+      )}
+
+      {/* Streak & Badges */}
+      {(state.streakData.current > 0 || state.badges.length > 0) && (
+        <CotonCard className="p-4 bg-gradient-to-r from-yellow-50 to-orange-50">
+          <div className="space-y-3">
+            {state.streakData.current > 0 && (
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-orange-400 to-red-500 flex items-center justify-center">
+                  <Flame className="text-white" size={24} />
+                </div>
+                <div>
+                  <h3 className="font-poppins font-semibold">
+                    Streak de {state.streakData.current} jour{state.streakData.current > 1 ? 's' : ''} ! 🔥
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    Meilleur: {state.streakData.best} jours
+                  </p>
+                </div>
+              </div>
+            )}
+            
+            {state.badges.length > 0 && (
+              <div>
+                <h4 className="font-poppins font-medium mb-2 text-sm">Tes badges:</h4>
+                <BadgeDisplay badges={state.badges} />
+              </div>
+            )}
+          </div>
+        </CotonCard>
+      )}
       
       {/* Premium Upsell (if not premium) */}
-      {!state.premium && <CotonCard variant="premium" className="p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h3 className="font-poppins font-bold text-lg text-white mb-2">
-                Premium Coton Noir
-              </h3>
-              <p className="text-white/90 text-sm font-roboto mb-1">
-                Double tes CotonCoins, Box illimitée,
-              </p>
-              <p className="text-white/90 text-sm font-roboto">
-                remises partenaires boostées.
-              </p>
-              <p className="text-white font-poppins font-medium text-lg mt-2">
-                Dès 3,99€/mois
-              </p>
+      {!state.premium && !state.premiumWaitlist.isOnWaitlist && (
+        <PremiumWaitlist onJoin={() => {}} />
+      )}
+
+      {state.premiumWaitlist.isOnWaitlist && !state.premium && (
+        <CotonCard className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 border-green-200">
+          <div className="text-center space-y-2">
+            <div className="flex items-center justify-center gap-2">
+              <Star className="text-green-500" size={20} />
+              <span className="font-poppins font-semibold text-green-700">
+                Sur la liste Premium !
+              </span>
             </div>
-            <Button variant="rose" onClick={() => onNavigate('premium')} className="shrink-0">
-              Découvrir
-            </Button>
+            <p className="text-sm text-green-600">
+              Position #{state.premiumWaitlist.position} • Nous vous notifierons bientôt !
+            </p>
           </div>
-        </CotonCard>}
+        </CotonCard>
+      )}
       
       {/* Level & Goal Card */}
       <CotonCard className="p-6 space-y-4 mt-5">
@@ -306,7 +503,31 @@ export function HomeScreen({
         </Button>
       </CotonCard>
       
-      {/* Personalized Routine Section */}
+      {/* Stats rapides */}
+      <div className="grid grid-cols-3 gap-3">
+        <CotonCard className="p-4 text-center">
+          <div className="text-lg font-poppins font-bold text-coton-rose">
+            {state.journalEntries.length}
+          </div>
+          <div className="text-xs text-muted-foreground">Soins total</div>
+        </CotonCard>
+        
+        <CotonCard className="p-4 text-center">
+          <div className="text-lg font-poppins font-bold text-blue-600">
+            {state.streakData.current}
+          </div>
+          <div className="text-xs text-muted-foreground">Jours streak</div>
+        </CotonCard>
+        
+        <CotonCard className="p-4 text-center">
+          <div className="text-lg font-poppins font-bold text-green-600">
+            {daysSinceLastCare === 0 ? "Aujourd'hui" : `${daysSinceLastCare}j`}
+          </div>
+          <div className="text-xs text-muted-foreground">
+            Dernier soin
+          </div>
+        </CotonCard>
+      </div>
       {state.detailedHairProfile.isCompleted && personalizedRoutine.length > 0 && (
         <div className="space-y-4">
           <h3 className="font-poppins font-semibold text-lg">Ma routine recommandée ✨</h3>

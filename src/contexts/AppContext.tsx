@@ -79,6 +79,41 @@ export interface WashDaySettings {
   autoSchedule: boolean;
 }
 
+export interface Badge {
+  id: string;
+  name: string;
+  description: string;
+  emoji: string;
+  unlockedAt: string;
+  category: 'routine' | 'wash' | 'growth' | 'streak' | 'premium';
+}
+
+export interface DailyChallenge {
+  id: string;
+  date: string;
+  title: string;
+  description: string;
+  reward: number;
+  completed: boolean;
+  type: 'journal' | 'wash' | 'measurement' | 'routine-feedback';
+}
+
+export interface RoutineFeedback {
+  id: string;
+  date: string;
+  routineType: 'express' | 'complete';
+  rating: 1 | 2 | 3 | 4 | 5;
+  timeSpent: number; // en minutes
+  notes?: string;
+}
+
+export interface PremiumWaitlist {
+  isOnWaitlist: boolean;
+  joinedAt?: string;
+  position?: number;
+  totalWaitlist: number;
+}
+
 interface AppState {
   coins: number;
   premium: boolean;
@@ -93,12 +128,21 @@ interface AppState {
   level: 'Bronze' | 'Argent' | 'Or' | 'Platine' | 'Diamant';
   streak: number;
   lastActiveDate: string;
-  badges: string[];
   profileCompletionBonus: boolean;
   hairMeasurements: HairMeasurement[];
   growthGoal: GrowthGoal | null;
   washDayEntries: WashDayEntry[];
   washDaySettings: WashDaySettings;
+  badges: Badge[];
+  dailyChallenges: DailyChallenge[];
+  routineFeedback: RoutineFeedback[];
+  premiumWaitlist: PremiumWaitlist;
+  lastCoinAnimation: number;
+  streakData: {
+    current: number;
+    best: number;
+    lastActiveDate: string;
+  };
 }
 
 type AppAction = 
@@ -114,13 +158,18 @@ type AppAction =
   | { type: 'ADD_JOURNAL_ENTRY'; entry: JournalEntry }
   | { type: 'VALIDATE_AND_ADD_ENTRY'; entry: Omit<JournalEntry, 'timestamp'> }
   | { type: 'ADD_REDEEM'; redeem: Redeem }
-  | { type: 'UPDATE_STREAK' }
-  | { type: 'ADD_BADGE'; badge: string }
   | { type: 'AWARD_PROFILE_BONUS' }
   | { type: 'ADD_MEASUREMENT'; measurement: HairMeasurement }
   | { type: 'SET_GROWTH_GOAL'; goal: GrowthGoal }
   | { type: 'ADD_WASH_DAY_ENTRY'; entry: WashDayEntry }
   | { type: 'UPDATE_WASH_DAY_SETTINGS'; settings: Partial<WashDaySettings> }
+  | { type: 'ADD_BADGE'; badge: Badge }
+  | { type: 'COMPLETE_DAILY_CHALLENGE'; challengeId: string }
+  | { type: 'ADD_ROUTINE_FEEDBACK'; feedback: RoutineFeedback }
+  | { type: 'JOIN_PREMIUM_WAITLIST' }
+  | { type: 'TRIGGER_COIN_ANIMATION' }
+  | { type: 'UPDATE_STREAK_NEW'; increment?: boolean }
+  | { type: 'GENERATE_DAILY_CHALLENGES' }
   | { type: 'LOAD_STATE'; state: Partial<AppState> };
 
 const initialState: AppState = {
@@ -162,7 +211,6 @@ const initialState: AppState = {
   level: 'Bronze',
   streak: 0,
   lastActiveDate: new Date().toISOString().split('T')[0],
-  badges: [],
   profileCompletionBonus: false,
   hairMeasurements: [],
   growthGoal: null,
@@ -172,6 +220,19 @@ const initialState: AppState = {
     preferredDay: 'sunday',
     reminderEnabled: true,
     autoSchedule: true
+  },
+  badges: [],
+  dailyChallenges: [],
+  routineFeedback: [],
+  premiumWaitlist: {
+    isOnWaitlist: false,
+    totalWaitlist: 1247 // Nombre fictif pour créer du FOMO
+  },
+  lastCoinAnimation: 0,
+  streakData: {
+    current: 0,
+    best: 0,
+    lastActiveDate: new Date().toISOString().split('T')[0]
   }
 };
 
@@ -204,23 +265,23 @@ function appReducer(state: AppState, action: AppAction): AppState {
     case 'UPDATE_HAIR_PROFILE':
       const updatedProfile = { ...state.hairProfile, ...action.profile };
       // Award profile completion bonus if profile is completed for the first time
-      let bonusCoins = 0;
+      let profileBonusCoins = 0;
       if (updatedProfile.isCompleted && !state.profileCompletionBonus) {
-        bonusCoins = 100; // Welcome bonus
+        profileBonusCoins = 100; // Welcome bonus
       }
       return { 
         ...state, 
         hairProfile: updatedProfile,
-        coins: state.coins + bonusCoins,
+        coins: state.coins + profileBonusCoins,
         profileCompletionBonus: updatedProfile.isCompleted ? true : state.profileCompletionBonus
       };
     case 'UPDATE_DETAILED_HAIR_PROFILE':
       return { ...state, detailedHairProfile: { ...state.detailedHairProfile, ...action.profile } };
     case 'VALIDATE_AND_ADD_ENTRY':
       const now = Date.now();
-      const todayStr = new Date().toISOString().split('T')[0];
+      const entryTodayStr = new Date().toISOString().split('T')[0];
       const entryDate = new Date(action.entry.date);
-      const currentDate = new Date(todayStr);
+      const currentDate = new Date(entryTodayStr);
       
       // Anti-cheat validations
       // 1. No future dates
@@ -260,38 +321,6 @@ function appReducer(state: AppState, action: AppAction): AppState {
       return { ...state, journalEntries: [action.entry, ...state.journalEntries] };
     case 'ADD_REDEEM':
       return { ...state, redeems: [action.redeem, ...state.redeems] };
-    case 'UPDATE_STREAK':
-      const today = new Date().toISOString().split('T')[0];
-      const lastActive = new Date(state.lastActiveDate);
-      const todayDate = new Date(today);
-      const diffTime = todayDate.getTime() - lastActive.getTime();
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      
-      let newStreak = state.streak;
-      let streakBonus = 0;
-      
-      if (diffDays === 1) {
-        // Consecutive day
-        newStreak = state.streak + 1;
-        if (newStreak === 7) {
-          streakBonus = 100; // 7 day streak bonus
-        }
-      } else if (diffDays > 1) {
-        // Streak broken
-        newStreak = 1;
-      }
-      
-      return { 
-        ...state, 
-        streak: newStreak, 
-        lastActiveDate: today,
-        coins: state.coins + streakBonus
-      };
-    case 'ADD_BADGE':
-      if (!state.badges.includes(action.badge)) {
-        return { ...state, badges: [...state.badges, action.badge] };
-      }
-      return state;
     case 'AWARD_PROFILE_BONUS':
       return { ...state, coins: state.coins + 100, profileCompletionBonus: true };
     case 'ADD_MEASUREMENT':
@@ -302,6 +331,119 @@ function appReducer(state: AppState, action: AppAction): AppState {
       return { ...state, washDayEntries: [action.entry, ...state.washDayEntries] };
     case 'UPDATE_WASH_DAY_SETTINGS':
       return { ...state, washDaySettings: { ...state.washDaySettings, ...action.settings } };
+    case 'ADD_BADGE':
+      const existingBadge = state.badges.find(b => b.id === action.badge.id);
+      if (existingBadge) return state;
+      return { ...state, badges: [action.badge, ...state.badges] };
+    case 'COMPLETE_DAILY_CHALLENGE':
+      const updatedChallenges = state.dailyChallenges.map(challenge =>
+        challenge.id === action.challengeId 
+          ? { ...challenge, completed: true }
+          : challenge
+      );
+      const completedChallenge = state.dailyChallenges.find(c => c.id === action.challengeId);
+      const challengeBonusCoins = completedChallenge ? completedChallenge.reward : 0;
+      return { 
+        ...state, 
+        dailyChallenges: updatedChallenges,
+        coins: state.coins + challengeBonusCoins
+      };
+    case 'ADD_ROUTINE_FEEDBACK':
+      return { ...state, routineFeedback: [action.feedback, ...state.routineFeedback] };
+    case 'JOIN_PREMIUM_WAITLIST':
+      if (state.premiumWaitlist.isOnWaitlist) return state;
+      return {
+        ...state,
+        premiumWaitlist: {
+          ...state.premiumWaitlist,
+          isOnWaitlist: true,
+          joinedAt: new Date().toISOString(),
+          position: state.premiumWaitlist.totalWaitlist + 1,
+          totalWaitlist: state.premiumWaitlist.totalWaitlist + 1
+        }
+      };
+    case 'TRIGGER_COIN_ANIMATION':
+      return { ...state, lastCoinAnimation: Date.now() };
+    case 'UPDATE_STREAK_NEW':
+      const streakToday = new Date().toISOString().split('T')[0];
+      const streakLastActive = new Date(state.streakData.lastActiveDate);
+      const streakTodayDate = new Date(streakToday);
+      const streakDiffTime = streakTodayDate.getTime() - streakLastActive.getTime();
+      const streakDiffDays = Math.ceil(streakDiffTime / (1000 * 60 * 60 * 24));
+      
+      let updatedStreak = state.streakData.current;
+      let updatedBest = state.streakData.best;
+      
+      if (action.increment) {
+        if (streakDiffDays === 1) {
+          updatedStreak = state.streakData.current + 1;
+        } else if (streakDiffDays > 1) {
+          updatedStreak = 1;
+        }
+        
+        if (updatedStreak > updatedBest) {
+          updatedBest = updatedStreak;
+        }
+      }
+      
+      return {
+        ...state,
+        streakData: {
+          current: updatedStreak,
+          best: updatedBest,
+          lastActiveDate: streakToday
+        }
+      };
+    case 'GENERATE_DAILY_CHALLENGES':
+      const challengesTodayStr = new Date().toISOString().split('T')[0];
+      const existingTodayChallenges = state.dailyChallenges.filter(c => c.date === challengesTodayStr);
+      
+      if (existingTodayChallenges.length > 0) return state;
+      
+      const challengeTemplates = [
+        {
+          type: 'journal' as const,
+          title: 'Soin du jour',
+          description: 'Ajoute un soin à ton journal avec une note détaillée',
+          reward: 15
+        },
+        {
+          type: 'wash' as const,
+          title: 'Wash day parfait',
+          description: 'Enregistre ton wash day avec les produits utilisés',
+          reward: 25
+        },
+        {
+          type: 'measurement' as const,
+          title: 'Suivi de pousse',
+          description: 'Prends tes mesures pour suivre ta progression',
+          reward: 20
+        },
+        {
+          type: 'routine-feedback' as const,
+          title: 'Feedback routine',
+          description: 'Donne ton avis sur ta dernière routine avec des étoiles',
+          reward: 10
+        }
+      ];
+      
+      const selectedChallenges = challengeTemplates
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 2)
+        .map((template, index) => ({
+          id: `${challengesTodayStr}-${index}`,
+          date: challengesTodayStr,
+          title: template.title,
+          description: template.description,
+          reward: template.reward,
+          completed: false,
+          type: template.type
+        }));
+      
+      return { 
+        ...state, 
+        dailyChallenges: [...selectedChallenges, ...state.dailyChallenges]
+      };
     case 'LOAD_STATE':
       return { ...state, ...action.state };
     default:
@@ -329,8 +471,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       }
     }
     
-    // Update streak on app open
-    dispatch({ type: 'UPDATE_STREAK' });
+    // Update streak on app open and generate challenges
+    dispatch({ type: 'UPDATE_STREAK_NEW' });
+    dispatch({ type: 'GENERATE_DAILY_CHALLENGES' });
   }, []);
 
   // Save state to localStorage on changes
