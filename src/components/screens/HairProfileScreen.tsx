@@ -238,18 +238,18 @@ export function HairProfileScreen({
   return (
     <div className="pb-20 px-4 space-y-6 bg-background min-h-screen">
       {/* Header */}
-      <div className="flex items-center gap-4 pt-4 pb-2">
+      <div className="flex items-center gap-2 sm:gap-4 pt-4 pb-2">
         <Button variant="ghost" size="icon" onClick={onBack}>
           <ArrowLeft size={20} />
         </Button>
-        <div className="flex-1">
-          <h1 className="font-poppins font-bold text-xl text-foreground">
+        <div className="flex-1 min-w-0">
+          <h1 className="font-poppins font-bold text-lg sm:text-xl text-foreground truncate">
             Mon Profil Capillaire
           </h1>
         </div>
         <HairAnalyzer 
           analysisType="hair_profile"
-          className="text-xs px-3 py-2"
+          className="text-xs px-2 py-1 sm:px-3 sm:py-2 whitespace-nowrap"
           onAnalysisComplete={(analysis) => {
             if (analysis.hairTypeDetected && analysis.hairTypeDetected !== selectedHairType) {
               toast({
