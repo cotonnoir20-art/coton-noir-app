@@ -266,7 +266,7 @@ export function HomeScreen({
 
   // Défis du jour
   const todaysChallenges = state.dailyChallenges.filter(c => c.date === new Date().toISOString().split('T')[0]);
-  return <div className="pb-20 px-4 space-y-6 bg-[#fdf1e3] relative mb-px mt-0">
+  return <div className="pb-20 px-4 space-y-6 bg-[#fdf1e3] relative mb-px">
       {/* Animations */}
       <CoinAnimation amount={amount} trigger={shouldAnimate} onComplete={resetAnimation} />
       
