@@ -251,7 +251,7 @@ export function HomeScreen({
     c => c.date === new Date().toISOString().split('T')[0]
   );
 
-  return <div className="pb-20 px-4 space-y-6 bg-[#fdf1e3] relative">
+  return <div className="pb-20 px-4 space-y-[10px] bg-[#fdf1e3] relative">
       {/* Animations */}
       <CoinAnimation 
         amount={amount} 
