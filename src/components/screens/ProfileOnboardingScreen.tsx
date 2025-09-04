@@ -344,12 +344,6 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
             ))}
           </div>
           
-          <div className="p-3 rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50">
-            <p className="text-xs font-roboto text-center text-muted-foreground">
-              {isGeneratingAI ? 'L\'IA analyse ton profil...' : 'Cette routine s\'adapte en temps réel à tes choix grâce à l\'IA'}
-            </p>
-          </div>
-          
           {/* Disclaimer professionnel */}
           <div className="p-3 rounded-lg bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200">
             <p className="text-xs font-roboto text-center text-orange-800">
