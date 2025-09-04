@@ -395,37 +395,40 @@ export function HomeScreen({
       <CotonCard className="p-6 space-y-4 mt-5">
         <div className="flex items-center justify-between">
           <h3 className="font-poppins font-semibold text-lg">Niveau & Objectif</h3>
-          <div className={(() => {
-            const needsMap = {
-              'hydratation': { 
-                text: 'Hydratation 💧', 
-                classes: 'bg-blue-100 text-blue-600' 
-              },
-              'volume': { 
-                text: 'Volume 🌸', 
-                classes: 'bg-pink-100 text-pink-600' 
-              },
-              'definition': { 
-                text: 'Définition ✨', 
-                classes: 'bg-purple-100 text-purple-600' 
-              },
-              'croissance': { 
-                text: 'Croissance 🌱', 
-                classes: 'bg-green-100 text-green-600' 
-              },
-              'casse': { 
-                text: 'Anti-casse 💪', 
-                classes: 'bg-orange-100 text-orange-600' 
-              },
-              'brillance': { 
-                text: 'Brillance 🌟', 
-                classes: 'bg-yellow-100 text-yellow-600' 
-              }
-            };
-            const primaryNeed = state.hairProfile.needs[0];
-            const needData = primaryNeed ? needsMap[primaryNeed as keyof typeof needsMap] : needsMap['hydratation'];
-            return `${needData.classes} px-3 py-1 rounded-full text-sm font-roboto font-medium flex items-center gap-1`;
-          })()}>
+          <div 
+            className={(() => {
+              const needsMap = {
+                'hydratation': { 
+                  text: 'Hydratation 💧', 
+                  classes: 'bg-blue-100 text-blue-600' 
+                },
+                'volume': { 
+                  text: 'Volume 🌸', 
+                  classes: 'bg-pink-100 text-pink-600' 
+                },
+                'definition': { 
+                  text: 'Définition ✨', 
+                  classes: 'bg-purple-100 text-purple-600' 
+                },
+                'croissance': { 
+                  text: 'Croissance 🌱', 
+                  classes: 'bg-green-100 text-green-600' 
+                },
+                'casse': { 
+                  text: 'Anti-casse 💪', 
+                  classes: 'bg-orange-100 text-orange-600' 
+                },
+                'brillance': { 
+                  text: 'Brillance 🌟', 
+                  classes: 'bg-yellow-100 text-yellow-600' 
+                }
+              };
+              const primaryNeed = state.hairProfile.needs[0];
+              const needData = primaryNeed ? needsMap[primaryNeed as keyof typeof needsMap] : needsMap['hydratation'];
+              return `${needData.classes} px-3 py-1 rounded-full text-sm font-roboto font-medium flex items-center gap-1 cursor-pointer hover:opacity-80 transition-opacity`;
+            })()}
+            onClick={onShowProfile}
+          >
             {(() => {
               const needsMap = {
                 'hydratation': 'Hydratation 💧',
