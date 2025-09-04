@@ -349,6 +349,13 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
               {isGeneratingAI ? 'L\'IA analyse ton profil...' : 'Cette routine s\'adapte en temps réel à tes choix grâce à l\'IA'}
             </p>
           </div>
+          
+          {/* Disclaimer professionnel */}
+          <div className="p-3 rounded-lg bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200">
+            <p className="text-xs font-roboto text-center text-orange-800">
+              ⚠️ <strong>Important :</strong> Ces conseils IA ne remplacent pas les conseils d'un professionnel de santé ou d'un spécialiste des cheveux afro
+            </p>
+          </div>
         </CotonCard>
       )}
 
@@ -372,11 +379,20 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
           </div>
           
           {!isGeneratingAI && aiCotonTips && (
-            <div className="p-2 rounded-lg bg-gradient-to-r from-green-50 to-emerald-50">
-              <p className="text-xs font-roboto text-center text-green-700">
-                ✨ Conseil généré par intelligence artificielle
-              </p>
-            </div>
+            <>
+              <div className="p-2 rounded-lg bg-gradient-to-r from-green-50 to-emerald-50">
+                <p className="text-xs font-roboto text-center text-green-700">
+                  ✨ Conseil généré par intelligence artificielle
+                </p>
+              </div>
+              
+              {/* Disclaimer professionnel pour CotonTips */}
+              <div className="p-2 rounded-lg bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200">
+                <p className="text-xs font-roboto text-center text-orange-800">
+                  ⚠️ Ces conseils ne remplacent pas l'avis d'un professionnel des cheveux afro
+                </p>
+              </div>
+            </>
           )}
         </CotonCard>
       )}
