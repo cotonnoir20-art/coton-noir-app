@@ -8,57 +8,78 @@
 
 @layer base {
   :root {
-    /* Core brand colors */
-    --coton-black: 0 0% 11.4%; /* #1d1d1b */
-    --coton-rose: 351 45% 85%; /* #e8c1c3 */
-    --coton-beige: 35 70% 94%; /* #fdf1e3 */
+    /* Coton Noir Brand Colors - Palette Principale */
+    --coton-black: 60 9% 11%; /* #1d1d1b - Noir profond */
+    --coton-beige: 35 73% 87%; /* #fbe0c0 - Beige clair */
+    --coton-beige-light: 0 0% 99%; /* #fdfdfd - Beige très clair */
+    --coton-rose: 351 45% 85%; /* #e8c1c3 - Rose poudré */
+    --coton-rose-alt: 353 43% 76%; /* #dda2a5 - Rose poudré alternatif */
+    --coton-coral: 356 82% 66%; /* #ef636a - Corail CTA */
+    --coton-green: 156 39% 61%; /* #79b7a1 - Vert doux */
     
-    /* Background system */
+    /* Palette Secondaire - Usage parcimonieux */
+    --coton-nude: 0 27% 67%; /* #bc9b9b */
+    --coton-nude-light: 0 25% 78%; /* #d2bcbc */
+    --coton-nude-soft: 351 44% 91%; /* #f3e0e1 */
+    --coton-sand: 33 89% 90%; /* #fdead3 */
+    
+    /* Couleurs grises pour texte */
+    --coton-gray: 0 0% 62%; /* #9e9e9d */
+    --coton-gray-light: 0 0% 74%; /* #bebebd */
+    
+    /* Background system - Principalement beiges */
     --background: var(--coton-beige);
     --foreground: var(--coton-black);
     
-    /* Card system */
-    --card: 0 0% 100%;
+    /* Card system - Blanc/beige sur beige */
+    --card: var(--coton-beige-light);
     --card-foreground: var(--coton-black);
     
-    /* Primary brand */
+    /* Primary - Noir profond pour titres et contrastes */
     --primary: var(--coton-black);
-    --primary-foreground: 0 0% 100%;
+    --primary-foreground: var(--coton-beige-light);
     
-    /* Secondary accents */
+    /* Secondary - Rose poudré pour accents */
     --secondary: var(--coton-rose);
     --secondary-foreground: var(--coton-black);
     
-    /* Muted elements */
-    --muted: 40 20% 90%;
-    --muted-foreground: 0 0% 45%;
+    /* Muted - Gris doux pour sous-titres */
+    --muted: var(--coton-beige);
+    --muted-foreground: var(--coton-gray);
     
-    /* Accent highlights */
+    /* Accent - Rose poudré pour surlignages */
     --accent: var(--coton-rose);
     --accent-foreground: var(--coton-black);
     
-    /* Status colors */
-    --success: 156 39% 54%; /* #79b7a1 */
-    --warning: 33 92% 55%; /* #f49423 */
-    --destructive: 354 70% 54%; /* #b1282e */
-    --info: 206 60% 27%; /* #2f4b59 */
+    /* CTA Principal - Corail */
+    --cta-primary: var(--coton-coral);
+    --cta-primary-foreground: var(--coton-beige-light);
+    
+    /* Status colors - Utilisation de la palette */
+    --success: var(--coton-green);
+    --warning: 33 92% 55%; /* Orange maintenu */
+    --destructive: var(--coton-coral);
+    --info: var(--coton-black);
     
     /* Interactive elements */
-    --border: 40 15% 85%;
-    --input: 0 0% 100%;
-    --ring: var(--coton-black);
+    --border: var(--coton-rose);
+    --input: var(--coton-beige-light);
+    --ring: var(--coton-coral);
     
-    /* Border radius */
-    --radius: 1rem; /* 16px for cards */
-    --radius-pill: 2rem; /* Pills */
+    /* Border radius - Moderne et doux */
+    --radius: 1rem;
+    --radius-pill: 2rem;
     
-    /* Gradients */
-    --gradient-rose: linear-gradient(135deg, hsl(var(--coton-rose)), hsl(var(--coton-rose) / 0.8));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--coton-black)), hsl(var(--coton-black) / 0.9));
+    /* Gradients - Harmonieux avec la palette */
+    --gradient-rose: linear-gradient(135deg, hsl(var(--coton-rose)), hsl(var(--coton-rose-alt)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--coton-black)), hsl(var(--coton-nude)));
+    --gradient-coral: linear-gradient(135deg, hsl(var(--coton-coral)), hsl(var(--coton-rose-alt)));
+    --gradient-soft: linear-gradient(135deg, hsl(var(--coton-beige-light)), hsl(var(--coton-beige)));
     
-    /* Shadows */
+    /* Shadows - Subtiles et élégantes */
     --shadow-soft: 0 4px 20px hsl(var(--coton-black) / 0.08);
-    --shadow-card: 0 2px 16px hsl(var(--coton-black) / 0.06);
+    --shadow-card: 0 2px 16px hsl(var(--coton-rose) / 0.15);
+    --shadow-elegant: 0 8px 32px hsl(var(--coton-black) / 0.12);
     
     /* Animations */
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

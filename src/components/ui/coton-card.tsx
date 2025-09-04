@@ -22,10 +22,10 @@ export function CotonCard({
       className={cn(
         "rounded-lg transition-all duration-300 text-left",
         {
-          'default': "bg-card text-card-foreground border border-border shadow-card backdrop-blur-sm",
-          'elevated': "bg-card text-card-foreground shadow-soft hover:shadow-card border border-border backdrop-blur-sm hover:bg-card/80",
-          'premium': "bg-gradient-hero text-white shadow-soft border border-white/10 backdrop-blur-sm",
-          'outline': "border-2 border-accent bg-background/50 text-foreground backdrop-blur-sm hover:bg-accent/5"
+          'default': "bg-card text-card-foreground border border-coton-rose/20 shadow-card backdrop-blur-sm",
+          'elevated': "bg-coton-beige-light text-coton-black shadow-elegant hover:shadow-soft border border-coton-rose/30 backdrop-blur-sm hover:bg-coton-sand/30",
+          'premium': "bg-gradient-coral text-coton-beige-light shadow-elegant border border-coton-coral/20 backdrop-blur-sm",
+          'outline': "border-2 border-coton-rose bg-coton-beige-light/80 text-coton-black backdrop-blur-sm hover:bg-coton-rose/10"
         }[variant],
         onClick && "cursor-pointer hover:scale-[1.02] active:scale-[0.98]",
         className

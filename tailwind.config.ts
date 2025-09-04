@@ -56,8 +56,20 @@ export default {
 				warning: 'hsl(var(--warning))',
 				info: 'hsl(var(--info))',
 				'coton-black': 'hsl(var(--coton-black))',
-				'coton-rose': 'hsl(var(--coton-rose))',
 				'coton-beige': 'hsl(var(--coton-beige))',
+				'coton-beige-light': 'hsl(var(--coton-beige-light))',
+				'coton-rose': 'hsl(var(--coton-rose))',
+				'coton-rose-alt': 'hsl(var(--coton-rose-alt))',
+				'coton-coral': 'hsl(var(--coton-coral))',
+				'coton-green': 'hsl(var(--coton-green))',
+				'coton-nude': 'hsl(var(--coton-nude))',
+				'coton-nude-light': 'hsl(var(--coton-nude-light))',
+				'coton-nude-soft': 'hsl(var(--coton-nude-soft))',
+				'coton-sand': 'hsl(var(--coton-sand))',
+				'coton-gray': 'hsl(var(--coton-gray))',
+				'coton-gray-light': 'hsl(var(--coton-gray-light))',
+				'cta-primary': 'hsl(var(--cta-primary))',
+				'cta-primary-foreground': 'hsl(var(--cta-primary-foreground))',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -68,10 +80,13 @@ export default {
 			boxShadow: {
 				soft: 'var(--shadow-soft)',
 				card: 'var(--shadow-card)',
+				elegant: 'var(--shadow-elegant)',
 			},
 			backgroundImage: {
 				'gradient-rose': 'var(--gradient-rose)',
 				'gradient-hero': 'var(--gradient-hero)',
+				'gradient-coral': 'var(--gradient-coral)',
+				'gradient-soft': 'var(--gradient-soft)',
 			},
 			keyframes: {
 				'accordion-down': {
