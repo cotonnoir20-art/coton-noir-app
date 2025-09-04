@@ -355,7 +355,7 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
 
       {/* AI CotonTips - shows when AI has generated tips */}
       {(aiCotonTips || isGeneratingAI) && (
-        <CotonCard className="p-6 space-y-4 bg-gradient-to-r from-amber-50 to-yellow-50 border-amber-200">
+        <CotonCard className="p-6 space-y-4 bg-green-50 border-green-200">
           <div className="flex items-center gap-2 p-3 rounded-lg bg-green-50">
             {isGeneratingAI && <Loader2 className="animate-spin text-green-600" size={16} />}
             <Lightbulb className="text-green-600" size={20} />
