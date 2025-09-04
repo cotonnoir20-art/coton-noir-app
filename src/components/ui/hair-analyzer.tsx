@@ -209,9 +209,9 @@ export function HairAnalyzer({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="hero" className={className}>
-          <Camera size={20} />
-          {currentTitle}
+        <Button variant="hero" className={`${className} btn-touch`}>
+          <Camera size={18} className="sm:w-5 sm:h-5" />
+          <span className="text-xs sm:text-sm">{currentTitle}</span>
         </Button>
       </DialogTrigger>
       

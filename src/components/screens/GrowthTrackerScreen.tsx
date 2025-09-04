@@ -222,9 +222,9 @@ export function GrowthTrackerScreen({ onBack }: GrowthTrackerScreenProps) {
         <div className="grid grid-cols-2 gap-3">
           <Dialog open={showAddMeasurement} onOpenChange={setShowAddMeasurement}>
             <DialogTrigger asChild>
-              <Button variant="hero" className="w-full">
-                <Plus size={20} />
-                Nouvelle mesure
+              <Button variant="hero" className="w-full btn-touch">
+                <Plus size={18} className="sm:w-5 sm:h-5" />
+                <span className="text-xs sm:text-sm">Nouvelle mesure</span>
               </Button>
             </DialogTrigger>
             <DialogContent>
@@ -303,7 +303,7 @@ export function GrowthTrackerScreen({ onBack }: GrowthTrackerScreenProps) {
           <HairAnalyzer 
             analysisType="growth_tracking"
             title="Analyser ma pousse"
-            className="w-full"
+            className="w-full text-xs sm:text-sm"
             onAnalysisComplete={(analysis) => {
               if (analysis.measurements && analysis.measurements.estimatedLengthFront) {
                 toast({
@@ -319,10 +319,10 @@ export function GrowthTrackerScreen({ onBack }: GrowthTrackerScreenProps) {
         <Button
           variant="outline"
           onClick={() => toast({ title: "Bientôt disponible !", description: "Les graphiques arriveront dans la V2" })}
-          className="w-full"
+          className="w-full btn-touch"
         >
-          <TrendingUp size={20} />
-          Voir les graphiques de progression
+          <TrendingUp size={18} className="sm:w-5 sm:h-5" />
+          <span className="text-xs sm:text-sm">Voir les graphiques de progression</span>
         </Button>
 
         {/* Objectif de pousse */}
