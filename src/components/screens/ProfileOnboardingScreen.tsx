@@ -54,7 +54,7 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
   const [selectedHairType, setSelectedHairType] = useState('');
   const [selectedPorosity, setSelectedPorosity] = useState('');
   const [selectedObjective, setSelectedObjective] = useState('');
-  const [selectedProblems, setSelectedProblems] = useState<string[]>([]);
+  const [selectedProblem, setSelectedProblem] = useState<string>('');
   const [selectedNeeds, setSelectedNeeds] = useState<string[]>([]);
   
   // IA States
@@ -63,12 +63,8 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
   const [isGeneratingAI, setIsGeneratingAI] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
 
-  const toggleProblem = (problemId: string) => {
-    setSelectedProblems(prev => 
-      prev.includes(problemId) 
-        ? prev.filter(id => id !== problemId)
-        : [...prev, problemId]
-    );
+  const selectProblem = (problemId: string) => {
+    setSelectedProblem(prev => prev === problemId ? '' : problemId);
   };
 
   const toggleNeed = (needId: string) => {
@@ -82,7 +78,7 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
   // Generate AI tips based on current profile
   const generateAITips = async () => {
     // Don't generate if we don't have minimum info
-    if (!selectedHairType && !selectedPorosity && !selectedObjective && selectedProblems.length === 0 && selectedNeeds.length === 0) {
+    if (!selectedHairType && !selectedPorosity && !selectedObjective && !selectedProblem && selectedNeeds.length === 0) {
       setAiRoutinePreview([]);
       setAiCotonTips('');
       return;
@@ -96,7 +92,7 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
         hairType: selectedHairType,
         porosity: selectedPorosity,
         objective: selectedObjective,
-        problems: selectedProblems,
+        problems: selectedProblem ? [selectedProblem] : [],
         needs: selectedNeeds
       });
 
@@ -105,7 +101,7 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
           hairType: selectedHairType,
           porosity: selectedPorosity,
           objective: selectedObjective,
-          problems: selectedProblems,
+          problems: selectedProblem ? [selectedProblem] : [],
           needs: selectedNeeds
         }
       });
@@ -139,13 +135,13 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
     }, 1000); // Debounce for 1 second
 
     return () => clearTimeout(timeout);
-  }, [selectedHairType, selectedPorosity, selectedObjective, selectedProblems, selectedNeeds]);
+  }, [selectedHairType, selectedPorosity, selectedObjective, selectedProblem, selectedNeeds]);
 
   const isFormValid = () => {
     return selectedHairType && 
            selectedPorosity && 
            selectedObjective && 
-           (selectedProblems.length > 0 || selectedNeeds.length > 0);
+           (selectedProblem || selectedNeeds.length > 0);
   };
 
   const handleContinue = () => {
@@ -156,7 +152,7 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
         hairType: selectedHairType,
         porosity: selectedPorosity,
         objective: selectedObjective,
-        problems: selectedProblems,
+        problems: selectedProblem ? [selectedProblem] : [],
         needs: selectedNeeds,
         isCompleted: true
       }
@@ -258,7 +254,7 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
             Mes problématiques capillaires
           </h2>
           <p className="font-roboto text-sm text-muted-foreground">
-            Sélectionne toutes les problématiques qui te concernent
+            Sélectionne une problématique principale qui te concerne
           </p>
         </div>
         
@@ -267,8 +263,8 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
             <div key={problem.id} className="flex items-center space-x-3">
               <Checkbox 
                 id={problem.id}
-                checked={selectedProblems.includes(problem.id)}
-                onCheckedChange={() => toggleProblem(problem.id)}
+                checked={selectedProblem === problem.id}
+                onCheckedChange={() => selectProblem(problem.id)}
               />
               <label 
                 htmlFor={problem.id}
