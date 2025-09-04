@@ -374,12 +374,6 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
           
           {!isGeneratingAI && aiCotonTips && (
             <>
-              <div className="p-2 rounded-lg bg-gradient-to-r from-green-50 to-emerald-50">
-                <p className="text-xs font-roboto text-center text-green-700">
-                  ✨ Conseil généré par intelligence artificielle
-                </p>
-              </div>
-              
               {/* Disclaimer professionnel pour CotonTips */}
               <div className="p-2 rounded-lg bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200">
                 <p className="text-xs font-roboto text-center text-orange-800">
