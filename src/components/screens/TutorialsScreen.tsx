@@ -239,7 +239,7 @@ export function TutorialsScreen({ onNavigate }: TutorialsScreenProps) {
                             variant={hasVideo ? "default" : "hero"}
                             size="sm"
                             onClick={() => handleWatchVideo(tutorial)}
-                            className={hasVideo ? "bg-red-500 hover:bg-red-600 text-white" : ""}
+                            className={hasVideo ? "bg-black hover:bg-gray-800 text-white" : ""}
                           >
                             {hasVideo ? <Youtube size={14} /> : <Play size={14} />}
                             {hasVideo ? "Voir sur YouTube" : "Regarder"}
