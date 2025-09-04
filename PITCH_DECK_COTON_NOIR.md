@@ -35,7 +35,7 @@
 
 ## 💡 **LA SOLUTION COTON NOIR**
 
-### Plateforme tout-en-un
+### Plateforme tout-en-un 
 **6 modules principaux interconnectés**
 
 #### 1. 📖 **Journal Capillaire Intelligent**
