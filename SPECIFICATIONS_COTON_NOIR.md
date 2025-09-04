@@ -1,5 +1,3 @@
-# SPÉCIFICATIONS FONCTIONNELLES ET TECHNIQUES - COTON NOIR
-
 ## TABLE DES MATIÈRES
 
 1. [Vue d'ensemble](#vue-densemble)
