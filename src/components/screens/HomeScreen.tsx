@@ -570,7 +570,11 @@ export function HomeScreen({
               )}
               {state.detailedHairProfile.needs && state.detailedHairProfile.needs.length > 0 && (
                 state.detailedHairProfile.needs.map((need, index) => (
-                  <span key={`need-${index}`} className="px-3 py-1 bg-green-100/70 rounded-full text-sm font-roboto text-green-700">
+                   <span 
+                     key={`need-${index}`} 
+                     className="px-3 py-1 bg-green-100/70 rounded-full text-sm font-roboto text-green-700 cursor-pointer hover:bg-green-200/70 transition-colors" 
+                     onClick={onShowProfile}
+                   >
                     {need}
                   </span>
                 ))
