@@ -243,7 +243,7 @@ export function HairProfileScreen({
           <ArrowLeft size={20} />
         </Button>
         <div className="flex-1 min-w-0">
-          <h1 className="font-poppins font-bold text-lg sm:text-xl text-foreground truncate">
+          <h1 className="font-poppins font-bold text-lg sm:text-xl text-foreground">
             Mon Profil Capillaire
           </h1>
         </div>
