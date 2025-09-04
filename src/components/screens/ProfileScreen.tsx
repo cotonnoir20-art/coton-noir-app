@@ -120,7 +120,7 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
       <div className="container-responsive space-responsive pb-24">
         {/* Profile Header - Mobile-first responsive */}
         <Card className="bg-gradient-rose border-0 shadow-card">
-          <CardContent className="p-4 sm:p-6">
+          <CardContent className="p-4 sm:p-6 mt-[15px]">
             <div className="flex flex-col items-center space-y-3 sm:space-y-4">
               <div className="relative">
                 <Avatar className="w-16 h-16 sm:w-20 sm:h-20 ring-4 ring-white/20">
