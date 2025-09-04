@@ -95,44 +95,46 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
   const progressToNext = (state.coins % 100);
 
   return (
-    <div className="min-h-screen bg-background pb-24">
-      {/* Header with Back to Home */}
+    <div className="min-h-screen bg-background">
+      {/* Header with Back to Home - Mobile-first responsive */}
       <div className="bg-coton-black px-4 py-3 shadow-soft">
-        <div className="max-w-md mx-auto flex items-center justify-between">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => onNavigate('home')}
-            className="text-white hover:bg-white/10 flex items-center gap-2"
-          >
-            <Home size={18} />
-            <span>{t('nav.home')}</span>
-          </Button>
-          <h1 className="font-poppins font-semibold text-lg text-white">
-            {t('profile.title')}
-          </h1>
-          <div className="w-20" /> {/* Spacer for centered title */}
+        <div className="container-responsive">
+          <div className="flex items-center justify-between">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => onNavigate('home')}
+              className="text-white hover:bg-white/10 flex items-center gap-2 btn-touch"
+            >
+              <Home size={16} className="sm:w-[18px] sm:h-[18px]" />
+              <span className="text-sm sm:text-base">{t('nav.home')}</span>
+            </Button>
+            <h1 className="font-poppins font-semibold text-base sm:text-lg text-white">
+              {t('profile.title')}
+            </h1>
+            <div className="w-16 sm:w-20" /> {/* Spacer for centered title */}
+          </div>
         </div>
       </div>
       
-      <div className="max-w-md mx-auto space-y-6 p-4">
-        {/* Profile Header */}
+      <div className="container-responsive space-responsive pb-24">
+        {/* Profile Header - Mobile-first responsive */}
         <Card className="bg-gradient-rose border-0 shadow-card">
-          <CardContent className="p-6">
-            <div className="flex flex-col items-center space-y-4">
+          <CardContent className="p-4 sm:p-6">
+            <div className="flex flex-col items-center space-y-3 sm:space-y-4">
               <div className="relative">
-                <Avatar className="w-20 h-20 ring-4 ring-white/20">
+                <Avatar className="w-16 h-16 sm:w-20 sm:h-20 ring-4 ring-white/20">
                   <AvatarImage src="/placeholder-avatar.jpg" />
-                  <AvatarFallback className="bg-coton-black text-white text-xl font-poppins font-semibold">
+                  <AvatarFallback className="bg-coton-black text-white text-lg sm:text-xl font-poppins font-semibold">
                     {editedProfile.name.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
                 <Button
                   size="icon"
                   variant="secondary"
-                  className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full shadow-soft"
+                  className="absolute -bottom-1 -right-1 w-7 h-7 sm:w-8 sm:h-8 rounded-full shadow-soft btn-touch"
                 >
-                  <Camera size={14} />
+                  <Camera size={12} className="sm:w-[14px] sm:h-[14px]" />
                 </Button>
               </div>
               
@@ -141,30 +143,30 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
                   <Input
                     value={editedProfile.name}
                     onChange={(e) => setEditedProfile({ ...editedProfile, name: e.target.value })}
-                    className="text-center font-poppins font-semibold text-lg"
+                    className="text-center font-poppins font-semibold text-lg sm:text-xl"
                   />
                 ) : (
-                  <h2 className="font-poppins font-semibold text-xl text-coton-black">
+                  <h2 className="font-poppins font-semibold text-lg sm:text-xl text-coton-black">
                     {editedProfile.name}
                   </h2>
                 )}
                 
-                <div className="flex items-center justify-center space-x-2">
-                  <Badge variant="secondary" className="bg-white/30 text-coton-black font-medium">
-                    <Award size={12} className="mr-1" />
+                <div className="flex items-center justify-center space-x-2 flex-wrap gap-2">
+                  <Badge variant="secondary" className="bg-white/30 text-coton-black font-medium text-xs sm:text-sm">
+                    <Award size={10} className="sm:w-3 sm:h-3 mr-1" />
                     {t('profile.level')} {userLevel}
                   </Badge>
                   <Badge 
                     variant="outline" 
-                    className="border-white/30 bg-white/20 text-coton-black cursor-pointer hover:bg-white/30 transition-colors" 
+                    className="border-white/30 bg-white/20 text-coton-black cursor-pointer hover:bg-white/30 transition-colors text-xs sm:text-sm btn-touch" 
                     onClick={() => onNavigate('rewards')}
                   >
-                    <Coins size={12} className="mr-1" />
+                    <Coins size={10} className="sm:w-3 sm:h-3 mr-1" />
                     {state.coins}
                   </Badge>
                 </div>
                 
-                {/* Progress bar to next level */}
+                {/* Progress bar to next level - Mobile-first responsive */}
                 <div className="w-full max-w-xs">
                   <div className="flex justify-between text-xs text-coton-black/70 mb-1">
                     <span>{t('profile.level')} {userLevel}</span>
@@ -182,35 +184,37 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
           </CardContent>
         </Card>
 
-        {/* Profile Info */}
+        {/* Profile Info - Mobile-first responsive */}
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="font-poppins">{t('profile.personalInfo')}</CardTitle>
+          <CardHeader className="flex flex-row items-center justify-between p-4 sm:p-6">
+            <CardTitle className="font-poppins text-base sm:text-lg">{t('profile.personalInfo')}</CardTitle>
             <Button
               variant="ghost"
               size="sm"
               onClick={() => isEditing ? handleSaveProfile() : setIsEditing(true)}
+              className="btn-touch"
             >
-              <Edit size={16} />
-              {isEditing ? t('common.save') : t('common.edit')}
+              <Edit size={14} className="sm:w-4 sm:h-4" />
+              <span className="ml-1 text-xs sm:text-sm">{isEditing ? t('common.save') : t('common.edit')}</span>
             </Button>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 p-4 sm:p-6 pt-0">
             <div className="space-y-2">
-              <Label htmlFor="email">{t('profile.email')}</Label>
+              <Label htmlFor="email" className="text-sm sm:text-base">{t('profile.email')}</Label>
               {isEditing ? (
                 <Input
                   id="email"
                   value={editedProfile.email}
                   onChange={(e) => setEditedProfile({ ...editedProfile, email: e.target.value })}
+                  className="text-sm sm:text-base"
                 />
               ) : (
-                <p className="text-muted-foreground">{editedProfile.email}</p>
+                <p className="text-muted-foreground text-sm sm:text-base">{editedProfile.email}</p>
               )}
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="bio">{t('profile.bio')}</Label>
+              <Label htmlFor="bio" className="text-sm sm:text-base">{t('profile.bio')}</Label>
               {isEditing ? (
                 <Textarea
                   id="bio"
@@ -218,9 +222,10 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
                   value={editedProfile.bio}
                   onChange={(e) => setEditedProfile({ ...editedProfile, bio: e.target.value })}
                   rows={3}
+                  className="text-sm sm:text-base"
                 />
               ) : (
-                <p className="text-muted-foreground">
+                <p className="text-muted-foreground text-sm sm:text-base">
                   {editedProfile.bio || t('profile.noBio')}
                 </p>
               )}
@@ -228,24 +233,25 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
           </CardContent>
         </Card>
 
-        {/* Settings */}
+        {/* Settings - Mobile-first responsive */}
         <Card>
-          <CardHeader>
-            <CardTitle className="font-poppins">{t('profile.settings')}</CardTitle>
+          <CardHeader className="p-4 sm:p-6">
+            <CardTitle className="font-poppins text-base sm:text-lg">{t('profile.settings')}</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 p-4 sm:p-6 pt-0">
             {/* Notifications */}
             <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <Bell size={20} className="text-muted-foreground" />
-                <div>
-                  <p className="font-medium">{t('profile.notifications')}</p>
-                  <p className="text-sm text-muted-foreground">{t('profile.notificationsDesc')}</p>
+              <div className="flex items-center space-x-3 flex-1 min-w-0">
+                <Bell size={18} className="sm:w-5 sm:h-5 text-muted-foreground flex-shrink-0" />
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium text-sm sm:text-base">{t('profile.notifications')}</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground">{t('profile.notificationsDesc')}</p>
                 </div>
               </div>
               <Switch
                 checked={notifications}
                 onCheckedChange={setNotifications}
+                className="flex-shrink-0"
               />
             </div>
 
@@ -253,16 +259,17 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
 
             {/* Dark Mode */}
             <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                {darkMode ? <Moon size={20} className="text-muted-foreground" /> : <Sun size={20} className="text-muted-foreground" />}
-                <div>
-                  <p className="font-medium">{t('profile.darkMode')}</p>
-                  <p className="text-sm text-muted-foreground">{t('profile.darkModeDesc')}</p>
+              <div className="flex items-center space-x-3 flex-1 min-w-0">
+                {darkMode ? <Moon size={18} className="sm:w-5 sm:h-5 text-muted-foreground flex-shrink-0" /> : <Sun size={18} className="sm:w-5 sm:h-5 text-muted-foreground flex-shrink-0" />}
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium text-sm sm:text-base">{t('profile.darkMode')}</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground">{t('profile.darkModeDesc')}</p>
                 </div>
               </div>
               <Switch
                 checked={darkMode}
                 onCheckedChange={toggleDarkMode}
+                className="flex-shrink-0"
               />
             </div>
 
@@ -271,41 +278,41 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
             {/* Language */}
             <Button
               variant="ghost"
-              className="w-full justify-between h-auto p-4"
+              className="w-full justify-between h-auto p-3 sm:p-4 btn-touch"
               onClick={() => onNavigate('language-selection')}
             >
-              <div className="flex items-center space-x-3">
-                <Globe size={20} className="text-muted-foreground" />
-                <div className="text-left">
-                  <p className="font-medium">{t('profile.language')}</p>
-                  <p className="text-sm text-muted-foreground">
+              <div className="flex items-center space-x-3 flex-1 min-w-0">
+                <Globe size={18} className="sm:w-5 sm:h-5 text-muted-foreground flex-shrink-0" />
+                <div className="text-left min-w-0 flex-1">
+                  <p className="font-medium text-sm sm:text-base">{t('profile.language')}</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground">
                     {language === 'fr' ? t('language.french') : t('language.english')}
                   </p>
                 </div>
               </div>
-              <ChevronRight size={16} className="text-muted-foreground" />
+              <ChevronRight size={14} className="sm:w-4 sm:h-4 text-muted-foreground flex-shrink-0" />
             </Button>
           </CardContent>
         </Card>
 
-        {/* Actions */}
+        {/* Actions - Mobile-first responsive */}
         <Card>
           <CardContent className="p-0">
             <div className="space-y-0">
               {/* Invite Friends */}
               <Button
                 variant="ghost"
-                className="w-full justify-between h-14 px-6 rounded-none"
+                className="w-full justify-between h-12 sm:h-14 px-4 sm:px-6 rounded-none btn-touch"
                 onClick={handleInviteFriends}
               >
-                <div className="flex items-center space-x-3">
-                  <Users size={20} className="text-coton-rose" />
-                  <div className="text-left">
-                    <p className="font-medium">{t('profile.inviteFriends')}</p>
-                    <p className="text-sm text-muted-foreground">{t('profile.inviteFriendsDesc')}</p>
+                <div className="flex items-center space-x-3 flex-1 min-w-0">
+                  <Users size={18} className="sm:w-5 sm:h-5 text-coton-rose flex-shrink-0" />
+                  <div className="text-left min-w-0 flex-1">
+                    <p className="font-medium text-sm sm:text-base">{t('profile.inviteFriends')}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">{t('profile.inviteFriendsDesc')}</p>
                   </div>
                 </div>
-                <ChevronRight size={16} className="text-muted-foreground" />
+                <ChevronRight size={14} className="sm:w-4 sm:h-4 text-muted-foreground flex-shrink-0" />
               </Button>
 
               <Separator />
@@ -313,13 +320,13 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
               {/* Support */}
               <Button
                 variant="ghost"
-                className="w-full justify-between h-14 px-6 rounded-none"
+                className="w-full justify-between h-12 sm:h-14 px-4 sm:px-6 rounded-none btn-touch"
               >
-                <div className="flex items-center space-x-3">
-                  <HelpCircle size={20} className="text-muted-foreground" />
-                  <span className="font-medium">{t('profile.support')}</span>
+                <div className="flex items-center space-x-3 flex-1 min-w-0">
+                  <HelpCircle size={18} className="sm:w-5 sm:h-5 text-muted-foreground flex-shrink-0" />
+                  <span className="font-medium text-sm sm:text-base min-w-0 flex-1 text-left">{t('profile.support')}</span>
                 </div>
-                <ChevronRight size={16} className="text-muted-foreground" />
+                <ChevronRight size={14} className="sm:w-4 sm:h-4 text-muted-foreground flex-shrink-0" />
               </Button>
 
               <Separator />
@@ -327,13 +334,13 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
               {/* Account Settings */}
               <Button
                 variant="ghost"
-                className="w-full justify-between h-14 px-6 rounded-none"
+                className="w-full justify-between h-12 sm:h-14 px-4 sm:px-6 rounded-none btn-touch"
               >
-                <div className="flex items-center space-x-3">
-                  <Settings size={20} className="text-muted-foreground" />
-                  <span className="font-medium">{t('profile.accountSettings')}</span>
+                <div className="flex items-center space-x-3 flex-1 min-w-0">
+                  <Settings size={18} className="sm:w-5 sm:h-5 text-muted-foreground flex-shrink-0" />
+                  <span className="font-medium text-sm sm:text-base min-w-0 flex-1 text-left">{t('profile.accountSettings')}</span>
                 </div>
-                <ChevronRight size={16} className="text-muted-foreground" />
+                <ChevronRight size={14} className="sm:w-4 sm:h-4 text-muted-foreground flex-shrink-0" />
               </Button>
 
               <Separator />
@@ -341,28 +348,28 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
               {/* CGU */}
               <Button
                 variant="ghost"
-                className="w-full justify-between h-14 px-6 rounded-none"
+                className="w-full justify-between h-12 sm:h-14 px-4 sm:px-6 rounded-none btn-touch"
               >
-                <div className="flex items-center space-x-3">
-                  <FileText size={20} className="text-muted-foreground" />
-                  <span className="font-medium">{t('profile.terms')}</span>
+                <div className="flex items-center space-x-3 flex-1 min-w-0">
+                  <FileText size={18} className="sm:w-5 sm:h-5 text-muted-foreground flex-shrink-0" />
+                  <span className="font-medium text-sm sm:text-base min-w-0 flex-1 text-left">{t('profile.terms')}</span>
                 </div>
-                <ChevronRight size={16} className="text-muted-foreground" />
+                <ChevronRight size={14} className="sm:w-4 sm:h-4 text-muted-foreground flex-shrink-0" />
               </Button>
             </div>
           </CardContent>
         </Card>
 
-        {/* Logout */}
+        {/* Logout - Mobile-first responsive */}
         <Card className="border-destructive/20">
           <CardContent className="p-0">
             <Button
               variant="ghost"
-              className="w-full justify-start h-14 px-6 text-destructive hover:text-destructive hover:bg-destructive/5"
+              className="w-full justify-start h-12 sm:h-14 px-4 sm:px-6 text-destructive hover:text-destructive hover:bg-destructive/5 btn-touch"
               onClick={handleLogout}
             >
-              <LogOut size={20} className="mr-3" />
-              <span className="font-medium">{t('profile.logout')}</span>
+              <LogOut size={18} className="sm:w-5 sm:h-5 mr-3" />
+              <span className="font-medium text-sm sm:text-base">{t('profile.logout')}</span>
             </Button>
           </CardContent>
         </Card>

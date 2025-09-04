@@ -66,25 +66,27 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
   
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
+      {/* Header - Mobile-first responsive */}
       <header className="bg-card border-b border-border px-4 py-3 sticky top-0 z-40">
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" onClick={onBack}>
-            <ArrowLeft size={20} />
-          </Button>
-          <h1 className="font-poppins font-semibold text-lg">
-            Ajouter un soin
-          </h1>
+        <div className="container-responsive">
+          <div className="flex items-center gap-3">
+            <Button variant="ghost" size="icon" onClick={onBack} className="btn-touch">
+              <ArrowLeft size={18} className="sm:w-5 sm:h-5" />
+            </Button>
+            <h1 className="font-poppins font-semibold text-base sm:text-lg">
+              Ajouter un soin
+            </h1>
+          </div>
         </div>
       </header>
       
-      {/* Content */}
-      <div className="p-4 pb-20 space-y-6">
-        {/* Info Card */}
-        <CotonCard className="p-4 bg-coton-beige/50 border-coton-rose/20">
+      {/* Content - Mobile-first responsive */}
+      <div className="container-responsive space-responsive pb-20">
+        {/* Info Card - Mobile-first responsive */}
+        <CotonCard className="card-responsive bg-coton-beige/50 border-coton-rose/20">
           <div className="space-y-3">
-            <h3 className="font-poppins font-semibold text-sm text-foreground">💡 Quelle différence ?</h3>
-            <div className="space-y-2 text-sm text-muted-foreground">
+            <h3 className="font-poppins font-semibold text-sm sm:text-base text-foreground">💡 Quelle différence ?</h3>
+            <div className="space-y-2 text-xs sm:text-sm text-muted-foreground">
               <div>
                 <span className="font-medium">🌿 Soin :</span> Traitement spécifique et complet (shampoing, masque, huile, traitement profond...)
               </div>
@@ -95,15 +97,15 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
           </div>
         </CotonCard>
 
-        {/* Type Selection */}
-        <CotonCard className="p-6 space-y-4">
+        {/* Type Selection - Mobile-first responsive */}
+        <CotonCard className="card-responsive space-y-4">
           <h3 className="font-poppins font-semibold text-base">Type</h3>
           <div className="flex gap-3">
             <Button
               variant={type === 'soin' ? 'hero' : 'outline'}
               size="pill" 
               onClick={() => setType('soin')}
-              className="flex-1 min-w-0 text-sm"
+              className="flex-1 min-w-0 text-xs sm:text-sm btn-touch"
             >
               <span className="truncate">Soin (+50 CC)</span>
             </Button>
@@ -111,15 +113,15 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
               variant={type === 'routine' ? 'hero' : 'outline'}
               size="pill"
               onClick={() => setType('routine')}
-              className="flex-1 min-w-0 text-sm"
+              className="flex-1 min-w-0 text-xs sm:text-sm btn-touch"
             >
               <span className="truncate">Routine (+20 CC)</span>
             </Button>
           </div>
         </CotonCard>
         
-        {/* Form */}
-        <CotonCard className="p-6 space-y-6">
+        {/* Form - Mobile-first responsive */}
+        <CotonCard className="card-responsive space-y-6">
           <div className="space-y-2">
             <label className="font-poppins font-medium text-sm">
               Titre *
@@ -128,7 +130,7 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder={type === 'soin' ? 'Ex: Masque hydratant' : 'Ex: Routine du soir'}
-              className="rounded-lg"
+              className="rounded-lg text-sm sm:text-base"
             />
           </div>
           
@@ -140,7 +142,7 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="rounded-lg"
+              className="rounded-lg text-sm sm:text-base"
             />
           </div>
           
@@ -153,21 +155,21 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
               onChange={(e) => setNote(e.target.value)}
               placeholder="Décrivez votre soin, les produits utilisés, vos impressions..."
               rows={4}
-              className="rounded-lg"
+              className="rounded-lg text-sm sm:text-base"
             />
           </div>
         </CotonCard>
         
-        {/* Save Button */}
+        {/* Save Button - Mobile-first responsive */}
         <Button
           variant="hero"
           size="lg"
           onClick={handleSave}
-          className="w-full"
+          className="w-full btn-touch"
           disabled={!title.trim()}
         >
-          <Save size={20} />
-          Enregistrer
+          <Save size={18} className="sm:w-5 sm:h-5" />
+          <span className="ml-2">Enregistrer</span>
         </Button>
       </div>
     </div>

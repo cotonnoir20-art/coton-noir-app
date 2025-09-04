@@ -343,22 +343,22 @@ export default function CotonNoirApp() {
           />
         )}
         
-        {/* Main Content */}
-        <main className={shouldShowHeader() ? 'pt-0' : ''}>
+        {/* Main Content - Mobile-first responsive */}
+        <main className={`${shouldShowHeader() ? 'pt-0' : ''} ${shouldShowNavigation() ? 'pb-20' : 'pb-4'}`}>
           {renderScreen()}
         </main>
         
-        {/* Floating Action Button */}
+        {/* Floating Action Button - Mobile-first responsive */}
         {shouldShowFAB() && (
-          <div className="fixed bottom-20 right-4 z-40">
+          <div className="fixed bottom-20 sm:bottom-24 right-4 z-40">
             {/* Add Care Button */}
             <Button
               size="icon"
               variant="hero"
-              className="w-14 h-14 rounded-full shadow-lg"
+              className="w-12 h-12 sm:w-14 sm:h-14 rounded-full shadow-lg btn-touch"
               onClick={() => handleNavigate('add-care')}
             >
-              <Plus size={24} />
+              <Plus size={20} className="sm:w-6 sm:h-6" />
             </Button>
           </div>
         )}

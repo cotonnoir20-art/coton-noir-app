@@ -12,15 +12,54 @@ export default {
 	theme: {
 		container: {
 			center: true,
-			padding: '2rem',
+			padding: {
+				DEFAULT: '1rem',
+				sm: '1.5rem',
+				lg: '2rem',
+			},
 			screens: {
-				'2xl': '1400px'
-			}
+				xs: '480px',
+				sm: '640px',
+				md: '768px',
+				lg: '1024px',
+				xl: '1280px',
+				'2xl': '1400px',
+			},
 		},
 		extend: {
+			// Mobile-first breakpoints
+			screens: {
+				xs: '480px',
+				sm: '640px',
+				md: '768px',
+				lg: '1024px',
+				xl: '1280px',
+				'2xl': '1400px',
+			},
 			fontFamily: {
 				poppins: ['Poppins', 'sans-serif'],
 				roboto: ['Roboto', 'sans-serif'],
+			},
+			// Mobile-first spacing using CSS variables
+			spacing: {
+				xs: 'var(--spacing-xs)',
+				sm: 'var(--spacing-sm)',
+				md: 'var(--spacing-md)',
+				lg: 'var(--spacing-lg)',
+				xl: 'var(--spacing-xl)',
+				'2xl': 'var(--spacing-2xl)',
+				'3xl': 'var(--spacing-3xl)',
+			},
+			// Mobile-first font sizes
+			fontSize: {
+				xs: ['var(--text-xs)', { lineHeight: '1.4' }],
+				sm: ['var(--text-sm)', { lineHeight: '1.5' }],
+				base: ['var(--text-base)', { lineHeight: '1.5' }],
+				lg: ['var(--text-lg)', { lineHeight: '1.5' }],
+				xl: ['var(--text-xl)', { lineHeight: '1.4' }],
+				'2xl': ['var(--text-2xl)', { lineHeight: '1.3' }],
+				'3xl': ['var(--text-3xl)', { lineHeight: '1.2' }],
+				'4xl': ['var(--text-4xl)', { lineHeight: '1.1' }],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
