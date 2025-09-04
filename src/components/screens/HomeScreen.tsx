@@ -305,81 +305,79 @@ export function HomeScreen({
             Défis du jour
           </h3>
           
-          {/* Défis non complétés (normaux) */}
-          {todaysChallenges.filter(c => !c.completed).map((challenge, index) => <motion.div key={challenge.id} initial={{
-        opacity: 0,
-        x: -20
-      }} animate={{
-        opacity: 1,
-        x: 0
-      }} transition={{
-        delay: index * 0.1
-      }}>
-              <CotonCard className="p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full flex items-center justify-center bg-orange-100 text-orange-600">
-                      <Target size={20} />
-                    </div>
-                    <div>
-                      <h4 className="font-poppins font-semibold text-sm">
-                        {challenge.title}
-                      </h4>
-                      <p className="text-xs text-muted-foreground">
-                        {challenge.description}
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="text-right">
-                    <div className="space-y-1">
-                      <div className="text-orange-600 font-bold text-sm">
-                        +{challenge.reward} CC
+          <motion.div 
+            initial={false}
+            animate={{
+              height: todaysChallenges.filter(c => !c.completed).length > 0 ? "auto" : "0px",
+              opacity: todaysChallenges.filter(c => !c.completed).length > 0 ? 1 : 0
+            }}
+            transition={{
+              duration: 0.4,
+              ease: "easeInOut"
+            }}
+            style={{ overflow: "hidden" }}
+          >
+            <div className="space-y-3">
+              {/* Défis non complétés (normaux) */}
+              {todaysChallenges.filter(c => !c.completed).map((challenge, index) => <motion.div key={challenge.id} initial={{
+            opacity: 0,
+            x: -20
+          }} animate={{
+            opacity: 1,
+            x: 0
+          }} transition={{
+            delay: index * 0.1
+          }}>
+                  <CotonCard className="p-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full flex items-center justify-center bg-orange-100 text-orange-600">
+                          <Target size={20} />
+                        </div>
+                        <div>
+                          <h4 className="font-poppins font-semibold text-sm">
+                            {challenge.title}
+                          </h4>
+                          <p className="text-xs text-muted-foreground">
+                            {challenge.description}
+                          </p>
+                        </div>
                       </div>
-                      <Button size="sm" variant="outline" onClick={() => handleCompleteChallenge(challenge)} className="text-xs hover-scale">
-                        Valider
-                      </Button>
+                      
+                      <div className="text-right">
+                        <div className="space-y-1">
+                          <div className="text-orange-600 font-bold text-sm">
+                            +{challenge.reward} CC
+                          </div>
+                          <Button size="sm" variant="outline" onClick={() => handleCompleteChallenge(challenge)} className="text-xs hover-scale">
+                            Valider
+                          </Button>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              </CotonCard>
-            </motion.div>)}
+                  </CotonCard>
+                </motion.div>)}
+            </div>
+          </motion.div>
           
-          {/* Défis complétés (version compacte) */}
-          {todaysChallenges.filter(c => c.completed).length > 0 && <motion.div initial={{
-        height: 'auto'
-      }} animate={{
-        height: 'auto',
-        scale: 0.85,
-        opacity: 0.7
-      }} transition={{
-        duration: 0.5,
-        ease: "easeOut"
-      }} className="mt-2">
-              <CotonCard className="p-3 bg-green-50 border-green-200">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center">
-                      <Check size={14} />
-                    </div>
-                    <span className="text-sm font-poppins font-medium text-green-700">
-                      {todaysChallenges.filter(c => c.completed).length} défi{todaysChallenges.filter(c => c.completed).length > 1 ? 's' : ''} complété{todaysChallenges.filter(c => c.completed).length > 1 ? 's' : ''}
-                    </span>
+          {/* Défis complétés - version ultra compacte quand tous sont complétés */}
+          {todaysChallenges.filter(c => c.completed).length > 0 && todaysChallenges.filter(c => !c.completed).length === 0 && <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
+            className="mt-1"
+          >
+              <CotonCard className="p-2 bg-green-50/50 border-green-200/50">
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-4 h-4 rounded-full bg-green-100 text-green-600 flex items-center justify-center">
+                    <Check size={10} />
                   </div>
-                  <div className="flex items-center gap-1 text-green-600 text-xs">
-                    <motion.span initial={{
-                rotate: 0
-              }} animate={{
-                rotate: 360
-              }} transition={{
-                duration: 0.5
-              }}>
-                      ✅
-                    </motion.span>
-                    <span className="font-bold">
-                      +{todaysChallenges.filter(c => c.completed).reduce((sum, c) => sum + c.reward, 0)} CC
-                    </span>
-                  </div>
+                  <span className="text-xs font-poppins font-medium text-green-700">
+                    Défis complétés ✅
+                  </span>
+                  <span className="text-green-600 text-xs font-bold">
+                    +{todaysChallenges.filter(c => c.completed).reduce((sum, c) => sum + c.reward, 0)} CC
+                  </span>
                 </div>
               </CotonCard>
             </motion.div>}
