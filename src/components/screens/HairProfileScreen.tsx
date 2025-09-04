@@ -69,7 +69,6 @@ export function HairProfileScreen({
   const [selectedHairType, setSelectedHairType] = useState(state.hairProfile.hairType);
   const [selectedNeeds, setSelectedNeeds] = useState<string>(state.hairProfile.needs[0] || '');
   const [selectedObjectives, setSelectedObjectives] = useState<string>(state.hairProfile.objectives[0] || '');
-  const [routineValidated, setRoutineValidated] = useState(false);
   const toggleNeed = (needId: string) => {
     setSelectedNeeds(prev => prev === needId ? '' : needId);
   };
@@ -194,25 +193,6 @@ export function HairProfileScreen({
     
     return steps.slice(0, 6); // Allow up to 6 steps for comprehensive care
   }, [state.detailedHairProfile]);
-  const handleValidateRoutine = () => {
-    if (!selectedHairType) {
-      toast({
-        title: "Profil incomplet",
-        description: "Complète ton profil pour valider ta routine",
-        variant: "destructive"
-      });
-      return;
-    }
-    setRoutineValidated(true);
-    dispatch({
-      type: 'ADD_COINS',
-      amount: 10
-    });
-    toast({
-      title: "Routine validée ! +10 CotonCoins ✨",
-      description: "Tu as gagné 10 CotonCoins pour avoir suivi ta routine personnalisée !"
-    });
-  };
   const handleSave = () => {
     if (!selectedHairType) {
       toast({
@@ -235,15 +215,21 @@ export function HairProfileScreen({
       }
     });
     
+    // Toujours donner 5 CC pour sauvegarder le profil
+    dispatch({
+      type: 'ADD_COINS',
+      amount: 5
+    });
+    
     if (!wasCompleted) {
       toast({
-        title: "Profil complété ! Bonus de bienvenue 🎁",
-        description: "Tu as reçu 100 CotonCoins pour avoir complété ton profil !"
+        title: "Profil complété ! ✨ +5 CC",
+        description: "Ton profil capillaire a été enregistré avec succès !"
       });
     } else {
       toast({
-        title: "Profil enregistré ✨",
-        description: "Ton profil capillaire a été mis à jour avec succès !"
+        title: "Profil mis à jour ! ✨ +5 CC",
+        description: "Tes modifications ont été sauvegardées !"
       });
     }
     
@@ -629,29 +615,7 @@ export function HairProfileScreen({
               })}
             </div>
             
-            {/* Validation Button */}
-            <div className="pt-4 border-t border-coton-rose/20">
-              <Button 
-                variant={routineValidated ? "outline" : "hero"} 
-                size="sm" 
-                onClick={handleValidateRoutine}
-                disabled={routineValidated}
-                className="w-full"
-              >
-                {routineValidated ? (
-                  <>
-                    <Check size={16} className="mr-2" />
-                    Routine validée ✓
-                  </>
-                ) : (
-                  <>
-                    <Sparkles size={16} className="mr-2" />
-                    ✅ Routine validée (+10 CC)
-                  </>
-                )}
-              </Button>
-              
-              <div className="mt-3 p-4 rounded-lg bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200">
+            <div className="mt-3 p-4 rounded-lg bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-5 h-5 bg-amber-400 rounded-full flex items-center justify-center">
                     <span className="text-white text-xs font-bold">💡</span>
@@ -700,7 +664,6 @@ export function HairProfileScreen({
                   })()}
                 </p>
               </div>
-            </div>
           </CotonCard>
         </div>
       )}
