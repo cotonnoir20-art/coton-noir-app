@@ -103,17 +103,17 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
               variant={type === 'soin' ? 'hero' : 'outline'}
               size="pill" 
               onClick={() => setType('soin')}
-              className="flex-1"
+              className="flex-1 min-w-0 text-sm"
             >
-              Soin (+50 CC)
+              <span className="truncate">Soin (+50 CC)</span>
             </Button>
             <Button
               variant={type === 'routine' ? 'hero' : 'outline'}
               size="pill"
               onClick={() => setType('routine')}
-              className="flex-1"
+              className="flex-1 min-w-0 text-sm"
             >
-              Routine (+20 CC)
+              <span className="truncate">Routine (+20 CC)</span>
             </Button>
           </div>
         </CotonCard>
