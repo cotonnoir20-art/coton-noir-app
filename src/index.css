@@ -65,30 +65,42 @@
   }
   
   .dark {
-    /* Dark mode adjustments */
-    --background: 0 0% 6.7%; /* #111111 */
-    --foreground: 0 0% 95%;
+    /* Enhanced dark mode with better contrast */
+    --background: 0 0% 8%; /* Slightly lighter for better readability */
+    --foreground: 0 0% 98%; /* Improved contrast */
     
-    --card: var(--coton-black);
-    --card-foreground: 0 0% 95%;
+    /* Card system with better depth */
+    --card: 0 0% 12%; /* Lighter than background for layering */
+    --card-foreground: 0 0% 96%;
     
-    --primary: var(--coton-black);
-    --primary-foreground: 0 0% 95%;
+    /* Primary colors optimized for dark mode */
+    --primary: 0 0% 96%; /* Light primary for dark backgrounds */
+    --primary-foreground: 0 0% 10%; /* Dark text on light buttons */
     
-    --secondary: var(--coton-rose);
-    --secondary-foreground: var(--coton-black);
+    /* Secondary with adjusted rose for dark mode */
+    --secondary: 351 30% 25%; /* Darker rose for better contrast */
+    --secondary-foreground: 0 0% 96%;
     
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 65%;
+    /* Improved muted elements */
+    --muted: 0 0% 18%; /* Better contrast */
+    --muted-foreground: 0 0% 72%; /* Enhanced readability */
     
-    --accent: var(--coton-rose);
-    --accent-foreground: var(--coton-black);
+    /* Accent colors with better visibility */
+    --accent: 351 40% 30%; /* Adjusted rose for dark mode */
+    --accent-foreground: 0 0% 96%;
     
-    --border: 0 0% 20%;
-    --input: 0 0% 15%;
+    /* Interactive elements */
+    --border: 0 0% 25%; /* More visible borders */
+    --input: 0 0% 16%; /* Slightly lighter inputs */
+    --ring: 351 45% 60%; /* Rose focus ring */
     
-    --shadow-soft: 0 4px 20px hsl(0 0% 0% / 0.3);
-    --shadow-card: 0 2px 16px hsl(0 0% 0% / 0.2);
+    /* Enhanced shadows for depth */
+    --shadow-soft: 0 8px 32px hsl(0 0% 0% / 0.4);
+    --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.25);
+    
+    /* Dark mode specific gradients */
+    --gradient-rose: linear-gradient(135deg, hsl(351 40% 30%), hsl(351 40% 25%));
+    --gradient-hero: linear-gradient(135deg, hsl(0 0% 12%), hsl(0 0% 8%));
   }
 }
 
