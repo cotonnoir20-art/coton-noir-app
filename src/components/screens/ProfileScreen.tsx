@@ -154,7 +154,11 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
                     <Award size={12} className="mr-1" />
                     {t('profile.level')} {userLevel}
                   </Badge>
-                  <Badge variant="outline" className="border-white/30 bg-white/20 text-coton-black">
+                  <Badge 
+                    variant="outline" 
+                    className="border-white/30 bg-white/20 text-coton-black cursor-pointer hover:bg-white/30 transition-colors" 
+                    onClick={() => onNavigate('rewards')}
+                  >
                     <Coins size={12} className="mr-1" />
                     {state.coins}
                   </Badge>
