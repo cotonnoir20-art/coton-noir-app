@@ -82,12 +82,17 @@ export default function CotonNoirApp() {
       // Clear the flow parameter
       window.history.replaceState({}, '', window.location.pathname);
     } else if (hasCompletedOnboarding && hasCompletedProfile) {
+      // User has completed both onboarding steps - go to home
       setCurrentScreen('home');
     } else if (hasCompletedOnboarding && !hasCompletedProfile) {
+      // User completed onboarding but not profile setup
       setCurrentScreen('profile-onboarding');
-    } else {
-      // First time user - show splash screen
+    } else if (!hasCompletedOnboarding) {
+      // User hasn't completed onboarding yet - start from splash
       setCurrentScreen('splash-init');
+    } else {
+      // Fallback to home for any edge case
+      setCurrentScreen('home');
     }
 
     // Listen for navigation events
@@ -100,7 +105,7 @@ export default function CotonNoirApp() {
     return () => {
       window.removeEventListener('navigate', handleNavigateEvent as EventListener);
     };
-  }, []);
+  }, [user]); // Added user as dependency so it re-runs when user changes
   
   const handleCompleteOnboarding = () => {
     localStorage.setItem('coton-noir-onboarding', 'true');
