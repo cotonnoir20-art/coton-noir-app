@@ -13,7 +13,7 @@ const slides: OnboardingSlide[] = [
   {
     emoji: '🧴',
     title: 'Ton Hair Journal, simple et motivant',
-    description: 'Trace tes soins capillaires et découvre ce qui fonctionne vraiment pour tes cheveux'
+    description: 'Suis tes soins capillaires et découvre ce qui fonctionne vraiment pour tes cheveux'
   },
   {
     emoji: '✨',
