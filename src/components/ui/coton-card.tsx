@@ -20,7 +20,7 @@ export function CotonCard({
     <Component 
       onClick={onClick}
       className={cn(
-        "rounded-lg transition-all duration-300 text-left py-[15px] mt-[15px]",
+        "rounded-lg transition-all duration-300 text-left py-[15px] mt-[15px] mb-[15px]",
         {
           'default': "bg-card text-card-foreground border border-coton-rose/20 shadow-card backdrop-blur-sm",
           'elevated': "bg-coton-beige-light text-coton-black shadow-elegant hover:shadow-soft border border-coton-rose/30 backdrop-blur-sm",
