@@ -158,10 +158,10 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
   };
 
   return (
-    <div className="min-h-screen bg-coton-beige px-4 py-6 space-y-6">
+    <div className="min-h-screen bg-background px-4 py-6 space-y-6">
       {/* Header */}
       <div className="text-center space-y-2">
-        <h1 className="font-poppins font-bold text-2xl text-coton-black">
+        <h1 className="font-poppins font-bold text-2xl text-foreground">
           Créons ton profil capillaire
         </h1>
         <p className="font-roboto text-muted-foreground">
@@ -186,7 +186,7 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
         <div className="space-y-4">
           {/* Type de cheveux */}
           <div className="space-y-2">
-            <label className="font-roboto text-sm font-medium text-coton-black">
+            <label className="font-roboto text-sm font-medium text-foreground">
               Type de cheveux *
             </label>
             <Select value={selectedHairType} onValueChange={setSelectedHairType}>
@@ -205,7 +205,7 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
 
           {/* Porosité */}
           <div className="space-y-2">
-            <label className="font-roboto text-sm font-medium text-coton-black">
+            <label className="font-roboto text-sm font-medium text-foreground">
               Porosité *
             </label>
             <Select value={selectedPorosity} onValueChange={setSelectedPorosity}>
@@ -224,7 +224,7 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
 
           {/* Objectif */}
           <div className="space-y-2">
-            <label className="font-roboto text-sm font-medium text-coton-black">
+            <label className="font-roboto text-sm font-medium text-foreground">
               Objectif principal *
             </label>
             <Select value={selectedObjective} onValueChange={setSelectedObjective}>
@@ -246,7 +246,7 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
       {/* Bloc 2: Problématiques capillaires */}
       <CotonCard className="p-6 space-y-4">
         <div className="space-y-2">
-          <h2 className="font-poppins font-semibold text-lg text-coton-black">
+          <h2 className="font-poppins font-semibold text-lg text-foreground">
             Mes problématiques capillaires
           </h2>
           <p className="font-roboto text-sm text-muted-foreground">
@@ -264,7 +264,7 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
               />
               <label 
                 htmlFor={problem.id}
-                className="font-roboto text-sm text-coton-black cursor-pointer"
+                className="font-roboto text-sm text-foreground cursor-pointer"
               >
                 {problem.label}
               </label>
@@ -276,7 +276,7 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
       {/* Bloc 3: Besoins capillaires */}
       <CotonCard className="p-6 space-y-4">
         <div className="space-y-2">
-          <h2 className="font-poppins font-semibold text-lg text-coton-black">
+          <h2 className="font-poppins font-semibold text-lg text-foreground">
             Mes besoins capillaires
           </h2>
           <p className="font-roboto text-sm text-muted-foreground">
@@ -294,7 +294,7 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
               />
               <label 
                 htmlFor={need.id}
-                className="font-roboto text-sm text-coton-black cursor-pointer"
+                className="font-roboto text-sm text-foreground cursor-pointer"
               >
                 {need.label}
               </label>
@@ -316,7 +316,7 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
           <div className="flex items-center gap-2">
             {isGeneratingAI && <Loader2 className="animate-spin text-coton-rose" size={16} />}
             <Sparkles className="text-coton-rose" size={16} />
-            <h3 className="font-poppins font-semibold text-lg text-coton-black">
+            <h3 className="font-poppins font-semibold text-lg text-foreground">
               {isGeneratingAI ? "Génération de ta routine Black Cotton, notre Bot capillaire..." : "Ta routine personnalisée par Black Cotton, notre Bot capillaire ✨"}
             </h3>
           </div>
@@ -337,7 +337,7 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
                 }`}>
                   {isGeneratingAI ? <Loader2 className="animate-spin" size={12} /> : index + 1}
                 </div>
-                <span className={`font-roboto text-sm ${isGeneratingAI ? 'text-gray-500' : 'text-coton-black'}`}>
+                <span className={`font-roboto text-sm ${isGeneratingAI ? 'text-gray-500' : 'text-foreground'}`}>
                   {step}
                 </span>
               </div>
