@@ -117,7 +117,7 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
         </div>
       </div>
       
-      <div className="container-responsive space-responsive pb-24">
+      <div className="container-responsive pb-24 space-y-[10px]">
         {/* Profile Header - Mobile-first responsive */}
         <Card className="bg-gradient-rose border-0 shadow-card">
           <CardContent className="p-4 sm:p-6 mt-[15px]">
