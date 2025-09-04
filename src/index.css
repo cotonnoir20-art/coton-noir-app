@@ -28,7 +28,7 @@
     --coton-gray-light: 0 0% 74%; /* #bebebd */
     
     /* Background system - Principalement beiges */
-    --background: var(--coton-beige);
+    --background: 35 67% 94%; /* #fdf1e3 - Beige très doux */
     --foreground: var(--coton-black);
     
     /* Card system - Blanc/beige sur beige */
