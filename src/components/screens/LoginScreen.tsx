@@ -83,7 +83,7 @@ export function LoginScreen({ onNavigate, onLoginSuccess }: LoginScreenProps) {
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-poppins font-bold text-coton-black mb-2">
+          <h1 className="text-3xl font-poppins font-bold text-foreground mb-2">
             COTON NOIR
           </h1>
         </div>
@@ -91,7 +91,7 @@ export function LoginScreen({ onNavigate, onLoginSuccess }: LoginScreenProps) {
         {/* Main Card */}
         <div className="bg-white rounded-lg shadow-card p-8">
           <div className="text-center mb-6">
-            <h2 className="text-2xl font-poppins font-bold text-coton-black mb-2">
+            <h2 className="text-2xl font-poppins font-bold text-foreground mb-2">
               Bon retour !
             </h2>
             <p className="text-muted-foreground">
@@ -166,7 +166,7 @@ export function LoginScreen({ onNavigate, onLoginSuccess }: LoginScreenProps) {
               <button
                 type="button"
                 onClick={() => onNavigate('signup')}
-                className="text-coton-black font-medium hover:underline"
+                className="text-foreground font-medium hover:underline"
               >
                 Créer un compte
               </button>

@@ -475,7 +475,7 @@ export function HomeScreen({
                     style={{ color: currentLevel.color }}
                   />
                 </div>
-                <span className="font-poppins font-medium text-coton-black">
+                <span className="font-poppins font-medium text-foreground">
                   {currentLevel.name} {currentLevel.emoji}
                 </span>
               </>
@@ -484,7 +484,7 @@ export function HomeScreen({
         </div>
         
         <p className="text-sm font-roboto text-muted-foreground">
-          Encore <span className="font-medium text-coton-black">{(() => {
+          Encore <span className="font-medium text-foreground">{(() => {
             const currentCoins = state.coins;
             const levelThresholds = [501, 1001, 2501, 5001, 7501, 10001, 15001, 20001, 30001];
             const nextThreshold = levelThresholds.find(threshold => threshold > currentCoins);
@@ -588,7 +588,7 @@ export function HomeScreen({
                   <div className="w-8 h-8 rounded-full bg-coton-rose flex items-center justify-center text-white font-bold text-sm">
                     {index + 1}
                   </div>
-                  <span className="font-roboto text-sm text-coton-black">
+                  <span className="font-roboto text-sm text-foreground">
                     {step}
                   </span>
                 </div>
@@ -599,7 +599,7 @@ export function HomeScreen({
                   onClick={() => onNavigate('detailed-routine')}
                   className="w-full p-3 rounded-lg bg-coton-rose/20 border-2 border-dashed border-coton-rose hover:bg-coton-rose/30 transition-colors"
                 >
-                  <span className="font-roboto text-sm text-coton-black font-semibold">
+                  <span className="font-roboto text-sm text-foreground font-semibold">
                     Voir la routine complète (+{personalizedRoutine.length - 4} étapes)
                   </span>
                 </button>

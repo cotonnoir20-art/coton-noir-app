@@ -58,7 +58,7 @@ export function Header({ onProfileClick, onHomeClick, onRewardsClick }: HeaderPr
           {/* Coins */}
           <button 
             onClick={onRewardsClick}
-            className="flex items-center gap-1 bg-gradient-to-r from-coton-rose to-pink-300 text-coton-black px-3 py-1.5 rounded-pill shadow-lg hover:scale-105 transition-transform cursor-pointer"
+            className="flex items-center gap-1 bg-gradient-to-r from-coton-rose to-pink-300 text-foreground px-3 py-1.5 rounded-pill shadow-lg hover:scale-105 transition-transform cursor-pointer"
           >
             <Coins size={16} />
             <span className="font-poppins font-medium text-sm">

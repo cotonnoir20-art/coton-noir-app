@@ -69,7 +69,7 @@ export function ForgotPasswordScreen({ onNavigate }: ForgotPasswordScreenProps) 
         <div className="w-full max-w-md">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-poppins font-bold text-coton-black mb-2">
+            <h1 className="text-3xl font-poppins font-bold text-foreground mb-2">
               COTON NOIR
             </h1>
           </div>
@@ -82,7 +82,7 @@ export function ForgotPasswordScreen({ onNavigate }: ForgotPasswordScreenProps) 
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h2 className="text-2xl font-poppins font-bold text-coton-black mb-2">
+              <h2 className="text-2xl font-poppins font-bold text-foreground mb-2">
                 Email envoyé !
               </h2>
               <p className="text-muted-foreground">
@@ -118,7 +118,7 @@ export function ForgotPasswordScreen({ onNavigate }: ForgotPasswordScreenProps) 
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-poppins font-bold text-coton-black mb-2">
+          <h1 className="text-3xl font-poppins font-bold text-foreground mb-2">
             COTON NOIR
           </h1>
         </div>
@@ -135,7 +135,7 @@ export function ForgotPasswordScreen({ onNavigate }: ForgotPasswordScreenProps) 
           </button>
 
           <div className="text-center mb-6">
-            <h2 className="text-2xl font-poppins font-bold text-coton-black mb-2">
+            <h2 className="text-2xl font-poppins font-bold text-foreground mb-2">
               Mot de passe oublié ?
             </h2>
             <p className="text-muted-foreground">
@@ -179,7 +179,7 @@ export function ForgotPasswordScreen({ onNavigate }: ForgotPasswordScreenProps) 
             <button
               type="button"
               onClick={() => onNavigate('login')}
-              className="text-coton-black font-medium hover:underline"
+              className="text-foreground font-medium hover:underline"
             >
               Se connecter
             </button>

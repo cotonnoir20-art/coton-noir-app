@@ -315,7 +315,7 @@ export default function CotonNoirApp() {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-3xl font-poppins font-bold text-coton-black mb-4">
+          <h1 className="text-3xl font-poppins font-bold text-foreground mb-4">
             COTON NOIR
           </h1>
           <div className="animate-pulse text-muted-foreground">

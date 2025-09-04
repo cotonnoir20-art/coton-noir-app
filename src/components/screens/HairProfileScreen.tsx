@@ -243,7 +243,7 @@ export function HairProfileScreen({
           <ArrowLeft size={20} />
         </Button>
         <div className="flex-1">
-          <h1 className="font-poppins font-bold text-xl text-coton-black">
+          <h1 className="font-poppins font-bold text-xl text-foreground">
             Mon Profil Capillaire
           </h1>
         </div>
@@ -263,7 +263,7 @@ export function HairProfileScreen({
 
       {/* Levels Section */}
       <div className="space-y-4">
-        <h2 className="font-poppins font-bold text-xl text-coton-black text-center">
+        <h2 className="font-poppins font-bold text-xl text-foreground text-center">
           Les 10 Niveaux Coton Noir
         </h2>
         
@@ -423,7 +423,7 @@ export function HairProfileScreen({
       {/* Hair Type Selection */}
       <div className="space-y-4">
         <div>
-          <h3 className="font-poppins font-semibold text-lg text-coton-black mb-2">
+          <h3 className="font-poppins font-semibold text-lg text-foreground mb-2">
             Mon type de cheveux
           </h3>
           <p className="text-sm font-roboto text-muted-foreground mb-4">
@@ -436,7 +436,7 @@ export function HairProfileScreen({
               <div className="text-center space-y-3">
                 <div className="text-3xl">{type.emoji}</div>
                 <div className="space-y-1">
-                  <p className="font-poppins font-semibold text-sm text-coton-black">
+                  <p className="font-poppins font-semibold text-sm text-foreground">
                     {type.label}
                   </p>
                    <p className="font-roboto text-xs text-muted-foreground leading-tight">
@@ -463,7 +463,7 @@ export function HairProfileScreen({
       {/* Needs Selection */}
       <div className="space-y-4">
         <div>
-          <h3 className="font-poppins font-semibold text-lg text-coton-black mb-2">
+          <h3 className="font-poppins font-semibold text-lg text-foreground mb-2">
             Mes besoins
           </h3>
           <p className="text-sm font-roboto text-muted-foreground mb-4">
@@ -476,7 +476,7 @@ export function HairProfileScreen({
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">{need.emoji}</span>
-                  <span className="font-roboto text-sm text-coton-black">
+                  <span className="font-roboto text-sm text-foreground">
                     {need.label}
                   </span>
                 </div>
@@ -489,7 +489,7 @@ export function HairProfileScreen({
       {/* Objectives Selection */}
       <div className="space-y-4">
         <div>
-          <h3 className="font-poppins font-semibold text-lg text-coton-black mb-2">
+          <h3 className="font-poppins font-semibold text-lg text-foreground mb-2">
             Mes objectifs capillaires
           </h3>
           <p className="text-sm font-roboto text-muted-foreground mb-4">
@@ -500,7 +500,7 @@ export function HairProfileScreen({
         <div className="space-y-4 py-0 mx-0 my-0 px-0">
           {objectives.map((objective, index) => <CotonCard key={index} className={`p-4 cursor-pointer transition-all hover:scale-[1.02] ${selectedObjectives === objective ? 'ring-2 ring-coton-rose bg-coton-rose/10' : 'hover:shadow-soft'}`} onClick={() => toggleObjective(objective)}>
               <div className="flex items-center justify-between">
-                <span className="font-roboto text-sm text-coton-black">
+                <span className="font-roboto text-sm text-foreground">
                   {objective}
                 </span>
                 {selectedObjectives === objective && <Check size={16} className="text-coton-rose animate-scale-in" />}
@@ -542,7 +542,7 @@ export function HairProfileScreen({
             {/* Profile Summary */}
             <div className="space-y-3">
               <div className="flex flex-wrap gap-2 pb-4 border-b border-coton-rose/20">
-                <span className="px-3 py-1 bg-coton-rose/20 border border-coton-rose/30 rounded-full text-sm font-roboto font-semibold text-coton-black">
+                <span className="px-3 py-1 bg-coton-rose/20 border border-coton-rose/30 rounded-full text-sm font-roboto font-semibold text-foreground">
                   {state.detailedHairProfile.hairType}
                 </span>
                 <span className="px-3 py-1 bg-blue-100 border border-blue-300 rounded-full text-sm font-roboto text-blue-800">
@@ -575,7 +575,7 @@ export function HairProfileScreen({
             
             {/* Routine Steps with Priority Indicators */}
             <div className="space-y-3">
-              <h4 className="font-poppins font-semibold text-coton-black text-sm flex items-center gap-2">
+              <h4 className="font-poppins font-semibold text-foreground text-sm flex items-center gap-2">
                 <span>📋</span> Ta routine adaptée
               </h4>
               {personalizedRoutine.map((step, index) => {
@@ -601,7 +601,7 @@ export function HairProfileScreen({
                       {isHighPriority ? '!' : index + 1}
                     </div>
                     <div className="flex-1">
-                      <span className={`font-roboto text-sm ${isHighPriority ? 'font-semibold text-red-900' : 'text-coton-black'}`}>
+                      <span className={`font-roboto text-sm ${isHighPriority ? 'font-semibold text-red-900' : 'text-foreground'}`}>
                         {step}
                       </span>
                       {isHighPriority && (

@@ -83,8 +83,8 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
         {/* Info Card */}
         <CotonCard className="p-4 bg-coton-beige/50 border-coton-rose/20">
           <div className="space-y-3">
-            <h3 className="font-poppins font-semibold text-sm text-coton-black">💡 Quelle différence ?</h3>
-            <div className="space-y-2 text-sm text-coton-black/80">
+            <h3 className="font-poppins font-semibold text-sm text-foreground">💡 Quelle différence ?</h3>
+            <div className="space-y-2 text-sm text-muted-foreground">
               <div>
                 <span className="font-medium">🌿 Soin :</span> Traitement spécifique et complet (shampoing, masque, huile, traitement profond...)
               </div>
