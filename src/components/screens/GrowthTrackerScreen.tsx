@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useApp, HairMeasurement } from '@/contexts/AppContext';
 import { useToast } from '@/components/ui/use-toast';
+import { HairAnalyzer } from '@/components/ui/hair-analyzer';
 
 interface GrowthTrackerScreenProps {
   onBack: () => void;
@@ -299,14 +300,30 @@ export function GrowthTrackerScreen({ onBack }: GrowthTrackerScreenProps) {
             </DialogContent>
           </Dialog>
 
-          <Button
-            variant="outline"
-            onClick={() => toast({ title: "Bientôt disponible !", description: "Les graphiques arriveront dans la V2" })}
-          >
-            <TrendingUp size={20} />
-            Voir les graphes
-          </Button>
+          <HairAnalyzer 
+            analysisType="growth_tracking"
+            title="Analyser ma pousse"
+            className="w-full"
+            onAnalysisComplete={(analysis) => {
+              if (analysis.measurements && analysis.measurements.estimatedLengthFront) {
+                toast({
+                  title: "Analyse de croissance ✨",
+                  description: `Longueur estimée: ${analysis.measurements.estimatedLengthFront}cm devant`
+                });
+              }
+            }}
+          />
         </div>
+
+        {/* Voir graphes - maintenant en dessous */}
+        <Button
+          variant="outline"
+          onClick={() => toast({ title: "Bientôt disponible !", description: "Les graphiques arriveront dans la V2" })}
+          className="w-full"
+        >
+          <TrendingUp size={20} />
+          Voir les graphiques de progression
+        </Button>
 
         {/* Objectif de pousse */}
         {state.growthGoal ? (

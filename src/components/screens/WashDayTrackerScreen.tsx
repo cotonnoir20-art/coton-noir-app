@@ -11,6 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useApp, WashDayEntry } from '@/contexts/AppContext';
 import { useToast } from '@/components/ui/use-toast';
+import { HairAnalyzer } from '@/components/ui/hair-analyzer';
 import { format, addDays, isSameDay, isPast, isToday, isFuture } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
@@ -218,14 +219,28 @@ export function WashDayTrackerScreen({ onBack }: WashDayTrackerScreenProps) {
                 </p>
               </div>
             </div>
-            <Dialog open={showAddEntry} onOpenChange={setShowAddEntry}>
-              <DialogTrigger asChild>
-                <Button variant="hero" size="sm">
-                  <Plus size={16} />
-                  Ajouter
-                </Button>
-              </DialogTrigger>
-            </Dialog>
+            <div className="flex gap-2">
+              <Dialog open={showAddEntry} onOpenChange={setShowAddEntry}>
+                <DialogTrigger asChild>
+                  <Button variant="hero" size="sm">
+                    <Plus size={16} />
+                    Ajouter
+                  </Button>
+                </DialogTrigger>
+              </Dialog>
+              <HairAnalyzer 
+                analysisType="wash_day"
+                className="text-xs px-2 py-1"
+                onAnalysisComplete={(analysis) => {
+                  if (analysis.recommendations) {
+                    toast({
+                      title: "Analyse terminée ✨",
+                      description: "Conseils pour améliorer tes prochains wash days disponibles!"
+                    });
+                  }
+                }}
+              />
+            </div>
           </div>
         </CotonCard>
 

@@ -3,6 +3,7 @@ import { ArrowLeft, Check, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CotonCard } from '@/components/ui/coton-card';
 import { AIHairTip } from '@/components/ui/ai-hair-tip';
+import { HairAnalyzer } from '@/components/ui/hair-analyzer';
 import { useApp } from '@/contexts/AppContext';
 import { useToast } from '@/hooks/use-toast';
 interface HairProfileScreenProps {
@@ -255,9 +256,23 @@ export function HairProfileScreen({
         <Button variant="ghost" size="icon" onClick={onBack}>
           <ArrowLeft size={20} />
         </Button>
-        <h1 className="font-poppins font-bold text-xl text-coton-black">
-          Mon Profil Capillaire
-        </h1>
+        <div className="flex-1">
+          <h1 className="font-poppins font-bold text-xl text-coton-black">
+            Mon Profil Capillaire
+          </h1>
+        </div>
+        <HairAnalyzer 
+          analysisType="hair_profile"
+          className="text-xs px-3 py-2"
+          onAnalysisComplete={(analysis) => {
+            if (analysis.hairTypeDetected && analysis.hairTypeDetected !== selectedHairType) {
+              toast({
+                title: "IA suggère un ajustement",
+                description: `Type détecté: ${analysis.hairTypeDetected}. Voulez-vous l'appliquer?`,
+              });
+            }
+          }}
+        />
       </div>
 
       {/* Levels Section */}
