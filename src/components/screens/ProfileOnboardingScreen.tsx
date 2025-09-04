@@ -55,7 +55,7 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
   const [selectedPorosity, setSelectedPorosity] = useState('');
   const [selectedObjective, setSelectedObjective] = useState('');
   const [selectedProblem, setSelectedProblem] = useState<string>('');
-  const [selectedNeeds, setSelectedNeeds] = useState<string[]>([]);
+  const [selectedNeed, setSelectedNeed] = useState<string>('');
   
   // IA States
   const [aiRoutinePreview, setAiRoutinePreview] = useState<string[]>([]);
@@ -67,18 +67,14 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
     setSelectedProblem(prev => prev === problemId ? '' : problemId);
   };
 
-  const toggleNeed = (needId: string) => {
-    setSelectedNeeds(prev => 
-      prev.includes(needId) 
-        ? prev.filter(id => id !== needId)
-        : [...prev, needId]
-    );
+  const selectNeed = (needId: string) => {
+    setSelectedNeed(prev => prev === needId ? '' : needId);
   };
 
   // Generate AI tips based on current profile
   const generateAITips = async () => {
     // Don't generate if we don't have minimum info
-    if (!selectedHairType && !selectedPorosity && !selectedObjective && !selectedProblem && selectedNeeds.length === 0) {
+    if (!selectedHairType && !selectedPorosity && !selectedObjective && !selectedProblem && !selectedNeed) {
       setAiRoutinePreview([]);
       setAiCotonTips('');
       return;
@@ -93,7 +89,7 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
         porosity: selectedPorosity,
         objective: selectedObjective,
         problems: selectedProblem ? [selectedProblem] : [],
-        needs: selectedNeeds
+        needs: selectedNeed ? [selectedNeed] : []
       });
 
       const { data, error } = await supabase.functions.invoke('generate-realtime-tips', {
@@ -102,7 +98,7 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
           porosity: selectedPorosity,
           objective: selectedObjective,
           problems: selectedProblem ? [selectedProblem] : [],
-          needs: selectedNeeds
+          needs: selectedNeed ? [selectedNeed] : []
         }
       });
 
@@ -135,13 +131,13 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
     }, 1000); // Debounce for 1 second
 
     return () => clearTimeout(timeout);
-  }, [selectedHairType, selectedPorosity, selectedObjective, selectedProblem, selectedNeeds]);
+  }, [selectedHairType, selectedPorosity, selectedObjective, selectedProblem, selectedNeed]);
 
   const isFormValid = () => {
     return selectedHairType && 
            selectedPorosity && 
            selectedObjective && 
-           (selectedProblem || selectedNeeds.length > 0);
+           (selectedProblem || selectedNeed);
   };
 
   const handleContinue = () => {
@@ -153,7 +149,7 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
         porosity: selectedPorosity,
         objective: selectedObjective,
         problems: selectedProblem ? [selectedProblem] : [],
-        needs: selectedNeeds,
+        needs: selectedNeed ? [selectedNeed] : [],
         isCompleted: true
       }
     });
@@ -284,7 +280,7 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
             Mes besoins capillaires
           </h2>
           <p className="font-roboto text-sm text-muted-foreground">
-            Sélectionne tous les besoins qui t'intéressent
+            Sélectionne un besoin principal qui t'intéresse
           </p>
         </div>
         
@@ -293,8 +289,8 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
             <div key={need.id} className="flex items-center space-x-3">
               <Checkbox 
                 id={need.id}
-                checked={selectedNeeds.includes(need.id)}
-                onCheckedChange={() => toggleNeed(need.id)}
+                checked={selectedNeed === need.id}
+                onCheckedChange={() => selectNeed(need.id)}
               />
               <label 
                 htmlFor={need.id}
