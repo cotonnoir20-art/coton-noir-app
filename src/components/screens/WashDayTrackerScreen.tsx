@@ -193,44 +193,50 @@ export function WashDayTrackerScreen({ onBack }: WashDayTrackerScreenProps) {
       <div className="px-4 space-y-6 -mt-4 relative z-10">
         {/* Prochaine recommandation */}
         <CotonCard className="p-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                isSameDay(nextRecommendedWash, new Date()) 
-                  ? 'bg-orange-100 text-orange-600' 
-                  : isPast(nextRecommendedWash) 
-                    ? 'bg-red-100 text-red-600'
-                    : 'bg-blue-100 text-blue-600'
-              }`}>
-                {isSameDay(nextRecommendedWash, new Date()) || isPast(nextRecommendedWash) 
-                  ? <AlertCircle size={24} />
-                  : <Clock size={24} />
-                }
-              </div>
-              <div>
-                <h3 className="font-poppins font-semibold">
-                  {isSameDay(nextRecommendedWash, new Date()) ? "C'est le moment !" : 
-                   isPast(nextRecommendedWash) ? "En retard" :
-                   "Prochain wash day"}
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  {isToday(nextRecommendedWash) ? "Aujourd'hui" : 
-                   format(nextRecommendedWash, 'EEEE dd MMMM', { locale: fr })}
-                </p>
+          <div className="space-y-4">
+            {/* Section principale avec statut */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3 flex-1 min-w-0">
+                <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0 ${
+                  isSameDay(nextRecommendedWash, new Date()) 
+                    ? 'bg-orange-100 text-orange-600' 
+                    : isPast(nextRecommendedWash) 
+                      ? 'bg-red-100 text-red-600'
+                      : 'bg-blue-100 text-blue-600'
+                }`}>
+                  {isSameDay(nextRecommendedWash, new Date()) || isPast(nextRecommendedWash) 
+                    ? <AlertCircle size={18} className="sm:w-6 sm:h-6" />
+                    : <Clock size={18} className="sm:w-6 sm:h-6" />
+                  }
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h3 className="font-poppins font-semibold text-sm sm:text-base">
+                    {isSameDay(nextRecommendedWash, new Date()) ? "C'est le moment !" : 
+                     isPast(nextRecommendedWash) ? "En retard" :
+                     "Prochain wash day"}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground">
+                    {isToday(nextRecommendedWash) ? "Aujourd'hui" : 
+                     format(nextRecommendedWash, 'EEEE dd MMMM', { locale: fr })}
+                  </p>
+                </div>
               </div>
             </div>
-            <div className="flex gap-2">
+            
+            {/* Section des actions - Réorganisée pour mobile */}
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
               <Dialog open={showAddEntry} onOpenChange={setShowAddEntry}>
                 <DialogTrigger asChild>
-                  <Button variant="hero" size="sm">
-                    <Plus size={16} />
-                    Ajouter
+                  <Button variant="hero" size="sm" className="w-full sm:w-auto btn-touch">
+                    <Plus size={14} className="sm:w-4 sm:h-4" />
+                    <span className="text-xs sm:text-sm">Ajouter un wash day</span>
                   </Button>
                 </DialogTrigger>
               </Dialog>
               <HairAnalyzer 
                 analysisType="wash_day"
-                className="text-xs px-2 py-1"
+                title="Analyser"
+                className="w-full sm:w-auto text-xs sm:text-sm px-3 py-2 btn-touch"
                 onAnalysisComplete={(analysis) => {
                   if (analysis.recommendations) {
                     toast({
