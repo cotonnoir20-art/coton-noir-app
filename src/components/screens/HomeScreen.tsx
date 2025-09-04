@@ -18,17 +18,35 @@ export function HomeScreen({
   onAddCare,
   onShowProfile
 }: HomeScreenProps) {
-  const { state, dispatch } = useApp();
+  const {
+    state,
+    dispatch
+  } = useApp();
   const [routineValidated, setRoutineValidated] = useState(false);
 
   // Système d'animations et badges
-  const { shouldAnimate, amount, triggerCoinAnimation, resetAnimation } = useCoinAnimation();
-  const { newBadge, isVisible: isBadgeVisible, showBadge, hideBadge } = useBadgeSystem();
+  const {
+    shouldAnimate,
+    amount,
+    triggerCoinAnimation,
+    resetAnimation
+  } = useCoinAnimation();
+  const {
+    newBadge,
+    isVisible: isBadgeVisible,
+    showBadge,
+    hideBadge
+  } = useBadgeSystem();
 
   // Gestionnaire d'ajout de CotonCoins avec animation
   const handleAddCoins = (coinAmount: number) => {
-    dispatch({ type: 'ADD_COINS', amount: coinAmount });
-    dispatch({ type: 'TRIGGER_COIN_ANIMATION' });
+    dispatch({
+      type: 'ADD_COINS',
+      amount: coinAmount
+    });
+    dispatch({
+      type: 'TRIGGER_COIN_ANIMATION'
+    });
     triggerCoinAnimation(coinAmount);
   };
 
@@ -72,23 +90,26 @@ export function HomeScreen({
           category: 'streak'
         });
       }
-
       badges.forEach(badge => {
-        dispatch({ type: 'ADD_BADGE', badge });
+        dispatch({
+          type: 'ADD_BADGE',
+          badge
+        });
         setTimeout(() => showBadge(badge), 1000);
       });
     };
-
     checkAndAwardBadges();
   }, [state.journalEntries.length, state.washDayEntries.length, state.streakData.current, state.badges, dispatch, showBadge]);
 
   // Compléter un défi quotidien
   const handleCompleteChallenge = (challenge: DailyChallenge) => {
     if (challenge.completed) return;
-    
-    dispatch({ type: 'COMPLETE_DAILY_CHALLENGE', challengeId: challenge.id });
+    dispatch({
+      type: 'COMPLETE_DAILY_CHALLENGE',
+      challengeId: challenge.id
+    });
     handleAddCoins(challenge.reward);
-    
+
     // Badge si premier défi
     if (state.dailyChallenges.filter(c => c.completed).length === 0) {
       const challengerBadge: BadgeType = {
@@ -99,7 +120,10 @@ export function HomeScreen({
         unlockedAt: new Date().toISOString(),
         category: 'routine'
       };
-      dispatch({ type: 'ADD_BADGE', badge: challengerBadge });
+      dispatch({
+        type: 'ADD_BADGE',
+        badge: challengerBadge
+      });
       setTimeout(() => showBadge(challengerBadge), 2000);
     }
   };
@@ -107,10 +131,15 @@ export function HomeScreen({
   // Generate personalized routine based on detailed profile
   const personalizedRoutine = useMemo(() => {
     if (!state.detailedHairProfile.isCompleted) return [];
-    
-    const { hairType, porosity, objective, problems, needs } = state.detailedHairProfile;
+    const {
+      hairType,
+      porosity,
+      objective,
+      problems,
+      needs
+    } = state.detailedHairProfile;
     let steps = [];
-    
+
     // Base routine according to hair type AND porosity
     if (hairType === '3C') {
       if (porosity === 'faible') {
@@ -145,7 +174,7 @@ export function HomeScreen({
         steps = ['Pré-poo overnight', 'Co-wash doux', 'Masque ultra-hydratant', 'Crème très épaisse', 'Méthode LCO (leave-in + crème + huile)'];
       }
     }
-    
+
     // Adapt based on objective
     if (objective === 'hydratation') {
       steps.splice(2, 1, 'Double masque hydratant');
@@ -164,7 +193,7 @@ export function HomeScreen({
       steps.splice(1, 0, 'Traitement protéiné réparateur');
       steps = steps.map(s => s.includes('Masque') ? 'Masque réparateur intensif' : s);
     }
-    
+
     // Adapt based on problems
     if (problems.includes('secheresse')) {
       steps = steps.map(s => s.includes('Masque') ? 'Masque hydratant ultra-nourrissant' : s);
@@ -190,7 +219,7 @@ export function HomeScreen({
       steps.unshift('Massage anti-chute stimulant');
       steps.push('Sérum fortifiant cuir chevelu');
     }
-    
+
     // Adapt based on specific needs
     if (needs.includes('hydratation')) {
       if (!steps.some(s => s.includes('hydrat'))) {
@@ -218,15 +247,10 @@ export function HomeScreen({
       steps.push('Protection thermique si chaleur');
       steps.push('Satin/soie pour dormir');
     }
-    
     return steps.slice(0, 6); // Allow up to 6 steps for comprehensive care
   }, [state.detailedHairProfile]);
-
-  
-
   const handleValidateRoutine = () => {
     if (routineValidated) return;
-    
     setRoutineValidated(true);
     handleAddCoins(10);
   };
@@ -237,33 +261,16 @@ export function HomeScreen({
 
   // Calculate monthly stats
   const currentMonth = new Date().toISOString().slice(0, 7); // YYYY-MM format
-  const thisMonthCares = state.journalEntries.filter(entry => 
-    entry.date.startsWith(currentMonth)
-  ).length;
-  
-  const maskCount = state.journalEntries.filter(entry => 
-    entry.title.toLowerCase().includes('masque') || 
-    entry.note.toLowerCase().includes('masque')
-  ).length;
+  const thisMonthCares = state.journalEntries.filter(entry => entry.date.startsWith(currentMonth)).length;
+  const maskCount = state.journalEntries.filter(entry => entry.title.toLowerCase().includes('masque') || entry.note.toLowerCase().includes('masque')).length;
 
   // Défis du jour
-  const todaysChallenges = state.dailyChallenges.filter(
-    c => c.date === new Date().toISOString().split('T')[0]
-  );
-
-  return <div className="pb-20 px-4 space-y-[10px] bg-[#fdf1e3] relative">
+  const todaysChallenges = state.dailyChallenges.filter(c => c.date === new Date().toISOString().split('T')[0]);
+  return <div className="pb-20 px-4 space-y-6 bg-[#fdf1e3] relative my-px">
       {/* Animations */}
-      <CoinAnimation 
-        amount={amount} 
-        trigger={shouldAnimate} 
-        onComplete={resetAnimation}
-      />
+      <CoinAnimation amount={amount} trigger={shouldAnimate} onComplete={resetAnimation} />
       
-      <BadgeNotification 
-        badge={newBadge} 
-        isVisible={isBadgeVisible} 
-        onClose={hideBadge}
-      />
+      <BadgeNotification badge={newBadge} isVisible={isBadgeVisible} onClose={hideBadge} />
 
       {/* Hair Profile Reminder */}
       {!state.hairProfile.isCompleted && <CotonCard variant="premium" className="p-4">
@@ -283,35 +290,31 @@ export function HomeScreen({
         </CotonCard>}
 
       {/* AI Hair Tip for users without profile */}
-      {!state.detailedHairProfile.isCompleted && (
-        <AIHairTip 
-          tipType="general" 
-          context="conseil général pour débuter dans les soins capillaires"
-          variant="featured"
-          showRefresh={true}
-        />
-      )}
+      {!state.detailedHairProfile.isCompleted && <AIHairTip tipType="general" context="conseil général pour débuter dans les soins capillaires" variant="featured" showRefresh={true} />}
 
       {/* Défis quotidiens */}
-      {todaysChallenges.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="space-y-3 mt-[20px]"
-        >
-          <h3 className="font-poppins font-semibold text-lg flex items-center gap-2 mt-[16px]">
+      {todaysChallenges.length > 0 && <motion.div initial={{
+      opacity: 0,
+      y: 20
+    }} animate={{
+      opacity: 1,
+      y: 0
+    }} className="space-y-3 mt-[20px]">
+          <h3 className="font-poppins font-semibold text-lg flex items-center gap-2">
             <Trophy className="text-yellow-500" size={20} />
             Défis du jour
           </h3>
           
           {/* Défis non complétés (normaux) */}
-          {todaysChallenges.filter(c => !c.completed).map((challenge, index) => (
-            <motion.div
-              key={challenge.id}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.1 }}
-            >
+          {todaysChallenges.filter(c => !c.completed).map((challenge, index) => <motion.div key={challenge.id} initial={{
+        opacity: 0,
+        x: -20
+      }} animate={{
+        opacity: 1,
+        x: 0
+      }} transition={{
+        delay: index * 0.1
+      }}>
               <CotonCard className="p-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -333,33 +336,26 @@ export function HomeScreen({
                       <div className="text-orange-600 font-bold text-sm">
                         +{challenge.reward} CC
                       </div>
-                      <Button 
-                        size="sm" 
-                        variant="outline"
-                        onClick={() => handleCompleteChallenge(challenge)}
-                        className="text-xs hover-scale"
-                      >
+                      <Button size="sm" variant="outline" onClick={() => handleCompleteChallenge(challenge)} className="text-xs hover-scale">
                         Valider
                       </Button>
                     </div>
                   </div>
                 </div>
               </CotonCard>
-            </motion.div>
-          ))}
+            </motion.div>)}
           
           {/* Défis complétés (version compacte) */}
-          {todaysChallenges.filter(c => c.completed).length > 0 && (
-            <motion.div
-              initial={{ height: 'auto' }}
-              animate={{ 
-                height: 'auto',
-                scale: 0.85,
-                opacity: 0.7
-              }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-              className="mt-2"
-            >
+          {todaysChallenges.filter(c => c.completed).length > 0 && <motion.div initial={{
+        height: 'auto'
+      }} animate={{
+        height: 'auto',
+        scale: 0.85,
+        opacity: 0.7
+      }} transition={{
+        duration: 0.5,
+        ease: "easeOut"
+      }} className="mt-2">
               <CotonCard className="p-3 bg-green-50 border-green-200">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -371,11 +367,13 @@ export function HomeScreen({
                     </span>
                   </div>
                   <div className="flex items-center gap-1 text-green-600 text-xs">
-                    <motion.span
-                      initial={{ rotate: 0 }}
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 0.5 }}
-                    >
+                    <motion.span initial={{
+                rotate: 0
+              }} animate={{
+                rotate: 360
+              }} transition={{
+                duration: 0.5
+              }}>
                       ✅
                     </motion.span>
                     <span className="font-bold">
@@ -384,10 +382,8 @@ export function HomeScreen({
                   </div>
                 </div>
               </CotonCard>
-            </motion.div>
-          )}
-        </motion.div>
-      )}
+            </motion.div>}
+        </motion.div>}
 
       
       
@@ -395,92 +391,142 @@ export function HomeScreen({
       <CotonCard className="p-6 space-y-4 mt-5">
         <div className="flex items-center justify-between">
           <h3 className="font-poppins font-semibold text-lg">Niveau & Objectif</h3>
-          <div 
-            className={(() => {
-              const needsMap = {
-                'hydratation': { 
-                  text: 'Hydratation 💧', 
-                  classes: 'bg-blue-100 text-blue-600' 
-                },
-                'volume': { 
-                  text: 'Volume 🌸', 
-                  classes: 'bg-pink-100 text-pink-600' 
-                },
-                'definition': { 
-                  text: 'Définition ✨', 
-                  classes: 'bg-purple-100 text-purple-600' 
-                },
-                'croissance': { 
-                  text: 'Croissance 🌱', 
-                  classes: 'bg-green-100 text-green-600' 
-                },
-                'casse': { 
-                  text: 'Anti-casse 💪', 
-                  classes: 'bg-orange-100 text-orange-600' 
-                },
-                'brillance': { 
-                  text: 'Brillance 🌟', 
-                  classes: 'bg-yellow-100 text-yellow-600' 
-                }
-              };
-              const primaryNeed = state.hairProfile.needs[0];
-              const needData = primaryNeed ? needsMap[primaryNeed as keyof typeof needsMap] : needsMap['hydratation'];
-              return `${needData.classes} px-3 py-1 rounded-full text-sm font-roboto font-medium flex items-center gap-1 cursor-pointer hover:opacity-80 transition-opacity`;
-            })()}
-            onClick={onShowProfile}
-          >
+          <div className={(() => {
+          const needsMap = {
+            'hydratation': {
+              text: 'Hydratation 💧',
+              classes: 'bg-blue-100 text-blue-600'
+            },
+            'volume': {
+              text: 'Volume 🌸',
+              classes: 'bg-pink-100 text-pink-600'
+            },
+            'definition': {
+              text: 'Définition ✨',
+              classes: 'bg-purple-100 text-purple-600'
+            },
+            'croissance': {
+              text: 'Croissance 🌱',
+              classes: 'bg-green-100 text-green-600'
+            },
+            'casse': {
+              text: 'Anti-casse 💪',
+              classes: 'bg-orange-100 text-orange-600'
+            },
+            'brillance': {
+              text: 'Brillance 🌟',
+              classes: 'bg-yellow-100 text-yellow-600'
+            }
+          };
+          const primaryNeed = state.hairProfile.needs[0];
+          const needData = primaryNeed ? needsMap[primaryNeed as keyof typeof needsMap] : needsMap['hydratation'];
+          return `${needData.classes} px-3 py-1 rounded-full text-sm font-roboto font-medium flex items-center gap-1 cursor-pointer hover:opacity-80 transition-opacity`;
+        })()} onClick={onShowProfile}>
             {(() => {
-              const needsMap = {
-                'hydratation': 'Hydratation 💧',
-                'volume': 'Volume 🌸',
-                'definition': 'Définition ✨',
-                'croissance': 'Croissance 🌱',
-                'casse': 'Anti-casse 💪',
-                'brillance': 'Brillance 🌟'
-              };
-              const primaryNeed = state.hairProfile.needs[0];
-              return primaryNeed ? needsMap[primaryNeed as keyof typeof needsMap] || 'Soin capillaire ✨' : 'Hydratation 💧';
-            })()}
+            const needsMap = {
+              'hydratation': 'Hydratation 💧',
+              'volume': 'Volume 🌸',
+              'definition': 'Définition ✨',
+              'croissance': 'Croissance 🌱',
+              'casse': 'Anti-casse 💪',
+              'brillance': 'Brillance 🌟'
+            };
+            const primaryNeed = state.hairProfile.needs[0];
+            return primaryNeed ? needsMap[primaryNeed as keyof typeof needsMap] || 'Soin capillaire ✨' : 'Hydratation 💧';
+          })()}
           </div>
         </div>
         
         <div className="flex items-center gap-2">
           {(() => {
-            const currentCoins = state.coins;
-            const levels = [
-              { name: 'Baby Hair', min: 0, max: 500, emoji: '✨', color: '#F7B6D2', icon: Sparkles },
-              { name: 'Curlie Cutie', min: 501, max: 1000, emoji: '💖', color: '#C9A7EB', icon: Heart },
-              { name: 'Afro Queenie', min: 1001, max: 2500, emoji: '👑', color: '#FFD166', icon: Crown },
-              { name: 'Glow Fro', min: 2501, max: 5000, emoji: '🌟', color: '#FEE440', icon: Sun },
-              { name: 'Crown Vibes', min: 5001, max: 7500, emoji: '👑💕', color: '#FF6F91', icon: Crown },
-              { name: 'Slay Braidy', min: 7501, max: 10000, emoji: '🧵🔥', color: '#06D6A0', icon: Zap },
-              { name: 'Kinky Diva', min: 10001, max: 15000, emoji: '💃🏾', color: '#9B5DE5', icon: Music },
-              { name: 'Twist & Shine', min: 15001, max: 20000, emoji: '💫', color: '#FF9770', icon: Star },
-              { name: 'Wash Day Goddess', min: 20001, max: 30000, emoji: '🛁👸🏾', color: '#26547C', icon: Droplets },
-              { name: 'Afrolicious Icon', min: 30001, max: Infinity, emoji: '🔥💎', color: '#FFD700', icon: Diamond }
-            ];
-            
-            const currentLevel = levels.find(level => currentCoins >= level.min && currentCoins <= level.max) || levels[0];
-            const IconComponent = currentLevel.icon;
-            
-            return (
-              <>
+          const currentCoins = state.coins;
+          const levels = [{
+            name: 'Baby Hair',
+            min: 0,
+            max: 500,
+            emoji: '✨',
+            color: '#F7B6D2',
+            icon: Sparkles
+          }, {
+            name: 'Curlie Cutie',
+            min: 501,
+            max: 1000,
+            emoji: '💖',
+            color: '#C9A7EB',
+            icon: Heart
+          }, {
+            name: 'Afro Queenie',
+            min: 1001,
+            max: 2500,
+            emoji: '👑',
+            color: '#FFD166',
+            icon: Crown
+          }, {
+            name: 'Glow Fro',
+            min: 2501,
+            max: 5000,
+            emoji: '🌟',
+            color: '#FEE440',
+            icon: Sun
+          }, {
+            name: 'Crown Vibes',
+            min: 5001,
+            max: 7500,
+            emoji: '👑💕',
+            color: '#FF6F91',
+            icon: Crown
+          }, {
+            name: 'Slay Braidy',
+            min: 7501,
+            max: 10000,
+            emoji: '🧵🔥',
+            color: '#06D6A0',
+            icon: Zap
+          }, {
+            name: 'Kinky Diva',
+            min: 10001,
+            max: 15000,
+            emoji: '💃🏾',
+            color: '#9B5DE5',
+            icon: Music
+          }, {
+            name: 'Twist & Shine',
+            min: 15001,
+            max: 20000,
+            emoji: '💫',
+            color: '#FF9770',
+            icon: Star
+          }, {
+            name: 'Wash Day Goddess',
+            min: 20001,
+            max: 30000,
+            emoji: '🛁👸🏾',
+            color: '#26547C',
+            icon: Droplets
+          }, {
+            name: 'Afrolicious Icon',
+            min: 30001,
+            max: Infinity,
+            emoji: '🔥💎',
+            color: '#FFD700',
+            icon: Diamond
+          }];
+          const currentLevel = levels.find(level => currentCoins >= level.min && currentCoins <= level.max) || levels[0];
+          const IconComponent = currentLevel.icon;
+          return <>
                 <div className="flex items-center gap-1">
-                  <div 
-                    className="w-3 h-3 rounded-full" 
-                    style={{ backgroundColor: currentLevel.color }}
-                  ></div>
-                  <IconComponent 
-                    size={16} 
-                    style={{ color: currentLevel.color }}
-                  />
+                  <div className="w-3 h-3 rounded-full" style={{
+                backgroundColor: currentLevel.color
+              }}></div>
+                  <IconComponent size={16} style={{
+                color: currentLevel.color
+              }} />
                 </div>
                 <span className="font-poppins font-medium text-foreground">
                   {currentLevel.name} {currentLevel.emoji}
                 </span>
-              </>
-            );
-          })()}
+              </>;
+        })()}
         </div>
         
         <p className="text-sm font-roboto text-muted-foreground">
@@ -488,11 +534,9 @@ export function HomeScreen({
             const currentCoins = state.coins;
             const levelThresholds = [501, 1001, 2501, 5001, 7501, 10001, 15001, 20001, 30001];
             const nextThreshold = levelThresholds.find(threshold => threshold > currentCoins);
-            
             if (!nextThreshold) {
               return 0; // Niveau maximum atteint
             }
-            
             const coinsNeeded = nextThreshold - currentCoins;
             return coinsNeeded;
           })()} CotonCoins 🪙</span> avant ton prochain palier ! 🔥
@@ -537,8 +581,7 @@ export function HomeScreen({
           </CotonCard>
         </div>
       </div>
-      {state.detailedHairProfile.isCompleted && personalizedRoutine.length > 0 && (
-        <div key={`routine-${state.detailedHairProfile.hairType}-${state.detailedHairProfile.porosity}-${state.detailedHairProfile.objective}-${state.detailedHairProfile.problems?.join(',')}-${state.detailedHairProfile.needs?.join(',')}`} className="space-y-4">
+      {state.detailedHairProfile.isCompleted && personalizedRoutine.length > 0 && <div key={`routine-${state.detailedHairProfile.hairType}-${state.detailedHairProfile.porosity}-${state.detailedHairProfile.objective}-${state.detailedHairProfile.problems?.join(',')}-${state.detailedHairProfile.needs?.join(',')}`} className="space-y-4">
           <h3 className="font-poppins font-semibold text-lg">Ma routine recommandée ✨</h3>
           
           <CotonCard className="p-6 bg-gradient-to-r from-coton-rose/10 to-purple-50 space-y-4">
@@ -547,77 +590,44 @@ export function HomeScreen({
               <span className="px-3 py-1 bg-white/70 rounded-full text-sm font-roboto">
                 {state.detailedHairProfile.hairType}
               </span>
-              {state.detailedHairProfile.porosity && (
-                <span className="px-3 py-1 bg-white/70 rounded-full text-sm font-roboto">
+              {state.detailedHairProfile.porosity && <span className="px-3 py-1 bg-white/70 rounded-full text-sm font-roboto">
                   Porosité {state.detailedHairProfile.porosity}
-                </span>
-              )}
-              {state.detailedHairProfile.objective && (
-                <span className="px-3 py-1 bg-white/70 rounded-full text-sm font-roboto">
+                </span>}
+              {state.detailedHairProfile.objective && <span className="px-3 py-1 bg-white/70 rounded-full text-sm font-roboto">
                   Objectif: {state.detailedHairProfile.objective}
-                </span>
-              )}
-              {state.detailedHairProfile.problems && state.detailedHairProfile.problems.length > 0 && (
-                state.detailedHairProfile.problems.map((problem, index) => (
-                   <span 
-                     key={`problem-${index}`} 
-                     className="px-3 py-1 bg-red-100/70 rounded-full text-sm font-roboto text-red-700 cursor-pointer hover:bg-red-200/70 transition-colors" 
-                     onClick={onShowProfile}
-                   >
+                </span>}
+              {state.detailedHairProfile.problems && state.detailedHairProfile.problems.length > 0 && state.detailedHairProfile.problems.map((problem, index) => <span key={`problem-${index}`} className="px-3 py-1 bg-red-100/70 rounded-full text-sm font-roboto text-red-700 cursor-pointer hover:bg-red-200/70 transition-colors" onClick={onShowProfile}>
                     {problem}
-                  </span>
-                ))
-              )}
-              {state.detailedHairProfile.needs && state.detailedHairProfile.needs.length > 0 && (
-                state.detailedHairProfile.needs.map((need, index) => (
-                   <span 
-                     key={`need-${index}`} 
-                     className="px-3 py-1 bg-green-100/70 rounded-full text-sm font-roboto text-green-700 cursor-pointer hover:bg-green-200/70 transition-colors" 
-                     onClick={onShowProfile}
-                   >
+                  </span>)}
+              {state.detailedHairProfile.needs && state.detailedHairProfile.needs.length > 0 && state.detailedHairProfile.needs.map((need, index) => <span key={`need-${index}`} className="px-3 py-1 bg-green-100/70 rounded-full text-sm font-roboto text-green-700 cursor-pointer hover:bg-green-200/70 transition-colors" onClick={onShowProfile}>
                     {need}
-                  </span>
-                ))
-              )}
+                  </span>)}
             </div>
             
             {/* Routine Steps */}
             <div className="space-y-3">
-              {personalizedRoutine.slice(0, 4).map((step, index) => (
-                <div key={index} className="flex items-center gap-3 p-3 rounded-lg bg-white/60">
+              {personalizedRoutine.slice(0, 4).map((step, index) => <div key={index} className="flex items-center gap-3 p-3 rounded-lg bg-white/60">
                   <div className="w-8 h-8 rounded-full bg-coton-rose flex items-center justify-center text-white font-bold text-sm">
                     {index + 1}
                   </div>
                   <span className="font-roboto text-sm text-foreground">
                     {step}
                   </span>
-                </div>
-              ))}
+                </div>)}
               
-              {personalizedRoutine.length > 4 && (
-                <button
-                  onClick={() => onNavigate('detailed-routine')}
-                  className="w-full p-3 rounded-lg bg-coton-rose/20 border-2 border-dashed border-coton-rose hover:bg-coton-rose/30 transition-colors"
-                >
+              {personalizedRoutine.length > 4 && <button onClick={() => onNavigate('detailed-routine')} className="w-full p-3 rounded-lg bg-coton-rose/20 border-2 border-dashed border-coton-rose hover:bg-coton-rose/30 transition-colors">
                   <span className="font-roboto text-sm text-foreground font-semibold">
                     Voir la routine complète (+{personalizedRoutine.length - 4} étapes)
                   </span>
-                </button>
-              )}
+                </button>}
             </div>
             
             {/* AI-Generated Hair Tip */}
             <div className="mt-3">
-              <AIHairTip 
-                tipType="routine" 
-                context="routine personnalisée basée sur le profil capillaire"
-                variant="default"
-                showRefresh={true}
-              />
+              <AIHairTip tipType="routine" context="routine personnalisée basée sur le profil capillaire" variant="default" showRefresh={true} />
             </div>
           </CotonCard>
-        </div>
-      )}
+        </div>}
       
       
       {/* Quick Access Grid */}
@@ -690,11 +700,9 @@ export function HomeScreen({
       </CotonCard>
 
       {/* Streak & Badges */}
-      {(state.streakData.current > 0 || state.badges.length > 0) && (
-        <CotonCard className="p-4 bg-gradient-to-r from-yellow-50 to-orange-50">
+      {(state.streakData.current > 0 || state.badges.length > 0) && <CotonCard className="p-4 bg-gradient-to-r from-yellow-50 to-orange-50">
           <div className="space-y-3">
-            {state.streakData.current > 0 && (
-              <div className="flex items-center gap-3">
+            {state.streakData.current > 0 && <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-r from-orange-400 to-red-500 flex items-center justify-center">
                   <Flame className="text-white" size={24} />
                 </div>
@@ -706,17 +714,13 @@ export function HomeScreen({
                     Meilleur: {state.streakData.best} jours
                   </p>
                 </div>
-              </div>
-            )}
+              </div>}
             
-            {state.badges.length > 0 && (
-              <div>
+            {state.badges.length > 0 && <div>
                 <h4 className="font-poppins font-medium mb-2 text-sm">Tes badges:</h4>
                 <BadgeDisplay badges={state.badges} />
-              </div>
-            )}
+              </div>}
           </div>
-        </CotonCard>
-      )}
+        </CotonCard>}
     </div>;
 }
