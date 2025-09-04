@@ -356,10 +356,10 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
       {/* AI CotonTips - shows when AI has generated tips */}
       {(aiCotonTips || isGeneratingAI) && (
         <CotonCard className="p-6 space-y-4 bg-gradient-to-r from-amber-50 to-yellow-50 border-amber-200">
-          <div className="flex items-center gap-2">
-            {isGeneratingAI && <Loader2 className="animate-spin text-amber-500" size={16} />}
-            <Lightbulb className="text-amber-500" size={20} />
-            <h3 className="font-poppins font-semibold text-lg text-amber-800">
+          <div className="flex items-center gap-2 p-3 rounded-lg bg-green-50">
+            {isGeneratingAI && <Loader2 className="animate-spin text-green-600" size={16} />}
+            <Lightbulb className="text-green-600" size={20} />
+            <h3 className="font-poppins font-semibold text-lg text-green-800">
               {isGeneratingAI ? 'Génération CotonTips IA...' : 'CotonTips IA'}
             </h3>
           </div>
