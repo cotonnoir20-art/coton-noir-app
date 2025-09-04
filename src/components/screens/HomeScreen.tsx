@@ -559,7 +559,11 @@ export function HomeScreen({
               )}
               {state.detailedHairProfile.problems && state.detailedHairProfile.problems.length > 0 && (
                 state.detailedHairProfile.problems.map((problem, index) => (
-                  <span key={`problem-${index}`} className="px-3 py-1 bg-red-100/70 rounded-full text-sm font-roboto text-red-700">
+                   <span 
+                     key={`problem-${index}`} 
+                     className="px-3 py-1 bg-red-100/70 rounded-full text-sm font-roboto text-red-700 cursor-pointer hover:bg-red-200/70 transition-colors" 
+                     onClick={onShowProfile}
+                   >
                     {problem}
                   </span>
                 ))
