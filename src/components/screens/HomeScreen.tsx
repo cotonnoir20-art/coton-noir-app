@@ -299,7 +299,7 @@ export function HomeScreen({
           animate={{ opacity: 1, y: 0 }}
           className="space-y-3 mt-[20px]"
         >
-          <h3 className="font-poppins font-semibold text-lg flex items-center gap-2">
+          <h3 className="font-poppins font-semibold text-lg flex items-center gap-2 mt-[8px]">
             <Trophy className="text-yellow-500" size={20} />
             Défis du jour
           </h3>
