@@ -184,6 +184,23 @@ export function DetailedRoutineScreen({ onBack }: DetailedRoutineScreenProps) {
         </div>
       </CotonCard>
 
+      {/* Disclaimer professionnel */}
+      <CotonCard className="p-4 bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200">
+        <div className="flex items-start gap-3">
+          <div className="w-8 h-8 bg-orange-400 rounded-full flex items-center justify-center flex-shrink-0">
+            <span className="text-white text-sm">⚠️</span>
+          </div>
+          <div>
+            <h4 className="font-poppins font-semibold text-orange-800 mb-2">
+              Important
+            </h4>
+            <p className="text-sm font-roboto text-orange-900 leading-relaxed">
+              Ces conseils et cette routine sont des suggestions générées automatiquement. Ils ne remplacent pas les conseils d'un professionnel de santé ou d'un spécialiste des cheveux afro. Pour des problèmes spécifiques ou des besoins particuliers, consultez un professionnel qualifié.
+            </p>
+          </div>
+        </div>
+      </CotonCard>
+
       {/* Application Schedule */}
       <CotonCard className="p-4">
         <h3 className="font-poppins font-semibold mb-3 flex items-center gap-2">
@@ -230,6 +247,13 @@ export function DetailedRoutineScreen({ onBack }: DetailedRoutineScreenProps) {
             <span>Écoutez vos cheveux et ajustez la routine selon leurs réactions</span>
           </li>
         </ul>
+      </CotonCard>
+
+      {/* Disclaimer final */}
+      <CotonCard className="p-3 bg-gradient-to-r from-gray-50 to-slate-50 border border-gray-200">
+        <p className="text-xs font-roboto text-center text-gray-700">
+          💡 <strong>Rappel :</strong> Cette routine personnalisée est générée automatiquement. Elle ne remplace pas l'expertise d'un professionnel des cheveux afro ou d'un dermatologue. En cas de problème capillaire persistant, consultez un spécialiste.
+        </p>
       </CotonCard>
     </div>
   );
