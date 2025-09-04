@@ -184,7 +184,7 @@ export function TutorialsScreen({ onNavigate }: TutorialsScreenProps) {
                         isLocked 
                           ? 'bg-muted text-muted-foreground' 
                           : hasVideo
-                          ? 'bg-red-500 text-white'  // YouTube red for real videos
+                          ? 'bg-black text-white'  // Black for real videos
                           : 'bg-coton-rose text-coton-black'
                       }`}>
                         {isLocked ? <Lock size={18} /> : hasVideo ? <Youtube size={18} /> : <Play size={18} />}
