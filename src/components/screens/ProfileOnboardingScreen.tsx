@@ -179,7 +179,7 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
 
       {/* Bloc 1: Profil capillaire */}
       <CotonCard className="p-6 space-y-4">
-        <h2 className="font-poppins font-semibold text-lg text-coton-black">
+        <h2 className="font-poppins font-semibold text-lg text-white">
           Mon profil capillaire
         </h2>
         
