@@ -114,7 +114,12 @@ export function CommunityScreen({ onNavigate }: CommunityScreenProps) {
               >
                 {state.challenge.days >= 30 
                   ? '🎉 Challenge terminé !' 
-                  : 'Enregistrer ma progression'
+                  : (
+                    <>
+                      <span className="hidden sm:inline">Enregistrer ma progression</span>
+                      <span className="sm:hidden">Valider le jour</span>
+                    </>
+                  )
                 }
               </Button>
               
