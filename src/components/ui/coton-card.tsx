@@ -23,7 +23,7 @@ export function CotonCard({
         "rounded-lg transition-all duration-300 text-left",
         {
           'default': "bg-card text-card-foreground border border-coton-rose/20 shadow-card backdrop-blur-sm",
-          'elevated': "bg-coton-beige-light text-coton-black shadow-elegant hover:shadow-soft border border-coton-rose/30 backdrop-blur-sm hover:bg-coton-sand/30",
+          'elevated': "bg-coton-beige-light text-coton-black shadow-elegant hover:shadow-soft border border-coton-rose/30 backdrop-blur-sm",
           'premium': "bg-gradient-coral text-coton-beige-light shadow-elegant border border-coton-coral/20 backdrop-blur-sm",
           'outline': "border-2 border-coton-rose bg-coton-beige-light/80 text-coton-black backdrop-blur-sm hover:bg-coton-rose/10"
         }[variant],
