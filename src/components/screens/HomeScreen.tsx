@@ -697,11 +697,6 @@ export function HomeScreen({
                     Porosité {state.detailedHairProfile.porosity}
                   </span>
                 )}
-                {state.detailedHairProfile.objective && (
-                  <span className="px-3 py-1 bg-green-100 border border-green-300 rounded-full text-sm font-roboto text-green-800">
-                    🎯 {state.detailedHairProfile.objective}
-                  </span>
-                )}
                 {state.detailedHairProfile.problems && state.detailedHairProfile.problems.length > 0 && state.detailedHairProfile.problems.map((problem, index) => (
                   <span key={index} className="px-3 py-1 bg-orange-100 border border-orange-300 rounded-full text-sm font-roboto text-orange-800">
                     ⚠️ {problem}
