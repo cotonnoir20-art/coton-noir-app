@@ -229,15 +229,16 @@ export function HomeScreen({
           steps.splice(1, 0, 'Clarification mensuelle douce');
           steps[3] = 'Masque équilibré protéines/hydratation';
           steps.push('Protection UV quotidienne');
-          priorityIndices.push(1, 3, steps.length - 1);
-          tip = 'Santé capillaire : Équilibrez protéines et hydratation, protégez du soleil et nettoyez régulièrement pour des cheveux sains.';
-        } else if (objective === 'alopecie') {
-          steps.unshift('Massage cuir chevelu anti-inflammatoire');
-          steps.splice(1, 0, 'Shampoing apaisant sans sulfates');
-          steps.push('Éviter les coiffures serrées');
-          steps.push('Soin fortifiant cuir chevelu');
-          priorityIndices.push(0, 1, steps.length - 2, steps.length - 1);
-          tip = 'Prévention alopécie : Évitez absolument les coiffures trop serrées, massez le cuir chevelu et utilisez des produits apaisants pour réduire l\'inflammation.';
+          steps.push('Traitement réparateur pointes');
+          priorityIndices.push(1, 3, steps.length - 2, steps.length - 1);
+          tip = 'Santé capillaire globale : Équilibrez protéines et hydratation, protégez du soleil et réparez les dommages pour des cheveux sains et forts.';
+        } else if (objective === 'decoloration') {
+          steps.splice(1, 0, 'Traitement protéiné reconstructeur');
+          steps[3] = 'Masque réparateur pigments';
+          steps.push('Soin anti-casse décoloration');
+          steps.push('Protection couleur UV');
+          priorityIndices.push(1, 3, steps.length - 2, steps.length - 1);
+          tip = 'Soins décoloration : Reconstruisez la structure avec des protéines, maintenez l\'hydratation et protégez vos pigments du soleil.';
         } else if (objective === 'protection') {
           steps.unshift('Préparation coiffure protectrice');
           steps.push('Hydratation intensive avant tressage');
@@ -245,12 +246,14 @@ export function HomeScreen({
           steps.push('Nettoyage cuir chevelu sous coiffure');
           priorityIndices.push(0, steps.length - 3, steps.length - 2, steps.length - 1);
           tip = 'Coiffures protectrices : Hydratez intensément avant le tressage, protégez les longueurs et maintenez la propreté du cuir chevelu sous la coiffure.';
-        } else if (objective === 'reparation') {
-          steps[2] = 'Masque protéiné réparateur intensif';
-          steps.splice(1, 0, 'Traitement protéiné léger bi-hebdomadaire');
-          steps.push('Soin reconstructeur sur pointes abîmées');
-          priorityIndices.push(1, 2, steps.length - 1);
-          tip = 'Réparation intensive : Alternez soigneusement entre protéines et hydratation pour reconstruire la structure de vos cheveux ' + hairType + ' abîmés.';
+        } else if (objective === 'routine_protective') {
+          steps.unshift('Nettoyage cuir chevelu sous coiffure');
+          steps.splice(1, 0, 'Shampoing clarifiant doux dilué');
+          steps.push('Hydratation racines accessibles');
+          steps.push('Huile nourrissante cuir chevelu');
+          steps.push('Surveillance état coiffure');
+          priorityIndices.push(0, 1, steps.length - 3, steps.length - 2, steps.length - 1);
+          tip = 'Routine sous protective styles : Maintenez l\'hygiène du cuir chevelu, hydratez les zones accessibles et surveillez l\'état de votre coiffure pour éviter les dommages.';
         }
 
         // ADAPTATIONS selon les problèmes spécifiques (PRIORITÉ MAXIMALE)

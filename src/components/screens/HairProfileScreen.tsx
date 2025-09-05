@@ -64,9 +64,9 @@ const objectives = [
   'Stimuler la pousse', 
   'Améliorer la souplesse', 
   'Restaurer la santé capillaire', 
-  'Prévenir l\'alopécie de traction', 
+  'Soins cheveux décolorés', 
   'Optimiser les coiffures protectrices', 
-  'Réparer les dommages'
+  'Routine sous coiffure protectrice'
 ];
 export function HairProfileScreen({
   onBack
@@ -101,13 +101,15 @@ export function HairProfileScreen({
     (state.hairProfile.objectives[0] === 'Stimuler la pousse' ? 'pousse' : 
      state.hairProfile.objectives[0] === 'Améliorer la souplesse' ? 'souplesse' :
      state.hairProfile.objectives[0] === 'Restaurer la santé capillaire' ? 'sante' :
-     state.hairProfile.objectives[0] === 'Prévenir l\'alopécie de traction' ? 'alopecie' :
+     state.hairProfile.objectives[0] === 'Soins cheveux décolorés' ? 'decoloration' :
      state.hairProfile.objectives[0] === 'Optimiser les coiffures protectrices' ? 'protection' :
-     state.hairProfile.objectives[0] === 'Réparer les dommages' ? 'reparation' : 
+     state.hairProfile.objectives[0] === 'Routine sous coiffure protectrice' ? 'routine_protective' :
      // Mapping des anciens objectifs pour compatibilité
+     state.hairProfile.objectives[0] === 'Prévenir l\'alopécie de traction' ? 'routine_protective' :
+     state.hairProfile.objectives[0] === 'Réparer les dommages' ? 'sante' :
      state.hairProfile.objectives[0] === 'Retrouver mes boucles naturelles' ? 'souplesse' : 
      state.hairProfile.objectives[0] === 'Protéger mes cheveux sous coiffure' ? 'protection' :
-     state.hairProfile.objectives[0] === 'Réparer après décoloration' ? 'reparation' :
+     state.hairProfile.objectives[0] === 'Réparer après décoloration' ? 'decoloration' :
      state.hairProfile.objectives[0] === 'Construire une routine simple et efficace' ? 'sante' : 'pousse')
   );
   const toggleNeed = (needId: string) => {
@@ -172,17 +174,20 @@ export function HairProfileScreen({
     } else if (objective === 'sante') {
       steps.splice(1, 0, 'Clarification douce mensuelle');
       steps = steps.map(s => s.includes('Masque') ? 'Masque équilibré protéines/hydratation' : s);
-    } else if (objective === 'alopecie') {
-      steps.unshift('Massage cuir chevelu anti-inflammatoire');
-      steps = steps.map(s => s.includes('Shampoing') ? 'Shampoing apaisant sans sulfates' : s);
-      steps.push('Éviter coiffures serrées');
+      steps.push('Traitement réparateur pointes');
+    } else if (objective === 'decoloration') {
+      steps.splice(1, 0, 'Traitement protéiné reconstructeur');
+      steps = steps.map(s => s.includes('Masque') ? 'Masque réparateur pigments' : s);
+      steps.push('Soin anti-casse décoloration');
     } else if (objective === 'protection') {
       steps.unshift('Préparation coiffure protectrice');
       steps.push('Hydratation intensive pré-tressage');
       steps.push('Protection longueurs');
-    } else if (objective === 'reparation') {
-      steps.splice(1, 0, 'Traitement protéiné réparateur');
-      steps = steps.map(s => s.includes('Masque') ? 'Masque réparateur intensif' : s);
+    } else if (objective === 'routine_protective') {
+      steps.unshift('Nettoyage cuir chevelu sous coiffure');
+      steps = steps.map(s => s.includes('Shampoing') ? 'Shampoing clarifiant doux' : s);
+      steps.push('Hydratation racines accessibles');
+      steps.push('Huile nourrissante cuir chevelu');
     }
     
     // Adapt based on problems
@@ -737,14 +742,14 @@ export function HairProfileScreen({
                     if (objective === 'sante') {
                       return "Astuce santé : Équilibre protéines et hydratation, protège du soleil et bois 1,5L d'eau par jour - la santé vient de l'intérieur ! 💚";
                     }
-                    if (objective === 'alopecie') {
-                      return "Astuce prévention : Évite absolument les coiffures serrées, masse délicatement le cuir chevelu et utilise des produits apaisants 🛡️";
+                    if (objective === 'decoloration') {
+                      return "Astuce décoloration : Alterne soins protéinés et hydratants, utilise des masques pigmentés et évite la chaleur excessive 🌈";
                     }
                     if (objective === 'protection') {
                       return "Astuce protection : Hydrate intensément avant le tressage et change de coiffure tous les 6-8 semaines pour éviter la tension 🔒";
                     }
-                    if (objective === 'reparation') {
-                      return "Astuce réparation : Alterne soigneusement protéines et hydratation. Test de l'élasticité sur cheveu mouillé pour doser 🔧";
+                    if (objective === 'routine_protective') {
+                      return "Astuce routine sous coiffure : Nettoie ton cuir chevelu régulièrement et hydrate les zones accessibles. Change ta coiffure toutes les 6 semaines 🧕🏾";
                     }
                     
                     // Default tip

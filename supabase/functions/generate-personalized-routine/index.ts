@@ -46,10 +46,10 @@ PROFIL CAPILLAIRE:
 OBJECTIFS DISPONIBLES ET LEURS SPÉCIFICITÉS:
 - pousse: Focus sur stimulation cuir chevelu, rétention longueur, huiles stimulantes
 - souplesse: Assouplissement texture, réduction raideur, masques miel/glycérine
-- sante: Équilibre protéines/hydratation, protection UV, santé globale
-- alopecie: Prévention alopécie traction, massage anti-inflammatoire, éviter tension
+- sante: Équilibre protéines/hydratation, protection UV, santé globale, réparation dommages
+- decoloration: Reconstruction cheveux décolorés, soins pigments, protection couleur
 - protection: Coiffures protectrices, préparation tressage, entretien sous coiffure
-- reparation: Reconstruction cheveux abîmés, alternance protéines/hydratation
+- routine_protective: Routine d'entretien sous protective styles, hygiène cuir chevelu
 
 CONSIGNES:
 1. Crée une routine capillaire personnalisée de 4-6 étapes maximum

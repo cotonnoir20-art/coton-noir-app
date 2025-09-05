@@ -29,9 +29,9 @@ const objectives = [
   { value: 'pousse', label: 'Stimuler la pousse' },
   { value: 'souplesse', label: 'Améliorer la souplesse' },
   { value: 'sante', label: 'Restaurer la santé capillaire' },
-  { value: 'alopecie', label: 'Prévenir l\'alopécie de traction' },
+  { value: 'decoloration', label: 'Soins cheveux décolorés' },
   { value: 'protection', label: 'Optimiser les coiffures protectrices' },
-  { value: 'reparation', label: 'Réparer les dommages' }
+  { value: 'routine_protective', label: 'Routine sous coiffure protectrice' }
 ];
 
 const problems = [
