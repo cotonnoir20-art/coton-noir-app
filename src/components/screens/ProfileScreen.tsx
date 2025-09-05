@@ -72,14 +72,16 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
   };
 
   const handleLogout = () => {
-    // Reset app state and go to onboarding
+    // Reset app state and redirect to login
     localStorage.removeItem('hasCompletedOnboarding');
     localStorage.removeItem('cotonNoirAppState');
+    localStorage.removeItem('hasCompletedProfileOnboarding');
     toast({
       title: t('toast.logoutSuccess'),
       description: t('toast.logoutSuccessDesc'),
     });
-    onNavigate('onboarding');
+    // Redirect to auth page (login)
+    window.location.href = '/auth';
   };
 
   const toggleDarkMode = (enabled: boolean) => {

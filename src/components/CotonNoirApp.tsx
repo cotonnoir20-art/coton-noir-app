@@ -66,26 +66,27 @@ export default function CotonNoirApp() {
     }
   }, [user, loading, navigate]);
 
-  // Check if user has completed onboarding and handle flow parameter
+//   // Check if user has completed onboarding and handle flow parameter
   useEffect(() => {
     if (!user) return;
 
     const urlParams = new URLSearchParams(window.location.search);
     const flow = urlParams.get('flow');
     
-    const hasCompletedOnboarding = localStorage.getItem('coton-noir-onboarding');
-    const hasCompletedProfile = localStorage.getItem('coton-noir-profile-onboarding');
+    const hasCompletedOnboarding = localStorage.getItem('hasCompletedOnboarding');
+    const hasCompletedProfile = localStorage.getItem('hasCompletedProfileOnboarding');
+    const hasSkippedProfile = localStorage.getItem('hasSkippedProfileOnboarding');
     
-    if (flow === 'onboarding') {
-      // New user coming from signup - show welcome screen first
-      setCurrentScreen('welcome');
+    if (flow === 'profile-onboarding') {
+      // User coming from welcome screen - show profile onboarding
+      setCurrentScreen('profile-onboarding');
       // Clear the flow parameter
       window.history.replaceState({}, '', window.location.pathname);
-    } else if (hasCompletedOnboarding && hasCompletedProfile) {
-      // User has completed both onboarding steps - go to home
+    } else if (hasCompletedOnboarding && (hasCompletedProfile || hasSkippedProfile)) {
+      // User has completed onboarding and either completed or skipped profile setup - go to home
       setCurrentScreen('home');
-    } else if (hasCompletedOnboarding && !hasCompletedProfile) {
-      // User completed onboarding but not profile setup
+    } else if (hasCompletedOnboarding && !hasCompletedProfile && !hasSkippedProfile) {
+      // User completed onboarding but hasn't dealt with profile setup yet
       setCurrentScreen('profile-onboarding');
     } else if (!hasCompletedOnboarding) {
       // User hasn't completed onboarding yet - start from splash
@@ -108,12 +109,17 @@ export default function CotonNoirApp() {
   }, [user]); // Added user as dependency so it re-runs when user changes
   
   const handleCompleteOnboarding = () => {
-    localStorage.setItem('coton-noir-onboarding', 'true');
+    localStorage.setItem('hasCompletedOnboarding', 'true');
     setCurrentScreen('profile-onboarding');
   };
 
   const handleCompleteProfileOnboarding = () => {
-    localStorage.setItem('coton-noir-profile-onboarding', 'true');
+    localStorage.setItem('hasCompletedProfileOnboarding', 'true');
+    setCurrentScreen('home');
+  };
+
+  const handleSkipProfileOnboarding = () => {
+    localStorage.setItem('hasSkippedProfileOnboarding', 'true');
     setCurrentScreen('home');
   };
   
@@ -186,6 +192,7 @@ export default function CotonNoirApp() {
         return (
           <ProfileOnboardingScreen
             onComplete={handleCompleteProfileOnboarding}
+            onSkip={handleSkipProfileOnboarding}
           />
         );
         

@@ -370,6 +370,43 @@ export function HomeScreen({
           </div>
         </CotonCard>}
 
+      {/* Profile Setup Reminder - Show if user skipped profile onboarding */}
+      {(() => {
+        const hasSkippedProfile = localStorage.getItem('hasSkippedProfileOnboarding');
+        const hasCompletedProfile = localStorage.getItem('hasCompletedProfileOnboarding');
+        
+        if (hasSkippedProfile && !hasCompletedProfile) {
+          return (
+            <CotonCard className="p-4 bg-gradient-to-r from-coton-rose/10 to-purple-50 border-l-4 border-coton-rose">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-coton-rose rounded-full flex items-center justify-center">
+                    <span className="text-xl">👩🏾‍🦱</span>
+                  </div>
+                  <div>
+                    <h3 className="font-poppins font-semibold text-foreground">
+                      Configure ton profil capillaire
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      Débloquer des conseils personnalisés et gagner 100 CC
+                    </p>
+                  </div>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={onShowProfile}
+                  className="whitespace-nowrap"
+                >
+                  Configurer
+                </Button>
+              </div>
+            </CotonCard>
+          );
+        }
+        return null;
+      })()}
+
 
       {/* Défis quotidiens - Encart dépliable */}
       <motion.div 
