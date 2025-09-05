@@ -4,8 +4,9 @@ import { CotonCard } from '@/components/ui/coton-card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useApp } from '@/contexts/AppContext';
-import { Lightbulb, Loader2, Sparkles } from 'lucide-react';
+import { Lightbulb, Loader2, Sparkles, BookOpen } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { HairEducationScreen } from './HairEducationScreen';
 
 interface ProfileOnboardingScreenProps {
   onComplete: () => void;
@@ -59,6 +60,7 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
   const [selectedObjective, setSelectedObjective] = useState('');
   const [selectedProblem, setSelectedProblem] = useState<string>('');
   const [selectedNeed, setSelectedNeed] = useState<string>('');
+  const [showEducation, setShowEducation] = useState(false);
   
   // IA States
   const [aiRoutinePreview, setAiRoutinePreview] = useState<string[]>([]);
@@ -160,6 +162,13 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
     onComplete();
   };
 
+  // Show education screen if requested
+  if (showEducation) {
+    return (
+      <HairEducationScreen onBack={() => setShowEducation(false)} />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background px-4 py-6 space-y-6">
       {/* Header */}
@@ -189,9 +198,20 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
         <div className="space-y-4">
           {/* Type de cheveux */}
           <div className="space-y-2">
-            <label className="font-roboto text-sm font-medium text-foreground">
-              Type de cheveux *
-            </label>
+            <div className="flex items-center justify-between">
+              <label className="font-roboto text-sm font-medium text-foreground">
+                Type de cheveux *
+              </label>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowEducation(true)}
+                className="text-xs text-coton-rose hover:text-coton-rose/80 gap-1 px-2 py-1"
+              >
+                <BookOpen size={14} />
+                Guide
+              </Button>
+            </div>
             <Select value={selectedHairType} onValueChange={setSelectedHairType}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Sélectionne ton type de cheveux" />
@@ -208,9 +228,20 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
 
           {/* Porosité */}
           <div className="space-y-2">
-            <label className="font-roboto text-sm font-medium text-foreground">
-              Porosité *
-            </label>
+            <div className="flex items-center justify-between">
+              <label className="font-roboto text-sm font-medium text-foreground">
+                Porosité *
+              </label>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowEducation(true)}
+                className="text-xs text-coton-rose hover:text-coton-rose/80 gap-1 px-2 py-1"
+              >
+                <BookOpen size={14} />
+                Comment savoir ?
+              </Button>
+            </div>
             <Select value={selectedPorosity} onValueChange={setSelectedPorosity}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Sélectionne ta porosité" />

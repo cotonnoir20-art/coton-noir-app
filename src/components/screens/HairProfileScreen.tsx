@@ -1,11 +1,12 @@
 import React, { useState, useMemo } from 'react';
-import { ArrowLeft, Check, Sparkles } from 'lucide-react';
+import { ArrowLeft, Check, Sparkles, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CotonCard } from '@/components/ui/coton-card';
 import { AIHairTip } from '@/components/ui/ai-hair-tip';
 import { HairAnalyzer } from '@/components/ui/hair-analyzer';
 import { useApp } from '@/contexts/AppContext';
 import { useToast } from '@/hooks/use-toast';
+import { HairEducationScreen } from './HairEducationScreen';
 interface HairProfileScreenProps {
   onBack: () => void;
 }
@@ -112,6 +113,7 @@ export function HairProfileScreen({
      state.hairProfile.objectives[0] === 'Réparer après décoloration' ? 'decoloration' :
      state.hairProfile.objectives[0] === 'Construire une routine simple et efficace' ? 'sante' : 'pousse')
   );
+  const [showEducation, setShowEducation] = useState(false);
   const toggleNeed = (needId: string) => {
     setSelectedNeeds(prev => prev === needId ? '' : needId);
   };
@@ -312,6 +314,13 @@ export function HairProfileScreen({
     
     onBack();
   };
+  // Show education screen if requested
+  if (showEducation) {
+    return (
+      <HairEducationScreen onBack={() => setShowEducation(false)} />
+    );
+  }
+
   return (
     <div className="pb-20 px-4 space-y-6 bg-background min-h-screen">
       {/* Header */}
@@ -382,13 +391,24 @@ export function HairProfileScreen({
 
       {/* Hair Type Selection */}
       <div className="space-y-4">
-        <div>
-          <h3 className="font-poppins font-semibold text-lg text-foreground mb-2">
-            Mon type de cheveux
-          </h3>
-          <p className="text-sm font-roboto text-muted-foreground mb-4">
-            Choisis ton type selon la classification André Walker (3C à 4C)
-          </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="font-poppins font-semibold text-lg text-foreground mb-2">
+              Mon type de cheveux
+            </h3>
+            <p className="text-sm font-roboto text-muted-foreground mb-4">
+              Choisis ton type selon la classification André Walker (3C à 4C)
+            </p>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowEducation(true)}
+            className="text-xs gap-2 shrink-0"
+          >
+            <BookOpen size={16} />
+            Guide Types
+          </Button>
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
