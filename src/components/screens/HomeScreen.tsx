@@ -370,12 +370,24 @@ export function HomeScreen({
           </div>
         </CotonCard>}
 
+      {/* Section de salutation */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mt-6"
+      >
+        <CotonCard className="p-4">
+          <h2 className="text-lg font-poppins font-semibold text-foreground">
+            Hello {state.userProfile?.name || 'Belle'}! 👋
+          </h2>
+        </CotonCard>
+      </motion.div>
 
       {/* Défis quotidiens - Encart dépliable */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }} 
         animate={{ opacity: 1, y: 0 }} 
-        className="mt-[30px]"
+        className="mt-6"
       >
         <CotonCard className="overflow-hidden">
           {/* Header cliquable */}
