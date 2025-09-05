@@ -31,7 +31,7 @@ export default function SplashInitScreen({ onContinue }: SplashInitScreenProps) 
       >
         <div className="w-48 h-48 rounded-full bg-white/10 flex items-center justify-center mb-6">
           <img 
-            src="/lovable-uploads/794ef04a-9b7c-4111-99f5-6de9df3547bf.png"
+            src="/lovable-uploads/db1b5014-ce34-4c27-8bc6-2d493308ed10.png"
             alt="Coton Noir Logo"
             className="w-32 h-32 object-contain"
           />
