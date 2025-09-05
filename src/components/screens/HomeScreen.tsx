@@ -290,8 +290,6 @@ export function HomeScreen({
           </div>
         </CotonCard>}
 
-      {/* AI Hair Tip for users without profile */}
-      {!state.detailedHairProfile.isCompleted && <AIHairTip tipType="general" context="conseil général pour débuter dans les soins capillaires" variant="featured" showRefresh={true} />}
 
       {/* Défis quotidiens - Encart dépliable */}
       <motion.div 
