@@ -13,13 +13,11 @@ interface HomeScreenProps {
   onNavigate: (screen: string) => void;
   onAddCare: () => void;
   onShowProfile: () => void;
-  showProfileMessage?: boolean;
 }
 export function HomeScreen({
   onNavigate,
   onAddCare,
-  onShowProfile,
-  showProfileMessage = false
+  onShowProfile
 }: HomeScreenProps) {
   const {
     state,
@@ -354,31 +352,6 @@ export function HomeScreen({
       <CoinAnimation amount={amount} trigger={shouldAnimate} onComplete={resetAnimation} />
       
       <BadgeNotification badge={newBadge} isVisible={isBadgeVisible} onClose={hideBadge} />
-
-      {/* Profile completion message */}
-      {showProfileMessage && (
-        <CotonCard className="p-4 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200">
-          <div className="flex items-center gap-3">
-            <div className="text-2xl">💡</div>
-            <div className="flex-1">
-              <h3 className="font-poppins font-semibold text-amber-800 mb-1">
-                Complète ton profil capillaire
-              </h3>
-              <p className="text-sm text-amber-700 font-roboto mb-3">
-                Pour profiter pleinement de Coton Noir et gagner tes 100 premiers CotonCoins, configure ton profil capillaire.
-              </p>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={onShowProfile}
-                className="border-amber-300 text-amber-800 hover:bg-amber-100"
-              >
-                Configurer maintenant
-              </Button>
-            </div>
-          </div>
-        </CotonCard>
-      )}
 
       {/* Hair Profile Reminder */}
       {!state.hairProfile.isCompleted && <CotonCard variant="premium" className="p-4">
