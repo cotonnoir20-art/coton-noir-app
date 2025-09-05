@@ -648,9 +648,6 @@ export function HomeScreen({
             
             {/* Routine Steps with Priority Indicators */}
             <div className="space-y-3">
-              <h4 className="font-poppins font-semibold text-foreground text-sm flex items-center gap-2">
-                <span>📋</span> Ta routine adaptée
-              </h4>
               {personalizedRoutine.slice(0, 4).map((step, index) => {
                 // Determine priority based on step content and user problems
                 const isHighPriority = state.detailedHairProfile.problems && state.detailedHairProfile.problems.some(problem =>
