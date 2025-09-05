@@ -511,7 +511,10 @@ export function HairProfileScreen({
 
       {/* Personalized Routine Section */}
       {state.detailedHairProfile.isCompleted && personalizedRoutine.length > 0 && (
-        <div className="space-y-4">
+        <div 
+          key={`profile-${state.detailedHairProfile.hairType}-${state.detailedHairProfile.porosity}-${state.detailedHairProfile.objective}-${state.detailedHairProfile.problems?.join(',')}-${state.detailedHairProfile.needs?.join(',')}`}
+          className="space-y-4"
+        >
           <h3 className="font-poppins font-semibold text-lg">Ma routine personnalisée ✨</h3>
           
           {/* Priority Problems Alert */}
