@@ -542,35 +542,39 @@ export function HairProfileScreen({
           )}
 
           <CotonCard className="p-6 bg-gradient-to-r from-coton-rose/10 to-purple-50 space-y-4">
-            {/* Profile Summary */}
+            {/* Profile Summary - Live Preview */}
             <div className="space-y-3">
               <div className="flex flex-wrap gap-2 pb-4 border-b border-coton-rose/20">
-                <span className="px-3 py-1 bg-coton-rose/20 border border-coton-rose/30 rounded-full text-sm font-roboto font-semibold text-foreground">
-                  {state.detailedHairProfile.hairType}
-                </span>
-                <span className="px-3 py-1 bg-blue-100 border border-blue-300 rounded-full text-sm font-roboto text-blue-800">
-                  Porosité {state.detailedHairProfile.porosity}
-                </span>
-                <span className="px-3 py-1 bg-green-100 border border-green-300 rounded-full text-sm font-roboto text-green-800">
-                  🎯 {state.detailedHairProfile.objective}
-                </span>
+                {selectedHairType && (
+                  <span className="px-3 py-1 bg-coton-rose/20 border border-coton-rose/30 rounded-full text-sm font-roboto font-semibold text-foreground">
+                    {selectedHairType}
+                  </span>
+                )}
+                {state.detailedHairProfile.porosity && (
+                  <span className="px-3 py-1 bg-blue-100 border border-blue-300 rounded-full text-sm font-roboto text-blue-800">
+                    Porosité {state.detailedHairProfile.porosity}
+                  </span>
+                )}
+                {selectedObjectives && (
+                  <span className="px-3 py-1 bg-green-100 border border-green-300 rounded-full text-sm font-roboto text-green-800">
+                    🎯 {selectedObjectives}
+                  </span>
+                )}
               </div>
               
-              {/* Needs Section */}
-              {state.detailedHairProfile.needs.length > 0 && (
+              {/* Needs Section - Live Preview */}
+              {selectedNeeds && (
                 <div>
                   <p className="text-xs font-roboto text-gray-600 mb-2">Besoins spécifiques :</p>
                   <div className="flex flex-wrap gap-2">
-                    {state.detailedHairProfile.needs.map((need, index) => (
-                      <span key={index} className="px-2 py-1 bg-purple-100 border border-purple-300 rounded-full text-xs font-roboto text-purple-800">
-                        {need === 'hydratation' ? '💧 Hydratation' :
-                         need === 'definition' ? '💫 Définition' :
-                         need === 'brillance' ? '✨ Brillance' :
-                         need === 'pousse' ? '🌱 Pousse' :
-                         need === 'reparation' ? '🔧 Réparation' :
-                         need === 'protection' ? '🛡️ Protection' : need}
-                      </span>
-                    ))}
+                    <span className="px-2 py-1 bg-purple-100 border border-purple-300 rounded-full text-xs font-roboto text-purple-800">
+                      {selectedNeeds === 'hydratation' ? '💧 Hydratation' :
+                       selectedNeeds === 'definition' ? '💫 Définition' :
+                       selectedNeeds === 'brillance' ? '✨ Brillance' :
+                       selectedNeeds === 'pousse' ? '🌱 Pousse' :
+                       selectedNeeds === 'reparation' ? '🔧 Réparation' :
+                       selectedNeeds === 'protection' ? '🛡️ Protection' : selectedNeeds}
+                    </span>
                   </div>
                 </div>
               )}
