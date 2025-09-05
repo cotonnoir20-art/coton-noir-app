@@ -719,15 +719,6 @@ export function HomeScreen({
           <CotonCard className="p-6 bg-gradient-to-r from-coton-rose/10 to-purple-50 space-y-4">
             {/* Profile Summary avec indicateur de synchronisation */}
             <div className="space-y-3">
-              <div className="flex items-center justify-between mb-2">
-                <h4 className="text-sm font-poppins font-medium text-muted-foreground">
-                  Profil synchronisé
-                </h4>
-                <div className="flex items-center gap-1 text-xs text-green-600 font-medium">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  Mis à jour automatiquement
-                </div>
-              </div>
               <div className="flex flex-wrap gap-2 pb-4 border-b border-coton-rose/20">
                 {/* Type de cheveux - Priorité au profil détaillé, fallback sur l'onboarding */}
                 {(state.detailedHairProfile.hairType || 
