@@ -89,8 +89,7 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
         description: t('toast.logoutSuccessDesc'),
       });
       
-      // Redirect explicitly to auth page (login)
-      window.location.href = '/auth';
+      // Redirection automatique vers /auth gérée par CotonNoirApp
     } catch (error) {
       console.error('Logout error:', error);
       toast({
