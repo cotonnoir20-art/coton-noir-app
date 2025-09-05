@@ -21,8 +21,8 @@ export function CotonCard({
       onClick={onClick}
       className={cn(
         "rounded-lg sm:rounded-xl transition-all duration-300 text-left",
-        "px-4 py-3 sm:px-6 sm:py-4",
-        "mt-0 mb-3 sm:mt-0.5 sm:mb-4",
+        "px-1 py-1 sm:px-2 sm:py-1",
+        "mt-0 mb-1 sm:mt-0 sm:mb-1",
         "w-full max-w-none",
         {
           'default': "bg-card text-card-foreground border border-coton-rose/20 shadow-card sm:shadow-elegant backdrop-blur-sm",
