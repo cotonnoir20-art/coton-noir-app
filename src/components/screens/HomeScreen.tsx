@@ -625,22 +625,62 @@ export function HomeScreen({
           
           <CotonCard className="p-6 bg-gradient-to-r from-coton-rose/10 to-purple-50 space-y-4">
             {/* Profile Summary */}
-            <div className="flex flex-wrap gap-2 pb-4 border-b border-coton-rose/20">
-              <span className="px-3 py-1 bg-white/70 rounded-full text-sm font-roboto">
-                {state.detailedHairProfile.hairType}
-              </span>
-              {state.detailedHairProfile.porosity && <span className="px-3 py-1 bg-white/70 rounded-full text-sm font-roboto">
-                  Porosité {state.detailedHairProfile.porosity}
-                </span>}
-              {state.detailedHairProfile.objective && <span className="px-3 py-1 bg-white/70 rounded-full text-sm font-roboto">
-                  Objectif: {state.detailedHairProfile.objective}
-                </span>}
-              {state.detailedHairProfile.problems && state.detailedHairProfile.problems.length > 0 && state.detailedHairProfile.problems.map((problem, index) => <span key={`problem-${index}`} className="px-3 py-1 bg-red-100/70 rounded-full text-sm font-roboto text-red-700 cursor-pointer hover:bg-red-200/70 transition-colors" onClick={onShowProfile}>
-                    {problem}
-                  </span>)}
-              {state.detailedHairProfile.needs && state.detailedHairProfile.needs.length > 0 && state.detailedHairProfile.needs.map((need, index) => <span key={`need-${index}`} className="px-3 py-1 bg-green-100/70 rounded-full text-sm font-roboto text-green-700 cursor-pointer hover:bg-green-200/70 transition-colors" onClick={onShowProfile}>
-                    {need}
-                  </span>)}
+            <div className="space-y-3">
+              <div className="flex flex-wrap gap-2 pb-4 border-b border-coton-rose/20">
+                {state.detailedHairProfile.hairType && (
+                  <span className="px-3 py-1 bg-coton-rose/20 border border-coton-rose/30 rounded-full text-sm font-roboto font-semibold text-foreground">
+                    {state.detailedHairProfile.hairType}
+                  </span>
+                )}
+                {state.detailedHairProfile.porosity && (
+                  <span className="px-3 py-1 bg-blue-100 border border-blue-300 rounded-full text-sm font-roboto text-blue-800">
+                    Porosité {state.detailedHairProfile.porosity}
+                  </span>
+                )}
+                {state.detailedHairProfile.objective && (
+                  <span className="px-3 py-1 bg-green-100 border border-green-300 rounded-full text-sm font-roboto text-green-800">
+                    🎯 {state.detailedHairProfile.objective}
+                  </span>
+                )}
+              </div>
+              
+              {/* Problems Section */}
+              {state.detailedHairProfile.problems && state.detailedHairProfile.problems.length > 0 && (
+                <div>
+                  <p className="text-xs font-roboto text-gray-600 mb-2">Problèmes identifiés :</p>
+                  <div className="flex flex-wrap gap-2">
+                    {state.detailedHairProfile.problems.map((problem, index) => (
+                      <span key={index} className="px-2 py-1 bg-red-100 border border-red-300 rounded-full text-xs font-roboto text-red-800 cursor-pointer hover:bg-red-200 transition-colors" onClick={onShowProfile}>
+                        {problem === 'secheresse' ? '💧 Sécheresse' :
+                         problem === 'casse' ? '💔 Casse' :
+                         problem === 'frisottis' ? '🌀 Frisottis' :
+                         problem === 'demelage' ? '🪢 Démêlage' :
+                         problem === 'cuir_chevelu' ? '🔴 Cuir chevelu' :
+                         problem === 'chute' ? '⬇️ Chute' : problem}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              {/* Needs Section */}
+              {state.detailedHairProfile.needs && state.detailedHairProfile.needs.length > 0 && (
+                <div>
+                  <p className="text-xs font-roboto text-gray-600 mb-2">Besoins spécifiques :</p>
+                  <div className="flex flex-wrap gap-2">
+                    {state.detailedHairProfile.needs.map((need, index) => (
+                      <span key={index} className="px-2 py-1 bg-purple-100 border border-purple-300 rounded-full text-xs font-roboto text-purple-800 cursor-pointer hover:bg-purple-200 transition-colors" onClick={onShowProfile}>
+                        {need === 'hydratation' ? '💧 Hydratation' :
+                         need === 'definition' ? '💫 Définition' :
+                         need === 'brillance' ? '✨ Brillance' :
+                         need === 'pousse' ? '🌱 Pousse' :
+                         need === 'reparation' ? '🔧 Réparation' :
+                         need === 'protection' ? '🛡️ Protection' : need}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
             
             {/* Routine Steps */}
