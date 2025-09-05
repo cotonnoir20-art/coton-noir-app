@@ -33,8 +33,46 @@ export function JournalScreen() {
   
   return (
     <div className="p-4 pb-20 space-y-4">
-      {/* AI Hair Tip */}
-      <AIHairTip tipType="routine" context="conseils pour le journal capillaire" variant="default" showRefresh={true} />
+      {/* Hair Profile Summary */}
+      <CotonCard className="p-4">
+        <div className="flex items-start gap-3">
+          <div className="text-2xl">
+            {state.hairProfile.hairType === 'crepu' ? '☁️' :
+             state.hairProfile.hairType === 'boucle' ? '🌀' :
+             state.hairProfile.hairType === 'locks' ? '🧵' :
+             state.hairProfile.hairType === 'transition' ? '🌊' : '💫'}
+          </div>
+          <div className="flex-1">
+            <h3 className="font-poppins font-semibold text-base text-coton-black mb-2">
+              Résumé de ton profil capillaire
+            </h3>
+            <div className="space-y-1 text-sm font-roboto text-muted-foreground">
+              {state.hairProfile.hairType && (
+                <p>• Type de cheveux: <span className="font-medium text-coton-black">
+                  {state.hairProfile.hairType === 'crepu' ? 'Crépu' :
+                   state.hairProfile.hairType === 'boucle' ? 'Bouclé' :
+                   state.hairProfile.hairType === 'locks' ? 'Locks' : 'En transition'}
+                </span></p>
+              )}
+              {state.hairProfile.needs.length > 0 && (
+                <p>• Besoins principaux: <span className="font-medium text-coton-black">
+                  {state.hairProfile.needs.slice(0, 2).join(', ')}
+                  {state.hairProfile.needs.length > 2 ? '...' : ''}
+                </span></p>
+              )}
+              {state.hairProfile.objectives.length > 0 && (
+                <p>• Objectifs: <span className="font-medium text-coton-black">
+                  {state.hairProfile.objectives.slice(0, 2).join(', ')}
+                  {state.hairProfile.objectives.length > 2 ? '...' : ''}
+                </span></p>
+              )}
+              {(!state.hairProfile.hairType && state.hairProfile.needs.length === 0 && state.hairProfile.objectives.length === 0) && (
+                <p className="italic">Complète ton profil pour voir ton résumé personnalisé</p>
+              )}
+            </div>
+          </div>
+        </div>
+      </CotonCard>
       
       {/* Header Stats */}
       <CotonCard className="p-4">
@@ -148,6 +186,9 @@ export function JournalScreen() {
           ))}
         </div>
       )}
+      
+      {/* AI Hair Tip */}
+      <AIHairTip tipType="routine" context="conseils pour le journal capillaire" variant="default" showRefresh={true} />
     </div>
   );
 }
