@@ -687,9 +687,16 @@ export function HomeScreen({
                 </div>
               </div>
               <div className="flex flex-wrap gap-2 pb-4 border-b border-coton-rose/20">
-                {state.detailedHairProfile.hairType && (
+                {/* Type de cheveux - Priorité au profil détaillé, fallback sur l'onboarding */}
+                {(state.detailedHairProfile.hairType || 
+                  (state.hairProfile.hairType && !state.detailedHairProfile.isCompleted)) && (
                   <span className="px-3 py-1 bg-coton-rose/20 border border-coton-rose/30 rounded-full text-sm font-roboto font-semibold text-foreground">
-                    {state.detailedHairProfile.hairType}
+                    {state.detailedHairProfile.hairType || 
+                     (state.hairProfile.hairType === 'crepu' ? '4C' :
+                      state.hairProfile.hairType === 'boucle' ? '3C' :
+                      state.hairProfile.hairType === 'locks' ? '4B' :
+                      state.hairProfile.hairType === 'transition' ? '4A' : 
+                      state.hairProfile.hairType)}
                   </span>
                 )}
                 {state.detailedHairProfile.porosity && (
