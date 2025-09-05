@@ -29,6 +29,11 @@ const hairTypes = [{
   label: 'Type 4C - Crépus serrés',
   emoji: '✨',
   description: 'Pattern très serré, maximum de rétrécissement'
+}, {
+  id: 'LOCKS',
+  label: 'Locks/Dreadlocks',
+  emoji: '🔗',
+  description: 'Cheveux verrouillés naturellement ou artificiellement'
 }];
 const needs = [{
   id: 'hydratation',
@@ -75,7 +80,7 @@ export function HairProfileScreen({
     const oldToNewMapping: { [key in "crepu" | "boucle" | "locks" | "transition"]: string } = {
       'crepu': '4C',
       'boucle': '3C', 
-      'locks': '4B',
+      'locks': 'LOCKS',
       'transition': '4A'
     };
     return state.hairProfile.hairType ? oldToNewMapping[state.hairProfile.hairType] : '';
@@ -247,7 +252,8 @@ export function HairProfileScreen({
       '3C': 'boucle',
       '4A': 'crepu', 
       '4B': 'crepu',
-      '4C': 'crepu'
+      '4C': 'crepu',
+      'LOCKS': 'locks'
     };
     
     dispatch({

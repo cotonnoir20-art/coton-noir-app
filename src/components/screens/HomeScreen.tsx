@@ -201,6 +201,15 @@ export function HomeScreen({
           } else { // haute
             steps = ['Pré-poo overnight système', 'Co-wash ultra-doux', 'Masque ultra-hydratant quotidien', 'Crème la plus riche', 'Méthode LCO renforcée'];
           }
+        } else if (hairType === 'LOCKS') {
+          // Routine spécifique aux locks/dreadlocks
+          if (porosity === 'faible') {
+            steps = ['Nettoyage cuir chevelu eau tiède', 'Shampoing résidu-free dilué', 'Rinçage abondant locks', 'Huile légère cuir chevelu', 'Séchage complet obligatoire'];
+          } else if (porosity === 'moyenne') {
+            steps = ['Pré-nettoyage cuir chevelu', 'Shampoing clarifiant doux', 'Rinçage méticuleux', 'Huile nourrissante légère', 'Séchage air libre complet'];
+          } else { // haute
+            steps = ['Nettoyage en profondeur', 'Shampoing sans résidus', 'Double rinçage locks', 'Traitement cuir chevelu', 'Séchage intégral essentiel'];
+          }
         }
 
         // ADAPTATION PRIORITAIRE selon l'objectif du profil
@@ -694,7 +703,7 @@ export function HomeScreen({
                     {state.detailedHairProfile.hairType || 
                      (state.hairProfile.hairType === 'crepu' ? '4C' :
                       state.hairProfile.hairType === 'boucle' ? '3C' :
-                      state.hairProfile.hairType === 'locks' ? '4B' :
+                      state.hairProfile.hairType === 'locks' ? 'LOCKS' :
                       state.hairProfile.hairType === 'transition' ? '4A' : 
                       state.hairProfile.hairType)}
                   </span>

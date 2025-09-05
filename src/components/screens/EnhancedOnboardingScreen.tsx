@@ -21,7 +21,8 @@ const hairTypes = [
   { id: '3C', name: 'Cheveux 3C', description: 'Boucles serrées, ressort visible' },
   { id: '4A', name: 'Cheveux 4A', description: 'Boucles crépues souples' },
   { id: '4B', name: 'Cheveux 4B', description: 'Boucles crépues en Z' },
-  { id: '4C', name: 'Cheveux 4C', description: 'Boucles très serrées' }
+  { id: '4C', name: 'Cheveux 4C', description: 'Boucles très serrées' },
+  { id: 'LOCKS', name: 'Locks/Dreadlocks', description: 'Cheveux verrouillés naturellement' }
 ];
 
 const porosityLevels = [

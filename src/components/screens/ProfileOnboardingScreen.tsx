@@ -15,7 +15,8 @@ const hairTypes = [
   { value: '3C', label: 'Type 3C - Boucles serrées' },
   { value: '4A', label: 'Type 4A - Boucles très serrées' },
   { value: '4B', label: 'Type 4B - Cheveux crépus souples' },
-  { value: '4C', label: 'Type 4C - Cheveux crépus serrés' }
+  { value: '4C', label: 'Type 4C - Cheveux crépus serrés' },
+  { value: 'LOCKS', label: 'Locks/Dreadlocks' }
 ];
 
 const porosity = [
