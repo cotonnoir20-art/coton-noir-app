@@ -193,6 +193,7 @@ export default function CotonNoirApp() {
           <ProfileOnboardingScreen
             onComplete={handleCompleteProfileOnboarding}
             onSkip={handleSkipProfileOnboarding}
+            onNavigate={handleNavigate}
           />
         );
         

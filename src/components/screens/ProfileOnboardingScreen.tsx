@@ -7,9 +7,10 @@ import { useToast } from '@/hooks/use-toast';
 interface ProfileOnboardingScreenProps {
   onComplete: () => void;
   onSkip?: () => void;
+  onNavigate?: (screen: string) => void;
 }
 
-export function ProfileOnboardingScreen({ onComplete, onSkip }: ProfileOnboardingScreenProps) {
+export function ProfileOnboardingScreen({ onComplete, onSkip, onNavigate }: ProfileOnboardingScreenProps) {
   const { dispatch } = useApp();
   const { toast } = useToast();
 
@@ -26,6 +27,15 @@ export function ProfileOnboardingScreen({ onComplete, onSkip }: ProfileOnboardin
     });
     
     onComplete();
+  };
+
+  const handleConfigureProfile = () => {
+    if (onNavigate) {
+      onNavigate('hair-profile');
+    } else {
+      // Fallback if onNavigate is not provided
+      handleComplete();
+    }
   };
 
   const handleSkip = () => {
@@ -94,7 +104,7 @@ export function ProfileOnboardingScreen({ onComplete, onSkip }: ProfileOnboardin
         <Button
           variant="hero"
           size="lg"
-          onClick={handleComplete}
+          onClick={handleConfigureProfile}
           className="w-full"
         >
           Configurer mon profil (+ 100 CC)
