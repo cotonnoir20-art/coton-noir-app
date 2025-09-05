@@ -184,22 +184,6 @@ export function DetailedRoutineScreen({ onBack }: DetailedRoutineScreenProps) {
         </div>
       </CotonCard>
 
-      {/* Disclaimer professionnel */}
-      <CotonCard className="p-4 bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200">
-        <div className="flex items-start gap-3">
-          <div className="w-8 h-8 bg-orange-400 rounded-full flex items-center justify-center flex-shrink-0">
-            <span className="text-white text-sm">⚠️</span>
-          </div>
-          <div>
-            <h4 className="font-poppins font-semibold text-orange-800 mb-2">
-              Important
-            </h4>
-            <p className="text-sm font-roboto text-orange-900 leading-relaxed">
-              Ces conseils et cette routine sont des suggestions générées automatiquement. Ils ne remplacent pas les conseils d'un professionnel de santé ou d'un spécialiste des cheveux afro. Pour des problèmes spécifiques ou des besoins particuliers, consultez un professionnel qualifié.
-            </p>
-          </div>
-        </div>
-      </CotonCard>
 
       {/* Application Schedule */}
       <CotonCard className="p-4">
