@@ -216,7 +216,28 @@ export default function CotonNoirApp() {
       case 'hair-profile':
         return (
           <HairProfileScreen
-            onBack={handleBackToHome}
+            onBack={() => {
+              // If we came from profile onboarding, go back to it
+              const hasCompletedOnboarding = localStorage.getItem('hasCompletedOnboarding');
+              const hasCompletedProfileOnboarding = localStorage.getItem('hasCompletedProfileOnboarding');
+              
+              if (hasCompletedOnboarding && !hasCompletedProfileOnboarding) {
+                handleNavigate('profile-onboarding');
+              } else {
+                handleBackToHome();
+              }
+            }}
+            onComplete={() => {
+              // If we're in onboarding flow, complete it
+              const hasCompletedOnboarding = localStorage.getItem('hasCompletedOnboarding');
+              const hasCompletedProfileOnboarding = localStorage.getItem('hasCompletedProfileOnboarding');
+              
+              if (hasCompletedOnboarding && !hasCompletedProfileOnboarding) {
+                handleCompleteProfileOnboarding();
+              } else {
+                handleBackToHome();
+              }
+            }}
           />
         );
         
