@@ -620,10 +620,6 @@ export function HomeScreen({
                 </button>}
             </div>
             
-            {/* AI-Generated Hair Tip */}
-            <div className="mt-3">
-              <AIHairTip tipType="routine" context="routine personnalisée basée sur le profil capillaire" variant="default" showRefresh={true} />
-            </div>
           </CotonCard>
         </div>}
       

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Calendar, FileText, Package } from 'lucide-react';
 import { CotonCard } from '@/components/ui/coton-card';
+import { AIHairTip } from '@/components/ui/ai-hair-tip';
 import { useApp } from '@/contexts/AppContext';
 
 export function JournalScreen() {
@@ -32,6 +33,9 @@ export function JournalScreen() {
   
   return (
     <div className="p-4 pb-20 space-y-4">
+      {/* AI Hair Tip */}
+      <AIHairTip tipType="routine" context="conseils pour le journal capillaire" variant="default" showRefresh={true} />
+      
       {/* Header Stats */}
       <CotonCard className="p-4">
         <div className="grid grid-cols-2 gap-4 text-center">
