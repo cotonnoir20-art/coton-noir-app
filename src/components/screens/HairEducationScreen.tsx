@@ -3,6 +3,12 @@ import { ArrowLeft, Book, Droplets, Eye, TestTube } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CotonCard } from '@/components/ui/coton-card';
 
+// Import des illustrations
+import hairTypesGuide from '@/assets/hair-types-guide.jpg';
+import hairPorosityGuide from '@/assets/hair-porosity-guide.jpg';
+import porosityWaterTest from '@/assets/porosity-water-test.jpg';
+import afroHairTypes from '@/assets/afro-hair-types.jpg';
+
 interface HairEducationScreenProps {
   onBack: () => void;
 }
@@ -155,16 +161,29 @@ export function HairEducationScreen({ onBack }: HairEducationScreenProps) {
         </div>
       </div>
 
-      {/* Introduction */}
+      {/* Introduction améliorée avec illustration */}
       <CotonCard className="p-6 bg-gradient-to-r from-coton-rose/20 to-purple-100">
-        <div className="text-center space-y-3">
-          <div className="text-4xl">📚</div>
-          <h2 className="font-poppins font-semibold text-lg text-foreground">
-            Classification André Walker
-          </h2>
-          <p className="font-roboto text-sm text-muted-foreground">
-            Système de classification créé pour Oprah Winfrey, aujourd'hui référence mondiale pour identifier les types de cheveux.
-          </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+          <div className="text-center md:text-left space-y-3">
+            <div className="text-4xl md:text-5xl">📚</div>
+            <h2 className="font-poppins font-semibold text-lg text-foreground">
+              Classification André Walker
+            </h2>
+            <p className="font-roboto text-sm text-muted-foreground">
+              Système de classification créé pour Oprah Winfrey, aujourd'hui référence mondiale pour identifier les types de cheveux.
+            </p>
+          </div>
+          <div className="hidden md:block">
+            <div className="text-center space-y-2">
+              <div className="flex justify-center gap-4 text-2xl">
+                <span title="Type 1">1️⃣</span>
+                <span title="Type 2">2️⃣</span>
+                <span title="Type 3">3️⃣</span>
+                <span title="Type 4">4️⃣</span>
+              </div>
+              <p className="text-xs text-muted-foreground">Lisse → Ondulé → Bouclé → Crépu</p>
+            </div>
+          </div>
         </div>
       </CotonCard>
 
@@ -209,14 +228,20 @@ export function HairEducationScreen({ onBack }: HairEducationScreenProps) {
       <CotonCard className="p-6 space-y-4">
         <h3 className="font-poppins font-semibold text-lg text-foreground flex items-center gap-2">
           <Eye size={20} />
-          Guide Visuel
+          Guide Visuel - Classification Complète
         </h3>
-        <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg p-6">
-          <div className="text-center space-y-4">
-            <div className="text-6xl">🔍</div>
-            <div className="space-y-2">
+        
+        <div className="space-y-6">
+          {/* Illustration générale des types de cheveux */}
+          <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg p-6 space-y-4">
+            <img 
+              src={hairTypesGuide} 
+              alt="Classification des types de cheveux de 1 à 4"
+              className="w-full h-auto rounded-lg shadow-soft"
+            />
+            <div className="text-center space-y-2">
               <p className="font-roboto text-sm text-gray-700">
-                <strong>Astuce :</strong> Observez vos cheveux naturels, sans produit, à la lumière naturelle
+                <strong>Classification André Walker :</strong> Du type 1 (lisse) au type 4 (crépu)
               </p>
               <div className="flex flex-wrap justify-center gap-4 text-xs">
                 <span className="px-3 py-1 bg-white rounded-full">1️⃣ Totalement raides</span>
@@ -225,6 +250,21 @@ export function HairEducationScreen({ onBack }: HairEducationScreenProps) {
                 <span className="px-3 py-1 bg-white rounded-full">4️⃣ Pattern en Z</span>
               </div>
             </div>
+          </div>
+          
+          {/* Focus sur les cheveux texturés 3C-4C */}
+          <div className="bg-gradient-to-r from-coton-rose/10 to-purple-50 rounded-lg p-6 space-y-4">
+            <h4 className="font-poppins font-semibold text-base text-foreground">
+              Focus Cheveux Texturés (3C à 4C)
+            </h4>
+            <img 
+              src={afroHairTypes} 
+              alt="Types de cheveux afro de 3C à 4C"
+              className="w-full h-auto rounded-lg shadow-soft"
+            />
+            <p className="font-roboto text-sm text-muted-foreground text-center">
+              Spécialement conçu pour comprendre les nuances des cheveux afro et bouclés
+            </p>
           </div>
         </div>
       </CotonCard>
@@ -237,9 +277,21 @@ export function HairEducationScreen({ onBack }: HairEducationScreenProps) {
         </h2>
         
         <CotonCard className="p-6 space-y-4">
-          <div className="text-center space-y-2">
+          <div className="text-center space-y-2 mb-6">
             <p className="font-roboto text-sm text-muted-foreground">
               La porosité détermine la capacité de tes cheveux à absorber et retenir l'hydratation
+            </p>
+          </div>
+          
+          {/* Illustration de la porosité */}
+          <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-lg p-6 space-y-4 mb-6">
+            <img 
+              src={hairPorosityGuide} 
+              alt="Illustration de la porosité des cheveux"
+              className="w-full h-auto rounded-lg shadow-soft"
+            />
+            <p className="font-roboto text-sm text-center text-gray-700">
+              <strong>Coupe transversale :</strong> Cuticules fermées (faible) vs ouvertes (haute)
             </p>
           </div>
           
@@ -305,6 +357,20 @@ export function HairEducationScreen({ onBack }: HairEducationScreenProps) {
             <h4 className="font-poppins font-semibold text-base text-foreground">
               {test.name}
             </h4>
+            
+            {/* Illustration pour le test de l'eau */}
+            {test.name === 'Test du verre d\'eau' && (
+              <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg p-4 mb-4">
+                <img 
+                  src={porosityWaterTest} 
+                  alt="Test du verre d'eau pour la porosité"
+                  className="w-full max-w-md h-auto rounded-lg shadow-soft mx-auto"
+                />
+                <p className="font-roboto text-sm text-center text-blue-800 mt-3">
+                  <strong>Observation :</strong> Position du cheveu dans l'eau révèle sa porosité
+                </p>
+              </div>
+            )}
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
