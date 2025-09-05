@@ -26,10 +26,12 @@ const porosity = [
 ];
 
 const objectives = [
-  { value: 'hydratation', label: 'Hydratation' },
-  { value: 'definition', label: 'Définition' },
-  { value: 'pousse', label: 'Pousse' },
-  { value: 'reparation', label: 'Réparation' }
+  { value: 'pousse', label: 'Stimuler la pousse' },
+  { value: 'souplesse', label: 'Améliorer la souplesse' },
+  { value: 'sante', label: 'Restaurer la santé capillaire' },
+  { value: 'alopecie', label: 'Prévenir l\'alopécie de traction' },
+  { value: 'protection', label: 'Optimiser les coiffures protectrices' },
+  { value: 'reparation', label: 'Réparer les dommages' }
 ];
 
 const problems = [

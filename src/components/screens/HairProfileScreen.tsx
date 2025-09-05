@@ -60,7 +60,14 @@ const needs = [{
   label: 'Brillance',
   emoji: '🌟'
 }];
-const objectives = ['Retrouver mes boucles naturelles', 'Protéger mes cheveux sous coiffure', 'Réparer après décoloration', 'Construire une routine simple et efficace'];
+const objectives = [
+  'Stimuler la pousse', 
+  'Améliorer la souplesse', 
+  'Restaurer la santé capillaire', 
+  'Prévenir l\'alopécie de traction', 
+  'Optimiser les coiffures protectrices', 
+  'Réparer les dommages'
+];
 export function HairProfileScreen({
   onBack
 }: HairProfileScreenProps) {
@@ -91,10 +98,17 @@ export function HairProfileScreen({
   const [selectedObjectives, setSelectedObjectives] = useState<string>(
     // Mapper les objectifs du détail vers l'objectif simple
     state.detailedHairProfile.objective || 
-    (state.hairProfile.objectives[0] === 'Retrouver mes boucles naturelles' ? 'definition' : 
+    (state.hairProfile.objectives[0] === 'Stimuler la pousse' ? 'pousse' : 
+     state.hairProfile.objectives[0] === 'Améliorer la souplesse' ? 'souplesse' :
+     state.hairProfile.objectives[0] === 'Restaurer la santé capillaire' ? 'sante' :
+     state.hairProfile.objectives[0] === 'Prévenir l\'alopécie de traction' ? 'alopecie' :
+     state.hairProfile.objectives[0] === 'Optimiser les coiffures protectrices' ? 'protection' :
+     state.hairProfile.objectives[0] === 'Réparer les dommages' ? 'reparation' : 
+     // Mapping des anciens objectifs pour compatibilité
+     state.hairProfile.objectives[0] === 'Retrouver mes boucles naturelles' ? 'souplesse' : 
      state.hairProfile.objectives[0] === 'Protéger mes cheveux sous coiffure' ? 'protection' :
      state.hairProfile.objectives[0] === 'Réparer après décoloration' ? 'reparation' :
-     state.hairProfile.objectives[0] === 'Construire une routine simple et efficace' ? 'hydratation' : '')
+     state.hairProfile.objectives[0] === 'Construire une routine simple et efficace' ? 'sante' : 'pousse')
   );
   const toggleNeed = (needId: string) => {
     setSelectedNeeds(prev => prev === needId ? '' : needId);
@@ -146,19 +160,26 @@ export function HairProfileScreen({
     }
     
     // Adapt based on objective
-    if (objective === 'hydratation') {
-      steps.splice(2, 1, 'Double masque hydratant');
-      if (!steps.some(s => s.includes('hydrat'))) {
-        steps.push('Spray hydratant quotidien');
-      }
-    } else if (objective === 'definition') {
-      steps.push('Technique plopping après application');
-      steps = steps.map(s => s.includes('Gel') ? 'Gel définition forte tenue' : s);
-    } else if (objective === 'pousse') {
+    if (objective === 'pousse') {
       steps.unshift('Massage stimulant cuir chevelu');
       if (!steps.some(s => s.includes('protéin'))) {
         steps.splice(-1, 0, 'Traitement fortifiant');
       }
+      steps.push('Huile de ricin cuir chevelu');
+    } else if (objective === 'souplesse') {
+      steps.splice(2, 1, 'Masque assouplissant miel');
+      steps.push('Leave-in assouplissant');
+    } else if (objective === 'sante') {
+      steps.splice(1, 0, 'Clarification douce mensuelle');
+      steps = steps.map(s => s.includes('Masque') ? 'Masque équilibré protéines/hydratation' : s);
+    } else if (objective === 'alopecie') {
+      steps.unshift('Massage cuir chevelu anti-inflammatoire');
+      steps = steps.map(s => s.includes('Shampoing') ? 'Shampoing apaisant sans sulfates' : s);
+      steps.push('Éviter coiffures serrées');
+    } else if (objective === 'protection') {
+      steps.unshift('Préparation coiffure protectrice');
+      steps.push('Hydratation intensive pré-tressage');
+      steps.push('Protection longueurs');
     } else if (objective === 'reparation') {
       steps.splice(1, 0, 'Traitement protéiné réparateur');
       steps = steps.map(s => s.includes('Masque') ? 'Masque réparateur intensif' : s);
@@ -240,7 +261,7 @@ export function HairProfileScreen({
         hairType: selectedHairType,
         // Préserver les autres données détaillées existantes
         porosity: state.detailedHairProfile.porosity || 'moyenne', // valeur par défaut
-        objective: selectedObjectives || state.detailedHairProfile.objective || 'hydratation',
+        objective: selectedObjectives || state.detailedHairProfile.objective || 'pousse',
         problems: state.detailedHairProfile.problems || [],
         needs: selectedNeeds ? [selectedNeeds] : state.detailedHairProfile.needs || [],
         isCompleted: true
@@ -708,13 +729,22 @@ export function HairProfileScreen({
                     
                     // Tips based on objective
                     if (objective === 'pousse') {
-                      return "Astuce pousse : Masse ton cuir chevelu 5 min par jour avec une huile stimulante comme l'huile de ricin 🌱";
+                      return "Astuce pousse : Masse ton cuir chevelu 5 min par jour avec une huile stimulante comme l'huile de ricin et protège tes pointes 🌱";
                     }
-                    if (objective === 'definition') {
-                      return "Astuce définition : Applique tes produits coiffants sur cheveux trempés et utilise la technique du 'praying hands' 🙏";
+                    if (objective === 'souplesse') {
+                      return "Astuce souplesse : Les masques au miel et glycérine aident à assouplir naturellement tes cheveux. Évite la manipulation excessive 💆🏾‍♀️";
                     }
-                    if (objective === 'hydratation') {
-                      return "Astuce hydratation : Bois au moins 1,5L d'eau par jour - l'hydratation vient aussi de l'intérieur ! 💦";
+                    if (objective === 'sante') {
+                      return "Astuce santé : Équilibre protéines et hydratation, protège du soleil et bois 1,5L d'eau par jour - la santé vient de l'intérieur ! 💚";
+                    }
+                    if (objective === 'alopecie') {
+                      return "Astuce prévention : Évite absolument les coiffures serrées, masse délicatement le cuir chevelu et utilise des produits apaisants 🛡️";
+                    }
+                    if (objective === 'protection') {
+                      return "Astuce protection : Hydrate intensément avant le tressage et change de coiffure tous les 6-8 semaines pour éviter la tension 🔒";
+                    }
+                    if (objective === 'reparation') {
+                      return "Astuce réparation : Alterne soigneusement protéines et hydratation. Test de l'élasticité sur cheveu mouillé pour doser 🔧";
                     }
                     
                     // Default tip

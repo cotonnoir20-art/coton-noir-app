@@ -32,10 +32,12 @@ const porosityLevels = [
 ];
 
 const objectives = [
-  { id: 'hydratation', name: 'Hydratation', emoji: '💧' },
-  { id: 'definition', name: 'Définition', emoji: '✨' },
-  { id: 'pousse', name: 'Pousse', emoji: '🌱' },
-  { id: 'reparation', name: 'Réparation', emoji: '🔧' }
+  { id: 'pousse', name: 'Stimuler la pousse', emoji: '🌱' },
+  { id: 'souplesse', name: 'Améliorer la souplesse', emoji: '💆🏾‍♀️' },
+  { id: 'sante', name: 'Restaurer la santé capillaire', emoji: '💚' },
+  { id: 'alopecie', name: 'Prévenir l\'alopécie de traction', emoji: '🛡️' },
+  { id: 'protection', name: 'Optimiser les coiffures protectrices', emoji: '🔒' },
+  { id: 'reparation', name: 'Réparer les dommages', emoji: '🔧' }
 ];
 
 const problems = [

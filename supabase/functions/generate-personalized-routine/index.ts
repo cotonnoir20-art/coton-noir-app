@@ -43,12 +43,21 @@ PROFIL CAPILLAIRE:
 - Problèmes: ${profile.problems?.join(', ') || 'Aucun'}
 - Besoins spécifiques: ${profile.needs?.join(', ') || 'Aucun'}
 
+OBJECTIFS DISPONIBLES ET LEURS SPÉCIFICITÉS:
+- pousse: Focus sur stimulation cuir chevelu, rétention longueur, huiles stimulantes
+- souplesse: Assouplissement texture, réduction raideur, masques miel/glycérine
+- sante: Équilibre protéines/hydratation, protection UV, santé globale
+- alopecie: Prévention alopécie traction, massage anti-inflammatoire, éviter tension
+- protection: Coiffures protectrices, préparation tressage, entretien sous coiffure
+- reparation: Reconstruction cheveux abîmés, alternance protéines/hydratation
+
 CONSIGNES:
 1. Crée une routine capillaire personnalisée de 4-6 étapes maximum
 2. Adapte chaque étape selon le type de cheveux ET la porosité
-3. Priorise les problèmes mentionnés
-4. Utilise des termes techniques précis mais accessibles
-5. Chaque étape doit être actionnable et spécifique
+3. Priorise l'objectif spécifique mentionné avec des techniques adaptées
+4. Priorise les problèmes mentionnés
+5. Utilise des termes techniques précis mais accessibles
+6. Chaque étape doit être actionnable et spécifique
 
 FORMAT DE RÉPONSE (JSON uniquement):
 {
@@ -58,10 +67,10 @@ FORMAT DE RÉPONSE (JSON uniquement):
     "..."
   ],
   "prioritySteps": [0, 2], // Indices des étapes prioritaires
-  "tip": "Conseil spécifique de 1-2 phrases pour ce profil"
+  "tip": "Conseil spécifique de 1-2 phrases pour ce profil et objectif"
 }
 
-Génère une routine optimale pour ce profil exact.`;
+Génère une routine optimale pour ce profil exact en tenant compte de l'objectif spécifique.`;
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
