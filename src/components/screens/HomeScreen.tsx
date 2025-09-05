@@ -644,25 +644,6 @@ export function HomeScreen({
                   </span>
                 )}
               </div>
-              
-              {/* Needs Section */}
-              {state.detailedHairProfile.needs && state.detailedHairProfile.needs.length > 0 && (
-                <div>
-                  <p className="text-xs font-roboto text-gray-600 mb-2">Besoins spécifiques :</p>
-                  <div className="flex flex-wrap gap-2">
-                    {state.detailedHairProfile.needs.map((need, index) => (
-                      <span key={index} className="px-2 py-1 bg-purple-100 border border-purple-300 rounded-full text-xs font-roboto text-purple-800">
-                        {need === 'hydratation' ? '💧 Hydratation' :
-                         need === 'definition' ? '💫 Définition' :
-                         need === 'brillance' ? '✨ Brillance' :
-                         need === 'pousse' ? '🌱 Pousse' :
-                         need === 'reparation' ? '🔧 Réparation' :
-                         need === 'protection' ? '🛡️ Protection' : need}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
             
             {/* Routine Steps with Priority Indicators */}
