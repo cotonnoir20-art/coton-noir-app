@@ -646,59 +646,6 @@ export function HomeScreen({
               </div>
             </div>
             
-            {/* Routine Steps with Priority Indicators */}
-            <div className="space-y-3">
-              <h4 className="font-poppins font-semibold text-foreground text-sm flex items-center gap-2">
-                <span>📋</span> Ta routine adaptée
-              </h4>
-              {personalizedRoutine.slice(0, 4).map((step, index) => {
-                // Determine priority based on step content and user problems
-                const isHighPriority = state.detailedHairProfile.problems && state.detailedHairProfile.problems.some(problem =>
-                  (problem === 'secheresse' && step.toLowerCase().includes('hydrat')) ||
-                  (problem === 'casse' && step.toLowerCase().includes('protéin')) ||
-                  (problem === 'frisottis' && step.toLowerCase().includes('anti-frisottis')) ||
-                  (problem === 'demelage' && step.toLowerCase().includes('démêl')) ||
-                  (problem === 'cuir_chevelu' && step.toLowerCase().includes('cuir chevelu')) ||
-                  (problem === 'chute' && step.toLowerCase().includes('anti-chute'))
-                );
-
-                return (
-                  <div key={index} className={`flex items-center gap-3 p-3 rounded-lg transition-all ${
-                    isHighPriority 
-                      ? 'bg-gradient-to-r from-coton-rose/20 to-red-50 border border-red-200' 
-                      : 'bg-white/60 border border-gray-200'
-                  }`}>
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm ${
-                      isHighPriority ? 'bg-red-500' : 'bg-coton-rose'
-                    }`}>
-                      {isHighPriority ? '!' : index + 1}
-                    </div>
-                    <div className="flex-1">
-                      <span className={`font-roboto text-sm ${isHighPriority ? 'font-semibold text-red-900' : 'text-foreground'}`}>
-                        {step}
-                      </span>
-                      {isHighPriority && (
-                        <div className="text-xs text-red-700 mt-1 font-medium">
-                          ⚡ Action prioritaire pour tes problématiques
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-              
-              {personalizedRoutine.length > 4 && (
-                <button 
-                  onClick={() => onNavigate('detailed-routine')} 
-                  className="w-full p-3 rounded-lg bg-coton-rose/20 border-2 border-dashed border-coton-rose hover:bg-coton-rose/30 transition-colors"
-                >
-                  <span className="font-roboto text-sm text-foreground font-semibold">
-                    Voir la routine complète (+{personalizedRoutine.length - 4} étapes)
-                  </span>
-                </button>
-              )}
-            </div>
-            
             {/* CotonTips */}
             <div className="mt-3 p-4 rounded-lg bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200">
               <div className="flex items-center gap-2 mb-2">
