@@ -65,7 +65,7 @@ const objectives = [
   'Améliorer la souplesse', 
   'Restaurer la santé capillaire', 
   'Soins cheveux décolorés', 
-  'Optimiser les coiffures protectrices', 
+  'Retrouver mes boucles naturelles', 
   'Routine sous coiffure protectrice'
 ];
 export function HairProfileScreen({
@@ -102,7 +102,7 @@ export function HairProfileScreen({
      state.hairProfile.objectives[0] === 'Améliorer la souplesse' ? 'souplesse' :
      state.hairProfile.objectives[0] === 'Restaurer la santé capillaire' ? 'sante' :
      state.hairProfile.objectives[0] === 'Soins cheveux décolorés' ? 'decoloration' :
-     state.hairProfile.objectives[0] === 'Optimiser les coiffures protectrices' ? 'protection' :
+     state.hairProfile.objectives[0] === 'Retrouver mes boucles naturelles' ? 'protection' :
      state.hairProfile.objectives[0] === 'Routine sous coiffure protectrice' ? 'routine_protective' :
      // Mapping des anciens objectifs pour compatibilité
      state.hairProfile.objectives[0] === 'Prévenir l\'alopécie de traction' ? 'routine_protective' :

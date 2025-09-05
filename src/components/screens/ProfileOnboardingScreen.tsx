@@ -30,7 +30,7 @@ const objectives = [
   { value: 'souplesse', label: 'Améliorer la souplesse' },
   { value: 'sante', label: 'Restaurer la santé capillaire' },
   { value: 'decoloration', label: 'Soins cheveux décolorés' },
-  { value: 'protection', label: 'Optimiser les coiffures protectrices' },
+  { value: 'protection', label: 'Retrouver mes boucles naturelles' },
   { value: 'routine_protective', label: 'Routine sous coiffure protectrice' }
 ];
 

@@ -36,7 +36,7 @@ const objectives = [
   { id: 'souplesse', name: 'Améliorer la souplesse', emoji: '💆🏾‍♀️' },
   { id: 'sante', name: 'Restaurer la santé capillaire', emoji: '💚' },
   { id: 'decoloration', name: 'Soins cheveux décolorés', emoji: '🌈' },
-  { id: 'protection', name: 'Optimiser les coiffures protectrices', emoji: '🔒' },
+  { id: 'protection', name: 'Retrouver mes boucles naturelles', emoji: '🌀' },
   { id: 'routine_protective', name: 'Routine sous coiffure protectrice', emoji: '🧕🏾' }
 ];
 
