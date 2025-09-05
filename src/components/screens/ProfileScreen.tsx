@@ -89,7 +89,8 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
         description: t('toast.logoutSuccessDesc'),
       });
       
-      // Redirect to auth page (login) - this will happen automatically via useAuth
+      // Redirect explicitly to auth page (login)
+      window.location.href = '/auth';
     } catch (error) {
       console.error('Logout error:', error);
       toast({
