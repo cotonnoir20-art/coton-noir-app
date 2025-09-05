@@ -76,7 +76,7 @@ export default function CotonNoirApp() {
     const hasCompletedOnboarding = localStorage.getItem('coton-noir-onboarding');
     const hasCompletedProfile = localStorage.getItem('coton-noir-profile-onboarding');
     
-    if (flow === 'onboarding') {
+    if (flow === 'welcome') {
       // New user coming from signup - show welcome screen first
       setCurrentScreen('welcome');
       // Clear the flow parameter
@@ -88,8 +88,8 @@ export default function CotonNoirApp() {
       // User completed onboarding but not profile setup
       setCurrentScreen('profile-onboarding');
     } else if (!hasCompletedOnboarding) {
-      // User hasn't completed onboarding yet - start from splash
-      setCurrentScreen('splash-init');
+      // User hasn't completed onboarding yet - go to home with profile message
+      setCurrentScreen('home');
     } else {
       // Fallback to home for any edge case
       setCurrentScreen('home');
@@ -112,8 +112,12 @@ export default function CotonNoirApp() {
     setCurrentScreen('profile-onboarding');
   };
 
-  const handleCompleteProfileOnboarding = () => {
+  const handleCompleteProfileOnboarding = (completed: boolean) => {
     localStorage.setItem('coton-noir-profile-onboarding', 'true');
+    if (completed) {
+      // Profile was completed - user gets 100CC, already handled in ProfileOnboardingScreen
+      localStorage.setItem('coton-noir-profile-completed', 'true');
+    }
     setCurrentScreen('home');
   };
   
@@ -171,7 +175,7 @@ export default function CotonNoirApp() {
       case 'welcome':
         return (
           <WelcomeScreen
-            onContinue={() => handleNavigate('splash-init')}
+            onContinue={() => handleNavigate('profile-onboarding')}
           />
         );
 
@@ -190,13 +194,13 @@ export default function CotonNoirApp() {
         );
         
       case 'home':
-        return (
-          <HomeScreen
-            onNavigate={handleNavigate}
-            onAddCare={() => handleNavigate('add-care')}
-            onShowProfile={() => handleNavigate('hair-profile')}
-          />
-        );
+        {/* Home Screen Content */}
+        <HomeScreen
+          onNavigate={handleNavigate}
+          onAddCare={() => handleNavigate('add-care')}
+          onShowProfile={() => handleNavigate('hair-profile')}
+          showProfileMessage={!localStorage.getItem('coton-noir-profile-completed')}
+        />
         
       case 'add-care':
         return (
