@@ -376,7 +376,7 @@ export function HomeScreen({
         animate={{ opacity: 1, y: 0 }}
         className="mt-6"
       >
-        <CotonCard className="p-4">
+        <CotonCard className="p-4 bg-background border-0">
           <h2 className="text-lg font-poppins font-semibold text-foreground">
             Hello {state.userProfile?.name || 'Belle'}! 👋
           </h2>
