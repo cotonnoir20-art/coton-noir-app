@@ -77,8 +77,8 @@ export default function CotonNoirApp() {
     const hasCompletedProfile = localStorage.getItem('coton-noir-profile-onboarding');
     
     if (flow === 'onboarding') {
-      // New user coming from signup - show welcome screen first
-      setCurrentScreen('welcome');
+      // New user coming from signup - go directly to onboarding with Hair Journal
+      setCurrentScreen('onboarding');
       // Clear the flow parameter
       window.history.replaceState({}, '', window.location.pathname);
     } else if (hasCompletedOnboarding && hasCompletedProfile) {
