@@ -643,6 +643,16 @@ export function HomeScreen({
                     🎯 {state.detailedHairProfile.objective}
                   </span>
                 )}
+                {state.detailedHairProfile.problems && state.detailedHairProfile.problems.length > 0 && state.detailedHairProfile.problems.map((problem, index) => (
+                  <span key={index} className="px-3 py-1 bg-orange-100 border border-orange-300 rounded-full text-sm font-roboto text-orange-800">
+                    ⚠️ {problem}
+                  </span>
+                ))}
+                {state.detailedHairProfile.needs && state.detailedHairProfile.needs.length > 0 && state.detailedHairProfile.needs.map((need, index) => (
+                  <span key={index} className="px-3 py-1 bg-purple-100 border border-purple-300 rounded-full text-sm font-roboto text-purple-800">
+                    ✨ {need}
+                  </span>
+                ))}
               </div>
             </div>
             
