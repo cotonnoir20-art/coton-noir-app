@@ -872,23 +872,69 @@ export function HomeScreen({
       </div>
       
       {/* Next Reward */}
-      <CotonCard className="p-6 space-y-4">
-        <div className="flex items-center gap-2">
-          <Gift className="text-coton-rose" size={24} />
-          <h3 className="font-poppins font-semibold text-lg">Prochaine récompense</h3>
-        </div>
-        
-        {state.coins >= 50 ? <div className="text-center py-4">
-            <p className="font-roboto text-muted-foreground">
-              ✨ Box incluse - débloquez la maintenant !
-            </p>
-          </div> : <div className="space-y-3">
-            <ProgressBar progress={boxProgress} variant="coins" showLabel label={`Box Digitale - ${state.coins}/50 CC`} />
-            <Button variant="coin" size="sm" onClick={() => onNavigate('box')} disabled={state.coins < 50} className="w-full">
-              {state.coins >= 50 ? 'Débloquer maintenant' : `Plus que ${50 - state.coins} CC`}
-            </Button>
-          </div>}
-      </CotonCard>
+      {(() => {
+        const levels = [
+          { name: 'Baby Hair', min: 0, max: 500, reward: 'Badge de bienvenue', emoji: '✨' },
+          { name: 'Curlie Cutie', min: 501, max: 1000, reward: '50 CC + -5% partenaire', emoji: '💖' },
+          { name: 'Afro Queenie', min: 1001, max: 2500, reward: '1 Ebook premium', emoji: '👑' },
+          { name: 'Glow Fro', min: 2501, max: 5000, reward: '100 CC + -10% partenaire', emoji: '🌟' },
+          { name: 'Crown Vibes', min: 5001, max: 7500, reward: 'Box digitale exclusive', emoji: '👑💕' },
+          { name: 'Slay Braidy', min: 7501, max: 10000, reward: '150 CC + -15% partenaire', emoji: '🧵🔥' },
+          { name: 'Kinky Diva', min: 10001, max: 15000, reward: 'Produit partenaire offert', emoji: '💃🏾' },
+          { name: 'Twist & Shine', min: 15001, max: 20000, reward: '200 CC + accès premium', emoji: '💫' },
+          { name: 'Wash Day Goddess', min: 20001, max: 30000, reward: 'Box physique échantillons + -20% partenaire', emoji: '🛁👸🏾' },
+          { name: 'Afrolicious Icon', min: 30001, max: Infinity, reward: 'Box physique échantillons + -50% partenaire + badge', emoji: '🔥💎' }
+        ];
+
+        const nextLevel = levels.find(level => state.coins < level.min) || levels[levels.length - 1];
+        const progress = nextLevel.min === Infinity ? 100 : Math.min((state.coins / nextLevel.min) * 100, 100);
+        const remaining = nextLevel.min === Infinity ? 0 : Math.max(nextLevel.min - state.coins, 0);
+
+        return (
+          <CotonCard className="p-6 space-y-4">
+            <div className="flex items-center gap-2">
+              <Gift className="text-coton-rose" size={24} />
+              <h3 className="font-poppins font-semibold text-lg">Prochaine récompense</h3>
+            </div>
+            
+            {nextLevel.min === Infinity ? (
+              <div className="text-center py-4">
+                <p className="font-roboto text-lg font-semibold text-coton-rose mb-2">
+                  {nextLevel.emoji} Niveau maximum atteint !
+                </p>
+                <p className="font-roboto text-muted-foreground">
+                  Vous êtes une {nextLevel.name} - Félicitations ! 🎉
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="font-roboto font-medium text-foreground">
+                    {nextLevel.emoji} {nextLevel.name}
+                  </span>
+                  <span className="text-sm text-muted-foreground">
+                    {state.coins}/{nextLevel.min} CC
+                  </span>
+                </div>
+                <ProgressBar 
+                  progress={progress} 
+                  variant="coins" 
+                  showLabel 
+                  label={`${remaining} CC restants`} 
+                />
+                <div className="bg-coton-rose/10 rounded-lg p-3">
+                  <p className="font-roboto text-sm font-medium text-coton-rose mb-1">
+                    Récompense à débloquer :
+                  </p>
+                  <p className="font-roboto text-sm text-foreground">
+                    {nextLevel.reward}
+                  </p>
+                </div>
+              </div>
+            )}
+          </CotonCard>
+        );
+      })()}
 
       {/* Streak & Badges */}
       {(state.streakData.current > 0 || state.badges.length > 0) && <CotonCard className="p-4 bg-gradient-to-r from-yellow-50 to-orange-50">
