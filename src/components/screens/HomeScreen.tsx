@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import { Plus, Package, Users, Store, Video, Gift, Target, Sparkles, Check, Heart, Crown, Star, Sun, Zap, Music, Droplets, Diamond, TrendingUp, Calendar, Clock, Trophy, Flame } from 'lucide-react';
+import { Plus, Package, Users, Store, Video, Gift, Target, Sparkles, Check, Heart, Crown, Star, Sun, Zap, Music, Droplets, Diamond, TrendingUp, Calendar, Clock, Trophy, Flame, ChevronDown, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CotonCard } from '@/components/ui/coton-card';
 import { ProgressBar } from '@/components/ui/progress-bar';
@@ -23,6 +23,7 @@ export function HomeScreen({
     dispatch
   } = useApp();
   const [routineValidated, setRoutineValidated] = useState(false);
+  const [challengesExpanded, setChallengesExpanded] = useState(true);
 
   // Système d'animations et badges
   const {
@@ -292,96 +293,138 @@ export function HomeScreen({
       {/* AI Hair Tip for users without profile */}
       {!state.detailedHairProfile.isCompleted && <AIHairTip tipType="general" context="conseil général pour débuter dans les soins capillaires" variant="featured" showRefresh={true} />}
 
-      {/* Défis quotidiens */}
-      {todaysChallenges.length > 0 && <motion.div initial={{
-      opacity: 0,
-      y: 20
-    }} animate={{
-      opacity: 1,
-      y: 0
-    }} className="space-y-3 mt-[30px]">
-          <h3 className="font-poppins font-semibold text-lg flex items-center gap-2">
-            <Trophy className="text-yellow-500" size={20} />
-            Défis du jour
-          </h3>
-          
-          <motion.div 
-            initial={false}
-            animate={{
-              height: todaysChallenges.filter(c => !c.completed).length > 0 ? "auto" : "0px",
-              opacity: todaysChallenges.filter(c => !c.completed).length > 0 ? 1 : 0
-            }}
-            transition={{
-              duration: 0.4,
-              ease: "easeInOut"
-            }}
-            style={{ overflow: "hidden" }}
+      {/* Défis quotidiens - Encart dépliable */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }} 
+        animate={{ opacity: 1, y: 0 }} 
+        className="mt-[30px]"
+      >
+        <CotonCard className="overflow-hidden">
+          {/* Header cliquable */}
+          <button
+            onClick={() => setChallengesExpanded(!challengesExpanded)}
+            className="w-full p-4 flex items-center justify-between hover:bg-muted/50 transition-colors"
           >
-            <div className="space-y-3">
-              {/* Défis non complétés (normaux) */}
-              {todaysChallenges.filter(c => !c.completed).map((challenge, index) => <motion.div key={challenge.id} initial={{
-            opacity: 0,
-            x: -20
-          }} animate={{
-            opacity: 1,
-            x: 0
-          }} transition={{
-            delay: index * 0.1
-          }}>
-                  <CotonCard className="p-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full flex items-center justify-center bg-orange-100 text-orange-600">
-                          <Target size={20} />
-                        </div>
-                        <div>
-                          <h4 className="font-poppins font-semibold text-sm">
+            <div className="flex items-center gap-3">
+              <Trophy className="text-yellow-500" size={20} />
+              <div className="text-left">
+                <h3 className="font-poppins font-semibold text-base">Défis du jour</h3>
+                <p className="text-xs text-muted-foreground">
+                  {todaysChallenges.filter(c => !c.completed).length} en cours • {todaysChallenges.filter(c => c.completed).length} validés
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              {todaysChallenges.filter(c => c.completed).length > 0 && (
+                <span className="text-green-600 text-sm font-bold">
+                  +{todaysChallenges.filter(c => c.completed).reduce((sum, c) => sum + c.reward, 0)} CC
+                </span>
+              )}
+              {challengesExpanded ? (
+                <ChevronDown size={20} className="text-muted-foreground" />
+              ) : (
+                <ChevronRight size={20} className="text-muted-foreground" />
+              )}
+            </div>
+          </button>
+
+          {/* Contenu dépliable */}
+          <div
+            className={`overflow-hidden transition-all duration-300 ease-in-out ${
+              challengesExpanded 
+                ? 'max-h-[1000px] opacity-100' 
+                : 'max-h-0 opacity-0'
+            }`}
+          >
+            <div className="px-4 pb-4 space-y-3">
+              {/* Défis en cours */}
+              {todaysChallenges.filter(c => !c.completed).length > 0 && (
+                <div className="space-y-3">
+                  <h4 className="font-poppins font-medium text-sm text-orange-600 flex items-center gap-1">
+                    <Target size={14} />
+                    En cours
+                  </h4>
+                  {todaysChallenges.filter(c => !c.completed).map((challenge, index) => (
+                    <motion.div 
+                      key={challenge.id}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="p-3 rounded-lg bg-orange-50 border border-orange-100"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex-1">
+                          <h5 className="font-poppins font-semibold text-sm text-orange-900">
                             {challenge.title}
-                          </h4>
-                          <p className="text-xs text-muted-foreground">
+                          </h5>
+                          <p className="text-xs text-orange-700 mt-1">
                             {challenge.description}
                           </p>
                         </div>
-                      </div>
-                      
-                      <div className="text-right">
-                        <div className="space-y-1">
-                          <div className="text-orange-600 font-bold text-sm">
+                        <div className="text-right ml-3">
+                          <div className="text-orange-600 font-bold text-sm mb-1">
                             +{challenge.reward} CC
                           </div>
-                          <Button size="sm" variant="outline" onClick={() => handleCompleteChallenge(challenge)} className="text-xs hover-scale">
+                          <Button 
+                            size="sm" 
+                            variant="outline" 
+                            onClick={() => handleCompleteChallenge(challenge)} 
+                            className="text-xs border-orange-200 hover:bg-orange-100"
+                          >
                             Valider
                           </Button>
                         </div>
                       </div>
-                    </div>
-                  </CotonCard>
-                </motion.div>)}
-            </div>
-          </motion.div>
-          
-          {/* Défis complétés - version ultra compacte quand tous sont complétés */}
-          {todaysChallenges.filter(c => c.completed).length > 0 && todaysChallenges.filter(c => !c.completed).length === 0 && <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3, delay: 0.2 }}
-            className="mt-1"
-          >
-              <CotonCard className="p-2 bg-green-50/50 border-green-200/50">
-                <div className="flex items-center justify-center gap-2">
-                  <div className="w-4 h-4 rounded-full bg-green-100 text-green-600 flex items-center justify-center">
-                    <Check size={10} />
-                  </div>
-                  <span className="text-xs font-poppins font-medium text-green-700">
-                    Défis complétés ✅
-                  </span>
-                  <span className="text-green-600 text-xs font-bold">
-                    +{todaysChallenges.filter(c => c.completed).reduce((sum, c) => sum + c.reward, 0)} CC
-                  </span>
+                    </motion.div>
+                  ))}
                 </div>
-              </CotonCard>
-            </motion.div>}
-        </motion.div>}
+              )}
+
+              {/* Défis validés */}
+              {todaysChallenges.filter(c => c.completed).length > 0 && (
+                <div className="space-y-3">
+                  <h4 className="font-poppins font-medium text-sm text-green-600 flex items-center gap-1">
+                    <Check size={14} />
+                    Validés aujourd'hui
+                  </h4>
+                  {todaysChallenges.filter(c => c.completed).map((challenge, index) => (
+                    <div 
+                      key={challenge.id}
+                      className="p-3 rounded-lg bg-green-50 border border-green-100"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center">
+                            <Check size={12} />
+                          </div>
+                          <div>
+                            <h5 className="font-poppins font-semibold text-sm text-green-900">
+                              {challenge.title}
+                            </h5>
+                            <p className="text-xs text-green-700">
+                              Complété • +{challenge.reward} CC
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Message si aucun défi */}
+              {todaysChallenges.length === 0 && (
+                <div className="text-center py-6">
+                  <div className="text-4xl mb-2">🎯</div>
+                  <p className="text-sm text-muted-foreground font-roboto">
+                    Aucun défi disponible aujourd'hui
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </CotonCard>
+      </motion.div>
 
       
       
