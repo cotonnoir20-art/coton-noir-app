@@ -32,6 +32,8 @@ import {
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useAuth } from '@/hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 interface ProfileScreenProps {
   onNavigate: (screen: string) => void;
@@ -41,6 +43,8 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
   const { state, dispatch } = useApp();
   const { toast } = useToast();
   const { t, language } = useLanguage();
+  const { signOut } = useAuth();
+  const navigate = useNavigate();
   
   const [isEditing, setIsEditing] = useState(false);
   const [editedProfile, setEditedProfile] = useState({
@@ -71,15 +75,31 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
     });
   };
 
-  const handleLogout = () => {
-    // Reset app state and go to onboarding
-    localStorage.removeItem('hasCompletedOnboarding');
-    localStorage.removeItem('cotonNoirAppState');
-    toast({
-      title: t('toast.logoutSuccess'),
-      description: t('toast.logoutSuccessDesc'),
-    });
-    onNavigate('onboarding');
+  const handleLogout = async () => {
+    try {
+      // Sign out from Supabase
+      await signOut();
+      
+      // Clear local storage
+      localStorage.removeItem('coton-noir-onboarding');
+      localStorage.removeItem('coton-noir-profile-onboarding');
+      localStorage.removeItem('cotonNoirAppState');
+      
+      toast({
+        title: t('toast.logoutSuccess'),
+        description: t('toast.logoutSuccessDesc'),
+      });
+      
+      // Redirect to auth page
+      navigate('/auth');
+    } catch (error) {
+      console.error('Logout error:', error);
+      toast({
+        title: 'Erreur',
+        description: 'Erreur lors de la déconnexion',
+        variant: 'destructive',
+      });
+    }
   };
 
   const toggleDarkMode = (enabled: boolean) => {
