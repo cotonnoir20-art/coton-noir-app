@@ -13,11 +13,13 @@ interface HomeScreenProps {
   onNavigate: (screen: string) => void;
   onAddCare: () => void;
   onShowProfile: () => void;
+  showProfileMessage?: boolean;
 }
 export function HomeScreen({
   onNavigate,
   onAddCare,
-  onShowProfile
+  onShowProfile,
+  showProfileMessage = false
 }: HomeScreenProps) {
   const {
     state,
@@ -353,6 +355,31 @@ export function HomeScreen({
       
       <BadgeNotification badge={newBadge} isVisible={isBadgeVisible} onClose={hideBadge} />
 
+      {/* Profile completion message */}
+      {showProfileMessage && (
+        <CotonCard className="p-4 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200">
+          <div className="flex items-center gap-3">
+            <div className="text-2xl">💡</div>
+            <div className="flex-1">
+              <h3 className="font-poppins font-semibold text-amber-800 mb-1">
+                Complète ton profil capillaire
+              </h3>
+              <p className="text-sm text-amber-700 font-roboto mb-3">
+                Pour profiter pleinement de Coton Noir et gagner tes 100 premiers CotonCoins, configure ton profil capillaire.
+              </p>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={onShowProfile}
+                className="border-amber-300 text-amber-800 hover:bg-amber-100"
+              >
+                Configurer maintenant
+              </Button>
+            </div>
+          </div>
+        </CotonCard>
+      )}
+
       {/* Hair Profile Reminder */}
       {!state.hairProfile.isCompleted && <CotonCard variant="premium" className="p-4">
           <div className="flex items-center justify-between">
@@ -369,43 +396,6 @@ export function HomeScreen({
             </Button>
           </div>
         </CotonCard>}
-
-      {/* Profile Setup Reminder - Show if user skipped profile onboarding */}
-      {(() => {
-        const hasSkippedProfile = localStorage.getItem('hasSkippedProfileOnboarding');
-        const hasCompletedProfile = localStorage.getItem('hasCompletedProfileOnboarding');
-        
-        if (hasSkippedProfile && !hasCompletedProfile) {
-          return (
-            <CotonCard className="p-4 bg-gradient-to-r from-coton-rose/10 to-purple-50 border-l-4 border-coton-rose">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-coton-rose rounded-full flex items-center justify-center">
-                    <span className="text-xl">👩🏾‍🦱</span>
-                  </div>
-                  <div>
-                    <h3 className="font-poppins font-semibold text-foreground">
-                      Configure ton profil capillaire
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      Débloquer des conseils personnalisés et gagner 100 CC
-                    </p>
-                  </div>
-                </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={onShowProfile}
-                  className="whitespace-nowrap"
-                >
-                  Configurer
-                </Button>
-              </div>
-            </CotonCard>
-          );
-        }
-        return null;
-      })()}
 
 
       {/* Défis quotidiens - Encart dépliable */}

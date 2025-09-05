@@ -66,31 +66,30 @@ export default function CotonNoirApp() {
     }
   }, [user, loading, navigate]);
 
-//   // Check if user has completed onboarding and handle flow parameter
+  // Check if user has completed onboarding and handle flow parameter
   useEffect(() => {
     if (!user) return;
 
     const urlParams = new URLSearchParams(window.location.search);
     const flow = urlParams.get('flow');
     
-    const hasCompletedOnboarding = localStorage.getItem('hasCompletedOnboarding');
-    const hasCompletedProfile = localStorage.getItem('hasCompletedProfileOnboarding');
-    const hasSkippedProfile = localStorage.getItem('hasSkippedProfileOnboarding');
+    const hasCompletedOnboarding = localStorage.getItem('coton-noir-onboarding');
+    const hasCompletedProfile = localStorage.getItem('coton-noir-profile-onboarding');
     
-    if (flow === 'profile-onboarding') {
-      // User coming from welcome screen - show profile onboarding
-      setCurrentScreen('profile-onboarding');
+    if (flow === 'welcome') {
+      // New user coming from signup - show welcome screen first
+      setCurrentScreen('welcome');
       // Clear the flow parameter
       window.history.replaceState({}, '', window.location.pathname);
-    } else if (hasCompletedOnboarding && (hasCompletedProfile || hasSkippedProfile)) {
-      // User has completed onboarding and either completed or skipped profile setup - go to home
+    } else if (hasCompletedOnboarding && hasCompletedProfile) {
+      // User has completed both onboarding steps - go to home
       setCurrentScreen('home');
-    } else if (hasCompletedOnboarding && !hasCompletedProfile && !hasSkippedProfile) {
-      // User completed onboarding but hasn't dealt with profile setup yet
+    } else if (hasCompletedOnboarding && !hasCompletedProfile) {
+      // User completed onboarding but not profile setup
       setCurrentScreen('profile-onboarding');
     } else if (!hasCompletedOnboarding) {
-      // User hasn't completed onboarding yet - start from splash
-      setCurrentScreen('splash-init');
+      // User hasn't completed onboarding yet - go to home with profile message
+      setCurrentScreen('home');
     } else {
       // Fallback to home for any edge case
       setCurrentScreen('home');
@@ -109,17 +108,16 @@ export default function CotonNoirApp() {
   }, [user]); // Added user as dependency so it re-runs when user changes
   
   const handleCompleteOnboarding = () => {
-    localStorage.setItem('hasCompletedOnboarding', 'true');
+    localStorage.setItem('coton-noir-onboarding', 'true');
     setCurrentScreen('profile-onboarding');
   };
 
-  const handleCompleteProfileOnboarding = () => {
-    localStorage.setItem('hasCompletedProfileOnboarding', 'true');
-    setCurrentScreen('home');
-  };
-
-  const handleSkipProfileOnboarding = () => {
-    localStorage.setItem('hasSkippedProfileOnboarding', 'true');
+  const handleCompleteProfileOnboarding = (completed: boolean) => {
+    localStorage.setItem('coton-noir-profile-onboarding', 'true');
+    if (completed) {
+      // Profile was completed - user gets 100CC, already handled in ProfileOnboardingScreen
+      localStorage.setItem('coton-noir-profile-completed', 'true');
+    }
     setCurrentScreen('home');
   };
   
@@ -177,7 +175,7 @@ export default function CotonNoirApp() {
       case 'welcome':
         return (
           <WelcomeScreen
-            onContinue={() => handleNavigate('splash-init')}
+            onContinue={() => handleNavigate('profile-onboarding')}
           />
         );
 
@@ -192,19 +190,17 @@ export default function CotonNoirApp() {
         return (
           <ProfileOnboardingScreen
             onComplete={handleCompleteProfileOnboarding}
-            onSkip={handleSkipProfileOnboarding}
-            onNavigate={handleNavigate}
           />
         );
         
       case 'home':
-        return (
-          <HomeScreen
-            onNavigate={handleNavigate}
-            onAddCare={() => handleNavigate('add-care')}
-            onShowProfile={() => handleNavigate('hair-profile')}
-          />
-        );
+        {/* Home Screen Content */}
+        <HomeScreen
+          onNavigate={handleNavigate}
+          onAddCare={() => handleNavigate('add-care')}
+          onShowProfile={() => handleNavigate('hair-profile')}
+          showProfileMessage={!localStorage.getItem('coton-noir-profile-completed')}
+        />
         
       case 'add-care':
         return (
@@ -216,28 +212,7 @@ export default function CotonNoirApp() {
       case 'hair-profile':
         return (
           <HairProfileScreen
-            onBack={() => {
-              // If we came from profile onboarding, go back to it
-              const hasCompletedOnboarding = localStorage.getItem('hasCompletedOnboarding');
-              const hasCompletedProfileOnboarding = localStorage.getItem('hasCompletedProfileOnboarding');
-              
-              if (hasCompletedOnboarding && !hasCompletedProfileOnboarding) {
-                handleNavigate('profile-onboarding');
-              } else {
-                handleBackToHome();
-              }
-            }}
-            onComplete={() => {
-              // If we're in onboarding flow, complete it
-              const hasCompletedOnboarding = localStorage.getItem('hasCompletedOnboarding');
-              const hasCompletedProfileOnboarding = localStorage.getItem('hasCompletedProfileOnboarding');
-              
-              if (hasCompletedOnboarding && !hasCompletedProfileOnboarding) {
-                handleCompleteProfileOnboarding();
-              } else {
-                handleBackToHome();
-              }
-            }}
+            onBack={handleBackToHome}
           />
         );
         

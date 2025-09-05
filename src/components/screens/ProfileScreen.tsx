@@ -33,6 +33,7 @@ import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 interface ProfileScreenProps {
   onNavigate: (screen: string) => void;
@@ -43,6 +44,7 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
   const { toast } = useToast();
   const { t, language } = useLanguage();
   const { signOut } = useAuth();
+  const navigate = useNavigate();
   
   const [isEditing, setIsEditing] = useState(false);
   const [editedProfile, setEditedProfile] = useState({
@@ -74,30 +76,22 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
   };
 
   const handleLogout = async () => {
-    try {
-      // Sign out from Supabase
-      await signOut();
-      
-      // Clear local storage
-      localStorage.removeItem('hasCompletedOnboarding');
-      localStorage.removeItem('cotonNoirAppState');
-      localStorage.removeItem('hasCompletedProfileOnboarding');
-      localStorage.removeItem('hasSkippedProfileOnboarding');
-      
-      toast({
-        title: t('toast.logoutSuccess'),
-        description: t('toast.logoutSuccessDesc'),
-      });
-      
-      // Redirection automatique vers /auth gérée par CotonNoirApp
-    } catch (error) {
-      console.error('Logout error:', error);
-      toast({
-        title: 'Erreur',
-        description: 'Erreur lors de la déconnexion',
-        variant: 'destructive'
-      });
-    }
+    // Clear onboarding state
+    localStorage.removeItem('coton-noir-onboarding');
+    localStorage.removeItem('coton-noir-profile-onboarding');
+    localStorage.removeItem('coton-noir-profile-completed');
+    localStorage.removeItem('cotonNoirAppState');
+    
+    // Sign out from Supabase
+    await signOut();
+    
+    toast({
+      title: t('toast.logoutSuccess'),
+      description: t('toast.logoutSuccessDesc'),
+    });
+    
+    // Redirect to auth page
+    navigate('/auth');
   };
 
   const toggleDarkMode = (enabled: boolean) => {

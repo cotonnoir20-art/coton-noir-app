@@ -1,12 +1,24 @@
 import React, { useState } from 'react';
+import { Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { CotonCard } from '@/components/ui/coton-card';
-import { Eye, EyeOff, ArrowLeft } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
-import { useAuth } from '@/hooks/useAuth';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
+
+const signupSchema = z.object({
+  email: z.string().email('Email invalide'),
+  password: z.string().min(6, 'Le mot de passe doit contenir au moins 6 caractères'),
+  confirmPassword: z.string(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Les mots de passe ne correspondent pas",
+  path: ["confirmPassword"],
+});
+
+type SignupFormData = z.infer<typeof signupSchema>;
 
 interface SignupFormScreenProps {
   onNavigate: (screen: string) => void;
@@ -14,180 +26,185 @@ interface SignupFormScreenProps {
 }
 
 export function SignupFormScreen({ onNavigate, onSignupSuccess }: SignupFormScreenProps) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (password !== confirmPassword) {
-      toast({
-        variant: "destructive",
-        title: "Erreur",
-        description: "Les mots de passe ne correspondent pas"
-      });
-      return;
-    }
+  const form = useForm<SignupFormData>({
+    resolver: zodResolver(signupSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
+  });
 
-    if (password.length < 6) {
-      toast({
-        variant: "destructive",
-        title: "Erreur",
-        description: "Le mot de passe doit contenir au moins 6 caractères"
-      });
-      return;
-    }
-
+  const onSubmit = async (data: SignupFormData) => {
     setIsLoading(true);
+    try {
+      const { error } = await supabase.auth.signUp({
+        email: data.email,
+        password: data.password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/`,
+        },
+      });
 
-    const redirectUrl = `${window.location.origin}/`;
-    
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: redirectUrl
+      if (error) {
+        if (error.message.includes('User already registered')) {
+          toast({
+            title: "Compte existant",
+            description: "Un compte existe déjà avec cette adresse email.",
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Erreur",
+            description: error.message,
+            variant: "destructive",
+          });
+        }
+        return;
       }
-    });
 
-    setIsLoading(false);
-
-    if (error) {
       toast({
-        variant: "destructive",
-        title: "Erreur lors de l'inscription",
-        description: error.message
+        title: "Compte créé !",
+        description: "Vérifiez votre email pour confirmer votre compte.",
       });
-    } else {
-      toast({
-        title: "Compte créé avec succès !",
-        description: "Vérifiez votre email pour confirmer votre compte"
-      });
+      
       onSignupSuccess();
+    } catch (error) {
+      toast({
+        title: "Erreur",
+        description: "Une erreur inattendue s'est produite.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      {/* Header */}
-      <div className="bg-coton-black px-6 py-4 shadow-soft">
-        <div className="flex items-center gap-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => onNavigate('onboarding')}
-            className="text-white hover:bg-white/10"
-          >
-            <ArrowLeft size={20} />
-          </Button>
-          <h1 className="text-xl font-poppins font-semibold text-white">
-            Créer un compte
+    <div className="min-h-screen bg-coton-beige flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-poppins font-bold text-coton-black mb-2">
+            COTON NOIR
           </h1>
         </div>
-      </div>
 
-      {/* Content */}
-      <div className="flex-1 px-6 py-8">
-        <CotonCard className="p-8" variant="elevated">
-          <div className="space-y-6">
-            <div className="text-center space-y-2">
-              <h2 className="text-2xl font-poppins font-bold text-foreground">
-                Rejoins la famille Coton Noir
-              </h2>
-              <p className="text-muted-foreground font-roboto">
-                Quelques informations pour créer ton compte
-              </p>
-            </div>
+        {/* Main Card */}
+        <div className="bg-white rounded-lg shadow-card p-8">
+          <div className="text-center mb-6">
+            <h2 className="text-2xl font-poppins font-bold text-coton-black mb-2">
+              Créer un compte
+            </h2>
+            <p className="text-muted-foreground">
+              Rejoins la communauté Coton Noir et commence ton journey capillaire.
+            </p>
+          </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email">Adresse email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="ton-email@exemple.com"
-                  required
-                />
-              </div>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="Email"
+                        {...field}
+                        className="h-12"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-              <div className="space-y-2">
-                <Label htmlFor="password">Mot de passe</Label>
-                <div className="relative">
-                  <Input
-                    id="password"
-                    type={showPassword ? 'text' : 'password'}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Au moins 6 caractères"
-                    required
-                  />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                  </Button>
-                </div>
-              </div>
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Mot de passe</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Input
+                          type={showPassword ? 'text' : 'password'}
+                          placeholder="Mot de passe"
+                          {...field}
+                          className="h-12 pr-10"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                        >
+                          {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                        </button>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-              <div className="space-y-2">
-                <Label htmlFor="confirmPassword">Confirmer le mot de passe</Label>
-                <div className="relative">
-                  <Input
-                    id="confirmPassword"
-                    type={showConfirmPassword ? 'text' : 'password'}
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    placeholder="Retape ton mot de passe"
-                    required
-                  />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  >
-                    {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                  </Button>
-                </div>
-              </div>
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Confirmer le mot de passe</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Input
+                          type={showConfirmPassword ? 'text' : 'password'}
+                          placeholder="Confirmer le mot de passe"
+                          {...field}
+                          className="h-12 pr-10"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                        >
+                          {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                        </button>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
               <Button
                 type="submit"
-                variant="hero"
-                size="lg"
-                className="w-full"
+                className="w-full h-12 bg-coton-black text-white hover:bg-coton-black/90"
                 disabled={isLoading}
               >
-                {isLoading ? 'Création en cours...' : 'Créer mon compte'}
+                {isLoading ? 'Création...' : 'Créer un compte'}
               </Button>
             </form>
+          </Form>
 
-            <div className="text-center">
-              <p className="text-sm text-muted-foreground">
-                Déjà un compte ?{' '}
-                <Button
-                  variant="link"
-                  className="p-0 h-auto text-sm font-medium text-coton-rose hover:text-coton-rose/80"
-                  onClick={() => onNavigate('login')}
-                >
-                  Se connecter
-                </Button>
-              </p>
-            </div>
+          {/* Bottom Link */}
+          <div className="mt-6 text-center">
+            <span className="text-muted-foreground">Déjà un compte ? </span>
+            <button
+              type="button"
+              onClick={() => onNavigate('login')}
+              className="text-coton-black font-medium hover:underline"
+            >
+              Se connecter
+            </button>
           </div>
-        </CotonCard>
+        </div>
       </div>
     </div>
   );

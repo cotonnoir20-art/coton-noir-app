@@ -91,9 +91,9 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
              size="lg"
              onClick={handleNext}
              className="w-full"
-            >
-              {isLastSlide ? 'Créer mon compte' : 'Continuer'}
-            </Button>
+           >
+             {isLastSlide ? 'Créer mon compte' : 'Continuer'}
+           </Button>
         </div>
       </div>
     </div>

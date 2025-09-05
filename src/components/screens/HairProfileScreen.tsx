@@ -8,7 +8,6 @@ import { useApp } from '@/contexts/AppContext';
 import { useToast } from '@/hooks/use-toast';
 interface HairProfileScreenProps {
   onBack: () => void;
-  onComplete?: () => void;
 }
 const hairTypes = [{
   id: '3C',
@@ -70,8 +69,7 @@ const objectives = [
   'Routine sous coiffure protectrice'
 ];
 export function HairProfileScreen({
-  onBack,
-  onComplete
+  onBack
 }: HairProfileScreenProps) {
   const {
     state,
@@ -312,12 +310,7 @@ export function HairProfileScreen({
       });
     }
     
-    // Use onComplete if provided (during onboarding), otherwise use onBack
-    if (onComplete) {
-      onComplete();
-    } else {
-      onBack();
-    }
+    onBack();
   };
   return (
     <div className="pb-20 px-4 space-y-6 bg-background min-h-screen">
