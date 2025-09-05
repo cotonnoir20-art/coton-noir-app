@@ -86,13 +86,13 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
         
         {/* Actions */}
         <div className="mt-8 mb-safe-area-inset-bottom">
-            <Button
+           <Button
              variant="hero"
              size="lg"
              onClick={handleNext}
              className="w-full"
            >
-             {isLastSlide ? 'Créer mon compte' : 'Continuer'}
+             {isLastSlide ? 'Commencer' : 'Continuer'}
            </Button>
         </div>
       </div>

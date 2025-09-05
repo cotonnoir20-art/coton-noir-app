@@ -8,7 +8,7 @@ import { Lightbulb, Loader2, Sparkles } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
 interface ProfileOnboardingScreenProps {
-  onComplete: (completed: boolean) => void;
+  onComplete: () => void;
 }
 
 const hairTypes = [
@@ -157,17 +157,7 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
       }
     });
     
-    // Award 100 CotonCoins for completing profile
-    dispatch({
-      type: 'ADD_COINS',
-      amount: 100
-    });
-    
-    onComplete(true); // true = completed profile
-  };
-
-  const handleSkip = () => {
-    onComplete(false); // false = skipped profile
+    onComplete();
   };
 
   return (
@@ -398,8 +388,8 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
         </CotonCard>
       )}
 
-      {/* Boutons CTA */}
-      <div className="pb-6 space-y-3">
+      {/* Bouton CTA */}
+      <div className="pb-6">
         <Button
           variant="hero"
           size="lg"
@@ -407,16 +397,7 @@ export function ProfileOnboardingScreen({ onComplete }: ProfileOnboardingScreenP
           disabled={!isFormValid()}
           className="w-full"
         >
-          Valider mon profil capillaire
-        </Button>
-        
-        <Button
-          variant="outline"
-          size="lg"
-          onClick={handleSkip}
-          className="w-full"
-        >
-          Passer cette étape
+          Continuer → Créer mon compte
         </Button>
       </div>
     </div>

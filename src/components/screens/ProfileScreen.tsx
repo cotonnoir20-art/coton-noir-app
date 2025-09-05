@@ -32,8 +32,6 @@ import {
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { useAuth } from '@/hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
 
 interface ProfileScreenProps {
   onNavigate: (screen: string) => void;
@@ -43,8 +41,6 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
   const { state, dispatch } = useApp();
   const { toast } = useToast();
   const { t, language } = useLanguage();
-  const { signOut } = useAuth();
-  const navigate = useNavigate();
   
   const [isEditing, setIsEditing] = useState(false);
   const [editedProfile, setEditedProfile] = useState({
@@ -75,23 +71,15 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
     });
   };
 
-  const handleLogout = async () => {
-    // Clear onboarding state
-    localStorage.removeItem('coton-noir-onboarding');
-    localStorage.removeItem('coton-noir-profile-onboarding');
-    localStorage.removeItem('coton-noir-profile-completed');
+  const handleLogout = () => {
+    // Reset app state and go to onboarding
+    localStorage.removeItem('hasCompletedOnboarding');
     localStorage.removeItem('cotonNoirAppState');
-    
-    // Sign out from Supabase
-    await signOut();
-    
     toast({
       title: t('toast.logoutSuccess'),
       description: t('toast.logoutSuccessDesc'),
     });
-    
-    // Redirect to auth page
-    navigate('/auth');
+    onNavigate('onboarding');
   };
 
   const toggleDarkMode = (enabled: boolean) => {
