@@ -66,9 +66,31 @@ export function HairProfileScreen({
   const {
     toast
   } = useToast();
-  const [selectedHairType, setSelectedHairType] = useState(state.hairProfile.hairType);
-  const [selectedNeeds, setSelectedNeeds] = useState<string>(state.hairProfile.needs[0] || '');
-  const [selectedObjectives, setSelectedObjectives] = useState<string>(state.hairProfile.objectives[0] || '');
+  // Fonction pour mapper l'ancien profil vers le nouveau format
+  const getInitialHairType = (): string => {
+    if (state.detailedHairProfile.hairType) {
+      return state.detailedHairProfile.hairType;
+    }
+    // Mapper l'ancien format vers le nouveau
+    const oldToNewMapping: { [key in "crepu" | "boucle" | "locks" | "transition"]: string } = {
+      'crepu': '4C',
+      'boucle': '3C', 
+      'locks': '4B',
+      'transition': '4A'
+    };
+    return state.hairProfile.hairType ? oldToNewMapping[state.hairProfile.hairType] : '';
+  };
+
+  const [selectedHairType, setSelectedHairType] = useState(getInitialHairType());
+  const [selectedNeeds, setSelectedNeeds] = useState<string>(state.detailedHairProfile.needs?.[0] || state.hairProfile.needs[0] || '');
+  const [selectedObjectives, setSelectedObjectives] = useState<string>(
+    // Mapper les objectifs du détail vers l'objectif simple
+    state.detailedHairProfile.objective || 
+    (state.hairProfile.objectives[0] === 'Retrouver mes boucles naturelles' ? 'definition' : 
+     state.hairProfile.objectives[0] === 'Protéger mes cheveux sous coiffure' ? 'protection' :
+     state.hairProfile.objectives[0] === 'Réparer après décoloration' ? 'reparation' :
+     state.hairProfile.objectives[0] === 'Construire une routine simple et efficace' ? 'hydratation' : '')
+  );
   const toggleNeed = (needId: string) => {
     setSelectedNeeds(prev => prev === needId ? '' : needId);
   };
@@ -203,12 +225,35 @@ export function HairProfileScreen({
       return;
     }
     
-    const wasCompleted = state.hairProfile.isCompleted;
+    const wasDetailedCompleted = state.detailedHairProfile.isCompleted;
+    const wasBasicCompleted = state.hairProfile.isCompleted;
+    
+    // PRIORITÉ : Mettre à jour le profil détaillé (utilisé pour la routine IA)
+    dispatch({
+      type: 'UPDATE_DETAILED_HAIR_PROFILE',
+      profile: {
+        hairType: selectedHairType,
+        // Préserver les autres données détaillées existantes
+        porosity: state.detailedHairProfile.porosity || 'moyenne', // valeur par défaut
+        objective: selectedObjectives || state.detailedHairProfile.objective || 'hydratation',
+        problems: state.detailedHairProfile.problems || [],
+        needs: selectedNeeds ? [selectedNeeds] : state.detailedHairProfile.needs || [],
+        isCompleted: true
+      }
+    });
+
+    // Synchroniser aussi l'ancien profil pour compatibilité
+    const hairTypeMapping: { [key: string]: "crepu" | "boucle" | "locks" | "transition" } = {
+      '3C': 'boucle',
+      '4A': 'crepu', 
+      '4B': 'crepu',
+      '4C': 'crepu'
+    };
     
     dispatch({
       type: 'UPDATE_HAIR_PROFILE',
       profile: {
-        hairType: selectedHairType,
+        hairType: hairTypeMapping[selectedHairType] || 'crepu',
         needs: selectedNeeds ? [selectedNeeds] : [],
         objectives: selectedObjectives ? [selectedObjectives] : [],
         isCompleted: true
@@ -221,15 +266,15 @@ export function HairProfileScreen({
       amount: 5
     });
     
-    if (!wasCompleted) {
+    if (!wasDetailedCompleted && !wasBasicCompleted) {
       toast({
         title: "Profil complété ! ✨ +5 CC",
         description: "Ton profil capillaire a été enregistré avec succès !"
       });
     } else {
       toast({
-        title: "Profil mis à jour ! ✨ +5 CC",
-        description: "Tes modifications ont été sauvegardées !"
+        title: "Profil mis à jour ! ✨ +5 CC", 
+        description: "Tes modifications ont été sauvegardées - ta routine va se mettre à jour !"
       });
     }
     

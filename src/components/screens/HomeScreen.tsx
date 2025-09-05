@@ -134,7 +134,7 @@ export function HomeScreen({
     }
   };
 
-  // Générer la routine personnalisée avec l'API OpenAI
+  // Générer la routine personnalisée avec système hybride (API + fallback local)
   useEffect(() => {
     if (!state.detailedHairProfile.isCompleted) {
       setPersonalizedRoutine([]);
@@ -146,6 +146,7 @@ export function HomeScreen({
     const generateRoutine = async () => {
       setRoutineLoading(true);
       try {
+        // Tentative avec l'API OpenAI d'abord
         const { data, error } = await supabase.functions.invoke('generate-personalized-routine', {
           body: { profile: state.detailedHairProfile }
         });
@@ -156,17 +157,134 @@ export function HomeScreen({
         setPrioritySteps(data.prioritySteps || []);
         setRoutineTip(data.tip || '');
       } catch (error) {
-        console.error('Erreur lors de la génération de routine:', error);
-        // Routine de secours en cas d'erreur
-        setPersonalizedRoutine([
-          'Pré-poo nourrissant',
-          'Nettoyage doux adapté',
-          'Masque hydratant profond',
-          'Leave-in protecteur',
-          'Scellage avec huile légère'
-        ]);
-        setPrioritySteps([1, 2]);
-        setRoutineTip('Une routine simple est souvent la plus efficace.');
+        console.log('API indisponible, utilisation du système local intelligent:', error);
+        
+        // SYSTÈME DE FALLBACK LOCAL INTELLIGENT
+        // Priorité ABSOLUE aux données du profil capillaire détaillé
+        const profile = state.detailedHairProfile;
+        const { hairType, porosity, objective, problems = [], needs = [] } = profile;
+        
+        let steps: string[] = [];
+        let priorityIndices: number[] = [];
+        let tip = '';
+
+        // Génération basée sur le type ET la porosité (données prioritaires du profil)
+        if (hairType === '3C') {
+          if (porosity === 'faible') {
+            steps = ['Pré-poo aux huiles légères (jojoba, argan)', 'Shampoing sans sulfates doux', 'Masque hydratant léger', 'Leave-in crémeux léger', 'Gel définition pour boucles'];
+          } else if (porosity === 'moyenne') {
+            steps = ['Pré-poo nourrissant (avocat, coco)', 'Co-wash hydratant', 'Masque protéines/hydratation alterné', 'Crème leave-in équilibrée', 'Gel ou mousse définition'];
+          } else { // haute
+            steps = ['Pré-poo riche (beurre de karité)', 'Co-wash crémeux', 'Masque hydratant intensif', 'Crème riche nourrissante', 'Gel épais ou crème coiffante'];
+          }
+        } else if (hairType === '4A') {
+          if (porosity === 'faible') {
+            steps = ['Pré-poo léger ciblé', 'Shampoing clarifiant doux', 'Masque équilibré protéines/hydratation', 'Leave-in fluide pénétrant', 'Crème définition légère'];
+          } else if (porosity === 'moyenne') {
+            steps = ['Pré-poo aux beurres végétaux', 'Shampoing hydratant sans sulfates', 'Masque nourrissant profond', 'Leave-in crémeux riche', 'Beurre de karité + huile'];
+          } else { // haute
+            steps = ['Pré-poo ultra-riche overnight', 'Co-wash ou shampoing très doux', 'Masque réparateur intensif', 'Crème très épaisse', 'Scellage beurre + huile lourde'];
+          }
+        } else if (hairType === '4B') {
+          if (porosity === 'faible') {
+            steps = ['Massage stimulant cuir chevelu', 'Shampoing hydratant pénétrant', 'Masque protéiné léger', 'Leave-in riche mais fluide', 'Huile scellante légère'];
+          } else if (porosity === 'moyenne') {
+            steps = ['Pré-poo nourrissant 30min', 'Co-wash crémeux hydratant', 'Masque hydratant profond', 'Crème leave-in épaisse', 'Beurre de karité pur'];
+          } else { // haute
+            steps = ['Bain d\'huiles chaud 1h', 'Co-wash uniquement', 'Masque ultra-nourrissant', 'Crème très riche', 'Scellage beurre épais'];
+          }
+        } else if (hairType === '4C') {
+          if (porosity === 'faible') {
+            steps = ['Pré-poo prolongé avec chaleur', 'Shampoing très doux rare', 'Masque protéiné doux mensuel', 'Crème leave-in riche pénétrante', 'Huile + beurre léger'];
+          } else if (porosity === 'moyenne') {
+            steps = ['Bain d\'huiles chaud prolongé', 'Co-wash exclusivement', 'Masque réparateur bi-hebdomadaire', 'Crème très épaisse', 'Méthode LOC complète'];
+          } else { // haute
+            steps = ['Pré-poo overnight système', 'Co-wash ultra-doux', 'Masque ultra-hydratant quotidien', 'Crème la plus riche', 'Méthode LCO renforcée'];
+          }
+        }
+
+        // ADAPTATION PRIORITAIRE selon l'objectif du profil
+        if (objective === 'hydratation') {
+          steps[2] = 'Double masque hydratant intensif';
+          steps.push('Brumisateur hydratant quotidien');
+          priorityIndices.push(2, steps.length - 1);
+          tip = 'Focus hydratation : Utilisez la méthode LOC (Leave-in + Oil + Cream) pour sceller l\'hydratation sur vos cheveux de type ' + hairType + ' à porosité ' + porosity + '.';
+        } else if (objective === 'definition') {
+          steps.push('Technique plopping 20min');
+          steps[steps.length - 2] = 'Gel définition forte tenue adapté';
+          priorityIndices.push(steps.length - 2, steps.length - 1);
+          tip = 'Définition optimale : Appliquez vos produits sur cheveux très humides et évitez de les toucher pendant le séchage pour vos boucles ' + hairType + '.';
+        } else if (objective === 'pousse') {
+          steps.unshift('Massage stimulant cuir chevelu 5min');
+          steps.push('Traitement fortifiant pointes');
+          priorityIndices.push(0, steps.length - 1);
+          tip = 'Stimulation pousse : Massez quotidiennement votre cuir chevelu et protégez vos pointes fragiles pour maximiser la rétention de longueur.';
+        } else if (objective === 'reparation') {
+          steps[2] = 'Masque protéiné réparateur ciblé';
+          steps.splice(1, 0, 'Traitement protéiné léger hebdomadaire');
+          priorityIndices.push(1, 2);
+          tip = 'Réparation ciblée : Alternez entre protéines et hydratation selon les besoins spécifiques de vos cheveux ' + hairType + '.';
+        }
+
+        // ADAPTATIONS selon les problèmes spécifiques (PRIORITÉ MAXIMALE)
+        problems.forEach((problem, index) => {
+          switch(problem) {
+            case 'secheresse':
+              steps[2] = 'Masque hydratant ultra-nourrissant';
+              steps.push('Brumisateur hydratant quotidien');
+              priorityIndices.push(2);
+              break;
+            case 'casse':
+              steps.splice(1, 0, 'Traitement protéiné anti-casse');
+              steps.push('Soin réparateur pointes');
+              priorityIndices.push(1, steps.length - 1);
+              break;
+            case 'frisottis':
+              steps.push('Sérum anti-frisottis sans rinçage');
+              steps[3] = 'Leave-in lissant anti-frisottis';
+              priorityIndices.push(3, steps.length - 1);
+              break;
+            case 'demelage':
+              steps.splice(1, 0, 'Conditioner démêlant professionnel');
+              steps.push('Huile démêlante avant coiffage');
+              priorityIndices.push(1);
+              break;
+            case 'cuir_chevelu':
+              steps.unshift('Massage apaisant cuir chevelu');
+              steps[1] = 'Shampoing apaisant sans sulfates';
+              priorityIndices.push(0, 1);
+              break;
+            case 'chute':
+              steps.unshift('Massage anti-chute stimulant');
+              steps.push('Sérum fortifiant cuir chevelu');
+              priorityIndices.push(0, steps.length - 1);
+              break;
+          }
+        });
+
+        // Tip personnalisé selon les problèmes prioritaires
+        if (problems.length > 0) {
+          const mainProblem = problems[0];
+          const problemTips = {
+            'secheresse': `Hydratation priority : Avec votre porosité ${porosity}, sceller l'hydratation est crucial. Utilisez des produits riches et évitez les sulfates.`,
+            'casse': `Protection maximale : Vos cheveux ${hairType} sont fragiles. Dormez avec une taie en satin et manipulez délicatement.`,
+            'frisottis': `Contrôle frisottis : Pour vos cheveux ${hairType}, gardez-les toujours hydratés et évitez les frottements.`,
+            'demelage': `Démêlage facilité : Sur cheveux ${hairType}, démêlez toujours sur cheveux humides avec beaucoup de conditioner.`,
+            'cuir_chevelu': `Cuir chevelu sain : Massez régulièrement et utilisez des produits doux adaptés à votre sensibilité.`,
+            'chute': `Anti-chute actif : Stimulez la circulation et renforcez avec des soins protéinés doux mais réguliers.`
+          };
+          tip = problemTips[mainProblem as keyof typeof problemTips] || tip;
+        }
+
+        // Limiter à 6 étapes max et garder les priorités
+        if (steps.length > 6) {
+          steps = steps.slice(0, 6);
+          priorityIndices = priorityIndices.filter(i => i < 6);
+        }
+
+        setPersonalizedRoutine(steps);
+        setPrioritySteps(priorityIndices);
+        setRoutineTip(tip || `Routine adaptée à vos cheveux ${hairType} avec porosité ${porosity}. Restez consistante dans votre routine !`);
       } finally {
         setRoutineLoading(false);
       }
@@ -557,8 +675,17 @@ export function HomeScreen({
           <h3 className="font-poppins font-semibold text-lg">Ma routine recommandée ✨</h3>
           
           <CotonCard className="p-6 bg-gradient-to-r from-coton-rose/10 to-purple-50 space-y-4">
-            {/* Profile Summary */}
+            {/* Profile Summary avec indicateur de synchronisation */}
             <div className="space-y-3">
+              <div className="flex items-center justify-between mb-2">
+                <h4 className="text-sm font-poppins font-medium text-muted-foreground">
+                  Profil synchronisé
+                </h4>
+                <div className="flex items-center gap-1 text-xs text-green-600 font-medium">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  Mis à jour automatiquement
+                </div>
+              </div>
               <div className="flex flex-wrap gap-2 pb-4 border-b border-coton-rose/20">
                 {state.detailedHairProfile.hairType && (
                   <span className="px-3 py-1 bg-coton-rose/20 border border-coton-rose/30 rounded-full text-sm font-roboto font-semibold text-foreground">
