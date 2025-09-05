@@ -574,7 +574,7 @@ export function HairProfileScreen({
           </p>
         </div>
         
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
           {objectives.map((objective, index) => <CotonCard key={index} className={`p-4 cursor-pointer transition-all hover:scale-[1.02] ${selectedObjectives === objective ? 'ring-2 ring-coton-rose bg-coton-rose/10' : 'hover:shadow-soft'}`} onClick={() => toggleObjective(objective)}>
               <div className="flex items-center justify-between">
                 <span className="font-roboto text-sm text-foreground">
