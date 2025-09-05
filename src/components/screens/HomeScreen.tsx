@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import { Plus, Package, Users, Store, Video, Gift, Target, Sparkles, Check, Heart, Crown, Star, Sun, Zap, Music, Droplets, Diamond, TrendingUp, Calendar, Clock, Trophy, Flame, ChevronDown, ChevronRight } from 'lucide-react';
+import { Plus, Package, Users, Store, Video, Gift, Target, Sparkles, Check, Heart, Crown, Star, Sun, Zap, Music, Droplets, Diamond, TrendingUp, Calendar, Clock, Trophy, Flame, ChevronDown, ChevronRight, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CotonCard } from '@/components/ui/coton-card';
 import { ProgressBar } from '@/components/ui/progress-bar';
@@ -7,6 +7,7 @@ import { CoinAnimation, useCoinAnimation } from '@/components/ui/coin-animation'
 import { BadgeNotification, BadgeDisplay, useBadgeSystem } from '@/components/ui/badge-system';
 import { AIHairTip } from '@/components/ui/ai-hair-tip';
 import { useApp, Badge as BadgeType, DailyChallenge } from '@/contexts/AppContext';
+import { supabase } from '@/integrations/supabase/client';
 import { motion, AnimatePresence } from 'framer-motion';
 interface HomeScreenProps {
   onNavigate: (screen: string) => void;
@@ -24,6 +25,10 @@ export function HomeScreen({
   } = useApp();
   const [routineValidated, setRoutineValidated] = useState(false);
   const [challengesExpanded, setChallengesExpanded] = useState(true);
+  const [personalizedRoutine, setPersonalizedRoutine] = useState<string[]>([]);
+  const [prioritySteps, setPrioritySteps] = useState<number[]>([]);
+  const [routineTip, setRoutineTip] = useState<string>('');
+  const [routineLoading, setRoutineLoading] = useState(false);
 
   // Système d'animations et badges
   const {
@@ -129,127 +134,54 @@ export function HomeScreen({
     }
   };
 
-  // Generate personalized routine based on detailed profile
-  const personalizedRoutine = useMemo(() => {
-    if (!state.detailedHairProfile.isCompleted) return [];
-    const {
-      hairType,
-      porosity,
-      objective,
-      problems,
-      needs
-    } = state.detailedHairProfile;
-    let steps = [];
-
-    // Base routine according to hair type AND porosity
-    if (hairType === '3C') {
-      if (porosity === 'faible') {
-        steps = ['Pré-poo aux huiles légères', 'Shampoing sans sulfates', 'Masque hydratant léger', 'Leave-in crémeux', 'Gel définition pour boucles'];
-      } else if (porosity === 'moyenne') {
-        steps = ['Pré-poo nourrissant', 'Co-wash hydratant', 'Masque protéines/hydratation', 'Crème leave-in', 'Gel ou mousse définition'];
-      } else {
-        steps = ['Pré-poo riche en huiles', 'Co-wash crémeux', 'Masque hydratant intensif', 'Crème riche', 'Gel épais ou crème coiffante'];
-      }
-    } else if (hairType === '4A') {
-      if (porosity === 'faible') {
-        steps = ['Pré-poo léger', 'Shampoing clarifiant doux', 'Masque équilibré', 'Leave-in fluide', 'Crème définition légère'];
-      } else if (porosity === 'moyenne') {
-        steps = ['Pré-poo aux beurres', 'Shampoing hydratant', 'Masque nourrissant', 'Leave-in crémeux', 'Beurre de karité + huile'];
-      } else {
-        steps = ['Pré-poo riche', 'Co-wash ou shampoing doux', 'Masque réparateur intensif', 'Crème épaisse', 'Scellage beurre + huile'];
-      }
-    } else if (hairType === '4B') {
-      if (porosity === 'faible') {
-        steps = ['Massage cuir chevelu', 'Shampoing hydratant', 'Masque protéiné léger', 'Leave-in riche', 'Huile scellante'];
-      } else if (porosity === 'moyenne') {
-        steps = ['Pré-poo nourrissant', 'Co-wash crémeux', 'Masque hydratant profond', 'Crème leave-in épaisse', 'Beurre de karité'];
-      } else {
-        steps = ['Bain d\'huiles', 'Co-wash uniquement', 'Masque ultra-nourrissant', 'Crème très riche', 'Scellage beurre épais'];
-      }
-    } else if (hairType === '4C') {
-      if (porosity === 'faible') {
-        steps = ['Pré-poo prolongé', 'Shampoing très doux', 'Masque protéiné doux', 'Crème leave-in riche', 'Huile + beurre léger'];
-      } else if (porosity === 'moyenne') {
-        steps = ['Bain d\'huiles chaud', 'Co-wash exclusivement', 'Masque réparateur', 'Crème épaisse', 'Méthode LOC (leave-in + huile + crème)'];
-      } else {
-        steps = ['Pré-poo overnight', 'Co-wash doux', 'Masque ultra-hydratant', 'Crème très épaisse', 'Méthode LCO (leave-in + crème + huile)'];
-      }
+  // Générer la routine personnalisée avec l'API OpenAI
+  useEffect(() => {
+    if (!state.detailedHairProfile.isCompleted) {
+      setPersonalizedRoutine([]);
+      setPrioritySteps([]);
+      setRoutineTip('');
+      return;
     }
 
-    // Adapt based on objective
-    if (objective === 'hydratation') {
-      steps.splice(2, 1, 'Double masque hydratant');
-      if (!steps.some(s => s.includes('hydrat'))) {
-        steps.push('Spray hydratant quotidien');
-      }
-    } else if (objective === 'definition') {
-      steps.push('Technique plopping après application');
-      steps = steps.map(s => s.includes('Gel') ? 'Gel définition forte tenue' : s);
-    } else if (objective === 'pousse') {
-      steps.unshift('Massage stimulant cuir chevelu');
-      if (!steps.some(s => s.includes('protéin'))) {
-        steps.splice(-1, 0, 'Traitement fortifiant');
-      }
-    } else if (objective === 'reparation') {
-      steps.splice(1, 0, 'Traitement protéiné réparateur');
-      steps = steps.map(s => s.includes('Masque') ? 'Masque réparateur intensif' : s);
-    }
+    const generateRoutine = async () => {
+      setRoutineLoading(true);
+      try {
+        const { data, error } = await supabase.functions.invoke('generate-personalized-routine', {
+          body: { profile: state.detailedHairProfile }
+        });
 
-    // Adapt based on problems
-    if (problems.includes('secheresse')) {
-      steps = steps.map(s => s.includes('Masque') ? 'Masque hydratant ultra-nourrissant' : s);
-      steps.push('Brumisateur hydratant quotidien');
-    }
-    if (problems.includes('casse')) {
-      steps.splice(1, 0, 'Traitement protéiné fortifiant');
-      steps.push('Soin anti-casse sur pointes');
-    }
-    if (problems.includes('frisottis')) {
-      steps.push('Sérum anti-frisottis sans rinçage');
-      steps = steps.map(s => s.includes('Leave-in') ? 'Leave-in lissant anti-frisottis' : s);
-    }
-    if (problems.includes('demelage')) {
-      steps.splice(1, 0, 'Conditioner démêlant');
-      steps.push('Huile démêlante avant coiffage');
-    }
-    if (problems.includes('cuir_chevelu')) {
-      steps.unshift('Massage apaisant cuir chevelu');
-      steps.splice(1, 0, 'Shampoing apaisant sans sulfates');
-    }
-    if (problems.includes('chute')) {
-      steps.unshift('Massage anti-chute stimulant');
-      steps.push('Sérum fortifiant cuir chevelu');
-    }
+        if (error) throw error;
 
-    // Adapt based on specific needs
-    if (needs.includes('hydratation')) {
-      if (!steps.some(s => s.includes('hydrat'))) {
-        steps.splice(-1, 0, 'Masque hydratant hebdomadaire');
+        setPersonalizedRoutine(data.steps || []);
+        setPrioritySteps(data.prioritySteps || []);
+        setRoutineTip(data.tip || '');
+      } catch (error) {
+        console.error('Erreur lors de la génération de routine:', error);
+        // Routine de secours en cas d'erreur
+        setPersonalizedRoutine([
+          'Pré-poo nourrissant',
+          'Nettoyage doux adapté',
+          'Masque hydratant profond',
+          'Leave-in protecteur',
+          'Scellage avec huile légère'
+        ]);
+        setPrioritySteps([1, 2]);
+        setRoutineTip('Une routine simple est souvent la plus efficace.');
+      } finally {
+        setRoutineLoading(false);
       }
-    }
-    if (needs.includes('definition')) {
-      steps.push('Crème définition + gel fixation');
-      steps.push('Technique scrunching');
-    }
-    if (needs.includes('brillance')) {
-      steps.push('Sérum brillance finition');
-      steps.push('Rinçage eau froide final');
-    }
-    if (needs.includes('pousse')) {
-      if (!steps.some(s => s.includes('Massage'))) {
-        steps.unshift('Massage stimulant 5min');
-      }
-      steps.push('Soin fortifiant pointes');
-    }
-    if (needs.includes('reparation')) {
-      steps.splice(2, 0, 'Masque protéines/hydratation alterné');
-    }
-    if (needs.includes('protection')) {
-      steps.push('Protection thermique si chaleur');
-      steps.push('Satin/soie pour dormir');
-    }
-    return steps.slice(0, 6); // Allow up to 6 steps for comprehensive care
-  }, [state.detailedHairProfile]);
+    };
+
+    generateRoutine();
+  }, [
+    state.detailedHairProfile.isCompleted,
+    state.detailedHairProfile.hairType,
+    state.detailedHairProfile.porosity,
+    state.detailedHairProfile.objective,
+    JSON.stringify(state.detailedHairProfile.problems),
+    JSON.stringify(state.detailedHairProfile.needs)
+  ]);
+
   const handleValidateRoutine = () => {
     if (routineValidated) return;
     setRoutineValidated(true);
@@ -620,7 +552,7 @@ export function HomeScreen({
           </CotonCard>
         </div>
       </div>
-      {state.detailedHairProfile.isCompleted && personalizedRoutine.length > 0 && (
+      {state.detailedHairProfile.isCompleted && (
         <div key={`routine-${state.detailedHairProfile.hairType}-${state.detailedHairProfile.porosity}-${state.detailedHairProfile.objective}-${state.detailedHairProfile.problems?.join(',')}-${state.detailedHairProfile.needs?.join(',')}`} className="space-y-4">
           <h3 className="font-poppins font-semibold text-lg">Ma routine recommandée ✨</h3>
           
@@ -656,86 +588,75 @@ export function HomeScreen({
               </div>
             </div>
             
-            {/* Routine Steps with Priority Indicators */}
-            <div className="space-y-3">
-              {personalizedRoutine.slice(0, 4).map((step, index) => {
-                // Determine priority based on step content and user problems
-                const isHighPriority = state.detailedHairProfile.problems && state.detailedHairProfile.problems.some(problem =>
-                  (problem === 'secheresse' && step.toLowerCase().includes('hydrat')) ||
-                  (problem === 'casse' && step.toLowerCase().includes('protéin')) ||
-                  (problem === 'frisottis' && step.toLowerCase().includes('anti-frisottis')) ||
-                  (problem === 'demelage' && step.toLowerCase().includes('démêl')) ||
-                  (problem === 'cuir_chevelu' && step.toLowerCase().includes('cuir chevelu')) ||
-                  (problem === 'chute' && step.toLowerCase().includes('anti-chute'))
-                );
-
-                return (
-                  <div key={index} className={`flex items-center gap-3 p-3 rounded-lg transition-all ${
-                    isHighPriority 
-                      ? 'bg-gradient-to-r from-coton-rose/20 to-red-50 border border-red-200' 
-                      : 'bg-white/60 border border-gray-200'
-                  }`}>
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm ${
-                      isHighPriority ? 'bg-red-500' : 'bg-coton-rose'
-                    }`}>
-                      {isHighPriority ? '!' : index + 1}
-                    </div>
-                    <div className="flex-1">
-                      <span className={`font-roboto text-sm ${isHighPriority ? 'font-semibold text-red-900' : 'text-foreground'}`}>
-                        {step}
-                      </span>
-                      {isHighPriority && (
-                        <div className="text-xs text-red-700 mt-1 font-medium">
-                          ⚡ Action prioritaire pour tes problématiques
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-              
-              {personalizedRoutine.length > 4 && (
-                <button 
-                  onClick={() => onNavigate('detailed-routine')} 
-                  className="w-full p-3 rounded-lg bg-coton-rose/20 border-2 border-dashed border-coton-rose hover:bg-coton-rose/30 transition-colors"
-                >
-                  <span className="font-roboto text-sm text-foreground font-semibold">
-                    Voir la routine complète (+{personalizedRoutine.length - 4} étapes)
-                  </span>
-                </button>
-              )}
-            </div>
-            
-            {/* CotonTips */}
-            <div className="mt-3 p-4 rounded-lg bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-5 h-5 bg-amber-400 rounded-full flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">💡</span>
-                </div>
-                <h4 className="font-poppins font-semibold text-amber-800 text-sm">CotonTips</h4>
+            {/* Loading State */}
+            {routineLoading && (
+              <div className="text-center py-8">
+                <Loader2 className="animate-spin mx-auto text-coton-rose mb-3" size={32} />
+                <p className="text-sm text-muted-foreground font-roboto">
+                  Génération de votre routine personnalisée...
+                </p>
               </div>
-              <p className="text-xs font-roboto text-amber-900 leading-relaxed">
-                {(() => {
-                  const { hairType, porosity, objective, problems, needs } = state.detailedHairProfile;
-                  
-                  // Priority tips based on problems
-                  if (problems?.includes('secheresse')) {
-                    return "Astuce hydratation : Scelle toujours tes cheveux avec une huile ou un beurre après ton leave-in pour maintenir l'hydratation plus longtemps 💧";
-                  }
-                  if (problems?.includes('casse')) {
-                    return "Astuce anti-casse : Dors avec une taie d'oreiller en satin ou soie pour réduire les frictions et protéger tes cheveux 🛡️";
-                  }
-                  if (problems?.includes('demelage')) {
-                    return "Astuce démêlage : Démêle toujours sur cheveux humides avec un conditioner et commence par les pointes vers les racines ✨";
-                  }
-                  if (problems?.includes('frisottis')) {
-                    return "Astuce anti-frisottis : Évite de toucher tes cheveux une fois qu'ils sèchent et utilise un diffuseur à basse température 🌀";
-                  }
-                  
-                  return "Astuce générale : Écoute tes cheveux ! Observe comment ils réagissent aux produits pour ajuster ta routine 🌸";
-                })()}
-              </p>
-            </div>
+            )}
+
+            {/* Routine Steps with Priority Indicators */}
+            {!routineLoading && personalizedRoutine.length > 0 && (
+              <div className="space-y-3">
+                {personalizedRoutine.slice(0, 4).map((step, index) => {
+                  // Determine if this step is marked as priority by the API
+                  const isHighPriority = prioritySteps.includes(index);
+
+                  return (
+                    <div key={index} className={`flex items-center gap-3 p-3 rounded-lg transition-all ${
+                      isHighPriority 
+                        ? 'bg-gradient-to-r from-coton-rose/20 to-red-50 border border-red-200' 
+                        : 'bg-white/60 border border-gray-200'
+                    }`}>
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm ${
+                        isHighPriority ? 'bg-red-500' : 'bg-coton-rose'
+                      }`}>
+                        {isHighPriority ? '!' : index + 1}
+                      </div>
+                      <div className="flex-1">
+                        <span className={`font-roboto text-sm ${isHighPriority ? 'font-semibold text-red-900' : 'text-foreground'}`}>
+                          {step}
+                        </span>
+                        {isHighPriority && (
+                          <div className="text-xs text-red-700 mt-1 font-medium">
+                            ⚡ Étape prioritaire personnalisée pour vous
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+                
+                {personalizedRoutine.length > 4 && (
+                  <button 
+                    onClick={() => onNavigate('detailed-routine')} 
+                    className="w-full p-3 rounded-lg bg-coton-rose/20 border-2 border-dashed border-coton-rose hover:bg-coton-rose/30 transition-colors"
+                  >
+                    <span className="font-roboto text-sm text-foreground font-semibold">
+                      Voir la routine complète (+{personalizedRoutine.length - 4} étapes)
+                    </span>
+                  </button>
+                )}
+              </div>
+            )}
+            
+            {/* CotonTips - Using API generated tip */}
+            {!routineLoading && routineTip && (
+              <div className="mt-3 p-4 rounded-lg bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-5 h-5 bg-amber-400 rounded-full flex items-center justify-center">
+                    <span className="text-white text-xs font-bold">💡</span>
+                  </div>
+                  <h4 className="font-poppins font-semibold text-amber-800 text-sm">CotonTips IA</h4>
+                </div>
+                <p className="text-xs font-roboto text-amber-900 leading-relaxed">
+                  {routineTip}
+                </p>
+              </div>
+            )}
           </CotonCard>
         </div>
       )}
