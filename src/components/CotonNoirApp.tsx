@@ -88,13 +88,18 @@ export default function CotonNoirApp() {
     } else if (hasCompletedOnboarding && !hasCompletedProfile) {
       // User completed onboarding but not profile setup
       setCurrentScreen('profile-onboarding');
-    } else if (!hasCompletedOnboarding) {
-      // User hasn't completed onboarding yet - start from splash
-      setCurrentScreen('splash-init');
     } else {
-      // Fallback to home for any edge case
+      // For existing users (login) or users without onboarding - go directly to home
+      // This ensures returning users don't go through onboarding again
       setCurrentScreen('home');
       setActiveTab('home');
+      // Mark onboarding as completed for existing users
+      if (!hasCompletedOnboarding) {
+        localStorage.setItem('coton-noir-onboarding', 'true');
+      }
+      if (!hasCompletedProfile) {
+        localStorage.setItem('coton-noir-profile-onboarding', 'true');
+      }
     }
 
     // Listen for navigation events
