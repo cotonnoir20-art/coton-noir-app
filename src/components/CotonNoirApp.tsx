@@ -82,8 +82,9 @@ export default function CotonNoirApp() {
       // Clear the flow parameter
       window.history.replaceState({}, '', window.location.pathname);
     } else if (hasCompletedOnboarding && hasCompletedProfile) {
-      // User has completed both onboarding steps - go to home
+      // User has completed both onboarding steps - go directly to home
       setCurrentScreen('home');
+      setActiveTab('home');
     } else if (hasCompletedOnboarding && !hasCompletedProfile) {
       // User completed onboarding but not profile setup
       setCurrentScreen('profile-onboarding');
@@ -93,6 +94,7 @@ export default function CotonNoirApp() {
     } else {
       // Fallback to home for any edge case
       setCurrentScreen('home');
+      setActiveTab('home');
     }
 
     // Listen for navigation events
