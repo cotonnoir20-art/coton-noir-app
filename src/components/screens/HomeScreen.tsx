@@ -624,30 +624,6 @@ export function HomeScreen({
         <div key={`routine-${state.detailedHairProfile.hairType}-${state.detailedHairProfile.porosity}-${state.detailedHairProfile.objective}-${state.detailedHairProfile.problems?.join(',')}-${state.detailedHairProfile.needs?.join(',')}`} className="space-y-4">
           <h3 className="font-poppins font-semibold text-lg">Ma routine recommandée ✨</h3>
           
-          {/* Priority Problems Alert */}
-          {state.detailedHairProfile.problems && state.detailedHairProfile.problems.length > 0 && (
-            <CotonCard className="p-4 bg-gradient-to-r from-red-50 to-orange-50 border-l-4 border-red-400">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">!</span>
-                </div>
-                <h4 className="font-poppins font-semibold text-red-800 text-sm">Problématiques prioritaires</h4>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {state.detailedHairProfile.problems.map((problem, index) => (
-                  <span key={index} className="px-3 py-1 bg-red-100 border border-red-300 rounded-full text-xs font-roboto text-red-800">
-                    {problem === 'secheresse' ? '💧 Sécheresse' :
-                     problem === 'casse' ? '💔 Casse' :
-                     problem === 'frisottis' ? '🌀 Frisottis' :
-                     problem === 'demelage' ? '🪢 Démêlage difficile' :
-                     problem === 'cuir_chevelu' ? '🔴 Cuir chevelu irrité' :
-                     problem === 'chute' ? '🍂 Chute' : problem}
-                  </span>
-                ))}
-              </div>
-            </CotonCard>
-          )}
-
           <CotonCard className="p-6 bg-gradient-to-r from-coton-rose/10 to-purple-50 space-y-4">
             {/* Profile Summary */}
             <div className="space-y-3">
