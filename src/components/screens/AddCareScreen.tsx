@@ -24,7 +24,7 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
     if (!title.trim()) {
       toast({
         title: "Erreur",
-        description: "Veuillez entrer un titre pour votre soin",
+        description: "Merci d'entrer un titre pour ton soin",
         variant: "destructive"
       });
       return;
@@ -50,7 +50,7 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
       // Show success toast
       toast({
         title: `Bravo ✨ +${reward} CC gagnés !`,
-        description: `Votre ${type} a été ajouté${type === 'routine' ? 'e' : ''} au journal`,
+        description: `Ta ${type} a été ajouté${type === 'routine' ? 'e' : ''} au journal`,
       });
       
       onBack();
@@ -153,7 +153,7 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
             <Textarea
               value={note}
               onChange={(e) => setNote(e.target.value)}
-              placeholder="Décrivez votre soin, les produits utilisés, vos impressions..."
+              placeholder="Décris ton soin, les produits utilisés, tes impressions..."
               rows={4}
               className="rounded-lg text-sm sm:text-base"
             />

@@ -122,7 +122,7 @@ export function EnhancedOnboardingScreen({ onComplete }: EnhancedOnboardingScree
     
     toast({
       title: "Profil complété ! 🎉 +200 CC",
-      description: "Votre routine personnalisée vous attend !"
+      description: "Ta routine personnalisée t'attend !"
     });
 
     onComplete();
@@ -211,10 +211,10 @@ export function EnhancedOnboardingScreen({ onComplete }: EnhancedOnboardingScree
             <CotonCard className="p-6">
               <div className="text-center mb-6">
                 <h2 className="font-poppins font-bold text-lg mb-2">
-                  Quel est votre type de cheveux ?
+                  Quel est ton type de cheveux ?
                 </h2>
                 <p className="text-sm text-muted-foreground">
-                  Cette information nous aide à créer votre routine parfaite
+                  Cette information nous aide à créer ta routine parfaite
                 </p>
               </div>
 
@@ -251,7 +251,7 @@ export function EnhancedOnboardingScreen({ onComplete }: EnhancedOnboardingScree
             <CotonCard className="p-6">
               <div className="text-center mb-6">
                 <h2 className="font-poppins font-bold text-lg mb-2">
-                  Quelle est votre porosité ?
+                  Quelle est ta porosité ?
                 </h2>
                 <p className="text-sm text-muted-foreground">
                   Test simple: mouillez une mèche, observe la vitesse d'absorption
@@ -291,10 +291,10 @@ export function EnhancedOnboardingScreen({ onComplete }: EnhancedOnboardingScree
             <CotonCard className="p-6">
               <div className="text-center mb-6">
                 <h2 className="font-poppins font-bold text-lg mb-2">
-                  Quel est votre objectif principal ?
+                  Quel est ton objectif principal ?
                 </h2>
                 <p className="text-sm text-muted-foreground">
-                  Choisissez votre priorité pour personnaliser votre routine
+                  Choisis ta priorité pour personnaliser ta routine
                 </p>
               </div>
 
@@ -324,10 +324,10 @@ export function EnhancedOnboardingScreen({ onComplete }: EnhancedOnboardingScree
             <CotonCard className="p-6">
               <div className="text-center mb-6">
                 <h2 className="font-poppins font-bold text-lg mb-2">
-                  Quels sont vos problèmes actuels ?
+                  Quels sont tes problèmes actuels ?
                 </h2>
                 <p className="text-sm text-muted-foreground">
-                  Sélectionnez tous ceux qui vous concernent (plusieurs choix possibles)
+                  Sélectionne tous ceux qui te concernent (plusieurs choix possibles)
                 </p>
               </div>
 
@@ -359,10 +359,10 @@ export function EnhancedOnboardingScreen({ onComplete }: EnhancedOnboardingScree
             <CotonCard className="p-6">
               <div className="text-center mb-6">
                 <h2 className="font-poppins font-bold text-lg mb-2">
-                  De quoi vos cheveux ont-ils besoin ?
+                  De quoi tes cheveux ont-ils besoin ?
                 </h2>
                 <p className="text-sm text-muted-foreground">
-                  Sélectionnez vos priorités (plusieurs choix possibles)
+                  Sélectionne tes priorités (plusieurs choix possibles)
                 </p>
               </div>
 
@@ -395,11 +395,11 @@ export function EnhancedOnboardingScreen({ onComplete }: EnhancedOnboardingScree
                   className="mt-6 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200"
                 >
                   <h3 className="font-poppins font-semibold mb-2 text-purple-700">
-                    🎉 Voici ce que vous obtiendrez :
+                    🎉 Voici ce que tu obtiendras :
                   </h3>
                   <ul className="space-y-1 text-sm text-purple-600">
                     <li>✨ Routine personnalisée en 3-6 étapes</li>
-                    <li>💡 CotonTips adaptés à votre profil</li>
+                    <li>💡 CotonTips adaptés à ton profil</li>
                     <li>📈 Suivi de progression intelligent</li>
                     <li>🏆 Défis quotidiens personnalisés</li>
                     <li>🪙 +200 CotonCoins de bienvenue !</li>

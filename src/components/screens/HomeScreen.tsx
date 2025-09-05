@@ -218,13 +218,13 @@ export function HomeScreen({
           steps.push('Traitement fortifiant pointes');
           steps.push('Huile de ricin sur cuir chevelu 2x/semaine');
           priorityIndices.push(0, steps.length - 2, steps.length - 1);
-          tip = 'Stimulation pousse : Massez quotidiennement votre cuir chevelu avec des huiles stimulantes et protégez vos pointes fragiles pour maximiser la rétention de longueur.';
+          tip = 'Stimulation pousse : Masse quotidiennement ton cuir chevelu avec des huiles stimulantes et protège tes pointes fragiles pour maximiser la rétention de longueur.';
         } else if (objective === 'souplesse') {
           steps[2] = 'Masque assouplissant à base de miel';
           steps.push('Leave-in assouplissant sans rinçage');
           steps.push('Technique étirement doux sur cheveux humides');
           priorityIndices.push(2, steps.length - 2, steps.length - 1);
-          tip = 'Améliorer la souplesse : Les masques à base de miel et glycérine aident à assouplir vos cheveux ' + hairType + '. Évitez la manipulation excessive.';
+          tip = 'Améliorer la souplesse : Les masques à base de miel et glycérine aident à assouplir tes cheveux ' + hairType + '. Évite la manipulation excessive.';
         } else if (objective === 'sante') {
           steps.splice(1, 0, 'Clarification mensuelle douce');
           steps[3] = 'Masque équilibré protéines/hydratation';
@@ -238,7 +238,7 @@ export function HomeScreen({
           steps.push('Soin anti-casse décoloration');
           steps.push('Protection couleur UV');
           priorityIndices.push(1, 3, steps.length - 2, steps.length - 1);
-          tip = 'Soins décoloration : Reconstruisez la structure avec des protéines, maintenez l\'hydratation et protégez vos pigments du soleil.';
+          tip = 'Soins décoloration : Reconstruis la structure avec des protéines, maintiens l\'hydratation et protège tes pigments du soleil.';
         } else if (objective === 'protection') {
           steps.unshift('Préparation coiffure protectrice');
           steps.push('Hydratation intensive avant tressage');
@@ -253,7 +253,7 @@ export function HomeScreen({
           steps.push('Huile nourrissante cuir chevelu');
           steps.push('Surveillance état coiffure');
           priorityIndices.push(0, 1, steps.length - 3, steps.length - 2, steps.length - 1);
-          tip = 'Routine sous protective styles : Maintenez l\'hygiène du cuir chevelu, hydratez les zones accessibles et surveillez l\'état de votre coiffure pour éviter les dommages.';
+          tip = 'Routine sous protective styles : Maintiens l\'hygiène du cuir chevelu, hydrate les zones accessibles et surveille l\'état de ta coiffure pour éviter les dommages.';
         }
 
         // ADAPTATIONS selon les problèmes spécifiques (PRIORITÉ MAXIMALE)
@@ -314,7 +314,7 @@ export function HomeScreen({
 
         setPersonalizedRoutine(steps);
         setPrioritySteps(priorityIndices);
-        setRoutineTip(tip || `Routine adaptée à vos cheveux ${hairType} avec porosité ${porosity}. Restez consistante dans votre routine !`);
+        setRoutineTip(tip || `Routine adaptée à tes cheveux ${hairType} avec porosité ${porosity}. Reste consistante dans ta routine !`);
       } finally {
         setRoutineLoading(false);
       }
@@ -755,7 +755,7 @@ export function HomeScreen({
               <div className="text-center py-8">
                 <Loader2 className="animate-spin mx-auto text-coton-rose mb-3" size={32} />
                 <p className="text-sm text-muted-foreground font-roboto">
-                  Génération de votre routine personnalisée...
+                  Génération de ta routine personnalisée...
                 </p>
               </div>
             )}
@@ -784,7 +784,7 @@ export function HomeScreen({
                         </span>
                         {isHighPriority && (
                           <div className="text-xs text-red-700 mt-1 font-medium">
-                            ⚡ Étape prioritaire personnalisée pour vous
+                            ⚡ Étape prioritaire personnalisée pour toi
                           </div>
                         )}
                       </div>
@@ -906,7 +906,7 @@ export function HomeScreen({
                   {nextLevel.emoji} Niveau maximum atteint !
                 </p>
                 <p className="font-roboto text-muted-foreground">
-                  Vous êtes une {nextLevel.name} - Félicitations ! 🎉
+                  Tu es une {nextLevel.name} - Félicitations ! 🎉
                 </p>
               </div>
             ) : (

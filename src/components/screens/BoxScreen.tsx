@@ -24,7 +24,7 @@ export function BoxScreen({ onNavigate }: BoxScreenProps) {
       
       toast({
         title: "Box Digitale débloquée ! 🎉",
-        description: "Vous avez maintenant accès aux fichiers exclusifs",
+        description: "Tu as maintenant accès aux fichiers exclusifs",
       });
     }
   };
@@ -40,7 +40,7 @@ export function BoxScreen({ onNavigate }: BoxScreenProps) {
               Box Digitale Débloquée
             </h2>
             <p className="font-roboto text-muted-foreground">
-              Vos fichiers exclusifs sont disponibles dans votre Journal sous l'onglet "Achats"
+              Tes fichiers exclusifs sont disponibles dans ton Journal sous l'onglet "Achats"
             </p>
           </div>
           
@@ -153,7 +153,7 @@ export function BoxScreen({ onNavigate }: BoxScreenProps) {
             <div className="text-2xl">📅</div>
             <div>
               <div className="font-poppins font-medium">Planning personnalisé</div>
-              <div className="text-sm text-muted-foreground font-roboto">Adapté à votre type</div>
+              <div className="text-sm text-muted-foreground font-roboto">Adapté à ton type</div>
             </div>
           </div>
         </div>

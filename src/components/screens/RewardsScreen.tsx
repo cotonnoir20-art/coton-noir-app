@@ -341,13 +341,13 @@ export function RewardsScreen({ onBack }: RewardsScreenProps) {
       <CotonCard className="p-4 bg-blue-50 border-blue-200">
         <div className="space-y-2">
           <h3 className="font-poppins font-semibold text-blue-800 flex items-center gap-2">
-            💡 Conseils pour maximiser vos gains
+            💡 Conseils pour maximiser tes gains
           </h3>
           <ul className="text-sm text-blue-700 space-y-1 font-roboto">
-            <li>• Connectez-vous chaque jour pour le bonus quotidien</li>
-            <li>• Complétez vos défis pour des récompenses bonus</li>
-            <li>• Maintenez votre streak pour des récompenses progressives</li>
-            <li>• Ajoutez régulièrement vos soins pour accumuler des points</li>
+            <li>• Connecte-toi chaque jour pour le bonus quotidien</li>
+            <li>• Complète tes défis pour des récompenses bonus</li>
+            <li>• Maintiens ton streak pour des récompenses progressives</li>
+            <li>• Ajoute régulièrement tes soins pour accumuler des points</li>
           </ul>
         </div>
       </CotonCard>

@@ -20,7 +20,7 @@ export function CommunityScreen({ onNavigate }: CommunityScreenProps) {
     dispatch({ type: 'JOIN_CHALLENGE' });
     toast({
       title: "Challenge rejoint ! 🎉",
-      description: "Vous participez maintenant au #NoHeat30days",
+      description: "Tu participes maintenant au #NoHeat30days",
     });
   };
   
@@ -43,7 +43,7 @@ export function CommunityScreen({ onNavigate }: CommunityScreenProps) {
       <div className="text-center space-y-2">
         <h2 className="font-poppins font-bold text-2xl">Communauté</h2>
         <p className="font-roboto text-muted-foreground">
-          Participez aux challenges et partagez votre parcours
+          Participe aux challenges et partage ton parcours
         </p>
       </div>
       
@@ -62,7 +62,7 @@ export function CommunityScreen({ onNavigate }: CommunityScreenProps) {
         <div className="bg-coton-beige rounded-lg p-4">
           <h4 className="font-poppins font-semibold mb-2">Le défi :</h4>
           <p className="font-roboto text-sm text-muted-foreground mb-3">
-            30 jours sans sources de chaleur directe sur vos cheveux. 
+            30 jours sans sources de chaleur directe sur tes cheveux. 
             Découvrez des coiffures naturelles et protectrices !
           </p>
           
@@ -129,7 +129,7 @@ export function CommunityScreen({ onNavigate }: CommunityScreenProps) {
                   // Simulate sharing
                   toast({
                     title: "Partagé !",
-                    description: "Votre progression a été partagée avec la communauté",
+                    description: "Ta progression a été partagée avec la communauté",
                   });
                 }}
                 className="flex-1"
@@ -145,7 +145,7 @@ export function CommunityScreen({ onNavigate }: CommunityScreenProps) {
                   Félicitations ! 🎉
                 </h4>
                 <p className="font-roboto text-sm text-success">
-                  Vous avez terminé le challenge #NoHeat30days !
+                  Tu as terminé le challenge #NoHeat30days !
                 </p>
               </div>
             )}

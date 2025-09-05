@@ -34,7 +34,7 @@ const tutorials: Tutorial[] = [
     duration: '8 min',
     difficulty: 'Débutant',
     premium: false,
-    description: 'Créer votre propre spray hydratant avec aloe vera et glycérine',
+    description: 'Créer ton propre spray hydratant avec aloe vera et glycérine',
     youtubeId: 'M4JUsGfzm5k',
     category: 'Hydratation'
   },
@@ -261,7 +261,7 @@ export function TutorialsScreen({ onNavigate }: TutorialsScreenProps) {
         <div className="space-y-2">
           <h4 className="font-poppins font-semibold">Prenez des notes !</h4>
           <p className="font-roboto text-sm text-muted-foreground">
-            Enregistrez vos apprentissages et techniques dans votre Journal
+            Enregistre tes apprentissages et techniques dans ton Journal
           </p>
         </div>
         <Button

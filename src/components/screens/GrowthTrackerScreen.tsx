@@ -104,7 +104,7 @@ export function GrowthTrackerScreen({ onBack }: GrowthTrackerScreenProps) {
 
     toast({
       title: "Mesure ajoutée ! ✨ +25 CC",
-      description: "Votre progression a été enregistrée"
+      description: "Ta progression a été enregistrée"
     });
 
     // Reset form
@@ -134,7 +134,7 @@ export function GrowthTrackerScreen({ onBack }: GrowthTrackerScreenProps) {
     if (targetLength <= currentMaxLength) {
       toast({
         title: "Erreur",
-        description: "L'objectif doit être supérieur à votre longueur actuelle",
+        description: "L'objectif doit être supérieur à ta longueur actuelle",
         variant: "destructive"
       });
       return;
@@ -211,7 +211,7 @@ export function GrowthTrackerScreen({ onBack }: GrowthTrackerScreenProps) {
                 <div className="text-center text-muted-foreground py-8">
                   <TrendingUp className="mx-auto mb-2 opacity-50" size={32} />
                   <p className="text-sm">Aucune mesure enregistrée</p>
-                  <p className="text-xs">Ajoutez votre première mesure</p>
+                  <p className="text-xs">Ajoute ta première mesure</p>
                 </div>
               )}
             </div>

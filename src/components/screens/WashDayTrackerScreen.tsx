@@ -283,7 +283,7 @@ export function WashDayTrackerScreen({ onBack }: WashDayTrackerScreenProps) {
             <div className="flex items-center gap-3">
               <Droplets className="text-purple-500" size={24} />
               <div>
-                <h3 className="font-poppins font-semibold">Recommandation pour vos {state.detailedHairProfile.hairType}</h3>
+                <h3 className="font-poppins font-semibold">Recommandation pour tes {state.detailedHairProfile.hairType}</h3>
                 <p className="text-sm text-muted-foreground">
                   Fréquence conseillée: {recommendedFreq.text}
                 </p>

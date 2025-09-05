@@ -70,7 +70,7 @@ export function SignupScreen({ onNavigate, onSignupSuccess }: SignupScreenProps)
 
       toast({
         title: "Compte créé !",
-        description: "Vérifiez votre email pour confirmer votre compte.",
+        description: "Vérifie ton email pour confirmer ton compte.",
       });
       
       onSignupSuccess();

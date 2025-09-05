@@ -68,14 +68,14 @@ export function DetailedRoutineScreen({ onBack }: DetailedRoutineScreenProps) {
     const { hairType, porosity, objective, problems } = state.detailedHairProfile;
     
     if (hairType === 'Crépus' && porosity === 'haute') {
-      return "Vos cheveux crépus à haute porosité nécessitent une hydratation intensive et des protéines régulières. Privilégiez des produits riches et scellants.";
+      return "Tes cheveux crépus à haute porosité nécessitent une hydratation intensive et des protéines régulières. Privilégie des produits riches et scellants.";
     } else if (hairType === 'Bouclés' && objective === 'définition') {
-      return "Pour définir vos boucles, utilisez la méthode du 'scrunching' et évitez de toucher vos cheveux en séchant.";
+      return "Pour définir tes boucles, utilise la méthode du 'scrunching' et évite de toucher tes cheveux en séchant.";
     } else if (hairType === 'Ondulés' && porosity === 'faible') {
-      return "Vos cheveux ondulés à faible porosité bénéficient de produits légers et d'une clarification régulière pour éviter l'accumulation.";
+      return "Tes cheveux ondulés à faible porosité bénéficient de produits légers et d'une clarification régulière pour éviter l'accumulation.";
     }
     
-    return "Cette routine est personnalisée selon votre profil capillaire. Adaptez-la selon vos besoins et les réactions de vos cheveux.";
+    return "Cette routine est personnalisée selon ton profil capillaire. Adapte-la selon tes besoins et les réactions de tes cheveux.";
   };
 
   const getFrequencyRecommendation = (step: string) => {
@@ -109,7 +109,7 @@ export function DetailedRoutineScreen({ onBack }: DetailedRoutineScreenProps) {
       <CotonCard className="p-4 bg-gradient-to-r from-coton-rose/10 to-purple-50">
         <h3 className="font-poppins font-semibold mb-3 flex items-center gap-2">
           <User className="text-coton-rose" size={20} />
-          Votre Profil Capillaire
+          Ton Profil Capillaire
         </h3>
         <div className="grid grid-cols-2 gap-3">
           <div className="flex items-center gap-2">
@@ -224,11 +224,11 @@ export function DetailedRoutineScreen({ onBack }: DetailedRoutineScreenProps) {
           </li>
           <li className="flex items-start gap-2">
             <span className="text-coton-rose">•</span>
-            <span>Adaptez les quantités selon la longueur et l'épaisseur de vos cheveux</span>
+            <span>Adapte les quantités selon la longueur et l'épaisseur de tes cheveux</span>
           </li>
           <li className="flex items-start gap-2">
             <span className="text-coton-rose">•</span>
-            <span>Écoutez vos cheveux et ajustez la routine selon leurs réactions</span>
+            <span>Écoute tes cheveux et ajuste la routine selon leurs réactions</span>
           </li>
         </ul>
       </CotonCard>

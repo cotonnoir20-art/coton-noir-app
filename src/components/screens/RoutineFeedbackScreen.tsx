@@ -27,7 +27,7 @@ export function RoutineFeedbackScreen({
     if (!rating) {
       toast({
         title: "Erreur",
-        description: "Veuillez donner une note à votre routine",
+        description: "Merci de donner une note à ta routine",
         variant: "destructive"
       });
       return;
@@ -49,8 +49,8 @@ export function RoutineFeedbackScreen({
     dispatch({ type: 'ADD_COINS', amount: rewardAmount });
 
     toast({
-      title: `Merci pour votre retour ! +${rewardAmount} CC`,
-      description: "Votre routine s'améliore grâce à vos commentaires ✨"
+      title: `Merci pour ton retour ! +${rewardAmount} CC`,
+      description: "Ta routine s'améliore grâce à tes commentaires ✨"
     });
 
     onBack();
@@ -91,10 +91,10 @@ export function RoutineFeedbackScreen({
         
         <div className="text-center">
           <h2 className="text-lg font-poppins font-semibold">
-            Comment s'est passée votre routine ?
+            Comment s'est passée ta routine ?
           </h2>
           <p className="text-white/90 text-sm">
-            Votre avis nous aide à améliorer vos conseils
+            Ton avis nous aide à améliorer tes conseils
           </p>
         </div>
       </div>
@@ -205,12 +205,12 @@ export function RoutineFeedbackScreen({
               id="notes"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder="Comment vous êtes-vous sentie ? Qu'est-ce qui a bien marché ? Y a-t-il des améliorations à apporter ?"
+              placeholder="Comment t'es-tu sentie ? Qu'est-ce qui a bien marché ? Y a-t-il des améliorations à apporter ?"
               className="min-h-[100px]"
             />
             
             <div className="text-xs text-muted-foreground">
-              Vos commentaires nous aident à personnaliser encore mieux vos prochaines routines
+              Tes commentaires nous aident à personnaliser encore mieux tes prochaines routines
             </div>
           </div>
         </CotonCard>
@@ -230,12 +230,12 @@ export function RoutineFeedbackScreen({
                   {rating <= 2 && (
                     <>
                       <li>• Essayez la version Express pour gagner du temps</li>
-                      <li>• Vérifiez si les produits conviennent à votre porosité</li>
+                      <li>• Vérifie si les produits conviennent à ta porosité</li>
                     </>
                   )}
                   {rating === 3 && (
                     <>
-                      <li>• Adaptez les quantités selon vos sensations</li>
+                      <li>• Adapte les quantités selon tes sensations</li>
                       <li>• N'hésitez pas à espacer certaines étapes</li>
                     </>
                   )}
@@ -256,7 +256,7 @@ export function RoutineFeedbackScreen({
                   🎉 Excellent travail !
                 </h4>
                 <p className="text-sm text-green-600">
-                  Votre routine fonctionne parfaitement. Continuez comme ça !
+                  Ta routine fonctionne parfaitement. Continue comme ça !
                 </p>
               </div>
             </CotonCard>

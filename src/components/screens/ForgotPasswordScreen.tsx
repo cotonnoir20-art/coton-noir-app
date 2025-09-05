@@ -50,7 +50,7 @@ export function ForgotPasswordScreen({ onNavigate }: ForgotPasswordScreenProps) 
       setEmailSent(true);
       toast({
         title: "Email envoyé",
-        description: "Vérifiez votre boîte mail pour réinitialiser votre mot de passe.",
+        description: "Vérifie ta boîte mail pour réinitialiser ton mot de passe.",
       });
     } catch (error) {
       toast({
@@ -86,8 +86,8 @@ export function ForgotPasswordScreen({ onNavigate }: ForgotPasswordScreenProps) 
                 Email envoyé !
               </h2>
               <p className="text-muted-foreground">
-                Nous avons envoyé un lien de réinitialisation à votre adresse email. 
-                Vérifiez votre boîte mail et suivez les instructions.
+                Nous avons envoyé un lien de réinitialisation à ton adresse email. 
+                Vérifie ta boîte mail et suis les instructions.
               </p>
             </div>
 
@@ -139,7 +139,7 @@ export function ForgotPasswordScreen({ onNavigate }: ForgotPasswordScreenProps) 
               Mot de passe oublié ?
             </h2>
             <p className="text-muted-foreground">
-              Pas de souci ! Entrez votre adresse email et nous vous enverrons un lien pour réinitialiser votre mot de passe.
+              Pas de souci ! Entre ton adresse email et nous t'enverrons un lien pour réinitialiser ton mot de passe.
             </p>
           </div>
 
@@ -154,7 +154,7 @@ export function ForgotPasswordScreen({ onNavigate }: ForgotPasswordScreenProps) 
                     <FormControl>
                       <Input
                         type="email"
-                        placeholder="Votre adresse email"
+                        placeholder="Ton adresse email"
                         {...field}
                         className="h-12"
                       />
@@ -175,7 +175,7 @@ export function ForgotPasswordScreen({ onNavigate }: ForgotPasswordScreenProps) 
           </Form>
 
           <div className="mt-6 text-center">
-            <span className="text-muted-foreground">Vous vous souvenez de votre mot de passe ? </span>
+            <span className="text-muted-foreground">Tu te souviens de ton mot de passe ? </span>
             <button
               type="button"
               onClick={() => onNavigate('login')}

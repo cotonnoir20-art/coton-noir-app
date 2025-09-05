@@ -71,7 +71,7 @@ export function PartnersScreen({ onNavigate }: PartnersScreenProps) {
       
       toast({
         title: `Code généré : ${code}`,
-        description: "Votre code est disponible dans Journal > Achats",
+        description: "Ton code est disponible dans Journal > Achats",
       });
     }
   };
@@ -86,7 +86,7 @@ export function PartnersScreen({ onNavigate }: PartnersScreenProps) {
       <div className="text-center space-y-2">
         <h2 className="font-poppins font-bold text-2xl">Nos Partenaires</h2>
         <p className="font-roboto text-muted-foreground">
-          Utilisez vos CotonCoins pour obtenir des avantages exclusifs
+          Utilise tes CotonCoins pour obtenir des avantages exclusifs
         </p>
       </div>
       
@@ -164,7 +164,7 @@ export function PartnersScreen({ onNavigate }: PartnersScreenProps) {
         <div className="text-center space-y-2">
           <h4 className="font-poppins font-semibold">Comment ça marche ?</h4>
           <p className="font-roboto text-sm text-muted-foreground">
-            Échangez vos CotonCoins contre des codes promo. Les codes générés sont stockés dans votre Journal pour un accès permanent.
+            Échange tes CotonCoins contre des codes promo. Les codes générés sont stockés dans ton Journal pour un accès permanent.
           </p>
         </div>
       </CotonCard>

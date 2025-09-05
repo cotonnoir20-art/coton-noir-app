@@ -331,7 +331,7 @@ export function HairProfileScreen({
             if (analysis.hairTypeDetected && analysis.hairTypeDetected !== selectedHairType) {
               toast({
                 title: "IA suggère un ajustement",
-                description: `Type détecté: ${analysis.hairTypeDetected}. Voulez-vous l'appliquer?`,
+                description: `Type détecté: ${analysis.hairTypeDetected}. Veux-tu l'appliquer?`,
               });
             }
           }}
@@ -350,7 +350,7 @@ export function HairProfileScreen({
           </div>
           <div className="flex-1">
             <h3 className="font-poppins font-semibold text-base text-coton-black mb-2">
-              Résumé de votre profil capillaire
+              Résumé de ton profil capillaire
             </h3>
             <div className="space-y-1 text-sm font-roboto text-muted-foreground">
               {state.hairProfile.hairType && (
@@ -373,7 +373,7 @@ export function HairProfileScreen({
                 </span></p>
               )}
               {(!state.hairProfile.hairType && state.hairProfile.needs.length === 0 && state.hairProfile.objectives.length === 0) && (
-                <p className="italic">Complétez votre profil pour voir votre résumé personnalisé</p>
+                <p className="italic">Complète ton profil pour voir ton résumé personnalisé</p>
               )}
             </div>
           </div>

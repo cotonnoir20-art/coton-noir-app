@@ -21,10 +21,10 @@ export function JournalScreen() {
         <CotonCard className="p-8 text-center space-y-4">
           <div className="text-6xl">📖</div>
           <h3 className="font-poppins font-semibold text-lg">
-            Votre journal est vide
+            Ton journal est vide
           </h3>
           <p className="font-roboto text-muted-foreground">
-            Commencez à enregistrer vos soins capillaires pour suivre vos progrès
+            Commence à enregistrer tes soins capillaires pour suivre tes progrès
           </p>
         </CotonCard>
       </div>
