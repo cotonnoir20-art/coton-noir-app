@@ -30,6 +30,15 @@ const Home = () => {
       case 'box':
         navigate('/box');
         break;
+      case 'partners':
+        navigate('/partners');
+        break;
+      case 'community':
+        navigate('/community');
+        break;
+      case 'tutorials':
+        navigate('/tutorials');
+        break;
       default:
         navigate('/');
         break;
