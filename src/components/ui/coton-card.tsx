@@ -30,7 +30,14 @@ export function CotonCard({
           'premium': "bg-gradient-coral text-coton-beige-light shadow-card sm:shadow-elegant border border-coton-coral/20 backdrop-blur-sm",
           'outline': "border border-coton-rose sm:border-2 bg-coton-beige-light/80 text-coton-black backdrop-blur-sm hover:bg-coton-rose/10"
         }[variant],
-        onClick && "cursor-pointer hover:scale-[1.01] sm:hover:scale-[1.02] active:scale-[0.98] sm:active:scale-[0.99] btn-touch",
+        onClick && [
+          "cursor-pointer select-none",
+          "hover:scale-[1.01] sm:hover:scale-[1.02]", 
+          "active:scale-[0.98] sm:active:scale-[0.99]",
+          "transform-gpu will-change-transform",
+          "focus:outline-none focus:ring-2 focus:ring-coton-rose/50 focus:ring-offset-2",
+          "touch-manipulation"
+        ],
         className
       )}
     >
