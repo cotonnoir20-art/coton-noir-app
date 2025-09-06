@@ -27,6 +27,9 @@ const Home = () => {
       case 'detailed-routine':
         navigate('/detailed-routine');
         break;
+      case 'box':
+        navigate('/box');
+        break;
       default:
         navigate('/');
         break;
