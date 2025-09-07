@@ -58,6 +58,15 @@ export function SubscriptionProvider({ children }: { children: React.ReactNode }
       }
 
       if (data) {
+        // Handle case where function returns error in data but no error object
+        if (data.error && data.error.includes('Stripe configuration missing')) {
+          console.warn('Stripe not configured, defaulting to free tier');
+          setSubscribed(false);
+          setSubscriptionTier('free');
+          setSubscriptionEnd(null);
+          return;
+        }
+        
         setSubscribed(data.subscribed || false);
         setSubscriptionTier(data.subscription_tier || 'free');
         setSubscriptionEnd(data.subscription_end || null);
@@ -69,6 +78,21 @@ export function SubscriptionProvider({ children }: { children: React.ReactNode }
       }
     } catch (error) {
       console.error('Failed to check subscription:', error);
+      
+      // Handle FunctionsHttpError specifically for non-2xx responses
+      if (error && typeof error === 'object' && 'message' in error) {
+        const errorMessage = error.message as string;
+        if (errorMessage.includes('Stripe configuration missing') || 
+            errorMessage.includes('Edge Function returned a non-2xx status code')) {
+          console.warn('Stripe configuration issue, defaulting to free tier');
+          setSubscribed(false);
+          setSubscriptionTier('free');
+          setSubscriptionEnd(null);
+          setLoading(false);
+          return;
+        }
+      }
+      
       // Always fallback to free tier on any error
       setSubscribed(false);
       setSubscriptionTier('free');
