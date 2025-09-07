@@ -37,7 +37,7 @@ serve(async (req) => {
         subscription_tier: 'free'
       }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 503, // Service Unavailable
+        status: 200, // Return 200 so frontend doesn't throw
       });
     }
     logStep("Stripe key verified");
