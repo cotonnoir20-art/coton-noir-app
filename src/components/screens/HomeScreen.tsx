@@ -833,7 +833,7 @@ export function HomeScreen({
       {/* Quick Access Grid */}
       <div className="space-y-4">
         <h3 className="font-poppins font-semibold text-lg">Accès rapide</h3>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-2.5">
           <CotonCard className="p-6 cursor-pointer hover:shadow-soft transition-shadow" onClick={() => onNavigate('wash-day-tracker')}>
             <div className="flex flex-col items-center text-center space-y-3">
               <Calendar className="text-coton-rose" size={32} />
