@@ -46,6 +46,14 @@ export function SubscriptionProvider({ children }: { children: React.ReactNode }
       
       if (error) {
         console.error('Error checking subscription:', error);
+        // Handle configuration errors gracefully
+        if (error.message?.includes('Stripe configuration missing')) {
+          console.warn('Stripe not configured, defaulting to free tier');
+          setSubscribed(false);
+          setSubscriptionTier('free');
+          setSubscriptionEnd(null);
+          return;
+        }
         throw error;
       }
 
@@ -53,9 +61,15 @@ export function SubscriptionProvider({ children }: { children: React.ReactNode }
         setSubscribed(data.subscribed || false);
         setSubscriptionTier(data.subscription_tier || 'free');
         setSubscriptionEnd(data.subscription_end || null);
+      } else {
+        // Fallback to free tier if no data returned
+        setSubscribed(false);
+        setSubscriptionTier('free');
+        setSubscriptionEnd(null);
       }
     } catch (error) {
       console.error('Failed to check subscription:', error);
+      // Always fallback to free tier on any error
       setSubscribed(false);
       setSubscriptionTier('free');
       setSubscriptionEnd(null);
