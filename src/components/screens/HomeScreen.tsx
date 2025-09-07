@@ -842,7 +842,7 @@ export function HomeScreen({
           </CotonCard>
           
           <CotonCard className="p-6 cursor-pointer hover:shadow-soft transition-shadow" onClick={() => onNavigate('growth-tracker')}>
-            <div className="flex flex-col items-center text-center space-y-3">
+            <div className="flex flex-col items-center text-center space-y-3 mb-2.5">
               <TrendingUp className="text-coton-rose" size={32} />
               <span className="font-poppins font-medium">Calculateur de Pousse</span>
             </div>
