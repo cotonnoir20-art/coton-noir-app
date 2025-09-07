@@ -11,6 +11,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { useApp } from '@/contexts/AppContext';
 import { useToast } from '@/hooks/use-toast';
+import { useRoutineLimit } from '@/hooks/useRoutineLimit';
+import { RoutinePaymentModal } from '@/components/ui/routine-payment-modal';
 
 interface EnhancedOnboardingScreenProps {
   onComplete: () => void;
@@ -77,7 +79,9 @@ const testimonials = [
 export function EnhancedOnboardingScreen({ onComplete }: EnhancedOnboardingScreenProps) {
   const { dispatch } = useApp();
   const { toast } = useToast();
+  const { canGenerateFreeRoutine, recordRoutineGeneration } = useRoutineLimit();
   const [currentStep, setCurrentStep] = useState(1);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [formData, setFormData] = useState({
     hairType: '',
     porosity: '',
@@ -104,6 +108,12 @@ export function EnhancedOnboardingScreen({ onComplete }: EnhancedOnboardingScree
   };
 
   const handleComplete = () => {
+    // Vérifier la limite des routines gratuites
+    if (!canGenerateFreeRoutine) {
+      setShowPaymentModal(true);
+      return;
+    }
+
     // Sauvegarder le profil détaillé
     dispatch({
       type: 'UPDATE_DETAILED_HAIR_PROFILE',
@@ -117,11 +127,42 @@ export function EnhancedOnboardingScreen({ onComplete }: EnhancedOnboardingScree
       }
     });
 
+    // Enregistrer la génération de routine gratuite
+    recordRoutineGeneration('free');
+
     // Bonus de completion
     dispatch({ type: 'ADD_COINS', amount: 200 });
     
     toast({
       title: "Profil complété ! 🎉 +200 CC",
+      description: "Ta routine personnalisée t'attend !"
+    });
+
+    onComplete();
+  };
+
+  const handlePaymentSuccess = () => {
+    // Continuer avec la création de routine après paiement
+    dispatch({
+      type: 'UPDATE_DETAILED_HAIR_PROFILE',
+      profile: {
+        hairType: formData.hairType,
+        porosity: formData.porosity,
+        objective: formData.objective,
+        problems: formData.selectedProblems,
+        needs: formData.selectedNeeds,
+        isCompleted: true
+      }
+    });
+
+    // Enregistrer la génération de routine payée
+    recordRoutineGeneration('paid');
+
+    // Bonus de completion
+    dispatch({ type: 'ADD_COINS', amount: 200 });
+    
+    toast({
+      title: "Routine achetée ! 🎉 +200 CC",
       description: "Ta routine personnalisée t'attend !"
     });
 
@@ -442,6 +483,13 @@ export function EnhancedOnboardingScreen({ onComplete }: EnhancedOnboardingScree
           )}
         </motion.div>
       </AnimatePresence>
+
+      {/* Modal de paiement */}
+      <RoutinePaymentModal
+        isOpen={showPaymentModal}
+        onClose={() => setShowPaymentModal(false)}
+        onPaymentSuccess={handlePaymentSuccess}
+      />
 
       {/* Boutons de navigation */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t p-4">

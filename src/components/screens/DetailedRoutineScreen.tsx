@@ -1,7 +1,12 @@
 import React from 'react';
-import { ArrowLeft, Sparkles, User, Target, Droplets, Heart } from 'lucide-react';
+import { ArrowLeft, Sparkles, User, Target, Droplets, Heart, AlertCircle } from 'lucide-react';
 import { CotonCard } from '@/components/ui/coton-card';
+import { Button } from '@/components/ui/button';
 import { useApp } from '@/contexts/AppContext';
+import { useSubscription } from '@/hooks/useSubscription';
+import { useRoutineLimit } from '@/hooks/useRoutineLimit';
+import { RoutinePaymentModal } from '@/components/ui/routine-payment-modal';
+import { useState } from 'react';
 
 interface DetailedRoutineScreenProps {
   onBack: () => void;
@@ -9,6 +14,29 @@ interface DetailedRoutineScreenProps {
 
 export function DetailedRoutineScreen({ onBack }: DetailedRoutineScreenProps) {
   const { state } = useApp();
+  const { subscribed } = useSubscription();
+  const { canGenerateFreeRoutine, remainingFreeRoutines, recordRoutineGeneration } = useRoutineLimit();
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+
+  // Vérifier si une routine a déjà été générée
+  const hasGeneratedRoutine = state.detailedHairProfile.isCompleted;
+
+  const handleGenerateRoutine = async () => {
+    if (!canGenerateFreeRoutine && !hasGeneratedRoutine) {
+      setShowPaymentModal(true);
+      return;
+    }
+    
+    // Si l'utilisateur a déjà une routine ou est premium, continuer normalement
+    if (hasGeneratedRoutine && canGenerateFreeRoutine) {
+      await recordRoutineGeneration('free');
+    }
+  };
+
+  const handlePaymentSuccess = () => {
+    recordRoutineGeneration('paid');
+    setShowPaymentModal(false);
+  };
 
   const generatePersonalizedRoutine = () => {
     const { hairType, porosity, objective, problems, needs } = state.detailedHairProfile;
@@ -104,6 +132,52 @@ export function DetailedRoutineScreen({ onBack }: DetailedRoutineScreenProps) {
         </h1>
         <Sparkles className="text-coton-rose" size={24} />
       </div>
+
+      {/* Limitation pour utilisateurs gratuits */}
+      {!subscribed && !canGenerateFreeRoutine && (
+        <CotonCard className="p-4 mb-6 bg-amber-50 border-amber-200">
+          <div className="flex items-start gap-3">
+            <AlertCircle className="text-amber-600 mt-1" size={20} />
+            <div className="flex-1">
+              <h3 className="font-poppins font-semibold text-amber-800 mb-2">
+                Limite de routine atteinte
+              </h3>
+              <p className="text-sm text-amber-700 mb-3">
+                Tu as utilisé ta routine gratuite ce mois-ci. Pour générer une nouvelle routine personnalisée :
+              </p>
+              <div className="flex gap-2">
+                <Button
+                  size="sm"
+                  onClick={() => setShowPaymentModal(true)}
+                  className="bg-blue-600 hover:bg-blue-700"
+                >
+                  Payer 4,99€
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => setShowPaymentModal(true)}
+                  className="border-coton-rose text-coton-rose hover:bg-coton-rose/10"
+                >
+                  Devenir Premium
+                </Button>
+              </div>
+            </div>
+          </div>
+        </CotonCard>
+      )}
+
+      {/* Info routines restantes pour utilisateurs gratuits */}
+      {!subscribed && canGenerateFreeRoutine && (
+        <CotonCard className="p-3 mb-6 bg-blue-50 border-blue-200">
+          <div className="flex items-center gap-2 text-sm">
+            <Sparkles className="text-blue-600" size={16} />
+            <span className="text-blue-700">
+              <strong>{remainingFreeRoutines}</strong> routine gratuite restante ce mois-ci
+            </span>
+          </div>
+        </CotonCard>
+      )}
 
       {/* Profile Summary */}
       <CotonCard className="p-4 bg-gradient-to-r from-coton-rose/10 to-purple-50">
@@ -239,6 +313,13 @@ export function DetailedRoutineScreen({ onBack }: DetailedRoutineScreenProps) {
           💡 <strong>Rappel :</strong> Cette routine personnalisée est générée automatiquement. Elle ne remplace pas l'expertise d'un professionnel des cheveux afro ou d'un dermatologue. En cas de problème capillaire persistant, consultez un spécialiste.
         </p>
       </CotonCard>
+
+      {/* Modal de paiement */}
+      <RoutinePaymentModal
+        isOpen={showPaymentModal}
+        onClose={() => setShowPaymentModal(false)}
+        onPaymentSuccess={handlePaymentSuccess}
+      />
     </div>
   );
 }
