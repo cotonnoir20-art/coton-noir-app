@@ -6,7 +6,9 @@ import { ProgressBar } from '@/components/ui/progress-bar';
 import { CoinAnimation, useCoinAnimation } from '@/components/ui/coin-animation';
 import { BadgeNotification, BadgeDisplay, useBadgeSystem } from '@/components/ui/badge-system';
 import { AIHairTip } from '@/components/ui/ai-hair-tip';
+import { PremiumBadge, PremiumFeature } from '@/components/ui/premium-badge';
 import { useApp, Badge as BadgeType, DailyChallenge } from '@/contexts/AppContext';
+import { useSubscription } from '@/hooks/useSubscription';
 import { supabase } from '@/integrations/supabase/client';
 import { motion, AnimatePresence } from 'framer-motion';
 interface HomeScreenProps {
@@ -23,12 +25,16 @@ export function HomeScreen({
     state,
     dispatch
   } = useApp();
+  const { subscribed, subscriptionTier } = useSubscription();
   const [routineValidated, setRoutineValidated] = useState(false);
   const [challengesExpanded, setChallengesExpanded] = useState(true);
   const [personalizedRoutine, setPersonalizedRoutine] = useState<string[]>([]);
   const [prioritySteps, setPrioritySteps] = useState<number[]>([]);
   const [routineTip, setRoutineTip] = useState<string>('');
   const [routineLoading, setRoutineLoading] = useState(false);
+  const [aiTipsCount, setAiTipsCount] = useState(0);
+  
+  const isPremium = subscriptionTier === 'premium';
 
   // Système d'animations et badges
   const {
@@ -869,6 +875,17 @@ export function HomeScreen({
             <div className="flex flex-col items-center text-center space-y-3">
               <Video className="text-coton-rose" size={32} />
               <span className="font-poppins font-medium">Tutos</span>
+            </div>
+          </CotonCard>
+        </div>
+        
+        {/* Premium Button */}
+        <div className="mt-4">
+          <CotonCard className="p-6 cursor-pointer hover:shadow-soft transition-shadow bg-gradient-to-r from-amber-50 to-yellow-50 border-2 border-amber-200" onClick={() => onNavigate('premium')}>
+            <div className="flex flex-col items-center text-center space-y-3">
+              <Crown className="text-amber-500" size={32} />
+              <span className="font-poppins font-medium text-amber-700">Premium</span>
+              <span className="text-xs text-amber-600">Débloque tout le potentiel</span>
             </div>
           </CotonCard>
         </div>

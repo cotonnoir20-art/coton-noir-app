@@ -36,8 +36,8 @@ const Home = () => {
       case 'community':
         navigate('/community');
         break;
-      case 'tutorials':
-        navigate('/tutorials');
+      case 'premium':
+        navigate('/premium');
         break;
       default:
         navigate('/');
