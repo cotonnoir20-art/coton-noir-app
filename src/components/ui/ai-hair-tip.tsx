@@ -28,10 +28,10 @@ export function AIHairTip({
     generateTip(tipType, context);
   };
   if (variant === 'compact') {
-    return <div className={`flex items-center gap-3 p-3 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-100 ${className}`}>
+    return <div className={`flex items-center gap-3 p-4 bg-gradient-to-r from-purple-50 via-pink-50 to-rose-50 rounded-xl border border-purple-200/60 shadow-card backdrop-blur-sm hover:shadow-elegant transition-all duration-400 ${className}`}>
         <div className="flex-shrink-0">
-          <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-            <Bot size={16} className="text-white" />
+          <div className="w-10 h-10 bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 rounded-full flex items-center justify-center shadow-card animate-glow">
+            <Bot size={18} className="text-white" />
           </div>
         </div>
         
@@ -62,29 +62,29 @@ export function AIHairTip({
         </div>
         
         {showRefresh && !isLoading && <Button variant="ghost" size="icon" onClick={handleRefresh} className="w-8 h-8 flex-shrink-0 hover:bg-white/50">
-            <RefreshCw size={14} />
+            <RefreshCw size={16} className="hover:rotate-180 transition-transform duration-500" />
           </Button>}
       </div>;
   }
   if (variant === 'featured') {
-    return <CotonCard className={`p-6 bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200 ${className}`}>
+    return <CotonCard className={`p-6 bg-gradient-to-br from-purple-50 via-pink-50 to-rose-50 border-purple-200/60 shadow-premium hover:shadow-glow ${className}`}>
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-              <Bot size={20} className="text-white" />
+            <div className="w-14 h-14 bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 rounded-full flex items-center justify-center shadow-elegant animate-glow">
+              <Bot size={22} className="text-white" />
             </div>
             <div>
-              <h3 className="font-poppins font-bold text-lg text-coton-black">
+              <h3 className="font-poppins font-bold text-xl text-coton-black">
                 CotonTips
               </h3>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground font-medium">
                 Experte en cheveux afro
               </p>
             </div>
           </div>
           
           {showRefresh && <Button variant="outline" size="sm" onClick={handleRefresh} disabled={isLoading} className="border-purple-200 hover:bg-white/50">
-              {isLoading ? <RefreshCw size={16} className="animate-spin" /> : <Sparkles size={16} />}
+              {isLoading ? <RefreshCw size={16} className="animate-spin" /> : <Sparkles size={16} className="animate-glow" />}
               Nouveau conseil
             </Button>}
         </div>

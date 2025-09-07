@@ -361,16 +361,16 @@ export function HomeScreen({
 
       {/* Hair Profile Reminder */}
       {!state.hairProfile.isCompleted && <CotonCard variant="premium" className="p-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between animate-slide-up">
             <div>
-              <h3 className="font-poppins font-bold text-white mb-1">
+              <h3 className="font-poppins font-bold text-white mb-2 text-lg">
                 Personnalise ton expérience ✨
               </h3>
-              <p className="text-white/90 text-sm font-roboto">
+              <p className="text-white/95 text-sm font-roboto font-medium">
                 Définis ton profil capillaire pour des conseils adaptés
               </p>
             </div>
-            <Button variant="rose" size="sm" onClick={onShowProfile}>
+            <Button variant="rose" size="sm" onClick={onShowProfile} className="hover:scale-[1.05] shadow-card">
               Compléter
             </Button>
           </div>
@@ -380,12 +380,16 @@ export function HomeScreen({
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
         className="mt-6"
       >
-        <CotonCard className="p-1.5 bg-background border-0">
-          <h2 className="text-lg font-poppins font-semibold text-foreground">
+        <CotonCard className="p-4 bg-gradient-to-r from-coton-beige-light/80 to-white/90 border-0 shadow-card">
+          <h2 className="text-xl font-poppins font-bold text-foreground">
             Hello {state.userProfile?.name || 'Belle'}! 👋
           </h2>
+          <p className="text-sm text-muted-foreground font-roboto mt-1">
+            Prête pour une belle journée capillaire ?
+          </p>
         </CotonCard>
       </motion.div>
 
@@ -393,49 +397,50 @@ export function HomeScreen({
       <motion.div 
         initial={{ opacity: 0, y: 20 }} 
         animate={{ opacity: 1, y: 0 }} 
+        transition={{ duration: 0.5, delay: 0.1 }}
         className="mt-6"
       >
-        <CotonCard className="overflow-hidden">
+        <CotonCard className="overflow-hidden shadow-elegant hover:shadow-premium transition-all duration-400">
           {/* Header cliquable */}
           <button
             onClick={() => setChallengesExpanded(!challengesExpanded)}
-            className="w-full p-4 flex items-center justify-between hover:bg-muted/50 transition-colors"
+            className="w-full p-5 flex items-center justify-between hover:bg-muted/60 transition-all duration-300 hover:scale-[1.01] transform-gpu"
           >
             <div className="flex items-center gap-3">
-              <Trophy className="text-yellow-500" size={20} />
+              <Trophy className="text-yellow-500 animate-glow" size={22} />
               <div className="text-left">
-                <h3 className="font-poppins font-semibold text-base">Défis du jour</h3>
-                <p className="text-xs text-muted-foreground">
+                <h3 className="font-poppins font-bold text-lg">Défis du jour</h3>
+                <p className="text-sm text-muted-foreground font-medium">
                   {todaysChallenges.filter(c => !c.completed).length} en cours • {todaysChallenges.filter(c => c.completed).length} validés
                 </p>
               </div>
             </div>
             <div className="flex items-center gap-2">
               {todaysChallenges.filter(c => c.completed).length > 0 && (
-                <span className="text-green-600 text-sm font-bold">
+                <span className="text-green-600 text-sm font-bold bg-green-100 px-2 py-1 rounded-full">
                   +{todaysChallenges.filter(c => c.completed).reduce((sum, c) => sum + c.reward, 0)} CC
                 </span>
               )}
               {challengesExpanded ? (
-                <ChevronDown size={20} className="text-muted-foreground" />
+                <ChevronDown size={20} className="text-muted-foreground transition-transform duration-300" />
               ) : (
-                <ChevronRight size={20} className="text-muted-foreground" />
+                <ChevronRight size={20} className="text-muted-foreground transition-transform duration-300" />
               )}
             </div>
           </button>
 
           {/* Contenu dépliable */}
           <div
-            className={`overflow-hidden transition-all duration-300 ease-in-out ${
+            className={`overflow-hidden transition-all duration-500 ease-in-out ${
               challengesExpanded 
                 ? 'max-h-[1000px] opacity-100' 
                 : 'max-h-0 opacity-0'
             }`}
           >
-            <div className="px-4 pb-4 space-y-3">
+            <div className="px-5 pb-5 space-y-4">
               {/* Défis en cours */}
               {todaysChallenges.filter(c => !c.completed).length > 0 && (
-                <div className="space-y-3">
+                <div className="space-y-4">
                   <h4 className="font-poppins font-medium text-sm text-orange-600 flex items-center gap-1">
                     <Target size={14} />
                     En cours
@@ -445,27 +450,27 @@ export function HomeScreen({
                       key={challenge.id}
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      className="p-3 rounded-lg bg-orange-50 border border-orange-100"
+                      transition={{ delay: index * 0.1, duration: 0.4 }}
+                      className="p-4 rounded-xl bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200/60 shadow-card hover:shadow-elegant transition-all duration-300"
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex-1">
-                          <h5 className="font-poppins font-semibold text-sm text-orange-900">
+                          <h5 className="font-poppins font-bold text-base text-orange-900">
                             {challenge.title}
                           </h5>
-                          <p className="text-xs text-orange-700 mt-1">
+                          <p className="text-sm text-orange-700 mt-1 font-medium">
                             {challenge.description}
                           </p>
                         </div>
                         <div className="text-right ml-3">
-                          <div className="text-orange-600 font-bold text-sm mb-1">
+                          <div className="text-orange-600 font-bold text-base mb-2 bg-orange-100 px-2 py-1 rounded-full">
                             +{challenge.reward} CC
                           </div>
                           <Button 
                             size="sm" 
-                            variant="outline" 
+                            variant="hero" 
                             onClick={() => handleCompleteChallenge(challenge)} 
-                            className="text-xs border-orange-200 hover:bg-orange-100"
+                            className="text-xs hover:scale-[1.05] shadow-card"
                           >
                             Valider
                           </Button>
@@ -478,7 +483,7 @@ export function HomeScreen({
 
               {/* Défis validés */}
               {todaysChallenges.filter(c => c.completed).length > 0 && (
-                <div className="space-y-3">
+                <div className="space-y-4">
                   <h4 className="font-poppins font-medium text-sm text-green-600 flex items-center gap-1">
                     <Check size={14} />
                     Validés aujourd'hui
@@ -486,18 +491,18 @@ export function HomeScreen({
                   {todaysChallenges.filter(c => c.completed).map((challenge, index) => (
                     <div 
                       key={challenge.id}
-                      className="p-3 rounded-lg bg-green-50 border border-green-100"
+                      className="p-4 rounded-xl bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200/60 shadow-card"
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                          <div className="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center">
-                            <Check size={12} />
+                          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-green-400 to-emerald-500 text-white flex items-center justify-center shadow-card">
+                            <Check size={14} />
                           </div>
                           <div>
-                            <h5 className="font-poppins font-semibold text-sm text-green-900">
+                            <h5 className="font-poppins font-bold text-base text-green-900">
                               {challenge.title}
                             </h5>
-                            <p className="text-xs text-green-700">
+                            <p className="text-sm text-green-700 font-medium">
                               Complété • +{challenge.reward} CC
                             </p>
                           </div>
@@ -510,9 +515,9 @@ export function HomeScreen({
 
               {/* Message si aucun défi */}
               {todaysChallenges.length === 0 && (
-                <div className="text-center py-6">
-                  <div className="text-4xl mb-2">🎯</div>
-                  <p className="text-sm text-muted-foreground font-roboto">
+                <div className="text-center py-8">
+                  <div className="text-5xl mb-3 animate-glow">🎯</div>
+                  <p className="text-base text-muted-foreground font-roboto font-medium">
                     Aucun défi disponible aujourd'hui
                   </p>
                 </div>
@@ -525,9 +530,9 @@ export function HomeScreen({
       
       
       {/* Level & Goal Card */}
-      <CotonCard className="p-6 space-y-4 mt-5">
+      <CotonCard className="p-6 space-y-5 mt-5 shadow-premium hover:shadow-glow transition-all duration-400">
         <div className="flex items-center justify-between">
-          <h3 className="font-poppins font-semibold text-lg">Niveau & Objectif</h3>
+          <h3 className="font-poppins font-bold text-xl">Niveau & Objectif</h3>
           <div className={(() => {
           const needsMap = {
             'hydratation': {
@@ -557,7 +562,7 @@ export function HomeScreen({
           };
           const primaryNeed = state.hairProfile.needs[0];
           const needData = primaryNeed ? needsMap[primaryNeed as keyof typeof needsMap] : needsMap['hydratation'];
-          return `${needData.classes} px-3 py-1 rounded-full text-sm font-roboto font-medium flex items-center gap-1 cursor-pointer hover:opacity-80 transition-opacity`;
+          return `${needData.classes} px-4 py-2 rounded-full text-sm font-roboto font-bold flex items-center gap-1 cursor-pointer hover:scale-[1.05] transition-all duration-300 shadow-card`;
         })()} onClick={onShowProfile}>
             {(() => {
             const needsMap = {
@@ -680,41 +685,41 @@ export function HomeScreen({
         </p>
         
         <Button variant="hero" size="lg" onClick={onAddCare} className="w-full">
-          <Plus size={20} />
+          <Plus size={22} className="animate-glow" />
           Ajouter un soin
         </Button>
       </CotonCard>
       
       {/* Mon suivi - Section fusionnée */}
       <div className="space-y-4">
-        <h3 className="font-poppins font-semibold text-lg">Mon suivi</h3>
-        <div className="grid grid-cols-2 gap-3">
-          <CotonCard className="p-4 text-center">
-            <div className="text-xl font-poppins font-bold text-coton-rose">
+        <h3 className="font-poppins font-bold text-xl">Mon suivi</h3>
+        <div className="grid grid-cols-2 gap-4">
+          <CotonCard className="p-5 text-center hover-lift shadow-card">
+            <div className="text-2xl font-poppins font-bold text-coton-rose mb-1">
               {state.journalEntries.length}
             </div>
-            <div className="text-xs text-muted-foreground">Soins total</div>
+            <div className="text-sm text-muted-foreground font-medium">Soins total</div>
           </CotonCard>
           
-          <CotonCard className="p-4 text-center">
-            <div className="text-xl font-poppins font-bold text-blue-600">
+          <CotonCard className="p-5 text-center hover-lift shadow-card">
+            <div className="text-2xl font-poppins font-bold text-blue-600 mb-1">
               {thisMonthCares}
             </div>
-            <div className="text-xs text-muted-foreground">Ce mois-ci</div>
+            <div className="text-sm text-muted-foreground font-medium">Ce mois-ci</div>
           </CotonCard>
           
-          <CotonCard className="p-4 text-center">
-            <div className="text-xl font-poppins font-bold text-purple-600">
+          <CotonCard className="p-5 text-center hover-lift shadow-card">
+            <div className="text-2xl font-poppins font-bold text-purple-600 mb-1">
               {state.streakData.current}
             </div>
-            <div className="text-xs text-muted-foreground">Jours streak</div>
+            <div className="text-sm text-muted-foreground font-medium">Jours streak</div>
           </CotonCard>
           
-          <CotonCard className="p-4 text-center">
-            <div className="text-xl font-poppins font-bold text-green-600">
+          <CotonCard className="p-5 text-center hover-lift shadow-card">
+            <div className="text-2xl font-poppins font-bold text-green-600 mb-1">
               {daysSinceLastCare === 0 ? "Aujourd'hui" : `${daysSinceLastCare}j`}
             </div>
-            <div className="text-xs text-muted-foreground">Dernier soin</div>
+            <div className="text-sm text-muted-foreground font-medium">Dernier soin</div>
           </CotonCard>
         </div>
       </div>
@@ -832,60 +837,60 @@ export function HomeScreen({
       
       {/* Quick Access Grid */}
       <div className="space-y-4">
-        <h3 className="font-poppins font-semibold text-lg">Accès rapide</h3>
-        <div className="grid grid-cols-2 gap-2.5">
-          <CotonCard className="p-6 cursor-pointer hover:shadow-soft transition-shadow" onClick={() => onNavigate('wash-day-tracker')}>
-            <div className="flex flex-col items-center text-center space-y-3">
-              <Calendar className="text-coton-rose" size={32} />
-              <span className="font-poppins font-medium">Wash Day Tracker</span>
+        <h3 className="font-poppins font-bold text-xl">Accès rapide</h3>
+        <div className="grid grid-cols-2 gap-4">
+          <CotonCard className="p-6 cursor-pointer hover-lift shadow-card hover:shadow-premium transition-all duration-400" onClick={() => onNavigate('wash-day-tracker')}>
+            <div className="flex flex-col items-center text-center space-y-4">
+              <Calendar className="text-coton-rose animate-glow" size={36} />
+              <span className="font-poppins font-semibold text-base">Wash Day Tracker</span>
             </div>
           </CotonCard>
           
-          <CotonCard className="p-6 cursor-pointer hover:shadow-soft transition-shadow" onClick={() => onNavigate('growth-tracker')}>
-            <div className="flex flex-col items-center text-center space-y-3 mb-2.5">
-              <TrendingUp className="text-coton-rose" size={32} />
-              <span className="font-poppins font-medium">Calculateur de Pousse</span>
+          <CotonCard className="p-6 cursor-pointer hover-lift shadow-card hover:shadow-premium transition-all duration-400" onClick={() => onNavigate('growth-tracker')}>
+            <div className="flex flex-col items-center text-center space-y-4">
+              <TrendingUp className="text-coton-rose animate-glow" size={36} />
+              <span className="font-poppins font-semibold text-base">Calculateur de Pousse</span>
             </div>
           </CotonCard>
           
-          <CotonCard className="p-6 cursor-pointer hover:shadow-soft transition-shadow" onClick={() => onNavigate('box')}>
-            <div className="flex flex-col items-center text-center space-y-3">
-              <Package className="text-coton-rose" size={32} />
-              <span className="font-poppins font-medium">Box Digitale</span>
+          <CotonCard className="p-6 cursor-pointer hover-lift shadow-card hover:shadow-premium transition-all duration-400" onClick={() => onNavigate('box')}>
+            <div className="flex flex-col items-center text-center space-y-4">
+              <Package className="text-coton-rose animate-glow" size={36} />
+              <span className="font-poppins font-semibold text-base">Box Digitale</span>
             </div>
           </CotonCard>
           
-          <CotonCard className="p-6 cursor-pointer hover:shadow-soft transition-shadow" onClick={() => onNavigate('partners')}>
-            <div className="flex flex-col items-center text-center space-y-3">
-              <Store className="text-coton-rose" size={32} />
-              <span className="font-poppins font-medium">Partenaires</span>
+          <CotonCard className="p-6 cursor-pointer hover-lift shadow-card hover:shadow-premium transition-all duration-400" onClick={() => onNavigate('partners')}>
+            <div className="flex flex-col items-center text-center space-y-4">
+              <Store className="text-coton-rose animate-glow" size={36} />
+              <span className="font-poppins font-semibold text-base">Partenaires</span>
             </div>
           </CotonCard>
         </div>
         
         <div className="grid grid-cols-2 gap-4 mt-4">
-          <CotonCard className="p-6 cursor-pointer hover:shadow-soft transition-shadow" onClick={() => onNavigate('community')}>
-            <div className="flex flex-col items-center text-center space-y-3">
-              <Users className="text-coton-rose" size={32} />
-              <span className="font-poppins font-medium">Communauté</span>
+          <CotonCard className="p-6 cursor-pointer hover-lift shadow-card hover:shadow-premium transition-all duration-400" onClick={() => onNavigate('community')}>
+            <div className="flex flex-col items-center text-center space-y-4">
+              <Users className="text-coton-rose animate-glow" size={36} />
+              <span className="font-poppins font-semibold text-base">Communauté</span>
             </div>
           </CotonCard>
           
-          <CotonCard className="p-6 cursor-pointer hover:shadow-soft transition-shadow" onClick={() => onNavigate('tutorials')}>
-            <div className="flex flex-col items-center text-center space-y-3">
-              <Video className="text-coton-rose" size={32} />
-              <span className="font-poppins font-medium">Tutos</span>
+          <CotonCard className="p-6 cursor-pointer hover-lift shadow-card hover:shadow-premium transition-all duration-400" onClick={() => onNavigate('tutorials')}>
+            <div className="flex flex-col items-center text-center space-y-4">
+              <Video className="text-coton-rose animate-glow" size={36} />
+              <span className="font-poppins font-semibold text-base">Tutos</span>
             </div>
           </CotonCard>
         </div>
         
         {/* Premium Button */}
         <div className="mt-4">
-          <CotonCard className="p-6 cursor-pointer hover:shadow-soft transition-shadow bg-gradient-to-r from-amber-50 to-yellow-50 border-2 border-amber-200" onClick={() => onNavigate('premium')}>
-            <div className="flex flex-col items-center text-center space-y-3">
-              <Crown className="text-amber-500" size={32} />
-              <span className="font-poppins font-medium text-amber-700">Premium</span>
-              <span className="text-xs text-amber-600">Débloque tout le potentiel</span>
+          <CotonCard className="p-6 cursor-pointer hover-lift shadow-premium hover:shadow-glow transition-all duration-400 bg-gradient-to-r from-amber-50 via-yellow-50 to-orange-50 border-2 border-amber-300/60" onClick={() => onNavigate('premium')}>
+            <div className="flex flex-col items-center text-center space-y-4">
+              <Crown className="text-amber-500 animate-glow" size={40} />
+              <span className="font-poppins font-bold text-lg text-amber-700">Premium</span>
+              <span className="text-sm text-amber-600 font-medium">Débloque tout le potentiel</span>
             </div>
           </CotonCard>
         </div>

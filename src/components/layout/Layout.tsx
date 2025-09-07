@@ -93,14 +93,14 @@ export function Layout({ children, showHeader = true, showNavigation = true, sho
       
       {/* Floating Action Button - Mobile-first responsive */}
       {showFAB && (
-        <div className="fixed bottom-20 sm:bottom-24 right-4 z-40">
+        <div className="fixed bottom-24 sm:bottom-28 right-4 z-40">
           <Button
             size="icon"
             variant="hero"
-            className="w-12 h-12 sm:w-14 sm:h-14 rounded-full shadow-lg btn-touch"
+            className="w-14 h-14 sm:w-16 sm:h-16 rounded-full shadow-premium hover:shadow-glow btn-touch animate-scale-in"
             onClick={() => navigate('/add-care')}
           >
-            <Plus size={20} className="sm:w-6 sm:h-6" />
+            <Plus size={22} className="sm:w-7 sm:h-7" />
           </Button>
         </div>
       )}

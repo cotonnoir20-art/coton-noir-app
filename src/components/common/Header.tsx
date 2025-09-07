@@ -26,17 +26,17 @@ export function Header({ onProfileClick, onHomeClick, onRewardsClick }: HeaderPr
   ];
 
   return (
-    <header className="bg-coton-black border-b border-white/10 px-4 py-3 sticky top-0 z-40 shadow-soft">
+    <header className="bg-gradient-to-r from-coton-black via-coton-black to-coton-nude/20 border-b border-white/20 px-4 py-4 sticky top-0 z-40 shadow-premium backdrop-blur-md">
       <div className="container-responsive">
         <div className="flex items-center justify-between">
           {/* Logo / Home Button - Mobile-first responsive */}
           <button 
             onClick={() => navigate('/')}
-            className="flex items-center hover:opacity-80 hover:bg-white/10 px-2 sm:px-3 py-2 rounded-lg transition-all cursor-pointer group"
+            className="flex items-center hover:opacity-90 hover:bg-white/15 px-3 sm:px-4 py-2 rounded-xl transition-all cursor-pointer group hover:scale-[1.02] transform-gpu"
           >
-            <h1 className="font-poppins font-bold text-lg sm:text-xl text-white inline">
+            <h1 className="font-poppins font-bold text-xl sm:text-2xl text-white inline">
               <span className="block sm:inline">Coton Noir</span>
-              <span className="hidden sm:inline text-xs sm:text-sm text-white/70 font-roboto group-hover:text-white/90 transition-colors ml-1">
+              <span className="hidden sm:inline text-sm sm:text-base text-white/80 font-roboto group-hover:text-white/95 transition-colors ml-2">
                 Hair Journal
               </span>
             </h1>
@@ -50,10 +50,10 @@ export function Header({ onProfileClick, onHomeClick, onRewardsClick }: HeaderPr
                 variant="ghost"
                 size="sm"
                 onClick={() => navigate(item.path)}
-                className={`text-white hover:bg-white/10 transition-colors ${
+                className={`text-white hover:bg-white/15 hover:scale-[1.05] transition-all rounded-xl ${
                   location.pathname === item.path 
-                    ? 'bg-white/10 text-coton-rose font-medium' 
-                    : 'text-white/80'
+                    ? 'bg-white/15 text-coton-rose font-semibold shadow-glow' 
+                    : 'text-white/85'
                 }`}
               >
                 {item.label}
@@ -68,9 +68,9 @@ export function Header({ onProfileClick, onHomeClick, onRewardsClick }: HeaderPr
               variant="ghost"
               size="icon"
               onClick={() => navigate('/hair-profile')}
-              className={`h-9 w-9 sm:h-10 sm:w-10 text-white hover:bg-white/10 btn-touch ${!state.hairProfile.isCompleted ? 'ring-2 ring-coton-rose animate-pulse' : ''}`}
+              className={`h-10 w-10 sm:h-12 sm:w-12 text-white hover:bg-white/15 hover:scale-[1.1] btn-touch rounded-xl ${!state.hairProfile.isCompleted ? 'ring-2 ring-coton-rose animate-glow' : ''}`}
             >
-              <User size={16} className={`sm:w-[18px] sm:h-[18px] ${!state.hairProfile.isCompleted ? 'text-coton-rose' : 'text-white'}`} />
+              <User size={18} className={`sm:w-[20px] sm:h-[20px] ${!state.hairProfile.isCompleted ? 'text-coton-rose' : 'text-white'}`} />
             </Button>
             
             {/* Dark mode toggle */}
@@ -78,22 +78,22 @@ export function Header({ onProfileClick, onHomeClick, onRewardsClick }: HeaderPr
               variant="ghost"
               size="icon"
               onClick={() => dispatch({ type: 'TOGGLE_DARK_MODE' })}
-              className="h-9 w-9 sm:h-10 sm:w-10 text-white hover:bg-white/10 btn-touch"
+              className="h-10 w-10 sm:h-12 sm:w-12 text-white hover:bg-white/15 hover:scale-[1.1] btn-touch rounded-xl"
             >
               {state.darkMode ? (
-                <Sun size={16} className="sm:w-[18px] sm:h-[18px] text-white" />
+                <Sun size={18} className="sm:w-[20px] sm:h-[20px] text-white" />
               ) : (
-                <Moon size={16} className="sm:w-[18px] sm:h-[18px] text-white" />
+                <Moon size={18} className="sm:w-[20px] sm:h-[20px] text-white" />
               )}
             </Button>
             
             {/* Coins - Mobile-first responsive */}
             <button 
               onClick={() => navigate('/rewards')}
-              className="flex items-center gap-1 bg-gradient-to-r from-coton-rose to-pink-300 text-foreground px-2 sm:px-3 py-1.5 rounded-pill shadow-lg hover:scale-105 transition-transform cursor-pointer btn-touch"
+              className="flex items-center gap-1.5 bg-gradient-to-r from-amber-400 via-yellow-500 to-orange-500 text-white px-3 sm:px-4 py-2 rounded-pill shadow-elegant hover:scale-110 hover:shadow-glow transition-all cursor-pointer btn-touch font-semibold"
             >
-              <Coins size={14} className="sm:w-4 sm:h-4" />
-              <span className="font-poppins font-medium text-xs sm:text-sm">
+              <Coins size={16} className="sm:w-5 sm:h-5" />
+              <span className="font-poppins font-bold text-sm sm:text-base">
                 {state.coins}
               </span>
             </button>
