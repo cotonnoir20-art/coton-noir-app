@@ -42,39 +42,44 @@ export function SubscriptionProvider({ children }: { children: React.ReactNode }
 
     try {
       setLoading(true);
-      const { data, error } = await supabase.functions.invoke('check-subscription');
       
-      if (error) {
-        console.error('Error checking subscription:', error);
-        // Handle configuration errors gracefully
-        if (error.message?.includes('Stripe configuration missing')) {
-          console.warn('Stripe not configured, defaulting to free tier');
-          setSubscribed(false);
-          setSubscriptionTier('free');
-          setSubscriptionEnd(null);
-          return;
-        }
-        throw error;
-      }
-
-      if (data) {
-        // Handle case where function returns error in data but no error object
-        if (data.error && data.error.includes('Stripe configuration missing')) {
-          console.warn('Stripe not configured, defaulting to free tier');
-          setSubscribed(false);
-          setSubscriptionTier('free');
-          setSubscriptionEnd(null);
-          return;
-        }
+      try {
+        const { data, error } = await supabase.functions.invoke('check-subscription');
         
-        setSubscribed(data.subscribed || false);
-        setSubscriptionTier(data.subscription_tier || 'free');
-        setSubscriptionEnd(data.subscription_end || null);
-      } else {
-        // Fallback to free tier if no data returned
+        if (error) {
+          console.warn('Subscription check error, defaulting to free tier:', error);
+          setSubscribed(false);
+          setSubscriptionTier('free');
+          setSubscriptionEnd(null);
+          return;
+        }
+
+        if (data) {
+          // Handle case where function returns error in data but no error object
+          if (data.error) {
+            console.warn('Stripe not configured, defaulting to free tier');
+            setSubscribed(false);
+            setSubscriptionTier('free');
+            setSubscriptionEnd(null);
+            return;
+          }
+          
+          setSubscribed(data.subscribed || false);
+          setSubscriptionTier(data.subscription_tier || 'free');
+          setSubscriptionEnd(data.subscription_end || null);
+        } else {
+          // Fallback to free tier if no data returned
+          setSubscribed(false);
+          setSubscriptionTier('free');
+          setSubscriptionEnd(null);
+        }
+      } catch (invokeError) {
+        // Handle the specific case where supabase.functions.invoke throws due to non-2xx status
+        console.warn('Function invoke failed, defaulting to free tier:', invokeError);
         setSubscribed(false);
         setSubscriptionTier('free');
         setSubscriptionEnd(null);
+        return;
       }
     } catch (error) {
       console.error('Failed to check subscription:', error);
