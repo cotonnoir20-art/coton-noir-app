@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      routine_generations: {
+        Row: {
+          amount: number | null
+          created_at: string
+          email: string
+          generation_type: string
+          id: string
+          stripe_session_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          amount?: number | null
+          created_at?: string
+          email: string
+          generation_type?: string
+          id?: string
+          stripe_session_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          amount?: number | null
+          created_at?: string
+          email?: string
+          generation_type?: string
+          id?: string
+          stripe_session_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       subscribers: {
         Row: {
           created_at: string
@@ -55,7 +85,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      check_monthly_routine_limit: {
+        Args: { user_email: string }
+        Returns: number
+      }
     }
     Enums: {
       [_ in never]: never
