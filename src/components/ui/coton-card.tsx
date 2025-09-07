@@ -22,7 +22,7 @@ export function CotonCard({
       className={cn(
         "rounded-lg sm:rounded-xl transition-all duration-300 text-left",
         "px-1 py-1 sm:px-2 sm:py-1",
-        "mt-0 mb-1 sm:mt-0 sm:mb-1",
+        "-mt-2 -mb-2 sm:-mt-2 sm:-mb-2",
         "w-full max-w-none",
         {
           'default': "bg-card text-card-foreground border border-coton-rose/20 shadow-card sm:shadow-elegant backdrop-blur-sm",
