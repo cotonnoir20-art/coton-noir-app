@@ -404,7 +404,7 @@ export function HomeScreen({
           <div className="absolute inset-0 bg-gradient-to-br from-coton-rose/20 to-purple-100 rounded-2xl blur-sm"></div>
           <CotonCard className="relative bg-gradient-to-br from-coton-rose/10 to-purple-50 border-none shadow-premium">
             {/* Mini Calendrier */}
-            <div className="p-6 pb-4 bg-white/80 backdrop-blur-sm border border-coton-rose/30 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+            <div className="p-6 pb-4">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
                   <div className="w-10 h-10 bg-coton-rose rounded-full flex items-center justify-center">
