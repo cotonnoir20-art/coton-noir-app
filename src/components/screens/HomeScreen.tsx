@@ -370,7 +370,7 @@ export function HomeScreen({
                 Définis ton profil capillaire pour des conseils adaptés
               </p>
             </div>
-            <Button variant="rose" size="sm" onClick={onShowProfile} className="hover:scale-[1.05] shadow-card">
+            <Button variant="black" size="sm" onClick={onShowProfile} className="hover:scale-[1.05] shadow-card">
               Compléter
             </Button>
           </div>
@@ -468,7 +468,7 @@ export function HomeScreen({
                           </div>
                           <Button 
                             size="sm" 
-                            variant="hero" 
+                            variant="black" 
                             onClick={() => handleCompleteChallenge(challenge)} 
                             className="text-xs hover:scale-[1.05] shadow-card"
                           >
@@ -684,7 +684,7 @@ export function HomeScreen({
           })()} CotonCoins 🪙</span> avant ton prochain palier ! 🔥
         </p>
         
-        <Button variant="hero" size="lg" onClick={onAddCare} className="w-full">
+        <Button variant="black" size="lg" onClick={onAddCare} className="w-full">
           <Plus size={22} className="animate-glow" />
           Ajouter un soin
         </Button>

@@ -23,6 +23,7 @@ const buttonVariants = cva(
         secondary: "bg-gradient-to-r from-coton-nude-light to-coton-nude text-coton-black hover:from-coton-nude-light/90 hover:to-coton-nude/90 hover:scale-[1.02] shadow-card rounded-xl font-poppins",
         link: "text-coton-black underline-offset-4 hover:underline font-roboto hover:text-coton-coral hover:scale-[1.02]",
         nude: "bg-gradient-to-r from-coton-nude to-coton-nude-light text-coton-black hover:from-coton-nude/90 hover:to-coton-nude-light/90 hover:scale-[1.02] shadow-card rounded-xl font-poppins",
+        black: "bg-coton-black text-white hover:bg-coton-black/90 hover:scale-[1.02] shadow-card hover:shadow-elegant rounded-xl font-poppins",
       },
       size: {
         default: "h-12 px-6 py-3 text-base",
