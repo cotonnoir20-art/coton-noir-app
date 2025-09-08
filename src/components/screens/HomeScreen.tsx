@@ -459,7 +459,7 @@ export function HomeScreen({
                 <p className="text-sm text-muted-foreground font-roboto">
                   Hydratation optimale recommandée
                 </p>
-                <Button variant="soft" size="sm" className="mt-3">
+                <Button variant="soft" size="sm" className="mt-3" onClick={() => onNavigate('detailed-routine')}>
                   Planifier ma routine
                 </Button>
               </div>
