@@ -392,10 +392,194 @@ export function HomeScreen({
           </p>
         </CotonCard>
       </motion.div>
+      {/* Flo-Inspired Tracking Dashboard */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }} 
+        animate={{ opacity: 1, y: 0 }} 
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="space-y-4"
+      >
+        {/* Calendrier Prédictif */}
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-br from-coton-rose/20 to-purple-100 rounded-2xl blur-sm"></div>
+          <CotonCard className="relative bg-gradient-to-br from-coton-rose/10 to-purple-50 border-none shadow-premium">
+            {/* Mini Calendrier */}
+            <div className="p-6 pb-4">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-10 h-10 bg-coton-rose rounded-full flex items-center justify-center">
+                    <Calendar className="text-white" size={20} />
+                  </div>
+                  <span className="font-poppins font-medium text-foreground">
+                    {new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}
+                  </span>
+                </div>
+                <Calendar className="text-muted-foreground hover:text-coton-rose cursor-pointer transition-colors" size={20} />
+              </div>
 
+              {/* Mini calendrier inline */}
+              <div className="grid grid-cols-7 gap-2 mb-6">
+                <div className="text-xs text-muted-foreground text-center py-1">D</div>
+                <div className="text-xs text-muted-foreground text-center py-1">L</div>
+                <div className="text-xs text-muted-foreground text-center py-1">M</div>
+                <div className="text-xs text-muted-foreground text-center py-1">M</div>
+                <div className="text-xs text-muted-foreground text-center py-1">J</div>
+                <div className="text-xs text-muted-foreground text-center py-1">V</div>
+                <div className="text-xs text-muted-foreground text-center py-1">S</div>
+                
+                {Array.from({ length: 7 }, (_, i) => {
+                  const date = new Date();
+                  date.setDate(date.getDate() - 3 + i);
+                  const isToday = i === 3;
+                  const isWashDay = i === 5; // Prédiction wash day dans 2 jours
+                  const isPastCare = i === 1; // Soin passé
+                  
+                  return (
+                    <div key={i} className={`
+                      w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium
+                      ${isToday ? 'bg-coton-rose text-white' : ''}
+                      ${isWashDay ? 'bg-blue-100 text-blue-600 ring-2 ring-blue-300 ring-dotted' : ''}
+                      ${isPastCare ? 'bg-green-100 text-green-600' : ''}
+                      ${!isToday && !isWashDay && !isPastCare ? 'text-muted-foreground' : ''}
+                    `}>
+                      {date.getDate()}
+                    </div>
+                  );
+                })}
+              </div>
 
-      
-      
+              {/* Prédiction principale */}
+              <div className="text-center space-y-2">
+                <h3 className="font-poppins font-semibold text-lg text-foreground">
+                  Wash Day dans
+                </h3>
+                <div className="font-poppins font-bold text-4xl text-coton-rose">
+                  3 jours
+                </div>
+                <p className="text-sm text-muted-foreground font-roboto">
+                  Hydratation optimale recommandée
+                </p>
+                <Button variant="soft" size="sm" className="mt-3">
+                  Planifier ma routine
+                </Button>
+              </div>
+            </div>
+          </CotonCard>
+        </div>
+
+        {/* Articles & Conseils Quotidiens */}
+        <div className="space-y-3">
+          <h4 className="font-poppins font-semibold text-lg flex items-center gap-2">
+            <Sparkles className="text-coton-rose" size={20} />
+            Mes conseils quotidiens • {new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
+          </h4>
+          
+          <div className="grid grid-cols-1 gap-3">
+            {/* Card principale d'action */}
+            <CotonCard className="p-4 bg-gradient-to-r from-coton-rose/10 to-pink-50 border border-coton-rose/20 hover:shadow-premium transition-all duration-300">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 bg-coton-rose rounded-full flex items-center justify-center">
+                    <Plus className="text-white" size={20} />
+                  </div>
+                  <div>
+                    <h5 className="font-poppins font-semibold text-foreground">
+                      Enregistrez votre soin
+                    </h5>
+                    <p className="text-sm text-muted-foreground font-roboto">
+                      Gardez le cap sur vos objectifs
+                    </p>
+                  </div>
+                </div>
+                <ChevronRight className="text-muted-foreground" size={20} />
+              </div>
+            </CotonCard>
+
+            {/* Articles recommandés */}
+            <div className="grid grid-cols-2 gap-3">
+              <CotonCard className="p-3 bg-gradient-to-br from-purple-50 to-blue-50 border border-purple-200/50 hover:shadow-card transition-all duration-300 cursor-pointer">
+                <div className="space-y-2">
+                  <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <Droplets className="text-purple-600" size={16} />
+                  </div>
+                  <div>
+                    <h6 className="font-poppins font-medium text-sm text-foreground">
+                      Hydratation 4C
+                    </h6>
+                    <p className="text-xs text-muted-foreground font-roboto line-clamp-2">
+                      Techniques spécialisées pour cheveux très texturés
+                    </p>
+                  </div>
+                </div>
+              </CotonCard>
+
+              <CotonCard className="p-3 bg-gradient-to-br from-orange-50 to-yellow-50 border border-orange-200/50 hover:shadow-card transition-all duration-300 cursor-pointer">
+                <div className="space-y-2">
+                  <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                    <Sun className="text-orange-600" size={16} />
+                  </div>
+                  <div>
+                    <h6 className="font-poppins font-medium text-sm text-foreground">
+                      Météo & Cheveux
+                    </h6>
+                    <p className="text-xs text-muted-foreground font-roboto line-clamp-2">
+                      Adaptez votre routine selon l'humidité
+                    </p>
+                  </div>
+                </div>
+              </CotonCard>
+            </div>
+
+            {/* Conseil du jour */}
+            <CotonCard className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200/50">
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <TrendingUp className="text-green-600" size={18} />
+                </div>
+                <div className="flex-1">
+                  <h6 className="font-poppins font-semibold text-foreground mb-1">
+                    Phase de croissance optimale
+                  </h6>
+                  <p className="text-sm text-muted-foreground font-roboto">
+                    Vos cheveux sont dans une excellente phase. Continuez votre routine actuelle pour maximiser la rétention de longueur.
+                  </p>
+                </div>
+              </div>
+            </CotonCard>
+          </div>
+        </div>
+
+        {/* Actions Rapides */}
+        <div className="grid grid-cols-3 gap-3">
+          <div className="text-center space-y-2 cursor-pointer hover:scale-105 transition-transform">
+            <div className="w-12 h-12 bg-coton-rose/10 rounded-full flex items-center justify-center mx-auto">
+              <Heart className="text-coton-rose" size={20} />
+            </div>
+            <span className="text-xs font-roboto font-medium text-foreground">
+              Routine du soir
+            </span>
+          </div>
+          
+          <div className="text-center space-y-2 cursor-pointer hover:scale-105 transition-transform">
+            <div className="w-12 h-12 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto">
+              <Droplets className="text-blue-500" size={20} />
+            </div>
+            <span className="text-xs font-roboto font-medium text-foreground">
+              Hydratation rapide
+            </span>
+          </div>
+          
+          <div className="text-center space-y-2 cursor-pointer hover:scale-105 transition-transform">
+            <div className="w-12 h-12 bg-purple-500/10 rounded-full flex items-center justify-center mx-auto">
+              <Diamond className="text-purple-500" size={20} />
+            </div>
+            <span className="text-xs font-roboto font-medium text-foreground">
+              Suivi progrès
+            </span>
+          </div>
+        </div>
+      </motion.div>
+
       {/* Level & Goal Card */}
       <CotonCard className="p-6 space-y-5 mt-5 shadow-premium hover:shadow-glow transition-all duration-400">
         <div className="flex items-center justify-between">
