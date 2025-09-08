@@ -206,7 +206,7 @@ export function EnhancedOnboardingScreen({ onComplete }: EnhancedOnboardingScree
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
           {currentStep > 1 && (
-            <Button variant="ghost" size="sm" onClick={handleBack}>
+            <Button variant="black" size="sm" onClick={handleBack}>
               <ArrowLeft size={20} />
             </Button>
           )}

@@ -97,7 +97,8 @@ export function RoutinePaymentModal({ isOpen, onClose, onPaymentSuccess }: Routi
 
             <Button 
               onClick={handleOneTimePayment}
-              className="w-full bg-blue-600 hover:bg-blue-700"
+              variant="black"
+              className="w-full"
             >
               Payer 4,99€
             </Button>
@@ -147,7 +148,8 @@ export function RoutinePaymentModal({ isOpen, onClose, onPaymentSuccess }: Routi
 
             <Button 
               onClick={handleSubscription}
-              className="w-full bg-gradient-to-r from-coton-rose to-pink-400 hover:from-coton-rose/90 hover:to-pink-400/90"
+              variant="black"
+              className="w-full"
             >
               <Crown size={16} className="mr-2" />
               Devenir Premium
@@ -155,7 +157,7 @@ export function RoutinePaymentModal({ isOpen, onClose, onPaymentSuccess }: Routi
           </CotonCard>
 
           <div className="text-center">
-            <Button variant="ghost" onClick={onClose} className="text-sm">
+            <Button variant="black" onClick={onClose} className="text-sm">
               Annuler
             </Button>
           </div>

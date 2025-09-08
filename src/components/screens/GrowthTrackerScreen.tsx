@@ -222,7 +222,7 @@ export function GrowthTrackerScreen({ onBack }: GrowthTrackerScreenProps) {
         <div className="grid grid-cols-2 gap-3">
           <Dialog open={showAddMeasurement} onOpenChange={setShowAddMeasurement}>
             <DialogTrigger asChild>
-              <Button variant="hero" className="w-full btn-touch">
+              <Button variant="black" className="w-full btn-touch">
                 <Plus size={18} className="sm:w-5 sm:h-5" />
                 <span className="text-xs sm:text-sm">Nouvelle mesure</span>
               </Button>
@@ -351,7 +351,7 @@ export function GrowthTrackerScreen({ onBack }: GrowthTrackerScreenProps) {
               </div>
               <Dialog open={showGoalDialog} onOpenChange={setShowGoalDialog}>
                 <DialogTrigger asChild>
-                  <Button variant="outline" size="sm">
+                  <Button variant="black" size="sm">
                     <Edit size={16} />
                     Modifier
                   </Button>
@@ -403,7 +403,7 @@ export function GrowthTrackerScreen({ onBack }: GrowthTrackerScreenProps) {
               </div>
               <Dialog open={showGoalDialog} onOpenChange={setShowGoalDialog}>
                 <DialogTrigger asChild>
-                  <Button variant="hero">
+                  <Button variant="black">
                     <Target size={20} />
                     Définir un objectif
                   </Button>

@@ -325,7 +325,7 @@ export function HairProfileScreen({
     <div className="pb-20 px-4 space-y-6 bg-background min-h-screen">
       {/* Header */}
       <div className="flex items-center gap-2 sm:gap-4 pt-4 pb-2">
-        <Button variant="ghost" size="icon" onClick={onBack}>
+        <Button variant="black" size="icon" onClick={onBack}>
           <ArrowLeft size={20} />
         </Button>
         <div className="flex-1 min-w-0">
@@ -666,7 +666,7 @@ export function HairProfileScreen({
 
       {/* Save Button */}
       <div className="pt-4">
-        <Button variant="hero" size="lg" onClick={handleSave} className="w-full">
+        <Button variant="black" size="lg" onClick={handleSave} className="w-full">
           Enregistrer mon profil ✨
         </Button>
       </div>

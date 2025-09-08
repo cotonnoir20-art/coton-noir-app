@@ -61,7 +61,7 @@ export function AIHairTip({
           </AnimatePresence>
         </div>
         
-        {showRefresh && !isLoading && <Button variant="ghost" size="icon" onClick={handleRefresh} className="w-8 h-8 flex-shrink-0 hover:bg-white/50">
+        {showRefresh && !isLoading && <Button variant="black" size="icon" onClick={handleRefresh} className="w-8 h-8 flex-shrink-0 hover:bg-white/20">
             <RefreshCw size={16} className="hover:rotate-180 transition-transform duration-500" />
           </Button>}
       </div>;
@@ -83,7 +83,7 @@ export function AIHairTip({
             </div>
           </div>
           
-          {showRefresh && <Button variant="outline" size="sm" onClick={handleRefresh} disabled={isLoading} className="border-purple-200 hover:bg-white/50">
+          {showRefresh && <Button variant="black" size="sm" onClick={handleRefresh} disabled={isLoading} className="border-purple-200 hover:bg-white/20">
               {isLoading ? <RefreshCw size={16} className="animate-spin" /> : <Sparkles size={16} className="animate-glow" />}
               Nouveau conseil
             </Button>}
@@ -148,7 +148,7 @@ export function AIHairTip({
             <h4 className="font-poppins font-semibold text-sm text-coton-black">CotonTips
 
           </h4>
-            {showRefresh && <Button variant="ghost" size="icon" onClick={handleRefresh} disabled={isLoading} className="w-6 h-6 hover:bg-white/50">
+            {showRefresh && <Button variant="black" size="icon" onClick={handleRefresh} disabled={isLoading} className="w-6 h-6 hover:bg-white/20">
                 <RefreshCw size={12} className={isLoading ? 'animate-spin' : ''} />
               </Button>}
           </div>

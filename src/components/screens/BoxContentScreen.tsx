@@ -128,11 +128,11 @@ export function BoxContentScreen({ onBack }: BoxContentScreenProps) {
                   </div>
                   
                   <div className="flex flex-col gap-2">
-                    <Button variant="outline" size="sm" className="w-full">
+                    <Button variant="black" size="sm" className="w-full">
                       <Eye size={14} className="mr-1" />
                       Voir
                     </Button>
-                    <Button variant="hero" size="sm" className="w-full">
+                    <Button variant="black" size="sm" className="w-full">
                       <Download size={14} className="mr-1" />
                       Télécharger
                     </Button>

@@ -209,7 +209,7 @@ export function HairAnalyzer({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="hero" className={`${className} btn-touch`}>
+        <Button variant="black" className={`${className} btn-touch`}>
           <Camera size={18} className="sm:w-5 sm:h-5" />
           <span className="text-xs sm:text-sm">{currentTitle}</span>
         </Button>
@@ -275,7 +275,7 @@ export function HairAnalyzer({
                   <Camera size={20} />
                   Capturer
                 </Button>
-                <Button onClick={stopCamera} variant="outline">
+                <Button onClick={stopCamera} variant="black">
                   Annuler
                 </Button>
               </div>
@@ -306,7 +306,7 @@ export function HairAnalyzer({
                     )}
                     {isAnalyzing ? 'Analyse en cours...' : 'Analyser'}
                   </Button>
-                  <Button onClick={resetAnalysis} variant="outline">
+                  <Button onClick={resetAnalysis} variant="black">
                     Reprendre
                   </Button>
                 </div>
@@ -357,7 +357,7 @@ export function HairAnalyzer({
               )}
 
               <div className="flex gap-2 mt-4">
-                <Button onClick={resetAnalysis} variant="outline" size="sm">
+                <Button onClick={resetAnalysis} variant="black" size="sm">
                   Nouvelle analyse
                 </Button>
                 <Button onClick={() => setIsOpen(false)} size="sm">

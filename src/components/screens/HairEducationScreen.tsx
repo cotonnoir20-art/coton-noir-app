@@ -142,7 +142,7 @@ export function HairEducationScreen({ onBack }: HairEducationScreenProps) {
     <div className="min-h-screen bg-background px-4 py-6 space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" onClick={onBack}>
+        <Button variant="black" size="icon" onClick={onBack}>
           <ArrowLeft size={20} />
         </Button>
         <div>

@@ -167,7 +167,7 @@ export function WashDayTrackerScreen({ onBack }: WashDayTrackerScreenProps) {
           <div className="ml-auto">
             <Dialog open={showSettings} onOpenChange={setShowSettings}>
               <DialogTrigger asChild>
-                <Button variant="ghost" size="icon" className="text-white hover:bg-white/20">
+                <Button variant="black" size="icon" className="text-white hover:bg-white/20">
                   <Settings size={20} />
                 </Button>
               </DialogTrigger>
@@ -227,7 +227,7 @@ export function WashDayTrackerScreen({ onBack }: WashDayTrackerScreenProps) {
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
               <Dialog open={showAddEntry} onOpenChange={setShowAddEntry}>
                 <DialogTrigger asChild>
-                  <Button variant="hero" size="sm" className="w-full sm:w-auto btn-touch">
+                  <Button variant="black" size="sm" className="w-full sm:w-auto btn-touch">
                     <Plus size={14} className="sm:w-4 sm:h-4" />
                     <span className="text-xs sm:text-sm">Ajouter un wash day</span>
                   </Button>
@@ -388,7 +388,7 @@ export function WashDayTrackerScreen({ onBack }: WashDayTrackerScreenProps) {
                 <Label>Date</Label>
                 <Popover>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-start">
+                    <Button variant="black" className="w-full justify-start">
                       <Calendar className="mr-2 h-4 w-4" />
                       {selectedDate ? format(selectedDate, 'dd MMMM yyyy', { locale: fr }) : 'Sélectionner une date'}
                     </Button>

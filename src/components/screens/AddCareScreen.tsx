@@ -70,7 +70,7 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
       <header className="bg-card border-b border-border px-4 py-3 sticky top-0 z-40">
         <div className="container-responsive">
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" onClick={onBack} className="btn-touch">
+            <Button variant="black" size="icon" onClick={onBack} className="btn-touch">
               <ArrowLeft size={18} className="sm:w-5 sm:h-5" />
             </Button>
             <h1 className="font-poppins font-semibold text-base sm:text-lg">
