@@ -96,7 +96,7 @@ export function Layout({ children, showHeader = true, showNavigation = true, sho
         <div className="fixed bottom-24 sm:bottom-28 right-4 z-40">
           <Button
             size="icon"
-            variant="hero"
+            variant="black"
             className="w-14 h-14 sm:w-16 sm:h-16 rounded-full shadow-premium hover:shadow-glow btn-touch animate-scale-in"
             onClick={() => navigate('/add-care')}
           >
