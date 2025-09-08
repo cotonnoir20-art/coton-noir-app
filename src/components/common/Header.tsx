@@ -26,7 +26,7 @@ export function Header({ onProfileClick, onHomeClick, onRewardsClick }: HeaderPr
   ];
 
   return (
-    <header className="bg-gradient-to-r from-coton-black via-coton-black to-coton-nude/20 border-b border-white/20 px-4 py-4 sticky top-0 z-40 shadow-premium backdrop-blur-md">
+    <header className="bg-coton-black border-b border-white/20 px-4 py-4 sticky top-0 z-40 shadow-premium backdrop-blur-md">
       <div className="container-responsive">
         <div className="flex items-center justify-between">
           {/* Logo / Home Button - Mobile-first responsive */}
