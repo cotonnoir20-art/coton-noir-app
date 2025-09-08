@@ -414,7 +414,7 @@ export function HomeScreen({
                     {new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}
                   </span>
                 </div>
-                <Calendar className="text-muted-foreground hover:text-coton-rose cursor-pointer transition-colors" size={20} />
+                <Calendar className="text-muted-foreground hover:text-coton-rose cursor-pointer transition-colors" size={20} onClick={() => onNavigate('wash-day-tracker')} />
               </div>
 
               {/* Mini calendrier inline */}
