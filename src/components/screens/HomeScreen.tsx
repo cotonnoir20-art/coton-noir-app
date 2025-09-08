@@ -393,139 +393,6 @@ export function HomeScreen({
         </CotonCard>
       </motion.div>
 
-      {/* Défis quotidiens - Encart dépliable */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }} 
-        animate={{ opacity: 1, y: 0 }} 
-        transition={{ duration: 0.5, delay: 0.1 }}
-        className="mt-6"
-      >
-        <CotonCard className="overflow-hidden shadow-elegant hover:shadow-premium transition-all duration-400">
-          {/* Header cliquable */}
-          <button
-            onClick={() => setChallengesExpanded(!challengesExpanded)}
-            className="w-full p-5 flex items-center justify-between hover:bg-muted/60 transition-all duration-300 hover:scale-[1.01] transform-gpu"
-          >
-            <div className="flex items-center gap-3">
-              <Trophy className="text-yellow-500 animate-glow" size={22} />
-              <div className="text-left">
-                <h3 className="font-poppins font-bold text-lg">Défis du jour</h3>
-                <p className="text-sm text-muted-foreground font-medium">
-                  {todaysChallenges.filter(c => !c.completed).length} en cours • {todaysChallenges.filter(c => c.completed).length} validés
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              {todaysChallenges.filter(c => c.completed).length > 0 && (
-                <span className="text-green-600 text-sm font-bold bg-green-100 px-2 py-1 rounded-full">
-                  +{todaysChallenges.filter(c => c.completed).reduce((sum, c) => sum + c.reward, 0)} CC
-                </span>
-              )}
-              {challengesExpanded ? (
-                <ChevronDown size={20} className="text-muted-foreground transition-transform duration-300" />
-              ) : (
-                <ChevronRight size={20} className="text-muted-foreground transition-transform duration-300" />
-              )}
-            </div>
-          </button>
-
-          {/* Contenu dépliable */}
-          <div
-            className={`overflow-hidden transition-all duration-500 ease-in-out ${
-              challengesExpanded 
-                ? 'max-h-[1000px] opacity-100' 
-                : 'max-h-0 opacity-0'
-            }`}
-          >
-            <div className="px-5 pb-5 space-y-4">
-              {/* Défis en cours */}
-              {todaysChallenges.filter(c => !c.completed).length > 0 && (
-                <div className="space-y-4">
-                  <h4 className="font-poppins font-medium text-sm text-orange-600 flex items-center gap-1">
-                    <Target size={14} />
-                    En cours
-                  </h4>
-                  {todaysChallenges.filter(c => !c.completed).map((challenge, index) => (
-                    <motion.div 
-                      key={challenge.id}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1, duration: 0.4 }}
-                      className="p-4 rounded-xl bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200/60 shadow-card hover:shadow-elegant transition-all duration-300"
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex-1">
-                          <h5 className="font-poppins font-bold text-base text-orange-900">
-                            {challenge.title}
-                          </h5>
-                          <p className="text-sm text-orange-700 mt-1 font-medium">
-                            {challenge.description}
-                          </p>
-                        </div>
-                        <div className="text-right ml-3">
-                          <div className="text-orange-600 font-bold text-base mb-2 bg-orange-100 px-2 py-1 rounded-full">
-                            +{challenge.reward} CC
-                          </div>
-                          <Button 
-                            size="sm" 
-                            variant="black" 
-                            onClick={() => handleCompleteChallenge(challenge)} 
-                            className="text-xs hover:scale-[1.05] shadow-card"
-                          >
-                            Valider
-                          </Button>
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              )}
-
-              {/* Défis validés */}
-              {todaysChallenges.filter(c => c.completed).length > 0 && (
-                <div className="space-y-4">
-                  <h4 className="font-poppins font-medium text-sm text-green-600 flex items-center gap-1">
-                    <Check size={14} />
-                    Validés aujourd'hui
-                  </h4>
-                  {todaysChallenges.filter(c => c.completed).map((challenge, index) => (
-                    <div 
-                      key={challenge.id}
-                      className="p-4 rounded-xl bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200/60 shadow-card"
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-green-400 to-emerald-500 text-white flex items-center justify-center shadow-card">
-                            <Check size={14} />
-                          </div>
-                          <div>
-                            <h5 className="font-poppins font-bold text-base text-green-900">
-                              {challenge.title}
-                            </h5>
-                            <p className="text-sm text-green-700 font-medium">
-                              Complété • +{challenge.reward} CC
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* Message si aucun défi */}
-              {todaysChallenges.length === 0 && (
-                <div className="text-center py-8">
-                  <div className="text-5xl mb-3 animate-glow">🎯</div>
-                  <p className="text-base text-muted-foreground font-roboto font-medium">
-                    Aucun défi disponible aujourd'hui
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-        </CotonCard>
-      </motion.div>
 
       
       
@@ -984,5 +851,145 @@ export function HomeScreen({
               </div>}
           </div>
         </CotonCard>}
+
+      {/* Défis quotidiens - Encart dépliable */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }} 
+        animate={{ opacity: 1, y: 0 }} 
+        transition={{ duration: 0.5, delay: 0.1 }}
+        className="mt-6"
+      >
+        <CotonCard className="overflow-hidden shadow-elegant hover:shadow-premium transition-all duration-400">
+          {/* Header cliquable */}
+          <button
+            onClick={() => setChallengesExpanded(!challengesExpanded)}
+            className="w-full p-5 flex items-center justify-between hover:bg-muted/60 transition-all duration-300 hover:scale-[1.01] transform-gpu"
+          >
+            <div className="flex items-center gap-3">
+              <Trophy className="text-yellow-500 animate-glow" size={22} />
+              <div className="text-left">
+                <h3 className="font-poppins font-bold text-lg">Défis du jour</h3>
+                <p className="text-sm text-muted-foreground font-medium">
+                  {todaysChallenges.filter(c => !c.completed).length} en cours • {todaysChallenges.filter(c => c.completed).length} validés
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              {todaysChallenges.filter(c => c.completed).length > 0 && (
+                <span className="text-green-600 text-sm font-bold bg-green-100 px-2 py-1 rounded-full">
+                  +{todaysChallenges.filter(c => c.completed).reduce((sum, c) => sum + c.reward, 0)} CC
+                </span>
+              )}
+              {challengesExpanded ? (
+                <ChevronDown size={20} className="text-muted-foreground transition-transform duration-300" />
+              ) : (
+                <ChevronRight size={20} className="text-muted-foreground transition-transform duration-300" />
+              )}
+            </div>
+          </button>
+
+          {/* Contenu dépliable */}
+          <div
+            className={`overflow-hidden transition-all duration-500 ease-in-out ${
+              challengesExpanded 
+                ? 'max-h-[1000px] opacity-100' 
+                : 'max-h-0 opacity-0'
+            }`}
+          >
+            <div className="px-5 pb-5 space-y-4">
+              {/* Défis en cours */}
+              {todaysChallenges.filter(c => !c.completed).length > 0 && (
+                <div className="space-y-4">
+                  <h4 className="font-poppins font-medium text-sm text-orange-600 flex items-center gap-1">
+                    <Target size={14} />
+                    En cours
+                  </h4>
+                  {todaysChallenges.filter(c => !c.completed).map((challenge, index) => (
+                    <motion.div 
+                      key={challenge.id}
+                      initial={{ opacity: 0, x: -20 }} 
+                      animate={{ opacity: 1, x: 0 }} 
+                      transition={{ duration: 0.3, delay: index * 0.1 }}
+                      className="bg-white rounded-lg p-4 border border-orange-200 hover:border-orange-300 transition-colors"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex-1">
+                          <p className="font-poppins font-medium text-base mb-1">
+                            {challenge.title}
+                          </p>
+                          <p className="text-sm text-muted-foreground font-roboto">
+                            {challenge.description}
+                          </p>
+                        </div>
+                        <div className="ml-4 text-right">
+                          <p className="text-xs text-orange-600 font-medium mb-1">
+                            +{challenge.reward} CC
+                          </p>
+                          <Button
+                            size="sm"
+                            onClick={() => handleCompleteChallenge(challenge)}
+                            className="bg-orange-100 text-orange-700 hover:bg-orange-200 border-none font-medium"
+                          >
+                            Valider
+                          </Button>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              )}
+
+              {/* Défis validés */}
+              {todaysChallenges.filter(c => c.completed).length > 0 && (
+                <div className="space-y-4">
+                  <h4 className="font-poppins font-medium text-sm text-green-600 flex items-center gap-1">
+                    <Check size={14} />
+                    Validés
+                  </h4>
+                  {todaysChallenges.filter(c => c.completed).map((challenge, index) => (
+                    <motion.div 
+                      key={challenge.id}
+                      initial={{ opacity: 0, scale: 0.9 }} 
+                      animate={{ opacity: 1, scale: 1 }} 
+                      transition={{ duration: 0.3, delay: index * 0.1 }}
+                      className="bg-green-50 rounded-lg p-4 border border-green-200"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+                            <Check className="text-white" size={14} />
+                          </div>
+                          <div>
+                            <p className="font-poppins font-medium text-base text-green-800">
+                              {challenge.title}
+                            </p>
+                            <p className="text-sm text-green-600 font-roboto">
+                              Défi terminé !
+                            </p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <span className="text-green-600 text-sm font-bold bg-green-100 px-2 py-1 rounded-full">
+                            +{challenge.reward} CC
+                          </span>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              )}
+
+              {/* Aucun défi */}
+              {todaysChallenges.length === 0 && (
+                <div className="text-center py-8">
+                  <p className="text-base text-muted-foreground font-roboto font-medium">
+                    Aucun défi disponible aujourd'hui
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </CotonCard>
+      </motion.div>
     </div>;
 }
