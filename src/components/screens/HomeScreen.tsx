@@ -890,7 +890,7 @@ export function HomeScreen({
             <div className="flex flex-col items-center text-center space-y-4">
               <Crown className="text-amber-500 animate-glow" size={40} />
               <span className="font-poppins font-bold text-lg text-amber-700">Premium</span>
-              <span className="text-sm text-amber-600 font-medium">Débloque tout le potentiel</span>
+              <span className="text-sm text-amber-600 font-medium">Offre premium arrive bientôt</span>
             </div>
           </CotonCard>
         </div>
