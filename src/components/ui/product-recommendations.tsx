@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Star, ShoppingCart, Info, Sparkles, Zap, Heart, ExternalLink } from 'lucide-react';
+import { Star, ShoppingCart, Info, Sparkles, Zap, Heart, ExternalLink, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CotonCard } from '@/components/ui/coton-card';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { PartnerLinks } from '@/components/ui/partner-links';
 import { useApp } from '@/contexts/AppContext';
 import { PRODUCTS_DATABASE, Product } from '@/data/products';
 import { supabase } from '@/integrations/supabase/client';
@@ -29,6 +31,8 @@ export function ProductRecommendations({
   const [aiRecommendations, setAiRecommendations] = useState<AIRecommendation[]>([]);
   const [isLoadingAI, setIsLoadingAI] = useState(false);
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [showProductDetail, setShowProductDetail] = useState(false);
 
   // Algorithme de matching basé sur le profil
   const algorithmicRecommendations = useMemo(() => {
@@ -338,12 +342,26 @@ export function ProductRecommendations({
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Button variant="outline" size="sm">
-                    <ExternalLink size={14} />
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => {
+                      setSelectedProduct(product);
+                      setShowProductDetail(true);
+                    }}
+                  >
+                    <Eye size={14} />
                   </Button>
-                  <Button size="sm" className="gap-2">
+                  <Button 
+                    size="sm" 
+                    className="gap-2"
+                    onClick={() => {
+                      setSelectedProduct(product);
+                      setShowProductDetail(true);
+                    }}
+                  >
                     <ShoppingCart size={14} />
-                    Voir
+                    Acheter
                   </Button>
                 </div>
               </div>
@@ -359,6 +377,104 @@ export function ProductRecommendations({
           </Button>
         </div>
       )}
+
+      {/* Product Detail Modal */}
+      <Dialog open={showProductDetail} onOpenChange={setShowProductDetail}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          {selectedProduct && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="flex items-start gap-4">
+                  <div className="flex-1">
+                    <h2 className="font-poppins font-bold text-xl text-foreground">
+                      {selectedProduct.name}
+                    </h2>
+                    <p className="text-muted-foreground font-medium">
+                      {selectedProduct.brand}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Star size={16} className="fill-yellow-400 text-yellow-400" />
+                      <span className="font-medium">{selectedProduct.rating}</span>
+                      <span className="text-sm text-muted-foreground">
+                        ({selectedProduct.reviews} avis)
+                      </span>
+                    </div>
+                    <Badge variant="secondary">{selectedProduct.category}</Badge>
+                  </div>
+                </DialogTitle>
+              </DialogHeader>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+                {/* Product Info */}
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="font-poppins font-semibold text-lg mb-3">
+                      Description
+                    </h3>
+                    <p className="text-foreground leading-relaxed">
+                      {selectedProduct.description}
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="font-poppins font-semibold text-lg mb-3">
+                      Bénéfices
+                    </h3>
+                    <ul className="space-y-2">
+                      {selectedProduct.benefits.map((benefit, index) => (
+                        <li key={index} className="flex items-start gap-2">
+                          <span className="text-coton-rose mt-1">•</span>
+                          <span className="text-foreground">{benefit}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {selectedProduct.howToUse && (
+                    <div>
+                      <h3 className="font-poppins font-semibold text-lg mb-3">
+                        Mode d'emploi
+                      </h3>
+                      <p className="text-foreground leading-relaxed">
+                        {selectedProduct.howToUse}
+                      </p>
+                    </div>
+                  )}
+
+                  <div>
+                    <h3 className="font-poppins font-semibold text-lg mb-3">
+                      Ingrédients principaux
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedProduct.ingredients.slice(0, 8).map((ingredient, index) => (
+                        <Badge key={index} variant="outline" className="text-xs">
+                          {ingredient}
+                        </Badge>
+                      ))}
+                      {selectedProduct.ingredients.length > 8 && (
+                        <Badge variant="outline" className="text-xs">
+                          +{selectedProduct.ingredients.length - 8} autres
+                        </Badge>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Partner Links */}
+                <div>
+                  <PartnerLinks
+                    partnerLinks={selectedProduct.partnerLinks}
+                    productId={selectedProduct.id}
+                    productName={selectedProduct.name}
+                  />
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

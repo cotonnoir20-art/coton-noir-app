@@ -1,3 +1,15 @@
+export interface PartnerLink {
+  store: string;
+  storeLogo?: string;
+  url: string;
+  price: number;
+  originalPrice?: number;
+  discount?: number;
+  availability: 'in_stock' | 'low_stock' | 'out_of_stock' | 'pre_order';
+  shippingInfo?: string;
+  affiliateCode?: string;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -22,6 +34,9 @@ export interface Product {
   isNatural: boolean;
   isSulfateFree: boolean;
   isParabenFree: boolean;
+  
+  // Liens partenaires
+  partnerLinks: PartnerLink[];
 }
 
 export const PRODUCTS_DATABASE: Product[] = [
@@ -45,7 +60,33 @@ export const PRODUCTS_DATABASE: Product[] = [
     howToUse: 'Appliquer sur cheveux mouillés, masser délicatement, rincer abondamment.',
     isNatural: true,
     isSulfateFree: true,
-    isParabenFree: true
+    isParabenFree: true,
+    partnerLinks: [
+      {
+        store: 'Sephora',
+        url: 'https://www.sephora.fr/p/shampoing-hydratant-coco-karite-P12345',
+        price: 12.99,
+        originalPrice: 15.99,
+        discount: 19,
+        availability: 'in_stock',
+        shippingInfo: 'Livraison gratuite dès 25€',
+        affiliateCode: 'COTON2025'
+      },
+      {
+        store: 'Notino',
+        url: 'https://www.notino.fr/curls-naturally/shampoing-hydratant/',
+        price: 11.90,
+        availability: 'in_stock',
+        shippingInfo: 'Livraison 2-3 jours'
+      },
+      {
+        store: 'Nappy Queen',
+        url: 'https://nappy-queen.com/products/shampoing-coco-karite',
+        price: 13.50,
+        availability: 'low_stock',
+        shippingInfo: 'Livraison 24h en région parisienne'
+      }
+    ]
   },
   
   {
@@ -67,7 +108,23 @@ export const PRODUCTS_DATABASE: Product[] = [
     howToUse: 'Utiliser 1-2 fois par mois. Masser sur cuir chevelu, laisser agir 2 minutes.',
     isNatural: true,
     isSulfateFree: true,
-    isParabenFree: true
+    isParabenFree: true,
+    partnerLinks: [
+      {
+        store: 'Afrikrea',
+        url: 'https://www.afrikrea.com/fr/produit/shampoing-clarifiant-doux',
+        price: 15.50,
+        availability: 'in_stock',
+        shippingInfo: 'Livraison internationale'
+      },
+      {
+        store: 'Amazon',
+        url: 'https://www.amazon.fr/dp/B08XYZ123',
+        price: 14.99,
+        availability: 'in_stock',
+        shippingInfo: 'Prime - Livraison gratuite'
+      }
+    ]
   },
 
   // Conditionneurs
@@ -90,7 +147,25 @@ export const PRODUCTS_DATABASE: Product[] = [
     howToUse: 'Appliquer sur longueurs humides, laisser poser 3-5 minutes, rincer.',
     isNatural: true,
     isSulfateFree: true,
-    isParabenFree: true
+    isParabenFree: true,
+    partnerLinks: [
+      {
+        store: 'Marionnaud',
+        url: 'https://www.marionnaud.fr/conditioner-demelant-hibiscus',
+        price: 14.90,
+        availability: 'in_stock',
+        shippingInfo: 'Click & Collect disponible'
+      },
+      {
+        store: 'Blackstore',
+        url: 'https://blackstore.fr/products/conditioner-hibiscus',
+        price: 13.90,
+        originalPrice: 16.90,
+        discount: 18,
+        availability: 'in_stock',
+        shippingInfo: 'Livraison offerte dès 30€'
+      }
+    ]
   },
 
   // Masques
@@ -113,7 +188,22 @@ export const PRODUCTS_DATABASE: Product[] = [
     howToUse: 'Appliquer sur cheveux lavés, laisser poser 15-20 minutes, rincer soigneusement.',
     isNatural: true,
     isSulfateFree: true,
-    isParabenFree: true
+    isParabenFree: true,
+    partnerLinks: [
+      {
+        store: 'Sephora',
+        url: 'https://www.sephora.fr/p/masque-reparateur-intense',
+        price: 22.00,
+        availability: 'in_stock',
+        shippingInfo: 'Livraison gratuite dès 25€'
+      },
+      {
+        store: 'Nocibé',
+        url: 'https://www.nocibe.fr/masque-reparateur-afro-restore',
+        price: 21.50,
+        availability: 'in_stock'
+      }
+    ]
   },
 
   {
@@ -134,7 +224,22 @@ export const PRODUCTS_DATABASE: Product[] = [
     benefits: ['Hydratation longue durée', 'Apporte brillance', 'Assouplit la texture'],
     isNatural: true,
     isSulfateFree: true,
-    isParabenFree: true
+    isParabenFree: true,
+    partnerLinks: [
+      {
+        store: 'Amazon',
+        url: 'https://www.amazon.fr/dp/B08ABC789',
+        price: 18.99,
+        availability: 'in_stock',
+        shippingInfo: 'Prime - Livraison gratuite'
+      },
+      {
+        store: 'Nappy Queen',
+        url: 'https://nappy-queen.com/products/masque-aloe-miel',
+        price: 19.90,
+        availability: 'low_stock'
+      }
+    ]
   },
 
   // Leave-in
@@ -157,7 +262,24 @@ export const PRODUCTS_DATABASE: Product[] = [
     howToUse: 'Appliquer sur cheveux humides, répartir uniformément, coiffer selon technique préférée.',
     isNatural: true,
     isSulfateFree: true,
-    isParabenFree: true
+    isParabenFree: true,
+    partnerLinks: [
+      {
+        store: 'Blackstore',
+        url: 'https://blackstore.fr/products/leave-in-definition-parfaite',
+        price: 16.50,
+        originalPrice: 19.90,
+        discount: 17,
+        availability: 'in_stock',
+        shippingInfo: 'Livraison offerte dès 30€'
+      },
+      {
+        store: 'Afrikrea',
+        url: 'https://www.afrikrea.com/fr/produit/creme-leave-in-definition',
+        price: 15.90,
+        availability: 'in_stock'
+      }
+    ]
   },
 
   // Huiles
@@ -180,7 +302,22 @@ export const PRODUCTS_DATABASE: Product[] = [
     howToUse: 'Quelques gouttes sur cheveux humides ou secs. Utilisation cuir chevelu possible.',
     isNatural: true,
     isSulfateFree: true,
-    isParabenFree: true
+    isParabenFree: true,
+    partnerLinks: [
+      {
+        store: 'Marionnaud',
+        url: 'https://www.marionnaud.fr/huile-precieuse-multi-usages',
+        price: 24.90,
+        availability: 'in_stock',
+        shippingInfo: 'Click & Collect disponible'
+      },
+      {
+        store: 'Sephora',
+        url: 'https://www.sephora.fr/p/huile-precieuse-afroglow',
+        price: 26.00,
+        availability: 'in_stock'
+      }
+    ]
   },
 
   // Beurres
@@ -203,7 +340,23 @@ export const PRODUCTS_DATABASE: Product[] = [
     howToUse: 'Réchauffer entre les paumes, appliquer sur cheveux humides ou secs.',
     isNatural: true,
     isSulfateFree: true,
-    isParabenFree: true
+    isParabenFree: true,
+    partnerLinks: [
+      {
+        store: 'Nappy Queen',
+        url: 'https://nappy-queen.com/products/beurre-karite-pur',
+        price: 19.99,
+        availability: 'in_stock',
+        shippingInfo: 'Livraison 24h en région parisienne'
+      },
+      {
+        store: 'Amazon',
+        url: 'https://www.amazon.fr/dp/B08DEF456',
+        price: 18.90,
+        availability: 'in_stock',
+        shippingInfo: 'Prime - Livraison gratuite'
+      }
+    ]
   },
 
   // Gels
@@ -226,7 +379,24 @@ export const PRODUCTS_DATABASE: Product[] = [
     howToUse: 'Appliquer sur cheveux très humides, techniques finger coils ou scrunching.',
     isNatural: true,
     isSulfateFree: true,
-    isParabenFree: true
+    isParabenFree: true,
+    partnerLinks: [
+      {
+        store: 'Blackstore',
+        url: 'https://blackstore.fr/products/gel-definition-strong-hold',
+        price: 13.90,
+        availability: 'in_stock',
+        shippingInfo: 'Livraison offerte dès 30€'
+      },
+      {
+        store: 'Notino',
+        url: 'https://www.notino.fr/curl-define/gel-definition-strong-hold/',
+        price: 12.90,
+        originalPrice: 15.90,
+        discount: 19,
+        availability: 'in_stock'
+      }
+    ]
   },
 
   // Sérums
@@ -249,7 +419,31 @@ export const PRODUCTS_DATABASE: Product[] = [
     howToUse: '2-3 gouttes sur cheveux secs en finition ou sur humides avant coiffage.',
     isNatural: true,
     isSulfateFree: true,
-    isParabenFree: true
+    isParabenFree: true,
+    partnerLinks: [
+      {
+        store: 'Sephora',
+        url: 'https://www.sephora.fr/p/serum-anti-frisottis-argan',
+        price: 21.50,
+        availability: 'in_stock',
+        shippingInfo: 'Livraison gratuite dès 25€'
+      },
+      {
+        store: 'Marionnaud',
+        url: 'https://www.marionnaud.fr/serum-anti-frisottis-afrosmooth',
+        price: 20.90,
+        availability: 'low_stock',
+        shippingInfo: 'Click & Collect disponible'
+      },
+      {
+        store: 'Amazon',
+        url: 'https://www.amazon.fr/dp/B08GHI789',
+        price: 19.99,
+        availability: 'in_stock',
+        shippingInfo: 'Prime - Livraison gratuite',
+        affiliateCode: 'COTON2025'
+      }
+    ]
   }
 ];
 
