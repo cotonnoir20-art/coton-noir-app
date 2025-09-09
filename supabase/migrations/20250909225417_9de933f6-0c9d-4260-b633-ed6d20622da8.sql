@@ -1,0 +1,2 @@
+-- Fonction Edge pour générer des recommandations de produits avec OpenAI
+-- Cette fonction sera créée automatiquement par Supabase

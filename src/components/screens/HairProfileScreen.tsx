@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { CotonCard } from '@/components/ui/coton-card';
 import { AIHairTip } from '@/components/ui/ai-hair-tip';
 import { HairAnalyzer } from '@/components/ui/hair-analyzer';
+import { ProductRecommendations } from '@/components/ui/product-recommendations';
 import { useApp } from '@/contexts/AppContext';
 import { useToast } from '@/hooks/use-toast';
 import { HairEducationScreen } from './HairEducationScreen';
@@ -660,6 +661,31 @@ export function HairProfileScreen({
                   })()}
                 </p>
               </div>
+          </CotonCard>
+         </div>
+       )}
+
+      {/* Product Recommendations Section */}
+      {state.detailedHairProfile.isCompleted && (
+        <div className="mb-6">
+          <CotonCard className="p-6 bg-gradient-to-br from-purple-50 to-blue-50 border-purple-200">
+            <div className="text-center">
+              <div className="text-3xl mb-4">🛍️</div>
+              <h3 className="font-poppins font-bold text-lg text-foreground mb-2">
+                Recommandations Produits Personnalisées
+              </h3>
+              <p className="text-muted-foreground text-sm mb-4">
+                Découvre les produits parfaitement adaptés à ton profil capillaire
+              </p>
+              <Button 
+                onClick={() => window.location.href = '/product-recommendations'}
+                className="gap-2"
+                variant="default"
+              >
+                <Sparkles size={16} />
+                Voir mes recommandations
+              </Button>
+            </div>
           </CotonCard>
         </div>
       )}
