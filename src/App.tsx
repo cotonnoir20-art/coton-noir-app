@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import { SubscriptionProvider } from "@/hooks/useSubscription";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { AppProvider } from "@/contexts/AppContext";
 import Home from './pages/Home';
 import Journal from './pages/Journal';
 import Box from './pages/Box';
@@ -36,11 +37,12 @@ const App = () => (
     <LanguageProvider>
       <AuthProvider>
         <SubscriptionProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <Routes>
+          <AppProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
+                <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/journal" element={<Journal />} />
                 <Route path="/box" element={<Box />} />
@@ -64,9 +66,10 @@ const App = () => (
                 <Route path="/product-recommendations" element={<ProductRecommendations />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
-              </Routes>
-            </BrowserRouter>
-          </TooltipProvider>
+                </Routes>
+              </BrowserRouter>
+            </TooltipProvider>
+          </AppProvider>
         </SubscriptionProvider>
       </AuthProvider>
     </LanguageProvider>
