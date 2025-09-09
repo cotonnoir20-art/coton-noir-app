@@ -90,7 +90,7 @@ export function Header({ onProfileClick, onHomeClick, onRewardsClick }: HeaderPr
             {/* Coins - Mobile-first responsive */}
             <button 
               onClick={() => navigate('/rewards')}
-              className="flex items-center gap-1.5 bg-coton-rose text-white px-3 sm:px-4 py-2 rounded-pill shadow-elegant hover:scale-110 hover:shadow-glow transition-all cursor-pointer btn-touch font-semibold"
+              className="flex items-center gap-1.5 bg-coton-rose text-black px-3 sm:px-4 py-2 rounded-pill shadow-elegant hover:scale-110 hover:shadow-glow transition-all cursor-pointer btn-touch font-semibold"
             >
               <Coins size={16} className="sm:w-5 sm:h-5" />
               <span className="font-poppins font-bold text-sm sm:text-base">
