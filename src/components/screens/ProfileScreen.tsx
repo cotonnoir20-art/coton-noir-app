@@ -27,7 +27,8 @@ import {
   Star,
   Coins,
   ArrowLeft,
-  Home
+  Home,
+  Gift
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
@@ -330,6 +331,24 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
                   <div className="text-left min-w-0 flex-1">
                     <p className="font-medium text-sm sm:text-base">{t('profile.inviteFriends')}</p>
                     <p className="text-xs sm:text-sm text-muted-foreground">{t('profile.inviteFriendsDesc')}</p>
+                  </div>
+                </div>
+                <ChevronRight size={14} className="sm:w-4 sm:h-4 text-muted-foreground flex-shrink-0" />
+              </Button>
+
+              <Separator />
+
+              {/* Referral Program */}
+              <Button
+                variant="ghost"
+                className="w-full justify-between h-12 sm:h-14 px-4 sm:px-6 rounded-none btn-touch"
+                onClick={() => navigate('/referral')}
+              >
+                <div className="flex items-center space-x-3 flex-1 min-w-0">
+                  <Gift size={18} className="sm:w-5 sm:h-5 text-coton-rose flex-shrink-0" />
+                  <div className="text-left min-w-0 flex-1">
+                    <p className="font-medium text-sm sm:text-base">Parrainage</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Invite tes amies et gagne des CotonCoins</p>
                   </div>
                 </div>
                 <ChevronRight size={14} className="sm:w-4 sm:h-4 text-muted-foreground flex-shrink-0" />
