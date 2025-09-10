@@ -68,14 +68,6 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
     });
   };
 
-  const handleInviteFriends = () => {
-    dispatch({ type: 'ADD_COINS', amount: 50 });
-    toast({
-      title: t('toast.coinsEarned'),
-      description: t('toast.coinsEarnedDesc'),
-    });
-  };
-
   const handleLogout = async () => {
     try {
       // Sign out from Supabase
@@ -324,7 +316,7 @@ export function ProfileScreen({ onNavigate }: ProfileScreenProps) {
               <Button
                 variant="ghost"
                 className="w-full justify-between h-12 sm:h-14 px-4 sm:px-6 rounded-none btn-touch"
-                onClick={handleInviteFriends}
+                onClick={() => navigate('/referral')}
               >
                 <div className="flex items-center space-x-3 flex-1 min-w-0">
                   <Users size={18} className="sm:w-5 sm:h-5 text-coton-rose flex-shrink-0" />

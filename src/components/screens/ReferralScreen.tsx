@@ -104,7 +104,7 @@ export const ReferralScreen = ({ onBack }: ReferralScreenProps) => {
         >
           <ChevronLeft className="h-6 w-6" />
         </Button>
-        <h1 className="text-2xl font-bold text-foreground">Parrainage</h1>
+        <h1 className="text-2xl font-bold text-foreground">Inviter des amis</h1>
       </div>
 
       <div className="space-y-6">
