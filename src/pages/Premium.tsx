@@ -214,46 +214,41 @@ export default function Premium() {
           </Card>
         </div>
 
-        {/* Features Details */}
+        {/* Notice Premium en développement */}
         <div className="mt-16">
-          <h2 className="text-2xl font-bold text-center mb-8">Pourquoi choisir Premium ?</h2>
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <Card>
-              <CardHeader>
-                <Bot className="w-8 h-8 text-primary mb-2" />
-                <CardTitle>IA Avancée</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Conseils personnalisés illimités, analyses photos avancées et recommandations produits ultra-précises.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <TrendingUp className="w-8 h-8 text-primary mb-2" />
-                <CardTitle>Analyses Poussées</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Statistiques détaillées, prédictions de croissance et comparaisons avant/après automatiques.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <Users className="w-8 h-8 text-primary mb-2" />
-                <CardTitle>Communauté VIP</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Accès aux groupes privés d'expertes, mentoring et consultations virtuelles exclusives.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
+          <Card className="border-orange-200 bg-orange-50">
+            <CardHeader className="text-center">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <Crown className="w-6 h-6 text-orange-600" />
+                <CardTitle className="text-orange-800">Premium en Développement</CardTitle>
+              </div>
+              <CardDescription className="text-orange-700">
+                L'abonnement Premium sera disponible dans les prochaines versions avec toutes les fonctionnalités avancées.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-3">
+                  <h4 className="font-semibold text-orange-800">Fonctionnalités à venir :</h4>
+                  <div className="space-y-2 text-sm text-orange-700">
+                    <p>• Analyses IA illimitées et avancées</p>
+                    <p>• Routines personnalisées complexes</p>
+                    <p>• Suivi détaillé avec graphiques</p>
+                    <p>• Communauté VIP et mentoring</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <h4 className="font-semibold text-orange-800">En attendant :</h4>
+                  <div className="space-y-2 text-sm text-orange-700">
+                    <p>• Profitez des fonctionnalités actuelles</p>
+                    <p>• Accumulez vos CotonCoins</p>
+                    <p>• Construisez votre historique</p>
+                    <p>• Préparez votre profil premium</p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Back Button */}

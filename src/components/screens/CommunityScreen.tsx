@@ -153,68 +153,31 @@ export function CommunityScreen({ onNavigate }: CommunityScreenProps) {
         )}
       </CotonCard>
       
-      {/* Community Stats */}
-      <CotonCard className="p-6 space-y-4">
-        <div className="flex items-center gap-3">
+      {/* Fonctionnalités communauté - Bientôt disponibles */}
+      <CotonCard className="p-6 space-y-4 bg-gradient-to-r from-muted/30 to-muted/10">
+        <div className="flex items-center gap-3 mb-4">
           <Users className="text-coton-rose" size={24} />
           <h3 className="font-poppins font-semibold text-lg">
-            Statistiques communauté
+            Communauté Étendue
           </h3>
+          <div className="ml-auto">
+            <span className="px-3 py-1 bg-orange-100 text-orange-700 text-xs rounded-full font-roboto">
+              Bientôt disponible
+            </span>
+          </div>
         </div>
         
-        <div className="grid grid-cols-2 gap-4">
-          <div className="text-center">
-            <div className="text-2xl font-poppins font-bold text-coton-black">
-              12,450
-            </div>
-            <div className="text-sm font-roboto text-muted-foreground">
-              Membres actives
-            </div>
-          </div>
+        <div className="text-center space-y-3 py-4">
+          <div className="text-4xl">🚀</div>
+          <p className="font-roboto text-sm text-muted-foreground">
+            Discussions, partage d'expériences et communauté élargie arrivent dans les prochaines versions !
+          </p>
           
-          <div className="text-center">
-            <div className="text-2xl font-poppins font-bold text-coton-black">
-              4.8M
-            </div>
-            <div className="text-sm font-roboto text-muted-foreground">
-              CC générés ce mois
-            </div>
-          </div>
-        </div>
-      </CotonCard>
-      
-      {/* Upcoming Challenges */}
-      <CotonCard className="p-6 space-y-4">
-        <div className="flex items-center gap-3">
-          <Calendar className="text-coton-rose" size={24} />
-          <h3 className="font-poppins font-semibold text-lg">
-            Prochains challenges
-          </h3>
-        </div>
-        
-        <div className="space-y-3">
-          <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
-            <div>
-              <div className="font-poppins font-medium">#MasqueWeek</div>
-              <div className="text-sm font-roboto text-muted-foreground">
-                1 masque par jour pendant 7 jours
-              </div>
-            </div>
-            <div className="text-sm font-roboto text-muted-foreground">
-              Bientôt
-            </div>
-          </div>
-          
-          <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
-            <div>
-              <div className="font-poppins font-medium">#ProtectiveStyle</div>
-              <div className="text-sm font-roboto text-muted-foreground">
-                30 jours de coiffures protectrices
-              </div>
-            </div>
-            <div className="text-sm font-roboto text-muted-foreground">
-              Mars 2024
-            </div>
+          <div className="space-y-2 text-xs text-muted-foreground">
+            <p>• Forums de discussions par type de cheveux</p>
+            <p>• Partage de photos avant/après</p>
+            <p>• Groupes privés et mentoring</p>
+            <p>• Événements et workshops en ligne</p>
           </div>
         </div>
       </CotonCard>

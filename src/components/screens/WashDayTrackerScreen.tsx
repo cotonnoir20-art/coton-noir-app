@@ -377,6 +377,22 @@ export function WashDayTrackerScreen({ onBack }: WashDayTrackerScreenProps) {
           </CotonCard>
         </div>
 
+        {/* Fonctionnalités avancées - Bientôt disponibles */}
+        <CotonCard className="p-4 bg-gradient-to-r from-muted/20 to-transparent">
+          <div className="text-center space-y-3">
+            <div className="text-3xl">📊</div>
+            <h3 className="font-poppins font-semibold">Journal Wash Day Complet</h3>
+            <p className="text-sm text-muted-foreground">
+              Analyses détaillées, corrélations produits/résultats et recommandations avancées arrivent prochainement !
+            </p>
+            <div className="space-y-1 text-xs text-muted-foreground">
+              <p>• Analyses d'efficacité des produits</p>
+              <p>• Corrélations météo/cheveux</p>
+              <p>• Recommandations saisonnières</p>
+            </div>
+          </div>
+        </CotonCard>
+
         {/* Dialog pour ajouter une entrée */}
         <Dialog open={showAddEntry} onOpenChange={setShowAddEntry}>
           <DialogContent>

@@ -1,7 +1,9 @@
 import React from 'react';
 import { Calendar, FileText, Package, ArrowLeft } from 'lucide-react';
 import { CotonCard } from '@/components/ui/coton-card';
+import { ComingSoon } from '@/components/ui/coming-soon';
 import { useApp } from '@/contexts/AppContext';
+import { Button } from '@/components/ui/button';
 
 interface FullJournalScreenProps {
   onBack: () => void;
@@ -163,6 +165,39 @@ export function FullJournalScreen({ onBack }: FullJournalScreenProps) {
           ))}
         </div>
       )}
+
+      {/* Fonctionnalités avancées du journal */}
+      <div className="space-y-4 mt-8">
+        <CotonCard className="p-6 bg-gradient-to-r from-muted/20 to-transparent">
+          <div className="text-center space-y-4">
+            <div className="text-4xl">📝</div>
+            <h3 className="font-poppins font-semibold text-lg">Journal Avancé - Bientôt disponible</h3>
+            <p className="font-roboto text-sm text-muted-foreground">
+              Des fonctionnalités complètes d'analyse et de suivi arrivent dans les prochaines versions
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+              <div className="space-y-2">
+                <h4 className="font-poppins font-medium text-sm">Analyses avancées :</h4>
+                <div className="space-y-1 text-xs text-muted-foreground">
+                  <p>• Tendances et patterns de soins</p>
+                  <p>• Efficacité des produits par période</p>
+                  <p>• Corrélations météo/état cheveux</p>
+                </div>
+              </div>
+              
+              <div className="space-y-2">
+                <h4 className="font-poppins font-medium text-sm">Export et partage :</h4>
+                <div className="space-y-1 text-xs text-muted-foreground">
+                  <p>• Export PDF de votre parcours</p>
+                  <p>• Partage sélectif avec la communauté</p>
+                  <p>• Sauvegarde cloud automatique</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </CotonCard>
+      </div>
     </div>
   );
 }
