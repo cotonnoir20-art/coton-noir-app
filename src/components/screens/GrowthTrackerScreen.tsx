@@ -315,21 +315,15 @@ export function GrowthTrackerScreen({ onBack }: GrowthTrackerScreenProps) {
           />
         </div>
 
-        {/* Fonctionnalités avancées - Bientôt disponibles */}
-        <div className="bg-gradient-to-r from-muted/20 to-transparent p-4 rounded-lg border border-dashed border-muted-foreground/30">
-          <div className="text-center space-y-2">
-            <TrendingUp className="mx-auto text-coton-rose/70" size={32} />
-            <h3 className="font-poppins font-semibold text-base">Analyses Avancées</h3>
-            <p className="text-sm text-muted-foreground">
-              Graphiques détaillés, prédictions IA et comparaisons temporelles arrivent bientôt !
-            </p>
-            <div className="space-y-1 text-xs text-muted-foreground pt-2">
-              <p>• Graphiques de croissance interactifs</p>
-              <p>• Prédictions basées sur vos données</p>
-              <p>• Comparaisons photos automatiques</p>
-            </div>
-          </div>
-        </div>
+        {/* Voir graphes - maintenant en dessous */}
+        <Button
+          variant="outline"
+          onClick={() => toast({ title: "Bientôt disponible !", description: "Les graphiques arriveront dans la V2" })}
+          className="w-full btn-touch"
+        >
+          <TrendingUp size={18} className="sm:w-5 sm:h-5" />
+          <span className="text-xs sm:text-sm">Voir les graphiques de progression</span>
+        </Button>
 
         {/* Objectif de pousse */}
         {state.growthGoal ? (

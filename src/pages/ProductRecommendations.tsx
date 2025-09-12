@@ -1,28 +1,37 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ProductRecommendations } from '@/components/ui/product-recommendations';
 import { Layout } from '@/components/layout/Layout';
-import { ComingSoon } from '@/components/ui/coming-soon';
-import { ShoppingBag } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
 
 const ProductRecommendationsPage = () => {
   const navigate = useNavigate();
 
   return (
     <Layout showNavigation={true}>
-      <ComingSoon
-        title="Recommandations Produits IA"
-        description="Un système avancé de recommandations produits basé sur votre profil capillaire et vos préférences arrive bientôt !"
-        features={[
-          "Recommandations IA ultra-personnalisées",
-          "Base de données complète de produits afro",
-          "Comparatifs détaillés par ingrédients",
-          "Avis de la communauté et notes expertes",
-          "Alertes prix et disponibilité",
-          "Substituts selon votre budget"
-        ]}
-        onBack={() => navigate(-1)}
-        icon={<ShoppingBag className="mx-auto text-coton-rose" size={64} />}
-      />
+      <div className="pb-20 px-4 space-y-6 bg-background min-h-screen">
+        {/* Header */}
+        <div className="flex items-center gap-2 sm:gap-4 pt-4 pb-2">
+          <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
+            <ArrowLeft size={20} />
+          </Button>
+          <div className="flex-1 min-w-0">
+            <h1 className="font-poppins font-bold text-lg sm:text-xl text-foreground">
+              Recommandations Produits
+            </h1>
+            <p className="text-sm text-muted-foreground mt-1">
+              Produits sélectionnés pour ton profil capillaire
+            </p>
+          </div>
+        </div>
+
+        {/* Product Recommendations */}
+        <ProductRecommendations 
+          maxProducts={12}
+          showAIRecommendations={true}
+        />
+      </div>
     </Layout>
   );
 };
