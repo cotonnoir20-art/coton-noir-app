@@ -52,7 +52,7 @@ export function Header({ onProfileClick, onHomeClick, onRewardsClick }: HeaderPr
                 onClick={() => navigate(item.path)}
                 className={`text-white hover:bg-white/15 hover:scale-[1.05] transition-all rounded-xl ${
                   location.pathname === item.path 
-                    ? 'bg-white/15 text-coton-rose font-semibold shadow-glow' 
+                    ? 'bg-white/15 text-coton-terracotta font-semibold shadow-glow' 
                     : 'text-white/85'
                 }`}
               >
@@ -68,9 +68,9 @@ export function Header({ onProfileClick, onHomeClick, onRewardsClick }: HeaderPr
               variant="ghost"
               size="icon"
               onClick={() => navigate('/hair-profile')}
-              className={`h-10 w-10 sm:h-12 sm:w-12 text-white hover:bg-white/15 hover:scale-[1.1] btn-touch rounded-xl ${!state.hairProfile.isCompleted ? 'ring-2 ring-coton-rose animate-glow' : ''}`}
+              className={`h-10 w-10 sm:h-12 sm:w-12 text-white hover:bg-white/15 hover:scale-[1.1] btn-touch rounded-xl ${!state.hairProfile.isCompleted ? 'ring-2 ring-coton-terracotta animate-glow' : ''}`}
             >
-              <User size={18} className={`sm:w-[20px] sm:h-[20px] ${!state.hairProfile.isCompleted ? 'text-coton-rose' : 'text-white'}`} />
+              <User size={18} className={`sm:w-[20px] sm:h-[20px] ${!state.hairProfile.isCompleted ? 'text-coton-terracotta' : 'text-white'}`} />
             </Button>
             
             {/* Dark mode toggle */}
@@ -90,7 +90,7 @@ export function Header({ onProfileClick, onHomeClick, onRewardsClick }: HeaderPr
             {/* Coins - Mobile-first responsive */}
             <button 
               onClick={() => navigate('/rewards')}
-              className="flex items-center gap-1.5 bg-coton-rose text-black px-3 sm:px-4 py-2 rounded-pill shadow-elegant hover:scale-110 hover:shadow-glow transition-all cursor-pointer btn-touch font-semibold"
+              className="flex items-center gap-1.5 bg-coton-terracotta text-white px-3 sm:px-4 py-2 rounded-pill shadow-elegant hover:scale-110 hover:shadow-glow transition-all cursor-pointer btn-touch font-semibold"
             >
               <Coins size={16} className="sm:w-5 sm:h-5" />
               <span className="font-poppins font-bold text-sm sm:text-base">
