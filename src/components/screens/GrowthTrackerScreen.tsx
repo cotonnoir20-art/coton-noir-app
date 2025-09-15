@@ -161,7 +161,7 @@ export function GrowthTrackerScreen({ onBack }: GrowthTrackerScreenProps) {
   return (
     <div className="min-h-screen bg-gradient-to-b from-coton-rose/10 to-white">
       {/* Header */}
-      <div className="bg-coton-rose px-4 py-6 text-white">
+      <div className="bg-coton-terracotta px-4 py-6 text-white">
         <div className="flex items-center gap-3 mb-4">
           <Button
             variant="ghost"
