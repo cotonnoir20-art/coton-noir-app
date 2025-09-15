@@ -10,7 +10,7 @@ const AddCare = () => {
   return (
     <AppProvider>
       <Layout showNavigation={false} showFAB={false}>
-        <AddCareScreen onBack={() => navigate('/')} />
+        <AddCareScreen onBack={() => navigate('/journal')} />
       </Layout>
     </AppProvider>
   );
