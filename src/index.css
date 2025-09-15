@@ -2,67 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Coton Noir Design System - Hair Journal App */
+/* Coton Noir Design System - Modern 5-Color Palette */
 
 @layer base {
   :root {
-    /* Coton Noir Brand Colors - Palette Principale */
-    --coton-black: 60 9% 8%; /* #1a1a18 - Noir plus profond */
-    --coton-beige: 35 78% 90%; /* #fce4c8 - Beige plus riche */
-    --coton-beige-light: 35 50% 98%; /* #fefcfa - Beige ultra-clair */
-    --coton-rose: 351 50% 88%; /* #ecc5c7 - Rose plus saturé */
-    --coton-rose-alt: 353 48% 78%; /* #e0a6a9 - Rose alternatif plus riche */
-    --coton-coral: 356 85% 68%; /* #f1676e - Corail plus vibrant */
-    --coton-green: 156 42% 63%; /* #7bbaa3 - Vert plus saturé */
+    /* 5-Color Palette - Black Dominance Design */
+    --coton-black: 0 0% 0%; /* #000000 - Pure black for dominance */
+    --coton-white: 0 0% 100%; /* #FFFFFF - Pure white for contrast */
+    --coton-terracotta: 22 85% 52%; /* #D2691E - Warm terracotta accent */
+    --coton-cream: 30 100% 97%; /* #FFF8F0 - Light cream background */
+    --coton-gray: 220 9% 46%; /* #6B7280 - Medium gray for subtlety */
     
-    /* Palette Secondaire - Usage parcimonieux */
-    --coton-nude: 0 30% 69%; /* #c09e9e - Nude plus riche */
-    --coton-nude-light: 0 28% 80%; /* #d4bebe - Nude clair amélioré */
-    --coton-nude-soft: 351 48% 93%; /* #f5e2e3 - Nude soft plus doux */
-    --coton-sand: 33 92% 92%; /* #feecd5 - Sable plus lumineux */
-    
-    /* Couleurs grises pour texte */
-    --coton-gray: 0 0% 58%; /* #949493 - Gris plus contrasté */
-    --coton-gray-light: 0 0% 70%; /* #b3b3b2 - Gris clair amélioré */
-    
-    /* Background system - Principalement beiges */
-    --background: 35 70% 96%; /* #fef4e8 - Beige plus lumineux */
+    /* Background system - Clean whites and creams */
+    --background: var(--coton-white);
     --foreground: var(--coton-black);
     
-    /* Card system - Blanc/beige sur beige */
-    --card: var(--coton-beige-light);
+    /* Card system - White cards on cream backgrounds */
+    --card: var(--coton-white);
     --card-foreground: var(--coton-black);
     
-    /* Primary - Noir profond pour titres et contrastes */
+    /* Primary - Black dominance */
     --primary: var(--coton-black);
-    --primary-foreground: var(--coton-beige-light);
+    --primary-foreground: var(--coton-white);
     
-    /* Secondary - Rose poudré pour accents */
-    --secondary: var(--coton-rose);
-    --secondary-foreground: var(--coton-black);
+    /* Secondary - Terracotta for warmth */
+    --secondary: var(--coton-terracotta);
+    --secondary-foreground: var(--coton-white);
     
-    /* Muted - Gris doux pour sous-titres */
-    --muted: var(--coton-beige);
+    /* Muted - Cream for subtle backgrounds */
+    --muted: var(--coton-cream);
     --muted-foreground: var(--coton-gray);
     
-    /* Accent - Rose poudré pour surlignages */
-    --accent: var(--coton-rose);
-    --accent-foreground: var(--coton-black);
+    /* Accent - Terracotta for highlights */
+    --accent: var(--coton-terracotta);
+    --accent-foreground: var(--coton-white);
     
-    /* CTA Principal - Corail */
-    --cta-primary: var(--coton-coral);
-    --cta-primary-foreground: var(--coton-beige-light);
+    /* CTA Principal - Terracotta */
+    --cta-primary: var(--coton-terracotta);
+    --cta-primary-foreground: var(--coton-white);
     
-    /* Status colors - Utilisation de la palette */
-    --success: var(--coton-green);
-    --warning: 33 92% 55%; /* Orange maintenu */
-    --destructive: var(--coton-coral);
+    /* Status colors - Adapted to 5-color palette */
+    --success: 142 71% 45%; /* Green variation */
+    --warning: var(--coton-terracotta);
+    --destructive: 0 84% 60%; /* Red variation */
     --info: var(--coton-black);
     
     /* Interactive elements */
-    --border: var(--coton-rose);
-    --input: var(--coton-beige-light);
-    --ring: var(--coton-coral);
+    --border: var(--coton-gray);
+    --input: var(--coton-white);
+    --ring: var(--coton-terracotta);
     
     /* Mobile-first responsive spacing system */
     --spacing-xs: 0.25rem; /* 4px */
@@ -100,13 +88,19 @@
     --gradient-coral: linear-gradient(135deg, hsl(var(--coton-coral)), hsl(var(--coton-rose-alt)));
     --gradient-soft: linear-gradient(135deg, hsl(var(--coton-beige-light)), hsl(var(--coton-beige)));
     
-    /* Mobile-first shadows */
+    /* Mobile-first shadows - Updated for new palette */
     --shadow-soft: 0 4px 12px hsl(var(--coton-black) / 0.08);
-    --shadow-card: 0 2px 8px hsl(var(--coton-rose) / 0.15);
+    --shadow-card: 0 2px 8px hsl(var(--coton-gray) / 0.15);
     --shadow-elegant: 0 8px 24px hsl(var(--coton-black) / 0.12);
-    --shadow-glow: 0 0 20px hsl(var(--coton-rose) / 0.3);
-    --shadow-premium: 0 8px 32px hsl(var(--coton-coral) / 0.2);
+    --shadow-glow: 0 0 20px hsl(var(--coton-terracotta) / 0.3);
+    --shadow-premium: 0 8px 32px hsl(var(--coton-terracotta) / 0.2);
     
+    /* Gradients - 5-color palette harmonious gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--coton-black)), hsl(var(--coton-gray)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--coton-black)), hsl(var(--coton-terracotta)));
+    --gradient-accent: linear-gradient(135deg, hsl(var(--coton-terracotta)), hsl(var(--coton-gray)));
+    --gradient-soft: linear-gradient(135deg, hsl(var(--coton-white)), hsl(var(--coton-cream)));
+
     /* Animations */
     --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -114,42 +108,43 @@
   }
   
   .dark {
-    /* Enhanced dark mode with better contrast */
-    --background: 0 0% 8%; /* Slightly lighter for better readability */
-    --foreground: 0 0% 98%; /* Improved contrast */
+    /* Dark mode - Black dominance with terracotta accents */
+    --background: var(--coton-black);
+    --foreground: var(--coton-white);
     
-    /* Card system with better depth */
-    --card: 0 0% 12%; /* Lighter than background for layering */
-    --card-foreground: 0 0% 96%;
+    /* Card system with subtle elevation */
+    --card: 0 0% 8%; /* Very dark gray for cards */
+    --card-foreground: var(--coton-white);
     
-    /* Primary colors optimized for dark mode */
-    --primary: 0 0% 96%; /* Light primary for dark backgrounds */
-    --primary-foreground: 0 0% 10%; /* Dark text on light buttons */
+    /* Primary colors for dark mode */
+    --primary: var(--coton-white);
+    --primary-foreground: var(--coton-black);
     
-    /* Secondary with adjusted rose for dark mode */
-    --secondary: 351 30% 25%; /* Darker rose for better contrast */
-    --secondary-foreground: 0 0% 96%;
+    /* Secondary keeps terracotta warmth */
+    --secondary: var(--coton-terracotta);
+    --secondary-foreground: var(--coton-white);
     
-    /* Improved muted elements */
-    --muted: 0 0% 18%; /* Better contrast */
-    --muted-foreground: 0 0% 72%; /* Enhanced readability */
+    /* Muted elements */
+    --muted: 0 0% 12%; /* Darker gray for muted backgrounds */
+    --muted-foreground: var(--coton-gray);
     
-    /* Accent colors with better visibility */
-    --accent: 351 40% 30%; /* Adjusted rose for dark mode */
-    --accent-foreground: 0 0% 96%;
+    /* Accent maintains terracotta */
+    --accent: var(--coton-terracotta);
+    --accent-foreground: var(--coton-white);
     
     /* Interactive elements */
-    --border: 0 0% 25%; /* More visible borders */
-    --input: 0 0% 16%; /* Slightly lighter inputs */
-    --ring: 351 45% 60%; /* Rose focus ring */
+    --border: var(--coton-gray);
+    --input: 0 0% 10%; /* Dark input backgrounds */
+    --ring: var(--coton-terracotta);
     
     /* Enhanced shadows for depth */
-    --shadow-soft: 0 8px 32px hsl(0 0% 0% / 0.4);
-    --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.25);
+    --shadow-soft: 0 8px 32px hsl(var(--coton-black) / 0.6);
+    --shadow-card: 0 4px 20px hsl(var(--coton-black) / 0.4);
+    --shadow-glow: 0 0 40px hsl(var(--coton-terracotta) / 0.4);
     
-    /* Dark mode specific gradients */
-    --gradient-rose: linear-gradient(135deg, hsl(351 40% 30%), hsl(351 40% 25%));
-    --gradient-hero: linear-gradient(135deg, hsl(0 0% 12%), hsl(0 0% 8%));
+    /* Dark mode gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(0 0% 8%), hsl(var(--coton-black)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--coton-black)), hsl(var(--coton-terracotta) / 0.8));
   }
 }
 
@@ -272,10 +267,10 @@
   
   @keyframes glow {
     from {
-      box-shadow: 0 0 10px hsl(var(--coton-rose) / 0.3);
+      box-shadow: 0 0 10px hsl(var(--coton-terracotta) / 0.3);
     }
     to {
-      box-shadow: 0 0 20px hsl(var(--coton-rose) / 0.6);
+      box-shadow: 0 0 20px hsl(var(--coton-terracotta) / 0.6);
     }
   }
   
@@ -293,17 +288,17 @@
     box-shadow: var(--shadow-glow);
   }
   
-  /* Gradients améliorés */
+  /* Gradients using 5-color palette */
   .gradient-premium {
-    background: linear-gradient(135deg, hsl(var(--coton-coral)), hsl(var(--coton-rose-alt)), hsl(var(--coton-nude)));
+    background: linear-gradient(135deg, hsl(var(--coton-terracotta)), hsl(var(--coton-gray)));
   }
   
   .gradient-success {
-    background: linear-gradient(135deg, hsl(var(--coton-green)), hsl(156 45% 65%));
+    background: linear-gradient(135deg, hsl(142 71% 45%), hsl(142 71% 50%));
   }
   
   .gradient-hero-enhanced {
-    background: linear-gradient(135deg, hsl(var(--coton-black)), hsl(var(--coton-nude)), hsl(var(--coton-rose)));
+    background: linear-gradient(135deg, hsl(var(--coton-black)), hsl(var(--coton-terracotta)), hsl(var(--coton-gray)));
   }
   
   .container-responsive {
