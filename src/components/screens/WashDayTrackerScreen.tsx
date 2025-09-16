@@ -5,7 +5,7 @@ import { CotonCard } from '@/components/ui/coton-card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Calendar as CalendarComponent } from '@/components/ui/calendar';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -167,7 +167,7 @@ export function WashDayTrackerScreen({ onBack }: WashDayTrackerScreenProps) {
           <div className="ml-auto">
             <Dialog open={showSettings} onOpenChange={setShowSettings}>
               <DialogTrigger asChild>
-                <Button variant="black" size="icon" className="text-white hover:bg-white/20">
+                <Button variant="ghost" size="icon" className="text-white hover:bg-white/20">
                   <Settings size={20} />
                 </Button>
               </DialogTrigger>
@@ -382,18 +382,21 @@ export function WashDayTrackerScreen({ onBack }: WashDayTrackerScreenProps) {
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Ajouter un wash day</DialogTitle>
+              <DialogDescription>
+                Enregistrez votre routine de lavage quotidienne
+              </DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
               <div>
                 <Label>Date</Label>
                 <Popover>
                   <PopoverTrigger asChild>
-                    <Button variant="black" className="w-full justify-start">
+                    <Button variant="outline" className="w-full justify-start">
                       <Calendar className="mr-2 h-4 w-4" />
                       {selectedDate ? format(selectedDate, 'dd MMMM yyyy', { locale: fr }) : 'Sélectionner une date'}
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent className="w-auto p-0 z-50" align="start">
                     <CalendarComponent
                       mode="single"
                       selected={selectedDate}
@@ -469,6 +472,9 @@ export function WashDayTrackerScreen({ onBack }: WashDayTrackerScreenProps) {
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Paramètres du wash day</DialogTitle>
+              <DialogDescription>
+                Personnalisez votre routine de lavage selon vos besoins
+              </DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
               <div>
