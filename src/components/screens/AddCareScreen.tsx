@@ -81,7 +81,7 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
       </header>
       
       {/* Content - Mobile-first responsive */}
-      <div className="container-responsive space-responsive pb-20">
+      <div className="container-responsive space-responsive pb-20 gap-2.5 sm:gap-4">
         {/* Info Card - Mobile-first responsive */}
         <CotonCard className="card-responsive bg-coton-beige/50 border-coton-rose/20">
           <div className="space-y-3">
