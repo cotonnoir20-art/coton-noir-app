@@ -102,7 +102,7 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
           <h3 className="font-poppins font-semibold text-base">Type</h3>
           <div className="flex gap-3">
             <Button
-              variant={type === 'soin' ? 'hero' : 'outline'}
+              variant={type === 'soin' ? 'black' : 'outline'}
               size="pill" 
               onClick={() => setType('soin')}
               className="flex-1 min-w-0 text-xs sm:text-sm btn-touch"
