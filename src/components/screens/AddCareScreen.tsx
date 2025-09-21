@@ -162,7 +162,7 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
         
         {/* Save Button - Mobile-first responsive */}
         <Button
-          variant="hero"
+          variant="black"
           size="lg"
           onClick={handleSave}
           className="w-full btn-touch"
