@@ -392,6 +392,101 @@ export function HomeScreen({
           </p>
         </CotonCard>
       </motion.div>
+
+      {/* Ton solde */}
+      <CotonCard className="p-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm text-muted-foreground font-roboto">Ton solde</h3>
+        </div>
+        <div className="flex items-center justify-between">
+          <div className="text-2xl font-poppins font-bold text-foreground">
+            {state.coins} CC
+          </div>
+          <Button variant="outline" size="sm" onClick={() => onNavigate('rewards')} className="bg-amber-100 text-amber-700 border-amber-300 hover:bg-amber-200">
+            🎁 Récompenses
+          </Button>
+        </div>
+      </CotonCard>
+
+      {/* Longueur actuelle */}
+      <CotonCard className="p-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm text-muted-foreground font-roboto">Longueur actuelle</h3>
+        </div>
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="text-2xl font-poppins font-bold text-foreground mb-1">
+              {state.hairMeasurements.length > 0 ? `${Math.max(state.hairMeasurements[state.hairMeasurements.length - 1].front, state.hairMeasurements[state.hairMeasurements.length - 1].back)} cm` : '18 cm'}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              {state.hairMeasurements.length > 0 ? '- depuis la dernière mesure' : '- depuis la dernière mesure'}
+            </p>
+          </div>
+          <Button variant="outline" size="sm" onClick={() => onNavigate('growth-tracker')} className="bg-pink-100 text-pink-700 border-pink-300 hover:bg-pink-200">
+            📊 Voir graphe
+          </Button>
+        </div>
+      </CotonCard>
+
+      {/* Ton journal */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h3 className="font-poppins font-bold text-xl">Ton journal</h3>
+          <Button variant="black" size="sm" onClick={onAddCare} className="text-sm">
+            + Nouvelle entrée
+          </Button>
+        </div>
+        
+        {/* Dernières entrées du journal */}
+        {state.journalEntries.length > 0 ? (
+          <div className="space-y-3">
+            {state.journalEntries.slice(0, 3).map((entry, index) => (
+              <CotonCard key={entry.id} className="p-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 bg-coton-beige rounded-lg flex items-center justify-center flex-shrink-0">
+                    <div className="text-2xl">💆🏾‍♀️</div>
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="font-poppins font-semibold text-foreground">{entry.title}</h4>
+                    <p className="text-sm text-muted-foreground">
+                      {entry.type} • {new Date(entry.date).toLocaleDateString('fr-FR')}
+                    </p>
+                    {entry.note && (
+                      <p className="text-xs text-muted-foreground mt-1 line-clamp-1">{entry.note}</p>
+                    )}
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <Button variant="outline" size="sm" className="text-xs">
+                      Ouvrir
+                    </Button>
+                    <Button variant="outline" size="sm" className="text-xs bg-amber-100 text-amber-700 border-amber-300">
+                      + Nouveau soin
+                    </Button>
+                  </div>
+                </div>
+              </CotonCard>
+            ))}
+            {state.journalEntries.length > 3 && (
+              <Button variant="soft" className="w-full" onClick={() => onNavigate('journal')}>
+                Voir tous les soins ({state.journalEntries.length})
+              </Button>
+            )}
+          </div>
+        ) : (
+          <CotonCard className="p-6 text-center">
+            <div className="text-4xl mb-3">📝</div>
+            <h4 className="font-poppins font-semibold text-foreground mb-2">
+              Aucune entrée pour le moment
+            </h4>
+            <p className="text-sm text-muted-foreground mb-4">
+              Commencez à documenter votre parcours capillaire
+            </p>
+            <Button variant="black" onClick={onAddCare}>
+              + Ajouter mon premier soin
+            </Button>
+          </CotonCard>
+        )}
+      </div>
       {/* Flo-Inspired Tracking Dashboard */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }} 
@@ -635,39 +730,6 @@ export function HomeScreen({
         </Button>
       </CotonCard>
       
-      {/* Mon suivi - Section fusionnée */}
-      <div className="space-y-4">
-        <h3 className="font-poppins font-bold text-xl">Mon suivi</h3>
-        <div className="grid grid-cols-2 gap-4">
-          <CotonCard className="p-5 text-center hover-lift shadow-card">
-            <div className="text-2xl font-poppins font-bold text-coton-rose mb-1">
-              {state.journalEntries.length}
-            </div>
-            <div className="text-sm text-muted-foreground font-medium">Soins total</div>
-          </CotonCard>
-          
-          <CotonCard className="p-5 text-center hover-lift shadow-card">
-            <div className="text-2xl font-poppins font-bold text-blue-600 mb-1">
-              {thisMonthCares}
-            </div>
-            <div className="text-sm text-muted-foreground font-medium">Ce mois-ci</div>
-          </CotonCard>
-          
-          <CotonCard className="p-5 text-center hover-lift shadow-card">
-            <div className="text-2xl font-poppins font-bold text-purple-600 mb-1">
-              {state.streakData.current}
-            </div>
-            <div className="text-sm text-muted-foreground font-medium">Jours streak</div>
-          </CotonCard>
-          
-          <CotonCard className="p-5 text-center hover-lift shadow-card">
-            <div className="text-2xl font-poppins font-bold text-green-600 mb-1">
-              {daysSinceLastCare === 0 ? "Aujourd'hui" : `${daysSinceLastCare}j`}
-            </div>
-            <div className="text-sm text-muted-foreground font-medium">Dernier soin</div>
-          </CotonCard>
-        </div>
-      </div>
       {state.detailedHairProfile.isCompleted && (
         <div key={`routine-${state.detailedHairProfile.hairType}-${state.detailedHairProfile.porosity}-${state.detailedHairProfile.objective}-${state.detailedHairProfile.problems?.join(',')}-${state.detailedHairProfile.needs?.join(',')}`} className="space-y-4">
           <h3 className="font-poppins font-semibold text-lg">Ma routine recommandée ✨</h3>
@@ -930,124 +992,6 @@ export function HomeScreen({
           </div>
         </CotonCard>}
 
-      {/* Articles & Conseils Quotidiens */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }} 
-        animate={{ opacity: 1, y: 0 }} 
-        transition={{ duration: 0.5, delay: 0.3 }}
-        className="space-y-4"
-      >
-        <div className="space-y-3">
-          <h4 className="font-poppins font-semibold text-lg flex items-center gap-2">
-            <Sparkles className="text-coton-rose" size={20} />
-            Mes conseils quotidiens • {new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
-          </h4>
-          
-          <div className="grid grid-cols-1 gap-3">
-            {/* Card principale d'action */}
-            <CotonCard className="p-4 bg-gradient-to-r from-coton-rose/10 to-pink-50 border border-coton-rose/20 hover:shadow-premium transition-all duration-300">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-coton-rose rounded-full flex items-center justify-center">
-                    <Plus className="text-white" size={20} />
-                  </div>
-                  <div>
-                    <h5 className="font-poppins font-semibold text-foreground">
-                      Enregistrez votre soin
-                    </h5>
-                    <p className="text-sm text-muted-foreground font-roboto">
-                      Gardez le cap sur vos objectifs
-                    </p>
-                  </div>
-                </div>
-                <ChevronRight className="text-muted-foreground" size={20} />
-              </div>
-            </CotonCard>
-
-            {/* Articles recommandés */}
-            <div className="grid grid-cols-2 gap-3">
-              <CotonCard className="p-3 bg-gradient-to-br from-purple-50 to-blue-50 border border-purple-200/50 hover:shadow-card transition-all duration-300 cursor-pointer">
-                <div className="space-y-2">
-                  <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
-                    <Droplets className="text-purple-600" size={16} />
-                  </div>
-                  <div>
-                    <h6 className="font-poppins font-medium text-sm text-foreground">
-                      Hydratation 4C
-                    </h6>
-                    <p className="text-xs text-muted-foreground font-roboto line-clamp-2">
-                      Techniques spécialisées pour cheveux très texturés
-                    </p>
-                  </div>
-                </div>
-              </CotonCard>
-
-              <CotonCard className="p-3 bg-gradient-to-br from-orange-50 to-yellow-50 border border-orange-200/50 hover:shadow-card transition-all duration-300 cursor-pointer">
-                <div className="space-y-2">
-                  <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
-                    <Sun className="text-orange-600" size={16} />
-                  </div>
-                  <div>
-                    <h6 className="font-poppins font-medium text-sm text-foreground">
-                      Météo & Cheveux
-                    </h6>
-                    <p className="text-xs text-muted-foreground font-roboto line-clamp-2">
-                      Adaptez votre routine selon l'humidité
-                    </p>
-                  </div>
-                </div>
-              </CotonCard>
-            </div>
-
-            {/* Conseil du jour */}
-            <CotonCard className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200/50">
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <TrendingUp className="text-green-600" size={18} />
-                </div>
-                <div className="flex-1">
-                  <h6 className="font-poppins font-semibold text-foreground mb-1">
-                    Phase de croissance optimale
-                  </h6>
-                  <p className="text-sm text-muted-foreground font-roboto">
-                    Vos cheveux sont dans une excellente phase. Continuez votre routine actuelle pour maximiser la rétention de longueur.
-                  </p>
-                </div>
-              </div>
-            </CotonCard>
-          </div>
-        </div>
-
-        {/* Actions Rapides */}
-        <div className="grid grid-cols-3 gap-3">
-          <div className="text-center space-y-2 cursor-pointer hover:scale-105 transition-transform">
-            <div className="w-12 h-12 bg-coton-rose/10 rounded-full flex items-center justify-center mx-auto">
-              <Heart className="text-coton-rose" size={20} />
-            </div>
-            <span className="text-xs font-roboto font-medium text-foreground">
-              Routine du soir
-            </span>
-          </div>
-          
-          <div className="text-center space-y-2 cursor-pointer hover:scale-105 transition-transform">
-            <div className="w-12 h-12 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto">
-              <Droplets className="text-blue-500" size={20} />
-            </div>
-            <span className="text-xs font-roboto font-medium text-foreground">
-              Hydratation rapide
-            </span>
-          </div>
-          
-          <div className="text-center space-y-2 cursor-pointer hover:scale-105 transition-transform">
-            <div className="w-12 h-12 bg-purple-500/10 rounded-full flex items-center justify-center mx-auto">
-              <Diamond className="text-purple-500" size={20} />
-            </div>
-            <span className="text-xs font-roboto font-medium text-foreground">
-              Suivi progrès
-            </span>
-          </div>
-        </div>
-      </motion.div>
 
       {/* Défis quotidiens - Encart dépliable */}
       <motion.div 
