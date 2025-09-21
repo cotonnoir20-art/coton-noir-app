@@ -14,6 +14,158 @@ export type Database = {
   }
   public: {
     Tables: {
+      hair_profiles: {
+        Row: {
+          allergies: string[] | null
+          budget_range: string | null
+          created_at: string
+          current_routine: string | null
+          density: string | null
+          email: string
+          favorite_products: string[] | null
+          hair_type: string
+          id: string
+          needs: string[] | null
+          porosity: string
+          primary_objective: string | null
+          problems: string[] | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          allergies?: string[] | null
+          budget_range?: string | null
+          created_at?: string
+          current_routine?: string | null
+          density?: string | null
+          email: string
+          favorite_products?: string[] | null
+          hair_type: string
+          id?: string
+          needs?: string[] | null
+          porosity: string
+          primary_objective?: string | null
+          problems?: string[] | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          allergies?: string[] | null
+          budget_range?: string | null
+          created_at?: string
+          current_routine?: string | null
+          density?: string | null
+          email?: string
+          favorite_products?: string[] | null
+          hair_type?: string
+          id?: string
+          needs?: string[] | null
+          porosity?: string
+          primary_objective?: string | null
+          problems?: string[] | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      journal_entries: {
+        Row: {
+          created_at: string
+          date: string
+          email: string
+          id: string
+          note: string | null
+          timestamp: number
+          title: string
+          type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          email: string
+          id?: string
+          note?: string | null
+          timestamp: number
+          title: string
+          type: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          email?: string
+          id?: string
+          note?: string | null
+          timestamp?: number
+          title?: string
+          type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      product_recommendations: {
+        Row: {
+          ai_model_used: string | null
+          category: string
+          created_at: string
+          email: string
+          expires_at: string
+          hair_profile_id: string | null
+          id: string
+          match_score: number
+          priority: string
+          product_brand: string
+          product_id: string
+          product_name: string
+          reason: string
+          user_id: string
+        }
+        Insert: {
+          ai_model_used?: string | null
+          category: string
+          created_at?: string
+          email: string
+          expires_at?: string
+          hair_profile_id?: string | null
+          id?: string
+          match_score: number
+          priority: string
+          product_brand: string
+          product_id: string
+          product_name: string
+          reason: string
+          user_id: string
+        }
+        Update: {
+          ai_model_used?: string | null
+          category?: string
+          created_at?: string
+          email?: string
+          expires_at?: string
+          hair_profile_id?: string | null
+          id?: string
+          match_score?: number
+          priority?: string
+          product_brand?: string
+          product_id?: string
+          product_name?: string
+          reason?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_recommendations_hair_profile_id_fkey"
+            columns: ["hair_profile_id"]
+            isOneToOne: false
+            referencedRelation: "hair_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       routine_generations: {
         Row: {
           amount: number | null
@@ -87,6 +239,10 @@ export type Database = {
     Functions: {
       check_monthly_routine_limit: {
         Args: { user_email: string }
+        Returns: number
+      }
+      clean_expired_recommendations: {
+        Args: Record<PropertyKey, never>
         Returns: number
       }
     }

@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useApp } from '@/contexts/AppContext';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 interface AddCareScreenProps {
   onBack: () => void;
@@ -19,8 +20,9 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
   const [title, setTitle] = useState('');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [note, setNote] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!title.trim()) {
       toast({
         title: "Erreur",
@@ -29,21 +31,60 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
       });
       return;
     }
+
+    setIsLoading(true);
     
-    // Calculate reward based on new barème - Soins complets rapportent plus
-    const baseReward = type === 'soin' ? 50 : 20; // Soin: 50 CC, Routine: 20 CC
-    const reward = baseReward;
-    
-    // Add journal entry with anti-cheat validation
     try {
+      // Calculate reward based on new barème - Soins complets rapportent plus
+      const baseReward = type === 'soin' ? 50 : 20; // Soin: 50 CC, Routine: 20 CC
+      const reward = baseReward;
+      
+      // Create the entry object
       const newEntry = {
         id: Date.now().toString(),
         type,
         title: title.trim(),
         date,
-        note: note.trim()
+        note: note.trim(),
+        timestamp: Date.now()
       };
       
+      // Get current user
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        toast({
+          title: "Erreur d'authentification",
+          description: "Vous devez être connecté pour enregistrer un soin",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      // Save to Supabase database
+      const { error: dbError } = await supabase
+        .from('journal_entries')
+        .insert({
+          user_id: user.id,
+          email: user.email || '',
+          type,
+          title: title.trim(),
+          date,
+          note: note.trim(),
+          timestamp: Date.now()
+        });
+
+      if (dbError) {
+        console.error('Database error:', dbError);
+        toast({
+          title: "Erreur de sauvegarde",
+          description: "Impossible de sauvegarder en base de données",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      // Validate and add to local context with anti-cheat validation
       dispatch({ type: 'VALIDATE_AND_ADD_ENTRY', entry: newEntry });
       dispatch({ type: 'ADD_COINS', amount: reward });
       
@@ -55,12 +96,14 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
       
       onBack();
     } catch (error) {
+      console.error('Error saving care:', error);
       toast({
         title: "Action bloquée",
         description: error instanceof Error ? error.message : "Erreur de validation",
         variant: "destructive"
       });
-      return;
+    } finally {
+      setIsLoading(false);
     }
   };
   
@@ -106,6 +149,7 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
               size="pill" 
               onClick={() => setType('soin')}
               className="flex-1 min-w-0 text-xs sm:text-sm btn-touch"
+              disabled={isLoading}
             >
               <span className="truncate">Soin (+50 CC)</span>
             </Button>
@@ -114,6 +158,7 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
               size="pill"
               onClick={() => setType('routine')}
               className="flex-1 min-w-0 text-xs sm:text-sm btn-touch"
+              disabled={isLoading}
             >
               <span className="truncate">Routine (+20 CC)</span>
             </Button>
@@ -131,6 +176,7 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
               onChange={(e) => setTitle(e.target.value)}
               placeholder={type === 'soin' ? 'Ex: Masque hydratant' : 'Ex: Routine du soir'}
               className="rounded-lg text-sm sm:text-base"
+              disabled={isLoading}
             />
           </div>
           
@@ -143,6 +189,7 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
               value={date}
               onChange={(e) => setDate(e.target.value)}
               className="rounded-lg text-sm sm:text-base"
+              disabled={isLoading}
             />
           </div>
           
@@ -156,6 +203,7 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
               placeholder="Décris ton soin, les produits utilisés, tes impressions..."
               rows={4}
               className="rounded-lg text-sm sm:text-base"
+              disabled={isLoading}
             />
           </div>
         </CotonCard>
@@ -166,10 +214,10 @@ export function AddCareScreen({ onBack }: AddCareScreenProps) {
           size="lg"
           onClick={handleSave}
           className="w-full btn-touch"
-          disabled={!title.trim()}
+          disabled={!title.trim() || isLoading}
         >
           <Save size={18} className="sm:w-5 sm:h-5" />
-          <span className="ml-2">Enregistrer</span>
+          <span className="ml-2">{isLoading ? 'Enregistrement...' : 'Enregistrer'}</span>
         </Button>
       </div>
     </div>
