@@ -859,6 +859,74 @@ export function HomeScreen({
         </div>
       </div>
       
+      {/* Section Routine Recommandée */}
+      <div className="space-y-4">
+        <h3 className="font-poppins font-bold text-xl">Routine recommandée</h3>
+        <CotonCard className="p-6 bg-gradient-to-br from-coton-rose/5 to-purple-50/50 border border-coton-rose/20">
+          <div className="space-y-4">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-coton-rose to-purple-400 flex items-center justify-center">
+                <Sparkles className="text-white" size={20} />
+              </div>
+              <div>
+                <h4 className="font-poppins font-semibold text-lg">Routine du jour</h4>
+                <p className="text-sm text-muted-foreground">Personnalisée pour tes cheveux</p>
+              </div>
+            </div>
+            
+            <div className="space-y-3">
+              <div className="flex items-center gap-3 p-3 rounded-lg bg-white/60 border border-gray-200">
+                <div className="w-8 h-8 rounded-full bg-coton-rose flex items-center justify-center text-white font-bold text-sm">
+                  1
+                </div>
+                <span className="font-roboto text-sm text-foreground">Nettoyage doux avec shampoing sans sulfates</span>
+              </div>
+              
+              <div className="flex items-center gap-3 p-3 rounded-lg bg-white/60 border border-gray-200">
+                <div className="w-8 h-8 rounded-full bg-coton-rose flex items-center justify-center text-white font-bold text-sm">
+                  2
+                </div>
+                <span className="font-roboto text-sm text-foreground">Masque hydratant 15-20 minutes</span>
+              </div>
+              
+              <div className="flex items-center gap-3 p-3 rounded-lg bg-white/60 border border-gray-200">
+                <div className="w-8 h-8 rounded-full bg-coton-rose flex items-center justify-center text-white font-bold text-sm">
+                  3
+                </div>
+                <span className="font-roboto text-sm text-foreground">Leave-in crémeux sur cheveux humides</span>
+              </div>
+              
+              <div className="flex items-center gap-3 p-3 rounded-lg bg-white/60 border border-gray-200">
+                <div className="w-8 h-8 rounded-full bg-coton-rose flex items-center justify-center text-white font-bold text-sm">
+                  4
+                </div>
+                <span className="font-roboto text-sm text-foreground">Gel définition pour boucles parfaites</span>
+              </div>
+            </div>
+            
+            <div className="mt-4 p-3 rounded-lg bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-5 h-5 bg-amber-400 rounded-full flex items-center justify-center">
+                  <span className="text-white text-xs font-bold">💡</span>
+                </div>
+                <h5 className="font-poppins font-semibold text-amber-800 text-sm">Conseil du jour</h5>
+              </div>
+              <p className="text-xs font-roboto text-amber-900 leading-relaxed">
+                Applique tes produits sur cheveux très humides pour une meilleure répartition et définition.
+              </p>
+            </div>
+            
+            <Button 
+              variant="outline" 
+              onClick={() => onNavigate('detailed-routine')} 
+              className="w-full mt-4 border-coton-rose text-coton-rose hover:bg-coton-rose/10"
+            >
+              Voir routine complète
+            </Button>
+          </div>
+        </CotonCard>
+      </div>
+      
       {/* Next Reward */}
       {(() => {
         const levels = [
