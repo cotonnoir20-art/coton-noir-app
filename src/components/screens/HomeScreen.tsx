@@ -361,21 +361,23 @@ export function HomeScreen({
       <BadgeNotification badge={newBadge} isVisible={isBadgeVisible} onClose={hideBadge} />
 
       {/* Hair Profile Reminder */}
-      {!state.hairProfile.isCompleted && <CotonCard variant="premium" className="p-4">
+      {!state.hairProfile.isCompleted && (
+        <CotonCard variant="premium" className="p-4 animate-fade-in">
           <div className="flex items-center justify-between animate-slide-up">
             <div>
               <h3 className="font-poppins font-bold text-white mb-2 text-lg">
                 Personnalise ton expérience ✨
               </h3>
               <p className="text-white/95 text-sm font-roboto font-medium">
-                Définis ton profil capillaire pour des conseils adaptés
+                Définis ton profil capillaire pour des conseils adaptés (+100 CC bonus)
               </p>
             </div>
             <Button variant="black" size="sm" onClick={onShowProfile} className="hover:scale-[1.05] shadow-card">
               Compléter
             </Button>
           </div>
-        </CotonCard>}
+        </CotonCard>
+      )}
 
       {/* Section de salutation */}
       <motion.div
