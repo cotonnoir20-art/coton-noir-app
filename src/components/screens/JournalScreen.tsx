@@ -1,11 +1,13 @@
 import React from 'react';
-import { Calendar, FileText, Package } from 'lucide-react';
+import { Calendar, FileText, Package, Loader2 } from 'lucide-react';
 import { CotonCard } from '@/components/ui/coton-card';
 import { AIHairTip } from '@/components/ui/ai-hair-tip';
 import { useApp } from '@/contexts/AppContext';
+import { useJournalEntries } from '@/hooks/useJournalEntries';
 
 export function JournalScreen() {
   const { state } = useApp();
+  const { entries, loading, error } = useJournalEntries();
   
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('fr-FR', {
@@ -15,7 +17,36 @@ export function JournalScreen() {
     });
   };
   
-  if (state.journalEntries.length === 0) {
+  if (loading) {
+    return (
+      <div className="p-4 pb-20">
+        <CotonCard className="p-8 text-center space-y-4">
+          <Loader2 className="animate-spin mx-auto text-coton-rose" size={32} />
+          <h3 className="font-poppins font-semibold text-lg">
+            Chargement de ton journal...
+          </h3>
+        </CotonCard>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-4 pb-20">
+        <CotonCard className="p-8 text-center space-y-4">
+          <div className="text-6xl">⚠️</div>
+          <h3 className="font-poppins font-semibold text-lg">
+            Erreur de chargement
+          </h3>
+          <p className="font-roboto text-muted-foreground">
+            {error}
+          </p>
+        </CotonCard>
+      </div>
+    );
+  }
+
+  if (entries.length === 0) {
     return (
       <div className="p-4 pb-20">
         <CotonCard className="p-8 text-center space-y-4">
@@ -79,7 +110,7 @@ export function JournalScreen() {
         <div className="grid grid-cols-2 gap-4 text-center">
           <div>
             <div className="text-2xl font-poppins font-bold text-coton-black">
-              {state.journalEntries.length}
+              {entries.length}
             </div>
             <div className="text-sm font-roboto text-muted-foreground">
               Entrées totales
@@ -102,7 +133,7 @@ export function JournalScreen() {
           <h3 className="font-poppins font-semibold text-lg">
             Historique des soins
           </h3>
-          {state.journalEntries.length > 3 && (
+          {entries.length > 3 && (
             <button 
               onClick={() => window.dispatchEvent(new CustomEvent('navigate', { detail: 'full-journal' }))}
               className="text-sm font-roboto text-coton-black hover:text-coton-rose transition-colors"
@@ -112,7 +143,7 @@ export function JournalScreen() {
           )}
         </div>
         
-        {state.journalEntries.slice(0, 3).map((entry) => (
+        {entries.slice(0, 3).map((entry) => (
           <CotonCard key={entry.id} className="p-4">
             <div className="flex items-start gap-3">
               <div className={`p-2 rounded-lg ${
