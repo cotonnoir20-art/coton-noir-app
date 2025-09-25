@@ -39,6 +39,9 @@ const Home = () => {
       case 'premium':
         navigate('/premium');
         break;
+      case 'journal':
+        navigate('/journal');
+        break;
       default:
         navigate('/');
         break;
