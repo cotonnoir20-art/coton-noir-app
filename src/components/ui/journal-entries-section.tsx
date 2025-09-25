@@ -75,7 +75,12 @@ export function JournalEntriesSection({ onAddCare, onNavigate }: JournalEntriesS
               )}
             </div>
             <div className="flex flex-col gap-2">
-              <Button variant="outline" size="sm" className="text-xs">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="text-xs"
+                onClick={() => onNavigate('journal')}
+              >
                 Ouvrir
               </Button>
               <Button 
