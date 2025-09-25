@@ -776,6 +776,25 @@ export function HomeScreen({
                     </span>
                   </button>
                 )}
+
+                {/* Boutons d'action pour la routine */}
+                <div className="grid grid-cols-1 gap-3 pt-2">
+                  <Button 
+                    onClick={() => onNavigate('detailed-routine')} 
+                    className="w-full bg-coton-rose hover:bg-coton-rose/90 text-white font-poppins font-semibold py-3"
+                  >
+                    🚀 Commencer maintenant
+                  </Button>
+                  {personalizedRoutine.length > 4 && (
+                    <Button 
+                      variant="outline"
+                      onClick={() => onNavigate('detailed-routine')} 
+                      className="w-full border-coton-rose text-coton-rose hover:bg-coton-rose/10 font-roboto"
+                    >
+                      Voir tous les soins ({personalizedRoutine.length} étapes)
+                    </Button>
+                  )}
+                </div>
               </div>
             )}
             
@@ -796,6 +815,61 @@ export function HomeScreen({
           </CotonCard>
         </div>
       )}
+      
+      {/* Aperçu des Progrès */}
+      <div className="space-y-4">
+        <h3 className="font-poppins font-bold text-xl">Mes Progrès 📈</h3>
+        
+        <CotonCard className="p-6 bg-gradient-to-r from-green-50 to-emerald-50">
+          <div className="grid grid-cols-3 gap-4">
+            {/* Longueur */}
+            <div className="text-center">
+              <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-2">
+                <TrendingUp className="text-white" size={24} />
+              </div>
+              <span className="font-poppins font-semibold text-sm text-green-700">Longueur</span>
+              <div className="text-xs text-green-600 mt-1">
+                {state.hairMeasurements.length > 0 ? 
+                  `+${Math.round((state.hairMeasurements[0]?.front || 0) - (state.hairMeasurements[1]?.front || 0))}cm` 
+                  : 'Aucune mesure'
+                }
+              </div>
+            </div>
+            
+            {/* Brillance */}
+            <div className="text-center">
+              <div className="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center mx-auto mb-2">
+                <Sparkles className="text-white" size={24} />
+              </div>
+              <span className="font-poppins font-semibold text-sm text-yellow-700">Brillance</span>
+              <div className="text-xs text-yellow-600 mt-1">
+                {state.journalEntries.filter(e => e.note.toLowerCase().includes('brillance')).length > 0 ? 'Excellente' : 'En amélioration'}
+              </div>
+            </div>
+            
+            {/* Force */}
+            <div className="text-center">
+              <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-2">
+                <Zap className="text-white" size={24} />
+              </div>
+              <span className="font-poppins font-semibold text-sm text-blue-700">Force</span>
+              <div className="text-xs text-blue-600 mt-1">
+                {state.journalEntries.filter(e => e.note.toLowerCase().includes('protéine')).length > 0 ? 'Renforcée' : 'Stable'}
+              </div>
+            </div>
+          </div>
+          
+          {/* Lien vers progression complète */}
+          <Button 
+            variant="outline" 
+            onClick={() => onNavigate('growth-tracker')}
+            className="w-full mt-4 border-green-500 text-green-600 hover:bg-green-50"
+          >
+            <TrendingUp size={16} className="mr-2" />
+            Voir ma progression complète
+          </Button>
+        </CotonCard>
+      </div>
       
       
       {/* Quick Access Grid */}

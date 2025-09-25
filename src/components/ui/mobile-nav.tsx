@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Gift, Notebook, Play, User } from 'lucide-react';
+import { Sparkles, Gift, Notebook, TrendingUp, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -12,11 +12,11 @@ export function MobileNav({ activeTab, onTabChange }: MobileNavProps) {
   const { t } = useLanguage();
   
   const tabs = [
-    { id: 'home', icon: Sparkles, label: t('nav.home') },
-    { id: 'journal', icon: Notebook, label: t('nav.journal') },
-    { id: 'box', icon: Gift, label: t('nav.box') },
-    { id: 'tutorials', icon: Play, label: t('nav.tutorials') },
-    { id: 'profile', icon: User, label: t('nav.profile') },
+    { id: 'home', icon: Sparkles, label: 'Accueil' },
+    { id: 'routine', icon: Notebook, label: 'Routine' },
+    { id: 'progression', icon: TrendingUp, label: 'Progression' },
+    { id: 'rewards', icon: Gift, label: 'Récompenses' },
+    { id: 'profile', icon: User, label: 'Profil' },
   ];
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-md border-t border-border/50 shadow-premium z-50">

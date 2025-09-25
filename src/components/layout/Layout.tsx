@@ -30,9 +30,9 @@ export function Layout({ children, showHeader = true, showNavigation = true, sho
   const getActiveTab = () => {
     const path = location.pathname;
     if (path === '/') return 'home';
-    if (path === '/journal') return 'journal';
-    if (path === '/box') return 'box';
-    if (path === '/tutorials') return 'tutorials';
+    if (path === '/detailed-routine' || path === '/routine') return 'routine';
+    if (path === '/growth-tracker') return 'progression';
+    if (path === '/rewards') return 'rewards';
     if (path === '/profile') return 'profile';
     return 'home';
   };
@@ -42,14 +42,14 @@ export function Layout({ children, showHeader = true, showNavigation = true, sho
       case 'home':
         navigate('/');
         break;
-      case 'journal':
-        navigate('/journal');
+      case 'routine':
+        navigate('/detailed-routine');
         break;
-      case 'box':
-        navigate('/box');
+      case 'progression':
+        navigate('/growth-tracker');
         break;
-      case 'tutorials':
-        navigate('/tutorials');
+      case 'rewards':
+        navigate('/rewards');
         break;
       case 'profile':
         navigate('/profile');
