@@ -483,7 +483,6 @@ export function HomeScreen({
                   date.setDate(date.getDate() - 3 + i);
                   const isToday = i === 3;
                   const isWashDay = i === 5; // Prédiction wash day dans 2 jours
-                  const isPastCare = i === 1; // Soin passé
                   
                   return (
                     <button 
@@ -491,11 +490,10 @@ export function HomeScreen({
                       onClick={() => console.log('Date sélectionnée:', date.toDateString())}
                       className={`
                         w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold
-                        transition-all duration-200 hover:scale-110 cursor-pointer shadow-sm
+                        transition-all duration-200 hover:scale-110 cursor-pointer
                         ${isToday ? 'bg-slate-200 text-slate-700 border-2 border-slate-400 hover:bg-slate-300' : ''}
                         ${isWashDay ? 'bg-coton-rose text-white ring-2 ring-coton-rose/40 shadow-lg hover:bg-coton-rose/90 animate-pulse' : ''}
-                        ${isPastCare ? 'bg-emerald-100 text-emerald-700 border-2 border-emerald-300 hover:bg-emerald-200' : ''}
-                        ${!isToday && !isWashDay && !isPastCare ? 'bg-white text-foreground border border-border hover:bg-muted/30' : ''}
+                        ${!isToday && !isWashDay ? 'text-muted-foreground hover:text-foreground hover:bg-muted/30' : ''}
                       `}
                     >
                       {date.getDate()}
