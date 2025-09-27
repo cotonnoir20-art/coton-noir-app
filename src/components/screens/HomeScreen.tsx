@@ -469,14 +469,14 @@ export function HomeScreen({
               </div>
 
               {/* Mini calendrier inline */}
-              <div className="grid grid-cols-7 gap-2 mb-6">
-                <div className="text-xs text-muted-foreground text-center py-1">D</div>
-                <div className="text-xs text-muted-foreground text-center py-1">L</div>
-                <div className="text-xs text-muted-foreground text-center py-1">M</div>
-                <div className="text-xs text-muted-foreground text-center py-1">M</div>
-                <div className="text-xs text-muted-foreground text-center py-1">J</div>
-                <div className="text-xs text-muted-foreground text-center py-1">V</div>
-                <div className="text-xs text-muted-foreground text-center py-1">S</div>
+              <div className="grid grid-cols-7 gap-3 mb-6">
+                <div className="text-xs font-semibold text-foreground/70 text-center py-2">D</div>
+                <div className="text-xs font-semibold text-foreground/70 text-center py-2">L</div>
+                <div className="text-xs font-semibold text-foreground/70 text-center py-2">M</div>
+                <div className="text-xs font-semibold text-foreground/70 text-center py-2">M</div>
+                <div className="text-xs font-semibold text-foreground/70 text-center py-2">J</div>
+                <div className="text-xs font-semibold text-foreground/70 text-center py-2">V</div>
+                <div className="text-xs font-semibold text-foreground/70 text-center py-2">S</div>
                 
                 {Array.from({ length: 7 }, (_, i) => {
                   const date = new Date();
@@ -489,14 +489,14 @@ export function HomeScreen({
                     <button 
                       key={i} 
                       onClick={() => console.log('Date sélectionnée:', date.toDateString())}
-                  className={`
-                    w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium
-                    transition-all duration-200 hover:scale-110 cursor-pointer
-                    ${isToday ? 'bg-muted text-muted-foreground hover:bg-muted/80' : ''}
-                    ${isWashDay ? 'bg-coton-rose text-white ring-2 ring-coton-rose/30 hover:bg-coton-rose/90' : ''}
-                    ${isPastCare ? 'bg-coton-rose/20 text-coton-rose hover:bg-coton-rose/30' : ''}
-                    ${!isToday && !isWashDay && !isPastCare ? 'text-muted-foreground hover:bg-muted/50' : ''}
-                  `}
+                      className={`
+                        w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold
+                        transition-all duration-200 hover:scale-110 cursor-pointer shadow-sm
+                        ${isToday ? 'bg-slate-200 text-slate-700 border-2 border-slate-400 hover:bg-slate-300' : ''}
+                        ${isWashDay ? 'bg-coton-rose text-white ring-2 ring-coton-rose/40 shadow-lg hover:bg-coton-rose/90 animate-pulse' : ''}
+                        ${isPastCare ? 'bg-emerald-100 text-emerald-700 border-2 border-emerald-300 hover:bg-emerald-200' : ''}
+                        ${!isToday && !isWashDay && !isPastCare ? 'bg-white text-foreground border border-border hover:bg-muted/30' : ''}
+                      `}
                     >
                       {date.getDate()}
                     </button>
