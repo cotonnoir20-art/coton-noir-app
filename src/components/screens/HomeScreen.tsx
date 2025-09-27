@@ -482,7 +482,22 @@ export function HomeScreen({
                   const date = new Date();
                   date.setDate(date.getDate() - 3 + i);
                   const isToday = i === 3;
-                  const isWashDay = i === 5; // Prédiction wash day dans 2 jours
+                  
+                  // Calcul du prochain wash day basé sur les données réelles
+                  const lastWashEntry = state.washDayEntries?.[0]; // Dernier wash
+                  const washFrequency = state.washDaySettings?.frequency || 7; // Fréquence par défaut 7 jours
+                  
+                  let nextWashDate = new Date();
+                  if (lastWashEntry) {
+                    const lastWash = new Date(lastWashEntry.date);
+                    nextWashDate = new Date(lastWash);
+                    nextWashDate.setDate(lastWash.getDate() + washFrequency);
+                  } else {
+                    // Si pas de dernier wash, on assume que c'est dans 3 jours
+                    nextWashDate.setDate(nextWashDate.getDate() + 3);
+                  }
+                  
+                  const isWashDay = date.toDateString() === nextWashDate.toDateString();
                   
                   return (
                     <button 
@@ -508,7 +523,28 @@ export function HomeScreen({
                   Wash Day dans
                 </h3>
                 <div className="font-poppins font-bold text-4xl text-coton-rose">
-                  3 jours
+                  {(() => {
+                    const lastWashEntry = state.washDayEntries?.[0]; 
+                    const washFrequency = state.washDaySettings?.frequency || 7; 
+                    
+                    let nextWashDate = new Date();
+                    if (lastWashEntry) {
+                      const lastWash = new Date(lastWashEntry.date);
+                      nextWashDate = new Date(lastWash);
+                      nextWashDate.setDate(lastWash.getDate() + washFrequency);
+                    } else {
+                      nextWashDate.setDate(nextWashDate.getDate() + 3);
+                    }
+                    
+                    const today = new Date();
+                    const diffTime = nextWashDate.getTime() - today.getTime();
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    
+                    if (diffDays === 0) return "Aujourd'hui";
+                    if (diffDays === 1) return "Demain";
+                    if (diffDays < 0) return "Retard";
+                    return `${diffDays} jours`;
+                  })()}
                 </div>
                 <p className="text-sm text-muted-foreground font-roboto">
                   Hydratation optimale recommandée
