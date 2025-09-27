@@ -489,14 +489,14 @@ export function HomeScreen({
                     <button 
                       key={i} 
                       onClick={() => console.log('Date sélectionnée:', date.toDateString())}
-                      className={`
-                        w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium
-                        transition-all duration-200 hover:scale-110 cursor-pointer
-                        ${isToday ? 'bg-coton-rose text-white hover:bg-coton-rose/90' : ''}
-                        ${isWashDay ? 'bg-blue-100 text-blue-600 ring-2 ring-blue-300 ring-dotted hover:bg-blue-200' : ''}
-                        ${isPastCare ? 'bg-green-100 text-green-600 hover:bg-green-200' : ''}
-                        ${!isToday && !isWashDay && !isPastCare ? 'text-muted-foreground hover:bg-muted/50' : ''}
-                      `}
+                  className={`
+                    w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium
+                    transition-all duration-200 hover:scale-110 cursor-pointer
+                    ${isToday ? 'bg-muted text-muted-foreground hover:bg-muted/80' : ''}
+                    ${isWashDay ? 'bg-coton-rose text-white ring-2 ring-coton-rose/30 hover:bg-coton-rose/90' : ''}
+                    ${isPastCare ? 'bg-coton-rose/20 text-coton-rose hover:bg-coton-rose/30' : ''}
+                    ${!isToday && !isWashDay && !isPastCare ? 'text-muted-foreground hover:bg-muted/50' : ''}
+                  `}
                     >
                       {date.getDate()}
                     </button>
