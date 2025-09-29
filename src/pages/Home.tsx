@@ -42,6 +42,9 @@ const Home = () => {
       case 'journal':
         navigate('/journal');
         break;
+      case 'referral':
+        navigate('/referral');
+        break;
       default:
         navigate('/');
         break;
