@@ -964,7 +964,7 @@ export function HomeScreen({
             </div>
           </CotonCard>
           
-          <CotonCard className="p-6 cursor-pointer hover-lift shadow-card hover:shadow-premium transition-all duration-400" onClick={() => alert('Idées de coiffures - Fonctionnalité à venir!')}>
+          <CotonCard className="p-6 cursor-pointer hover-lift shadow-card hover:shadow-premium transition-all duration-400" onClick={() => onNavigate('hairstyle-ideas')}>
             <div className="flex flex-col items-center text-center space-y-4">
               <Scissors className="text-coton-rose animate-glow" size={36} />
               <span className="font-poppins font-semibold text-base">Idées de coiffures</span>

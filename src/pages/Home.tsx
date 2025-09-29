@@ -45,6 +45,9 @@ const Home = () => {
       case 'referral':
         navigate('/referral');
         break;
+      case 'hairstyle-ideas':
+        navigate('/hairstyle-ideas');
+        break;
       default:
         navigate('/');
         break;
