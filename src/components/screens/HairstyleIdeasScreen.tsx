@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Heart, Star, Play, Eye, Clock, TrendingUp } from 'lucide-react';
+import { ArrowLeft, Heart, Star, Play, Eye, Clock, TrendingUp, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CotonCard } from '@/components/ui/coton-card';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
 
 interface HairstyleIdeasScreenProps {
   onBack: () => void;
@@ -106,6 +107,12 @@ const mockHairstyles: HairstylePost[] = [
 export function HairstyleIdeasScreen({ onBack }: HairstyleIdeasScreenProps) {
   const { language } = useLanguage();
   const [activeTab, setActiveTab] = useState<'recents' | 'rate' | 'videos'>('recents');
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // Filtrer les coiffures selon le terme de recherche
+  const filteredHairstyles = mockHairstyles.filter(hairstyle =>
+    hairstyle.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const renderStats = (post: HairstylePost) => (
     <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
@@ -143,6 +150,20 @@ export function HairstyleIdeasScreen({ onBack }: HairstyleIdeasScreenProps) {
           </Button>
           <h1 className="text-xl font-poppins font-bold">Idées de Coiffures</h1>
           <div className="w-8" />
+        </div>
+
+        {/* Barre de recherche */}
+        <div className="mb-4">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60" size={20} />
+            <Input
+              type="text"
+              placeholder="Rechercher une coiffure..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-12 bg-white/20 border-white/30 text-white placeholder:text-white/60 focus:bg-white/30 focus:border-white/50"
+            />
+          </div>
         </div>
 
         {/* Tabs */}
@@ -187,7 +208,8 @@ export function HairstyleIdeasScreen({ onBack }: HairstyleIdeasScreenProps) {
       <div className="p-4">
         {activeTab === 'recents' && (
           <div className="grid grid-cols-3 gap-2">
-            {mockHairstyles.map((post) => (
+            {filteredHairstyles.length > 0 ? (
+              filteredHairstyles.map((post) => (
               <div key={post.id} className="relative aspect-square overflow-hidden rounded-lg shadow-md">
                 <img
                   src={post.imageUrl}
@@ -196,7 +218,14 @@ export function HairstyleIdeasScreen({ onBack }: HairstyleIdeasScreenProps) {
                 />
                 {renderStats(post)}
               </div>
-            ))}
+              ))
+            ) : (
+              <div className="col-span-3 text-center py-12">
+                <Search size={48} className="mx-auto text-gray-400 mb-4" />
+                <h3 className="text-lg font-semibold text-gray-600 mb-2">Aucun résultat</h3>
+                <p className="text-gray-500">Essayez un autre terme de recherche</p>
+              </div>
+            )}
           </div>
         )}
 
