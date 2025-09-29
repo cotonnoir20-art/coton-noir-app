@@ -136,9 +136,9 @@ export function HairstyleIdeasScreen({ onBack }: HairstyleIdeasScreenProps) {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-coton-rose via-coton-rose/90 to-coton-rose/80">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="relative bg-coton-rose text-white p-4 shadow-lg">
+      <div className="relative bg-coton-terracotta text-white p-4 shadow-lg">
         <div className="flex items-center justify-between mb-4">
           <Button
             variant="ghost"
@@ -172,7 +172,7 @@ export function HairstyleIdeasScreen({ onBack }: HairstyleIdeasScreenProps) {
             onClick={() => setActiveTab('recents')}
             className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all ${
               activeTab === 'recents'
-                ? 'bg-white text-coton-rose shadow-sm'
+                ? 'bg-white text-coton-terracotta shadow-sm'
                 : 'text-white/80 hover:text-white'
             }`}
           >
@@ -183,7 +183,7 @@ export function HairstyleIdeasScreen({ onBack }: HairstyleIdeasScreenProps) {
             onClick={() => setActiveTab('rate')}
             className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all ${
               activeTab === 'rate'
-                ? 'bg-white text-coton-rose shadow-sm'
+                ? 'bg-white text-coton-terracotta shadow-sm'
                 : 'text-white/80 hover:text-white'
             }`}
           >
@@ -194,7 +194,7 @@ export function HairstyleIdeasScreen({ onBack }: HairstyleIdeasScreenProps) {
             onClick={() => setActiveTab('videos')}
             className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all ${
               activeTab === 'videos'
-                ? 'bg-white text-coton-rose shadow-sm'
+                ? 'bg-white text-coton-terracotta shadow-sm'
                 : 'text-white/80 hover:text-white'
             }`}
           >
@@ -221,9 +221,9 @@ export function HairstyleIdeasScreen({ onBack }: HairstyleIdeasScreenProps) {
               ))
             ) : (
               <div className="col-span-3 text-center py-12">
-                <Search size={48} className="mx-auto text-gray-400 mb-4" />
-                <h3 className="text-lg font-semibold text-gray-600 mb-2">Aucun résultat</h3>
-                <p className="text-gray-500">Essayez un autre terme de recherche</p>
+                <Search size={48} className="mx-auto text-muted-foreground mb-4" />
+                <h3 className="text-lg font-semibold text-foreground mb-2">Aucun résultat</h3>
+                <p className="text-muted-foreground">Essayez un autre terme de recherche</p>
               </div>
             )}
           </div>
@@ -231,17 +231,17 @@ export function HairstyleIdeasScreen({ onBack }: HairstyleIdeasScreenProps) {
 
         {activeTab === 'rate' && (
           <div className="text-center py-20">
-            <Star size={48} className="mx-auto text-coton-rose mb-4" />
-            <h3 className="text-lg font-semibold text-gray-800 mb-2">Noter les coiffures</h3>
-            <p className="text-gray-600">Évaluez vos coiffures préférées pour aider la communauté</p>
+            <Star size={48} className="mx-auto text-coton-terracotta mb-4" />
+            <h3 className="text-lg font-semibold text-foreground mb-2">Noter les coiffures</h3>
+            <p className="text-muted-foreground">Évaluez vos coiffures préférées pour aider la communauté</p>
           </div>
         )}
 
         {activeTab === 'videos' && (
           <div className="text-center py-20">
-            <Play size={48} className="mx-auto text-coton-rose mb-4" />
-            <h3 className="text-lg font-semibold text-gray-800 mb-2">Tutoriels vidéo</h3>
-            <p className="text-gray-600">Découvrez des tutoriels étape par étape</p>
+            <Play size={48} className="mx-auto text-coton-terracotta mb-4" />
+            <h3 className="text-lg font-semibold text-foreground mb-2">Tutoriels vidéo</h3>
+            <p className="text-muted-foreground">Découvrez des tutoriels étape par étape</p>
           </div>
         )}
       </div>
