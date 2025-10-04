@@ -48,6 +48,12 @@ const Home = () => {
       case 'hairstyle-ideas':
         navigate('/hairstyle-ideas');
         break;
+      case 'discount-codes':
+        navigate('/discount-codes');
+        break;
+      case 'favorites':
+        navigate('/favorites');
+        break;
       default:
         navigate('/');
         break;

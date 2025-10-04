@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import { Plus, Package, Users, Store, Video, Gift, Target, Sparkles, Check, Heart, Crown, Star, Sun, Zap, Music, Droplets, Diamond, TrendingUp, Calendar, Clock, Trophy, Flame, ChevronDown, ChevronRight, Loader2, UserPlus, Scissors } from 'lucide-react';
+import { Plus, Package, Users, Store, Video, Gift, Target, Sparkles, Check, Heart, Crown, Star, Sun, Zap, Music, Droplets, Diamond, TrendingUp, Calendar, Clock, Trophy, Flame, ChevronDown, ChevronRight, Loader2, UserPlus, Scissors, Ticket } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CotonCard } from '@/components/ui/coton-card';
 import { ProgressBar } from '@/components/ui/progress-bar';
@@ -968,6 +968,23 @@ export function HomeScreen({
             <div className="flex flex-col items-center text-center space-y-4">
               <Scissors className="text-coton-rose animate-glow" size={36} />
               <span className="font-poppins font-semibold text-base">Idées de coiffures</span>
+            </div>
+          </CotonCard>
+        </div>
+        
+        {/* Nouvelle ligne avec codes de réduction et favoris */}
+        <div className="grid grid-cols-2 gap-4 mt-4">
+          <CotonCard className="p-6 cursor-pointer hover-lift shadow-card hover:shadow-premium transition-all duration-400" onClick={() => onNavigate('discount-codes')}>
+            <div className="flex flex-col items-center text-center space-y-4">
+              <Ticket className="text-coton-rose animate-glow" size={36} />
+              <span className="font-poppins font-semibold text-base">Mes codes de réduction</span>
+            </div>
+          </CotonCard>
+          
+          <CotonCard className="p-6 cursor-pointer hover-lift shadow-card hover:shadow-premium transition-all duration-400" onClick={() => onNavigate('favorites')}>
+            <div className="flex flex-col items-center text-center space-y-4">
+              <Heart className="text-coton-rose animate-glow" size={36} />
+              <span className="font-poppins font-semibold text-base">Mes favoris</span>
             </div>
           </CotonCard>
         </div>

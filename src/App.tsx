@@ -19,6 +19,8 @@ import AddCare from './pages/AddCare';
 import Rewards from './pages/Rewards';
 import Referral from './pages/Referral';
 import HairstyleIdeas from './pages/HairstyleIdeas';
+import DiscountCodes from './pages/DiscountCodes';
+import Favorites from './pages/Favorites';
 import GrowthTracker from './pages/GrowthTracker';
 import WashDayTracker from './pages/WashDayTracker';
 import BoxContent from './pages/BoxContent';
@@ -57,6 +59,8 @@ const App = () => (
                 <Route path="/rewards" element={<Rewards />} />
                 <Route path="/referral" element={<Referral />} />
                 <Route path="/hairstyle-ideas" element={<HairstyleIdeas />} />
+                <Route path="/discount-codes" element={<DiscountCodes />} />
+                <Route path="/favorites" element={<Favorites />} />
                 <Route path="/growth-tracker" element={<GrowthTracker />} />
                 <Route path="/wash-day-tracker" element={<WashDayTracker />} />
                 <Route path="/box-content" element={<BoxContent />} />
